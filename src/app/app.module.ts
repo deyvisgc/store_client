@@ -12,6 +12,7 @@ import { SidebarComponent } from "./layout/sidebar/sidebar.component";
 import { RightSidebarComponent } from "./layout/right-sidebar/right-sidebar.component";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { DynamicScriptLoaderService } from "./services/dynamic-script-loader.service";
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,20 @@ import { DynamicScriptLoaderService } from "./services/dynamic-script-loader.ser
     BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot({
+      timeOut: 7000,
+      iconClasses: {
+        error: 'toast-error',
+        info: 'toast-info',
+        success: 'toast-success',
+        warning: 'toast-warning'
+      },
+      closeButton: true,
+      progressBar: true,
+      progressAnimation: 'increasing',
+      extendedTimeOut: 7000
+    })
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
