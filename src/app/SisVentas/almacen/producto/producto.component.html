@@ -1,0 +1,357 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br><br>
+              <div class="card">
+                <div class="header">
+                  <h2>
+                      <strong>BUSCAR POR: </strong> </h2>
+              
+              </div>
+                <div class="row clearfix">
+                  <div class="col-md-3" style="margin-left: 100px;">
+                      <label>LOTE</label>
+                      <div class="form-group default-select">
+                        <select class="form-control clase loteseach" id="loteseach" name="clase"  data-placeholder="Select">
+                          <option selected></option>
+                          <option value="{{lot.id_lote}}" *ngFor="let lot of lote">{{lot.lot_name}}</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <label>CLASE</label>
+                      <div class="form-group default-select">
+                        <select class="form-control clase" id="claseseach" name="clase"  data-placeholder="Select">
+                          <option selected></option>
+                          <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase">{{clas.clas_name}}</option>
+                      </select>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label>UNIDAD MEDIDA</label>
+                    <div class="form-group default-select">
+                      <select class="form-control clase" id="unidadseacrh" name="clase"  data-placeholder="Select">
+                        <option selected></option>
+                        <option value="{{uni.id_unidad_medida}}" *ngFor="let uni of unidad">{{uni.um_name}}</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                  <button _ngcontent-xhm-c6="" class="btn bg-light-blue waves-effect" (click)='Listar()' title="refrest" type="button"><i _ngcontent-dhs-c6="" class="fas fa-undo-alt"></i></button>
+              </div>
+                </div>
+              </div>
+                <div class="card">
+                    <div class="body">
+                      <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="body">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation">
+                                            <a href="#home_with_icon_title" data-toggle="tab" class="active show">
+                                               ACTIVOS
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#profile_with_icon_title" data-toggle="tab">
+                                                DESACTIVOS
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
+                                          <div class="table-responsive">
+                                            <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
+                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproducto">
+                                                <thead>
+                                                    <tr>
+                                                      <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
+                                                      <th scope="col">Producto</th>
+                                                      <th scope="col">Co.Barra</th>
+                                                      <th scope="col">P.Conpra</th>
+                                                      <th scope="col">P.Venta</th>
+                                                      <th scope="col">Cantidad</th>
+                                                      <th scope="col">Estado</th>
+                                                      <th scope="col">Opciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                  <tr>
+                                                  <th scope="col">Producto</th>
+                                                  <th scope="col">Co.Barra</th>
+                                                  <th scope="col">P.Conpra</th>
+                                                  <th scope="col">P.Venta</th>
+                                                  <th scope="col">Cantidad</th>
+                                                  <th scope="col">Estado</th>
+                                                  <th scope="col">Opciones</th>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                                            <b>Profile Content</b>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
+                                                mediocritatem an. Pri ut tation electram moderatius.
+                                                Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                                aliquid
+                                                pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere
+                                                gubergren
+                                                sadipscing mel.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+    </div>
+</section>
+<div class="modal fade" id="modalRegistrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">REGISTRAR PRODUCTO</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="form" (ngSubmit)="Registrar()">
+                <div class="row">
+                  <div class="col-md-12 col-lg-12 col-sm-12">
+                    <label for="pro_nombre">Producto</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="text" onkeyup="this.value = this.value.toUpperCase();"
+                               name="pro_nombre" formControlName="pro_nombre" required class="form-control"
+                               placeholder="Escriba el nombre del producto">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_precio">Precio Compra</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="number" name="pro_precio_compra" required formControlName="pro_precio_compra" class="form-control"
+                               placeholder="0.00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_nombre">Precio Venta</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="text" onkeyup="this.value = this.value.toUpperCase();"
+                               name="pro_precio_venta" formControlName="pro_precio_venta" required class="form-control"
+                               placeholder="0.00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_precio">Cantidad</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="number" value="{{cantidad}}" name="cantidad" required formControlName="cantidad" class="form-control" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad">Cantidad Minima</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="number" name="cantidad_minima" formControlName="cantidad_minima" required class="form-control"
+                        value="{{cantidad}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Codigo</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="text"  value="{{Codigo}}" id="codigo"  readonly name="codigo" formControlName="codigo" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Codigo Barra</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="text" value="{{CodigoBarra}}" id="codigo_barra" name="codigo_barra" formControlName="codigo_barra"
+                               class="form-control" placeholder="0000">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Lote</label>
+                    <div class="form-group default-select">
+                        <select class="form-control lote" id="lote" name="lote" formControlName="lote" data-placeholder="Select">
+                            <option value="{{lot.id_lote}}" *ngFor="let lot of lote">{{lot.lot_name}}</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Clase</label>
+                    <div class="form-group default-select">
+                        <select class="form-control clase" id="clase" name="clase" formControlName="clase" data-placeholder="Select">
+                            <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase">{{clas.clas_name}}</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Unidad Medida</label>
+                    <div class="form-group default-select">
+                        <select class="form-control unidad" id="unidad" name="unidad" formControlName="unidad"  data-placeholder="Select">
+                            <option value="{{uni.id_unidad_medida}}" *ngFor="let uni of unidad">{{uni.um_name}}</option>
+                        </select>
+                    </div>
+                  </div>
+                  <!--DESCRIPCION DEL PRODUCTO-->
+                  <div class="col-md-6 col-sm-6 col-lg-12">
+                    <label for="pro_descripcion">Descripción</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <textarea name="textarea" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="divbarcode" class="col-md-6 col-sm-6 col-lg-12">
+                    <svg style="width:10; height: 10;" id="barcode"></svg>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
+                  <button type="submit"  class="btn btn-outline-success btn-border-radius">Registrar</button>
+                  <button  type="button" (click)='GenerarCode()' class="btn btn-outline-warning btn-border-radius">Codigo Barra</button>
+                </div>
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Actualizar PRODUCTO</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="form" (ngSubmit)="Actualizar()">
+                <div class="row">
+                  <div class="col-md-12 col-lg-12 col-sm-12">
+                    <label for="pro_nombre">Producto</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="text" onkeyup="this.value = this.value.toUpperCase();"
+                               name="pro_nombre" formControlName="pro_nombre" required class="form-control"
+                               placeholder="Escriba el nombre del producto">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_precio">Precio Compra</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="number" name="pro_precio_compra" required formControlName="pro_precio_compra" class="form-control"
+                               placeholder="0.00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_nombre">Precio Venta</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="text" onkeyup="this.value = this.value.toUpperCase();"
+                               name="pro_precio_venta" formControlName="pro_precio_venta" required class="form-control"
+                               placeholder="0.00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_precio">Cantidad</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="number" value="{{cantidad}}" name="cantidad" required formControlName="cantidad" class="form-control" >
+                      </div>
+                    </div>
+                  </div>
+                  <input type="hidden"  name="idproducto" required formControlName="idproducto"  class="form-control" >
+
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad">Cantidad Minima</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="number" name="cantidad_minima" formControlName="cantidad_minima" required class="form-control"
+                        value="{{cantidad}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Codigo</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="text"  value="{{Codigo}}" id="codigo"  readonly name="codigo" formControlName="codigo" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Codigo Barra</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <input type="text" value="{{CodigoBarra}}" id="codigo_barra" name="codigo_barra" formControlName="codigo_barra"
+                               class="form-control" placeholder="0000">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Lote</label>
+                    <div class="form-group default-select">
+                        <select class="form-control lote" id="lote_update" name="lote_update" formControlName="lote" data-placeholder="Select">
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Clase</label>
+                    <div class="form-group default-select">
+                        <select class="form-control clase" id="clase_update" name="clase" formControlName="clase" data-placeholder="Select">
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                    <label for="pro_cantidad_minima">Unidad Medida</label>
+                    <div class="form-group default-select">
+                        <select class="form-control unidad" id="unidad_update" name="unidad" formControlName="unidad"  data-placeholder="Select">
+                        </select>
+                    </div>
+                  </div>
+                  <!--DESCRIPCION DEL PRODUCTO-->
+                  <div class="col-md-6 col-sm-6 col-lg-12">
+                    <label for="pro_descripcion">Descripción</label>
+                    <div class="form-group">
+                      <div class="form-line">
+                        <textarea name="textarea" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
+                  <button type="submit"  class="btn btn-outline-success btn-border-radius">Guardar</button>
+                </div>
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>

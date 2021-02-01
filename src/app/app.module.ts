@@ -3,7 +3,6 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./layout/header/header.component";
@@ -13,6 +12,9 @@ import { RightSidebarComponent } from "./layout/right-sidebar/right-sidebar.comp
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { DynamicScriptLoaderService } from "./services/dynamic-script-loader.service";
 import {ToastrModule} from 'ngx-toastr';
+import { ProductoComponent } from './SisVentas/Almacen/producto/producto.component';
+import { HttpClientModule } from "@angular/common/http";
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import {ToastrModule} from 'ngx-toastr';
     HeaderComponent,
     PageLoaderComponent,
     SidebarComponent,
-    RightSidebarComponent
+    RightSidebarComponent,
+    ProductoComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import {ToastrModule} from 'ngx-toastr';
       progressBar: true,
       progressAnimation: 'increasing',
       extendedTimeOut: 7000
-    })
+    }),
+    HttpClientModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

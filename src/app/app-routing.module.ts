@@ -59,6 +59,10 @@ const routes: Routes = [
         loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule)
     },
     {
+        path: 'Almacen',
+        loadChildren: () => import('./SisVentas/almacen/almacen.module').then(m => m.AlmacenModule)
+    },
+    {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
