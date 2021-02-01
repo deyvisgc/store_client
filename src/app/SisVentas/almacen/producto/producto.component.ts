@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import iziToast from 'izitoast';
 import * as JsBarcode from 'jsbarcode';
+import { NgxIzitoastService } from 'ngx-izitoast';
 import { DynamicScriptLoaderService } from 'src/app/services/dynamic-script-loader.service';
 import { AlmacenService } from '../../service/Almacen/almacen.service';
 import { EnviromentService } from '../../service/enviroment.service';
+import swal from 'sweetalert2';
 declare const $: any;
 @Component({
   selector: 'app-producto',
@@ -38,7 +41,6 @@ export class ProductoComponent implements OnInit {
    }
 
   ngOnInit() {
-    'use strict';
     this.startScript();
     $('body').on('hidden.bs.modal', '.modal', () => {
         $('#clase_update').empty();
@@ -48,17 +50,25 @@ export class ProductoComponent implements OnInit {
         this.CODIGO(localStorage.getItem('lasidproducto'));
       });
   }
-  async startScript() {
-    await this.dynamicScriptLoader.load('form.min', 'bootstrap-colorpicker').then(data => {
-      this.loadData();
-    }).catch(error => console.log(error));
-  }
   private loadData() {
     this.select();
-    $('#tableExport').DataTable();
+    $('#loteseach').select2().on('change', (event) => {
+       this.searchxType(event.target.value, 'lote');
+    });
+    $('#claseseach').select2().on('change', (event) => {
+      this.searchxType(event.target.value, 'clase');
+   });
+    $('#unidadseacrh').select2().on('change', (event) => {
+    this.searchxType(event.target.value, 'unidad');
+    });
     $('.lote').select2({ width: '100%' });
     $('.clase').select2({ width: '100%' });
     $('.unidad').select2({ width: '100%' });
+  }
+  async startScript() {
+    await this.dynamicScriptLoader.load('form.min').then(data => {
+      this.loadData();
+    }).catch(error => console.log(error));
   }
      public Listar() {
       this.almacenServ.Read().subscribe((data: any = [] ) => {
@@ -103,9 +113,17 @@ export class ProductoComponent implements OnInit {
        $('#modalRegistrar').modal('hide');
        this.Listar();
        this.limpiar();
-       alert (res['message']);
+       iziToast.success({
+        title: 'OK',
+        position: 'topRight',
+        message: res['message'],
+    });
      } else {
-      alert (res['message']);
+      iziToast.error({
+        title: 'Error',
+        position: 'topRight',
+        message: res['message'],
+    });
      }
      });
    }
@@ -136,7 +154,7 @@ export class ProductoComponent implements OnInit {
       },
       {  data: function(data) {return (
         // tslint:disable-next-line:max-line-length
-                '<button _ngcontent-xkn-c6="" class="btn bg-green btn-circle waves-effect waves-circle waves-float edit" type="button" style="margin-left: 10px;font-size: 20px;"><i style="padding-bottom:20px" class="fas fa-pen"></i></button>'+ '<button _ngcontent-xkn-c6="" class="btn bg-red btn-circle waves-effect waves-circle waves-float dowpdf" type="button" style="margin-left: 10px;font-size: 20px;"><i class="fas fa-trash-alt"></i></button>'); }
+                '<button _ngcontent-xkn-c6="" class="btn bg-green btn-circle waves-effect waves-circle waves-float edit" type="button" style="margin-left: 10px;font-size: 20px;"><i style="padding-bottom:20px" class="fas fa-pen"></i></button>'+ '<button _ngcontent-xkn-c6="" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button" style="margin-left: 10px;font-size: 20px;"><i class="fas fa-trash-alt"></i></button>'); }
         //'<div _ngcontent-dcv-c5="" class="demo-switch"> <button _ngcontent-xkn-c6="" class="btn bg-green btn-circle waves-effect waves-circle waves-float dowpdf" type="button" style="margin-left: 10px;font-size: 20px;"><i class="fas fa-file-pdf"></i></button> <div _ngcontent-dcv-c5=""  style="margin-left: 10px;font-size: 20px;" class="switch selectproducto"><label _ngcontent-dcv-c5="">ACTI <input _ngcontent-dcv-c5=""  value="' + data.idproduct + '" checked="selected"   type="checkbox"><span _ngcontent-dcv-c5="" class="lever"></span>INAC</label></div>'); }
       },
       ],
@@ -144,6 +162,10 @@ export class ProductoComponent implements OnInit {
         const vem = this;
         $('.edit', row).bind('click', () => {
           vem.editar(data);
+         });
+        $('.delete', row).bind('click', () => {
+
+          vem.delete(data);
          });
         return row;
       },
@@ -234,9 +256,17 @@ export class ProductoComponent implements OnInit {
         $('#modalRegistrar').modal('hide');
         this.Listar();
         this.limpiar();
-        alert (res['message']);
+        iziToast.success({
+          title: 'OK',
+          position: 'topRight',
+          message: res['message'],
+      });
       } else {
-       alert (res['message']);
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: res['message'],
+      });
       }
     })
    }
@@ -252,5 +282,72 @@ export class ProductoComponent implements OnInit {
     this.form.controls.unidad.setValue(unidad);
     this.form.controls.codigo_barra.setValue(barcode);
     this.form.controls.codigo.setValue(cod);
+   }
+   searchxType(event, searctype) {
+     const data = [{
+       typesearch : searctype,
+       id : event
+     }];
+     this.almacenServ.SearchxType(data).subscribe((resp: any = []) => {
+      if (resp.length > 0) {
+        iziToast.success({
+          title: 'Succes',
+          position: 'topRight',
+          message: 'productos encontrados',
+      });
+        this.datatable('.tbproducto', resp);
+      } else {
+        iziToast.error({
+          title: 'Error',
+          message: 'productos no encontrados',
+      });
+        this.datatable('.tbproducto', resp);
+      }
+     });
+   }
+   delete(info: any) {
+    let me = this;
+    const swalWithBootstrapButtons = swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+      title: 'Are you sure?',
+      text: 'Seguro de eliminar este producto',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar!',
+      cancelButtonText: 'No, cancelar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        me.almacenServ.Delete(info.id_product).subscribe(res => {
+          if (res['status'] === true) {
+            swalWithBootstrapButtons.fire(
+              'Deleted!',
+              'Su Producto ha sido eliminado.',
+              'success');
+            this.Listar();
+          } else {
+            swalWithBootstrapButtons.fire(
+              'Error!',
+              'Producto no eliminado',
+              'error');
+          }
+        });
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          'Tu Producto está a salvo :)',
+          'error'
+          );
+      }
+    });
    }
 }

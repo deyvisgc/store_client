@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -o",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -62,6 +62,7 @@
     "gulp-uglifycss": "^1.1.0",
     "gulp-webserver": "^0.9.1",
     "inputmask": "^3.3.11",
+    "izitoast": "^1.4.0",
     "jquery": "^3.4.1",
     "jquery-countto": "^1.2.0",
     "jquery-knob": "^1.2.11",
@@ -83,6 +84,7 @@
     "ng2-dragula": "^2.1.1",
     "ng2-validation": "^4.2.0",
     "ngx-dropzone-wrapper": "^8.0.0",
+    "ngx-izitoast": "^1.0.1",
     "ngx-print": "^1.2.0-beta.5",
     "node-waves": "^0.7.6",
     "nouislider": "^14.0.2",
@@ -92,6 +94,7 @@
     "rxjs": "~6.5.2",
     "select2": "^4.0.8",
     "simple-line-icons": "^2.4.1",
+    "sweetalert2": "^10.14.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },

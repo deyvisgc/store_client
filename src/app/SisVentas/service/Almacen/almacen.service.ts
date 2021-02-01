@@ -31,8 +31,14 @@ export class AlmacenService {
   public Registrar(data) {
     return this.httpClient.post(this.url.urlAddress + 'Almacen/Producto', {data}, {headers: this.headers});
   }
+  public Delete(id) {
+    return this.httpClient.delete(this.url.urlAddress + 'Almacen/Producto/' + id);
+  }
   public Upddate(data) {
     return this.httpClient.patch(this.url.urlAddress + 'Almacen/Producto', {data}, {headers: this.headers});
   }
-
+  public SearchxType(data) {
+    return this.httpClient.post(this.url.urlAddress + 'Almacen/Producto/SearchxType', {data}, {headers: this.headers});
+  }
+  
 }

@@ -1,81 +1,114 @@
 <section class="content">
     <div class="container-fluid">
-  <!--    <div class="block-header">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <ul class="breadcrumb breadcrumb-style ">
-                        <li class="breadcrumb-item">
-                            <h4 class="page-title">Export Table</h4>
-                        </li>
-                        <li class="breadcrumb-item bcrumb-1">
-                            <a routerLink="/dashboard/main">
-                                <i class="fas fa-home"></i> Home</a>
-                        </li>
-                        <li class="breadcrumb-item bcrumb-2">
-                            <a href="#" onClick="return false;">Tables</a>
-                        </li>
-                        <li class="breadcrumb-item active">Export Tables</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        -->  
-        <!-- Exportable Table -->
         <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="header">
-                        <h2>
-                            <strong>Exportable</strong> Table</h2>
-                        <ul class="header-dropdown m-r--5">
-                            <li class="dropdown">
-                                <a href="#" onClick="return false;" class="dropdown-toggle" data-toggle="dropdown"
-                                    role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="#" onClick="return false;">Action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" onClick="return false;">Another action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" onClick="return false;">Something else here</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br><br>
+              <div class="card">
+                <div class="header">
+                  <h2>
+                      <strong>BUSCAR POR: </strong> </h2>
+              
+              </div>
+                <div class="row clearfix">
+                  <div class="col-md-3" style="margin-left: 100px;">
+                      <label>LOTE</label>
+                      <div class="form-group default-select">
+                        <select class="form-control clase loteseach" id="loteseach" name="clase"  data-placeholder="Select">
+                          <option selected></option>
+                          <option value="{{lot.id_lote}}" *ngFor="let lot of lote">{{lot.lot_name}}</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <label>CLASE</label>
+                      <div class="form-group default-select">
+                        <select class="form-control clase" id="claseseach" name="clase"  data-placeholder="Select">
+                          <option selected></option>
+                          <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase">{{clas.clas_name}}</option>
+                      </select>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label>UNIDAD MEDIDA</label>
+                    <div class="form-group default-select">
+                      <select class="form-control clase" id="unidadseacrh" name="clase"  data-placeholder="Select">
+                        <option selected></option>
+                        <option value="{{uni.id_unidad_medida}}" *ngFor="let uni of unidad">{{uni.um_name}}</option>
+                      </select>
                     </div>
+                </div>
+                <div class="col-md-2">
+                  <button _ngcontent-xhm-c6="" class="btn bg-light-blue waves-effect" (click)='Listar()' title="refrest" type="button"><i _ngcontent-dhs-c6="" class="fas fa-undo-alt"></i></button>
+              </div>
+                </div>
+              </div>
+                <div class="card">
                     <div class="body">
-                        <div class="table-responsive">
-                            <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
-                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproducto">
-                                <thead>
-                                    <tr>
-                                      <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
-                                      <th scope="col">Producto</th>
-                                      <th scope="col">Co.Barra</th>
-                                      <th scope="col">P.Conpra</th>
-                                      <th scope="col">P.Venta</th>
-                                      <th scope="col">Cantidad</th>
-                                      <th scope="col">Estado</th>
-                                      <th scope="col">Opciones</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                  <tr>
-                                  <th scope="col">Producto</th>
-                                  <th scope="col">Co.Barra</th>
-                                  <th scope="col">P.Conpra</th>
-                                  <th scope="col">P.Venta</th>
-                                  <th scope="col">Cantidad</th>
-                                  <th scope="col">Estado</th>
-                                  <th scope="col">Opciones</th>
-                                </tr>
-                                </tfoot>
-                            </table>
+                      <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="body">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation">
+                                            <a href="#home_with_icon_title" data-toggle="tab" class="active show">
+                                               ACTIVOS
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#profile_with_icon_title" data-toggle="tab">
+                                                DESACTIVOS
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
+                                          <div class="table-responsive">
+                                            <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
+                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproducto">
+                                                <thead>
+                                                    <tr>
+                                                      <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
+                                                      <th scope="col">Producto</th>
+                                                      <th scope="col">Co.Barra</th>
+                                                      <th scope="col">P.Conpra</th>
+                                                      <th scope="col">P.Venta</th>
+                                                      <th scope="col">Cantidad</th>
+                                                      <th scope="col">Estado</th>
+                                                      <th scope="col">Opciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                  <tr>
+                                                  <th scope="col">Producto</th>
+                                                  <th scope="col">Co.Barra</th>
+                                                  <th scope="col">P.Conpra</th>
+                                                  <th scope="col">P.Venta</th>
+                                                  <th scope="col">Cantidad</th>
+                                                  <th scope="col">Estado</th>
+                                                  <th scope="col">Opciones</th>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                                            <b>Profile Content</b>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
+                                                mediocritatem an. Pri ut tation electram moderatius.
+                                                Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                                aliquid
+                                                pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere
+                                                gubergren
+                                                sadipscing mel.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
