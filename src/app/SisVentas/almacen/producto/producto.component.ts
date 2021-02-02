@@ -83,10 +83,8 @@ export class ProductoComponent implements OnInit {
           this.CODIGO(ultimoElemento.id_product);
           datadesacti = data.filter(o => o.pro_status !== '1');
           dataactiva = data.filter(o => o.pro_status !== '0');
-          this.datatable('.tbproducto-desactivida', datadesacti);
+          this.datatable('.tbproductodesac', datadesacti);
           this.datatable('.tbproducto', dataactiva);
-          console.log('datadesacti', datadesacti)
-          console.log('dataactiva', dataactiva)
         } else {
           this.datatable('.tbproducto', data);
           this.datatable('.tbproducto-desactivida', data);
@@ -277,7 +275,7 @@ export class ProductoComponent implements OnInit {
     console.log(this.form.value);
     this.almacenServ.Upddate(this.form.value).subscribe(res => {
       if ( res['status'] === true) {
-        $('#modalRegistrar').modal('hide');
+        $('#modalUpdate').modal('hide');
         this.Listar();
         this.limpiar();
         iziToast.success({
