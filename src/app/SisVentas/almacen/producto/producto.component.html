@@ -9,7 +9,7 @@
               
               </div>
                 <div class="row clearfix">
-                  <div class="col-md-3" style="margin-left: 100px;">
+                  <div class="col-md-3" style="margin-left: 90px;">
                       <label>LOTE</label>
                       <div class="form-group default-select">
                         <select class="form-control clase loteseach" id="loteseach" name="clase"  data-placeholder="Select">
@@ -65,7 +65,7 @@
                                         <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
                                           <div class="table-responsive">
                                             <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
-                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproducto">
+                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproducto" style="width: 100%;">
                                                 <thead>
                                                     <tr>
                                                       <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
@@ -93,16 +93,34 @@
                                         </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
-                                            <b>Profile Content</b>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
-                                                mediocritatem an. Pri ut tation electram moderatius.
-                                                Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
-                                                aliquid
-                                                pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere
-                                                gubergren
-                                                sadipscing mel.
-                                            </p>
+                                          <div class="table-responsive">
+                                            <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
+                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproducto-desactivia" style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                      <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
+                                                      <th scope="col">Producto</th>
+                                                      <th scope="col">Co.Barra</th>
+                                                      <th scope="col">P.Conpra</th>
+                                                      <th scope="col">P.Venta</th>
+                                                      <th scope="col">Cantidad</th>
+                                                      <th scope="col">Estado</th>
+                                                      <th scope="col">Opciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                  <tr>
+                                                  <th scope="col">Producto</th>
+                                                  <th scope="col">Co.Barra</th>
+                                                  <th scope="col">P.Conpra</th>
+                                                  <th scope="col">P.Venta</th>
+                                                  <th scope="col">Cantidad</th>
+                                                  <th scope="col">Estado</th>
+                                                  <th scope="col">Opciones</th>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -351,6 +369,56 @@
                   <button type="submit"  class="btn btn-outline-success btn-border-radius">Guardar</button>
                 </div>
               </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="gcodebarra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">IMPRIMIR CODIGO BARRA</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-md- 6 col-lg-6 col-sm-6">
+                <label for="pro_nombre">CODE BARRA</label>
+                <div class="form-group">
+                  <div class="form-line">
+                    <input type="text" name="codebarra" value="{{gncodebarra}}"  required class="form-control" readonly>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md- 6 col-lg-6 col-sm-6">
+                <label for="pro_nombre">Cantidad a generar</label><p></p>
+                <div class="form-group">
+                  <div class="form-line">
+                    <select class="form-control cantida_generate"  id="cantida_generate" name="cantida_generate" formControlName="clase" data-placeholder="Select">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="40">40</option>
+                      <option value="50">50</option>
+                      <option value="60">60</option>
+                      <option value="70">70</option>
+                      <option value="80">80</option>
+                      <option value="90">90</option>
+                      <option value="100">100</option>
+                  </select>
+                  </div>
+                </div>
+              </div>
+              <div id="divbarcodeprint" class="col-md-6 col-sm-6 col-lg-12">
+                <svg style="width:10; height: 10; display:none" id="barcodeprint"></svg>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
+              <button type="submit" (click)='ImprimirCode()'  class="btn btn-outline-success btn-border-radius">IMPRIMIR</button>
+            </div>
+            </div>
         </div>
       </div>
     </div>

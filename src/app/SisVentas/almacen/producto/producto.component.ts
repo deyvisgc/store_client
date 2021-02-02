@@ -16,12 +16,14 @@ declare const $: any;
 export class ProductoComponent implements OnInit {
   form: FormGroup;
   Codigo = 'P';
+  gncodebarra = '';
   CodigoBarra;
   cantidad = 1;
   lote: any = [];
   clase: any = [];
   unidad: any = [];
   id_produ: any;
+  precarcodebarra = false;
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private fb: FormBuilder, private almacenServ: AlmacenService ) {
     this.Listar();
     this.form = this.fb.group({
@@ -64,6 +66,7 @@ export class ProductoComponent implements OnInit {
     $('.lote').select2({ width: '100%' });
     $('.clase').select2({ width: '100%' });
     $('.unidad').select2({ width: '100%' });
+    $('.cantida_generate').select2({ width: '100%' });
   }
   async startScript() {
     await this.dynamicScriptLoader.load('form.min').then(data => {
@@ -71,14 +74,22 @@ export class ProductoComponent implements OnInit {
     }).catch(error => console.log(error));
   }
      public Listar() {
+      let datadesacti: any = [];
+      let dataactiva: any = [];
       this.almacenServ.Read().subscribe((data: any = [] ) => {
         if (data.length > 0) {
           const ultimoElemento = data[data.length - 1];
           localStorage.setItem('lasidproducto', ultimoElemento.id_product);
           this.CODIGO(ultimoElemento.id_product);
-          this.datatable('.tbproducto', data);
+          datadesacti = data.filter(o => o.pro_status !== '1');
+          dataactiva = data.filter(o => o.pro_status !== '0');
+          this.datatable('.tbproducto-desactivida', datadesacti);
+          this.datatable('.tbproducto', dataactiva);
+          console.log('datadesacti', datadesacti)
+          console.log('dataactiva', dataactiva)
         } else {
-          this.datatable('.tbproducto', data); 
+          this.datatable('.tbproducto', data);
+          this.datatable('.tbproducto-desactivida', data);
         }
       });
      }
@@ -96,10 +107,9 @@ export class ProductoComponent implements OnInit {
       height: 50,
       marginLeft: 85
     });
-    this.imprimir();
    }
    public imprimir() {
-    const ficha = document.getElementById('divbarcode');
+    const ficha = document.getElementById('divbarcodeprint');
     const ventimp = window.open(' ', 'popimpr');
     ventimp.document.write( ficha.innerHTML );
     ventimp.document.close();
@@ -146,16 +156,24 @@ export class ProductoComponent implements OnInit {
         // tslint:disable-next-line:object-literal-shorthand
         render: function(data, type, row) {
           if (row.pro_status === '1') {
-            return '<span _ngcontent-uwn-c151="" class="badge bg-green">Activo</span>';
+            return '<span _ngcontent-uwn-c151="" class="badge bg-green">ACTIVO</span>';
           } else {
-            return '<span _ngcontent-uwn-c151="" class="badge bg-red"></span>';
+            return '<span _ngcontent-uwn-c151="" class="badge bg-red">INACTIVO</span>';
           }
         }
       },
-      {  data: function(data) {return (
-        // tslint:disable-next-line:max-line-length
-                '<button _ngcontent-xkn-c6="" class="btn bg-green btn-circle waves-effect waves-circle waves-float edit" type="button" style="margin-left: 10px;font-size: 20px;"><i style="padding-bottom:20px" class="fas fa-pen"></i></button>'+ '<button _ngcontent-xkn-c6="" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button" style="margin-left: 10px;font-size: 20px;"><i class="fas fa-trash-alt"></i></button>'); }
-        //'<div _ngcontent-dcv-c5="" class="demo-switch"> <button _ngcontent-xkn-c6="" class="btn bg-green btn-circle waves-effect waves-circle waves-float dowpdf" type="button" style="margin-left: 10px;font-size: 20px;"><i class="fas fa-file-pdf"></i></button> <div _ngcontent-dcv-c5=""  style="margin-left: 10px;font-size: 20px;" class="switch selectproducto"><label _ngcontent-dcv-c5="">ACTI <input _ngcontent-dcv-c5=""  value="' + data.idproduct + '" checked="selected"   type="checkbox"><span _ngcontent-dcv-c5="" class="lever"></span>INAC</label></div>'); }
+      { data: function(data)
+        {
+          if (data.pro_status === '1') {
+            return (
+              // tslint:disable-next-line:max-line-length
+                      '<button _ngcontent-xkn-c6=""  title="ACTUALIZAR" class="btn bg-green btn-circle  waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;"><i style="padding-bottom:20px" class="fas fa-pen"></i></button>'+ '<button _ngcontent-xkn-c6=""  title="ELIMINAR" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fas fa-trash-alt"></i></button>' + '<button _ngcontent-xkn-c6="" title="DESACTIVAR" class="btn btn-info btn-circle waves-effect waves-circle waves-float status" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fas fa-frown"></i></button>' + '<button _ngcontent-xkn-c6="" class="btn bg-deep-purple btn-circle waves-effect waves-circle waves-float printcodebarra"  title="IMPRIMIR CODIGO BARRA" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fa fa-barcode" aria-hidden="true"></i></button>');
+          } else {
+            return (
+              // tslint:disable-next-line:max-line-length
+                      '<button _ngcontent-xkn-c6=""  title="ACTUALIZAR" class="btn bg-green btn-circle waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;"><i style="padding-bottom:20px" class="fas fa-pen"></i></button>'+ '<button _ngcontent-xkn-c6="" title="ELIMINAR" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fas fa-trash-alt"></i></button>' + '<button _ngcontent-xkn-c6="" title="ACTIVAR" class="btn bg-deep-orange btn-circle waves-effect waves-circle waves-float status" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fas fa-grin-beam"></i></button>' + '<button _ngcontent-xkn-c6="" class="btn bg-deep-purple btn-circle waves-effect waves-circle waves-float printcodebarra"  title="IMPRIMIR CODIGO BARRA" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fa fa-barcode" aria-hidden="true"></i></button>');
+          }
+          }
       },
       ],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
@@ -167,6 +185,12 @@ export class ProductoComponent implements OnInit {
 
           vem.delete(data);
          });
+        $('.status', row).bind('click', () => {
+           vem.changestatus(data);
+         });
+        $('.printcodebarra', row).bind('click', () => {
+          vem.printcodebarra(data);
+        });
         return row;
       },
       language: {
@@ -349,5 +373,46 @@ export class ProductoComponent implements OnInit {
           );
       }
     });
+   }
+   changestatus(info: any) {
+       const data = [{id: info.id_product, status: info.pro_status}];
+       this.almacenServ.changestatus(data).subscribe(res => {
+         if (res['status'] === true) {
+          iziToast.success({
+            title: 'Succes',
+            position: 'topRight',
+            message: res['message'],
+        });
+          this.Listar();
+         } else {
+          iziToast.error({
+            title: 'Error',
+            position: 'topRight',
+            message: res['message'],
+        });
+         }
+      });
+   }
+   printcodebarra(code: any) {
+     this.gncodebarra = code.pro_cod_barra;
+     $('#gcodebarra').modal('show');
+   }
+   ImprimirCode() {
+     this.precarcodebarra = true;
+     let n = 0;
+     let cantidaGenerate = document.getElementById('cantida_generate')['value'];
+     for (let i = 0; i < cantidaGenerate; i++) {
+      n = i;
+      $('#divbarcodeprint').append('<svg style="width:10; height: 10; display:none" id="barcodeprint"></svg>');
+      JsBarcode('#barcodeprint', this.gncodebarra, {
+        format: 'CODE128',
+        width: 2,
+        height: 50,
+        marginLeft: 85
+      });
+    }
+     this.precarcodebarra = false;
+     this.imprimir();
+     $('#divbarcodeprint').empty();
    }
 }

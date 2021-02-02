@@ -40,5 +40,7 @@ export class AlmacenService {
   public SearchxType(data) {
     return this.httpClient.post(this.url.urlAddress + 'Almacen/Producto/SearchxType', {data}, {headers: this.headers});
   }
-  
+  public changestatus(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Producto/changestatus', {data}, {headers: this.headers});
+  }
 }
