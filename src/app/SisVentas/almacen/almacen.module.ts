@@ -9,6 +9,7 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { CustomFormsModule } from 'ng2-validation';
 import { NgxPrintModule } from 'ngx-print';
+import { NgxIziToastModule } from 'ngx-izitoast';
 
 @NgModule({
   declarations: [ProductoComponent],
@@ -21,7 +22,8 @@ import { NgxPrintModule } from 'ngx-print';
     ReactiveFormsModule,
     CKEditorModule,
     CustomFormsModule,
-    NgxPrintModule
+    NgxPrintModule,
+    NgxIziToastModule
   ]
 })
 export class AlmacenModule { }
