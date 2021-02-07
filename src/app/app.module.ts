@@ -12,7 +12,6 @@ import { RightSidebarComponent } from "./layout/right-sidebar/right-sidebar.comp
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { DynamicScriptLoaderService } from "./services/dynamic-script-loader.service";
 import {ToastrModule} from 'ngx-toastr';
-import { ProductoComponent } from './SisVentas/Almacen/producto/producto.component';
 import { HttpClientModule } from "@angular/common/http";
 
 
@@ -22,8 +21,7 @@ import { HttpClientModule } from "@angular/common/http";
     HeaderComponent,
     PageLoaderComponent,
     SidebarComponent,
-    RightSidebarComponent,
-    ProductoComponent
+    RightSidebarComponent
   ],
   imports: [
     BrowserModule,

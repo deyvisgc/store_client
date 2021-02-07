@@ -10,9 +10,10 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { CustomFormsModule } from 'ng2-validation';
 import { NgxPrintModule } from 'ngx-print';
 import { NgxIziToastModule } from 'ngx-izitoast';
+import { ClaseComponent } from './clase/clase.component';
 
 @NgModule({
-  declarations: [ProductoComponent],
+  declarations: [ProductoComponent,ClaseComponent],
   imports: [
     CommonModule,
     AlmacenRoutingModule,

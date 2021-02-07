@@ -14,10 +14,43 @@ export class AlmacenService {
     console.log('url,', this.url.urlAddress);
     return this.httpClient.get(this.url.urlAddress + 'Almacen/Lote', {headers: this.headers});
   }
-  public Clase(){
+  //  servicios categorias padre e hijos
+  public Clase() {
     return this.httpClient.get(this.url.urlAddress + 'Almacen/Clase', {headers: this.headers});
   }
+  public RegistraClase(data) {
+    return this.httpClient.post(this.url.urlAddress + 'Almacen/Clase', {data}, {headers: this.headers});
+  }
+  public getClaseSupe() {
+    return this.httpClient.get(this.url.urlAddress + 'Almacen/Clase/superior', {headers: this.headers});
+  }
+  public getClaserecursiva() {
+    return this.httpClient.get(this.url.urlAddress + 'Almacen/Clase/recursiveChildren', {headers: this.headers});
+  }
+  public ObtenerclasPadreYhijo(idpadre) {
+    return this.httpClient.get(this.url.urlAddress + 'Almacen/Clase/ObtenerclasPadreYhijo/' + idpadre, {headers: this.headers});
+  }
+  public ActualizarclasPadreYhijo(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Clase/ActualizarclasPadreYhijo', {data}, {headers: this.headers});
+  }
+  //  servicios categorias
+  public ActualizarCate(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Clase/Actualizarcate', {data}, {headers: this.headers});
+  }
+  public ViewDetalleHijos(id) {
+    return this.httpClient.get(this.url.urlAddress + 'Almacen/Clase/viewchild/' + id , {headers: this.headers});
+  }
+  public ChangestatusCate(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Clase/Changestatuscate', {data}, {headers: this.headers});
+  }
+  public ChangestatusCateRecursiva(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Clase/ChangestatusCateRecursiva', {data}, {headers: this.headers});
+  }
+  public filtrarxclasepadre(id) {
+    return this.httpClient.get(this.url.urlAddress + 'Almacen/Clase/filtrarxclasepadre/' + id , {headers: this.headers});
+  }
 
+  //  servicios unidad
   public UnidadMedida() {
     return this.httpClient.get(this.url.urlAddress + 'Almacen/Unidad', {headers: this.headers});
 

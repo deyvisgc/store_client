@@ -12,7 +12,7 @@
                   <div class="col-md-3" style="margin-left: 90px;">
                       <label>LOTE</label>
                       <div class="form-group default-select">
-                        <select class="form-control clase loteseach" id="loteseach" name="clase"  data-placeholder="Select">
+                        <select class="form-control clase loteseach" id="loteseach" name="loteseach"  data-placeholder="Select">
                           <option selected></option>
                           <option value="{{lot.id_lote}}" *ngFor="let lot of lote">{{lot.lot_name}}</option>
                         </select>
@@ -21,18 +21,18 @@
                   <div class="col-md-3">
                       <label>CLASE</label>
                       <div class="form-group default-select">
-                        <select class="form-control clase" id="claseseach" name="clase"  data-placeholder="Select">
+                        <select class="form-control claseseach" id="claseseach" name="claseseach"  data-placeholder="Select">
                           <option selected></option>
-                          <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase">{{clas.clas_name}}</option>
+                          <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase1">{{clas.clas_name}}</option>
                       </select>
                       </div>
                   </div>
                   <div class="col-md-3">
                     <label>UNIDAD MEDIDA</label>
                     <div class="form-group default-select">
-                      <select class="form-control clase" id="unidadseacrh" name="clase"  data-placeholder="Select">
+                      <select class="form-control unidadseacrh" id="unidadseacrh" name="unidadseacrh"  data-placeholder="Select">
                         <option selected></option>
-                        <option value="{{uni.id_unidad_medida}}" *ngFor="let uni of unidad">{{uni.um_name}}</option>
+                        <!-- <option value="{{uni.id_unidad_medida}}" *ngFor="let uni of unidad">{{uni.um_name}}</option> -->
                       </select>
                     </div>
                 </div>
@@ -212,7 +212,7 @@
                     <label for="pro_cantidad_minima">Lote</label>
                     <div class="form-group default-select">
                         <select class="form-control lote" id="lote" name="lote" formControlName="lote" data-placeholder="Select">
-                            <option value="{{lot.id_lote}}" *ngFor="let lot of lote">{{lot.lot_name}}</option>
+                            <option value="{{lot.id_lote}}" *ngFor="let lot of lote1">{{lot.lot_name}}</option>
                         </select>
                     </div>
                   </div>
@@ -220,7 +220,7 @@
                     <label for="pro_cantidad_minima">Clase</label>
                     <div class="form-group default-select">
                         <select class="form-control clase" id="clase" name="clase" formControlName="clase" data-placeholder="Select">
-                            <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase">{{clas.clas_name}}</option>
+                            <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase">{{clas.clas_name}}</option>1
                         </select>
                     </div>
                   </div>
@@ -395,7 +395,7 @@
                 <label for="pro_nombre">Cantidad a generar</label><p></p>
                 <div class="form-group">
                   <div class="form-line">
-                    <select class="form-control cantida_generate"  id="cantida_generate" name="cantida_generate" formControlName="clase" data-placeholder="Select">
+                    <select class="form-control cantida_generate"  id="cantida_generate" name="cantida_generate"  data-placeholder="Select">
                       <option value="10">10</option>
                       <option value="20">20</option>
                       <option value="30">30</option>

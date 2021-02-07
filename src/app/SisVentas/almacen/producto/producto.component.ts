@@ -22,6 +22,9 @@ export class ProductoComponent implements OnInit {
   lote: any = [];
   clase: any = [];
   unidad: any = [];
+  lote1: any = [];
+  clase1: any = [];
+  unidad1: any = [];
   id_produ: any;
   precarcodebarra = false;
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private fb: FormBuilder, private almacenServ: AlmacenService ) {
@@ -136,9 +139,24 @@ export class ProductoComponent implements OnInit {
      });
    }
    public  select() {
-      this.almacenServ.Lote().subscribe(res => {this.lote = res});
-      this.almacenServ.UnidadMedida().subscribe(res => { this.unidad = res;console.log(this.unidad)});
-      this.almacenServ.Clase().subscribe(res => {this.clase = res});
+      // tslint:disable-next-line:semicolon
+      this.almacenServ.Lote().subscribe(res => {
+        this.lote = res;
+        this.lote1 = res;
+        console.log(this.lote1);
+      });
+      // tslint:disable-next-line:semicolon
+      this.almacenServ.UnidadMedida().subscribe(resp => { 
+        this.unidad = resp;
+        this.unidad1 = resp;
+        console.log(this.unidad1);
+      });
+      // tslint:disable-next-line:semicolon
+      this.almacenServ.Clase().subscribe(respcla => {
+        this.clase = respcla;
+        this.clase1 = respcla;
+        console.log(this.clase1);
+      });
    }
    datatable(url, data) {
     $(url).DataTable({
