@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
+import {AuthenticationService} from '../../SisVentas/service/Authentication/authentication.service';
 declare const jQuery: any;
 
 @Component({
@@ -10,13 +11,13 @@ declare const jQuery: any;
 })
 export class SigninComponent implements OnInit {
     private TO_DECRYPT_ENCRYPT = 'K56QSxGeKImwBRmiYoP';
+
     constructor(
-        private Toastr: ToastrService
+        private Toastr: ToastrService,
+        private Auth: AuthenticationService,
     ) { }
 
     ngOnInit() {
-
-
         (function ($) {
             "use strict";
 
@@ -119,8 +120,28 @@ export class SigninComponent implements OnInit {
         }
 
         const passwordEncrypt = this.CryptoJSAesEncrypt(this.TO_DECRYPT_ENCRYPT, userPassword);
-        
-        
+
+        this.Auth.loginUser(userName, passwordEncrypt).subscribe(
+            resp => {
+                if (resp['original']['status'] === true) {
+                    localStorage.setItem('TOKEN_USER', resp['original']['token_user']);
+                    localStorage.setItem('NAME_ROL', atob(resp['original']['name_rol']));
+                    localStorage.setItem('USER_NAME', atob(resp['original']['user_name']));
+                    localStorage.setItem('ROL', resp['original']['rol']);
+                    localStorage.setItem('IDENTIFIER', resp['original']['identifier']);
+                    this.Toastr.info('Iniciaste Sesion con exito', 'SESIÓN INICIADA');
+                    window.location.replace('#/dashboard/main');
+                } else {
+                    return this.Toastr.error('Digite su contraseña correctamente', 'ERROR CONTRASEÑA');
+                }
+            },
+            error => {
+                console.log(error);
+                return this.Toastr.error('No se pudo contactar con el servidor', 'ERROR INESPERADO');
+            }
+        );
+
+        event.preventDefault();
     }
 
     CryptoJSAesEncrypt(passphrase, plaintext) {

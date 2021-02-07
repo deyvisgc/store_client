@@ -13,7 +13,8 @@ import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { DynamicScriptLoaderService } from "./services/dynamic-script-loader.service";
 import {ToastrModule} from 'ngx-toastr';
 import { HttpClientModule } from "@angular/common/http";
-
+//services
+import { AuthenticationService} from './SisVentas/service/Authentication/authentication.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { HttpClientModule } from "@angular/common/http";
     HttpClientModule,
   ],
   providers: [
+      AuthenticationService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     DynamicScriptLoaderService
   ],
