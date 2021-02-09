@@ -11,9 +11,10 @@ import { CustomFormsModule } from 'ng2-validation';
 import { NgxPrintModule } from 'ngx-print';
 import { NgxIziToastModule } from 'ngx-izitoast';
 import { ClaseComponent } from './clase/clase.component';
+import { MessageserrorComponent } from './messageerror/messageserror/messageserror.component';
 
 @NgModule({
-  declarations: [ProductoComponent,ClaseComponent],
+  declarations: [ProductoComponent,ClaseComponent, MessageserrorComponent],
   imports: [
     CommonModule,
     AlmacenRoutingModule,

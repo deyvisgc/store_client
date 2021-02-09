@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators,FormControl } from '@angular/forms';
 import iziToast from 'izitoast';
 import * as JsBarcode from 'jsbarcode';
 import { NgxIzitoastService } from 'ngx-izitoast';
@@ -11,7 +11,7 @@ declare const $: any;
 @Component({
   selector: 'app-producto',
   templateUrl: './producto.component.html',
-  styleUrls: ['./producto.component.sass']
+  styleUrls: ['./producto.component.css']
 })
 export class ProductoComponent implements OnInit {
   form: FormGroup;
@@ -25,22 +25,24 @@ export class ProductoComponent implements OnInit {
   lote1: any = [];
   clase1: any = [];
   unidad1: any = [];
+  subclase: any = [];
   id_produ: any;
-  precarcodebarra = false;
+  loading : boolean;
+  btnform : boolean;
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private fb: FormBuilder, private almacenServ: AlmacenService ) {
     this.Listar();
     this.form = this.fb.group({
-      pro_nombre: [''],
-      pro_precio_compra: [''],
-      pro_precio_venta: [''],
-      cantidad: [''],
-      cantidad_minima: [''],
-      codigo: [''],
-      codigo_barra: [''],
-      lote: [''],
-      clase: [''],
-      unidad: [''],
-      descripcion: [],
+      pro_nombre: ['', Validators.required],
+      pro_precio_compra: ['', Validators.required],
+      pro_precio_venta: ['', Validators.required],
+      cantidad: ['', Validators.required],
+      cantidad_minima: ['', Validators.required],
+      codigo: ['', Validators.required],
+      codigo_barra: ['', Validators.required],
+      lote: ['', Validators.required],
+      clase: ['', Validators.required],
+      unidad: ['', Validators.required],
+      descripcion: ['', Validators.required],
       idproducto : ['']
     });
    }
@@ -57,6 +59,8 @@ export class ProductoComponent implements OnInit {
   }
   private loadData() {
     this.select();
+    this.loading = false;
+    this.btnform = true
     $('#loteseach').select2().on('change', (event) => {
        this.searchxType(event.target.value, 'lote');
     });
@@ -66,10 +70,17 @@ export class ProductoComponent implements OnInit {
     $('#unidadseacrh').select2().on('change', (event) => {
     this.searchxType(event.target.value, 'unidad');
     });
+    $('#subclase').select2().on('change', (event) => {
+    this.searchxType(event.target.value, 'unidad');
+    });
+    $('#clase').select2().on('change', (event) => {
+    this.changeclasehija(event.target.value);
+    });
     $('.lote').select2({ width: '100%' });
     $('.clase').select2({ width: '100%' });
     $('.unidad').select2({ width: '100%' });
-    $('.cantida_generate').select2({ width: '100%' });
+    $('.cantida_generate').select2({ width: '100%' }); 
+    $('.subclase').select2({ width: '100%' }); 
   }
   async startScript() {
     await this.dynamicScriptLoader.load('form.min').then(data => {
@@ -118,25 +129,37 @@ export class ProductoComponent implements OnInit {
     ventimp.close();
    }
    public Registrar() {
-    this.addaaray('lote', 'clase', 'unidad');
-    this.almacenServ.Registrar(this.form.value).subscribe( res => {
-     if ( res['status'] === true) {
-       $('#modalRegistrar').modal('hide');
-       this.Listar();
-       this.limpiar();
-       iziToast.success({
-        title: 'OK',
-        position: 'topRight',
-        message: res['message'],
-    });
-     } else {
-      iziToast.error({
-        title: 'Error',
-        position: 'topRight',
-        message: res['message'],
-    });
-     }
-     });
+     if (this.form.valid) {
+       this.loading = true;
+       this.btnform = false;
+       this.addaaray('lote', 'clase', 'unidad');
+       this.almacenServ.Registrar(this.form.value).subscribe( res => {
+       if ( res['status'] === true) {
+         $('#modalRegistrar').modal('hide');
+         this.loading = false;
+         this.Listar();
+         this.limpiar();
+         iziToast.success({
+          title: 'OK',
+          position: 'topRight',
+          message: res['message'],
+         });
+        } else {
+          this.loading = false;
+          iziToast.error({
+           title: 'Error',
+           position: 'topRight',
+           message: res['message'],
+          });
+        }
+        });
+      } else {
+        // this.validate(this.form);
+        Object.keys(this.form.controls).forEach(field => { // {1}
+        const control = this.form.get(field);            // {2}
+        control.markAsTouched({ onlySelf: true });       // {3}
+});
+      }
    }
    public  select() {
       // tslint:disable-next-line:semicolon
@@ -152,7 +175,7 @@ export class ProductoComponent implements OnInit {
         console.log(this.unidad1);
       });
       // tslint:disable-next-line:semicolon
-      this.almacenServ.Clase().subscribe(respcla => {
+      this.almacenServ.getClaseSupe().subscribe(respcla => {
         this.clase = respcla;
         this.clase1 = respcla;
         console.log(this.clase1);
@@ -247,6 +270,27 @@ export class ProductoComponent implements OnInit {
     this.form.controls.unidad.setValue(['']);
     $('#barcode').html('');
    }
+
+    public changeclasehija(event) {
+      this.almacenServ.filtrarxclasepadre(event).subscribe((res:any = []) => {
+        if (res.length > 0) {
+          this.subclase = res
+          iziToast.success({
+          title: 'Succes',
+          position: 'topRight',
+          message: 'Subcategorias Encontradas',
+         });
+        //  $("#subclase option[value=]").attr('selected', 'selected');
+        } else {
+          iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: 'Esta categoria no tiene subclases',
+         });
+        }
+        console.log(res)
+      })
+    }
    editar(produ: any) {
       this.almacenServ.Readxid(produ.id_product).subscribe((res: any = []) => {
         const data = [];
@@ -414,7 +458,6 @@ export class ProductoComponent implements OnInit {
      $('#gcodebarra').modal('show');
    }
    ImprimirCode() {
-     this.precarcodebarra = true;
      let n = 0;
      let cantidaGenerate = document.getElementById('cantida_generate')['value'];
      for (let i = 0; i < cantidaGenerate; i++) {
@@ -427,8 +470,26 @@ export class ProductoComponent implements OnInit {
         marginLeft: 85
       });
     }
-     this.precarcodebarra = false;
      this.imprimir();
      $('#divbarcodeprint').empty();
    }
+   isFieldValid(field: string) {
+     return !this.form.get(field).valid && this.form.get(field).touched;
+   }
+   displayFieldCss(field: string) {
+     return {
+    'has-error': this.isFieldValid(field),
+    'has-feedback': this.isFieldValid(field)
+  }
+}
+validate (formGroup: FormGroup){
+   Object.keys(formGroup.controls).forEach(field => {  //{2}
+    const control = formGroup.get(field);             //{3}
+    if (control instanceof FormControl) {             //{4}
+      control.markAsTouched({ onlySelf: true });
+    } else if (control instanceof FormGroup) {        //{5}
+      this.validate(control);            //{6}
+    }
+  });
+}
 }

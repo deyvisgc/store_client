@@ -15,9 +15,6 @@ export class AlmacenService {
     return this.httpClient.get(this.url.urlAddress + 'Almacen/Lote', {headers: this.headers});
   }
   //  servicios categorias padre e hijos
-  public Clase() {
-    return this.httpClient.get(this.url.urlAddress + 'Almacen/Clase', {headers: this.headers});
-  }
   public RegistraClase(data) {
     return this.httpClient.post(this.url.urlAddress + 'Almacen/Clase', {data}, {headers: this.headers});
   }
