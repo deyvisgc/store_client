@@ -11,10 +11,11 @@ import { CustomFormsModule } from 'ng2-validation';
 import { NgxPrintModule } from 'ngx-print';
 import { NgxIziToastModule } from 'ngx-izitoast';
 import { ClaseComponent } from './clase/clase.component';
-import { MessageserrorComponent } from './messageerror/messageserror/messageserror.component';
+import { PruebaComponent } from './prueba/prueba.component';
+import { FieldErrorDisplayComponentComponent } from './messageerror/field-error-display-component/field-error-display-component.component';
 
 @NgModule({
-  declarations: [ProductoComponent,ClaseComponent, MessageserrorComponent],
+  declarations: [ProductoComponent, ClaseComponent, PruebaComponent, FieldErrorDisplayComponentComponent],
   imports: [
     CommonModule,
     AlmacenRoutingModule,

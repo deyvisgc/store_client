@@ -152,8 +152,8 @@
                         <input type="text" onkeyup="this.value = this.value.toUpperCase();"
                                name="pro_nombre" formControlName="pro_nombre" required class="form-control"
                                placeholder="Escriba el nombre del producto">
-                        <app-messageserror [displayError]="isFieldValid('pro_nombre')" errorMsg="Nombre Producto requerido">
-                        </app-messageserror>
+                        <app-field-error-display [displayError]="isFieldValid('pro_nombre')" errorMsg="Nombre Producto requerido">
+                        </app-field-error-display>
                       </div>
                     </div>
                   </div>
@@ -163,8 +163,8 @@
                       <div class="form-line">
                         <input type="number" name="pro_precio_compra" required formControlName="pro_precio_compra" class="form-control"
                                placeholder="0.00">
-                        <app-messageserror [displayError]="isFieldValid('pro_precio_compra')" errorMsg="Precio Compra Requerido">
-                        </app-messageserror>
+                        <app-field-error-display [displayError]="isFieldValid('pro_precio_compra')" errorMsg="Precio Compra Requerido">
+                        </app-field-error-display>
                       </div>
                     </div>
                   </div>
@@ -175,8 +175,8 @@
                         <input type="text" onkeyup="this.value = this.value.toUpperCase();"
                                name="pro_precio_venta" formControlName="pro_precio_venta" required class="form-control"
                                placeholder="0.00">
-                        <app-messageserror [displayError]="isFieldValid('pro_precio_venta')" errorMsg="Precio Venta Requerido">
-                        </app-messageserror>      
+                        <app-field-error-display [displayError]="isFieldValid('pro_precio_venta')" errorMsg="Precio Venta Requerido">
+                        </app-field-error-display>      
                       </div>
                     </div>
                   </div>
@@ -185,8 +185,8 @@
                     <div class="form-group" [ngClass]="displayFieldCss('cantidad')">
                       <div class="form-line">
                         <input type="number" value="{{cantidad}}" name="cantidad" required formControlName="cantidad" class="form-control" >
-                        <app-messageserror [displayError]="isFieldValid('cantidad')" errorMsg="Cantidad Requerida">
-                        </app-messageserror> 
+                        <app-field-error-display [displayError]="isFieldValid('cantidad')" errorMsg="Cantidad Requerida">
+                        </app-field-error-display> 
                       </div>
                     </div>
                   </div>
@@ -196,8 +196,8 @@
                       <div class="form-line" >
                         <input type="number" name="cantidad_minima"  formControlName="cantidad_minima" required class="form-control"
                         value="{{cantidad}}">
-                        <app-messageserror [displayError]="isFieldValid('cantidad_minima')" errorMsg="Cantidad Minima Requerida">
-                        </app-messageserror>    
+                        <app-field-error-display [displayError]="isFieldValid('cantidad_minima')" errorMsg="Cantidad Minima Requerida">
+                        </app-field-error-display>    
                       </div>
                     </div>
                   </div>
@@ -206,8 +206,6 @@
                     <div class="form-group" [ngClass]="displayFieldCss('codigo')">
                       <div class="form-line">
                         <input type="text"  value="{{Codigo}}" id="codigo"  readonly name="codigo" formControlName="codigo" class="form-control" placeholder="">
-                         <app-messageserror [displayError]="isFieldValid('codigo')" errorMsg="Codigo del Producto Requerido">
-                        </app-messageserror>
                       </div>
                     </div>
                   </div>
@@ -217,41 +215,49 @@
                       <div class="form-line">
                         <input type="text" value="{{CodigoBarra}}" id="codigo_barra" name="codigo_barra" formControlName="codigo_barra"
                                class="form-control" placeholder="0000">
-                        <app-messageserror [displayError]="isFieldValid('codigo_barra')" errorMsg="Codigo Barra Requerido">
-                        </app-messageserror>
+                        <app-field-error-display [displayError]="isFieldValid('codigo_barra')" errorMsg="Codigo Barra Requerido">
+                        </app-field-error-display>
                       </div>
                     </div>
                   </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                  <label for="Categoria" class="control-label required">Categoria</label>
-                <div class="form-group default-select">
+                <div class="form-group default-select" [ngClass]="displayFieldCss('clase')">
                     <select class="form-control clase" id="clase" name="clase" formControlName="clase" data-placeholder="Select">
-                        <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase">{{clas.clasepadre}}</option>1
+                        <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase">{{clas.clasepadre}}</option>
                     </select>
+                    <app-field-error-display [displayError]="isFieldValid('clase')" errorMsg="Categoria Requerido">
+                    </app-field-error-display>
                 </div>
               </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                 <label for="Subcategoria" class="control-label required">Subcategoria</label>
-                <div class="form-group default-select">
-                    <select class="form-control subclase" id="subclase" name="subclase" formControlName="subclase" data-placeholder="Select">
-                        <option  value="{{clas.idhijo}}" *ngFor="let clas of subclase">{{clas.clasehijo}}</option>1
+                <div class="form-group default-select" [ngClass]="displayFieldCss('subclase')">
+                    <select class="form-control subclase" [ngModel]="selectedItem" id="subclase" name="subclase" formControlName="subclase" data-placeholder="Select">
+                        <option  value="{{clas.idhijo}}"  *ngFor="let clas of subclase">{{clas.clasehijo}}</option>
                     </select>
+                    <app-field-error-display [displayError]="isFieldValid('subclase')" errorMsg="Subcategoria Requerido">
+                    </app-field-error-display>
                 </div>
               </div>
                   <div class="col-md-6 col-lg-6 col-sm-6">
                      <label for="Lote" class="control-label required">Lote</label>
-                    <div class="form-group default-select">
+                    <div class="form-group default-select" [ngClass]="displayFieldCss('lote')">
                         <select class="form-control lote" id="lote" name="lote" formControlName="lote" data-placeholder="Select">
-                            <option value="{{lot.id_lote}}" *ngFor="let lot of lote1">{{lot.lot_name}}</option>
+                            <option  value="{{lot.id_lote}}"  *ngFor="let lot of lote1" >{{lot.lot_name}}</option>
                         </select>
+                        <app-field-error-display [displayError]="isFieldValid('lote')" errorMsg="Lote Requerido">
+                        </app-field-error-display>
                     </div>
                   </div>
                   <div class="col-md-6 col-lg-6 col-sm-6">
                     <label for="Unidad Medida" class="control-label required">Unidad Medida</label>
-                    <div class="form-group default-select">
+                    <div class="form-group default-select" [ngClass]="displayFieldCss('unidad')">
                         <select class="form-control unidad" id="unidad" name="unidad" formControlName="unidad"  data-placeholder="Select">
                             <option value="{{uni.id_unidad_medida}}" *ngFor="let uni of unidad">{{uni.um_name}}</option>
                         </select>
+                        <app-field-error-display [displayError]="isFieldValid('unidad')" errorMsg="Unidad Medida Requerido">
+                        </app-field-error-display>
                     </div>
                   </div>
                   <!--DESCRIPCION DEL PRODUCTO-->
@@ -260,8 +266,8 @@
                     <div class="form-group" [ngClass]="displayFieldCss('descripcion')">
                       <div class="form-line">
                         <textarea name="textarea" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
-                        <app-messageserror [displayError]="isFieldValid('descripcion')" errorMsg="Descripcion requerido">
-                        </app-messageserror>
+                        <app-field-error-display [displayError]="isFieldValid('descripcion')" errorMsg="Descripcion requerido">
+                        </app-field-error-display>
                       </div>
                     </div>
                   </div>
@@ -271,8 +277,8 @@
                 </div>
                 <div class="loader" *ngIf="loading" ></div>
                 <div class="modal-footer">
-                    <button type="button" *ngIf="btnform" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
-                  <button type="submit" *ngIf="btnform"  class="btn btn-outline-success btn-border-radius" >Registrar</button>
+                    <button type="button" *ngIf="btnform" (click)='reset()' class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" *ngIf="btnform" [disabled]="btndisables"  class="btn btn-outline-success btn-border-radius" >Registrar</button>
                   <button  type="button" *ngIf="btnform" (click)='GenerarCode()' class="btn btn-outline-warning btn-border-radius">Codigo Barra</button>
                 </div>
               </form>
@@ -357,21 +363,28 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
+                  <div class="col-md-6 col-lg-6 col-sm-6">
+                    <label for="pro_cantidad_minima">Categoria</label>
+                    <div class="form-group default-select">
+                        <select class="form-control clase" id="clase_update" name="clase" formControlName="clase" data-placeholder="Select">
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6 col-sm-6">
+                    <label for="pro_cantidad_minima">Subcategoria</label>
+                    <div class="form-group default-select">
+                        <select class="form-control subclase" id="subcategoria_update" name="subclase" formControlName="subclase" data-placeholder="Select">
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6 col-sm-6">
                     <label for="pro_cantidad_minima">Lote</label>
                     <div class="form-group default-select">
                         <select class="form-control lote" id="lote_update" name="lote_update" formControlName="lote" data-placeholder="Select">
                         </select>
                     </div>
                   </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="pro_cantidad_minima">Clase</label>
-                    <div class="form-group default-select">
-                        <select class="form-control clase" id="clase_update" name="clase" formControlName="clase" data-placeholder="Select">
-                        </select>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
+                  <div class="col-md-6 col-lg-6 col-sm-6">
                     <label for="pro_cantidad_minima">Unidad Medida</label>
                     <div class="form-group default-select">
                         <select class="form-control unidad" id="unidad_update" name="unidad" formControlName="unidad"  data-placeholder="Select">
