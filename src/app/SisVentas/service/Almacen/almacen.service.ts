@@ -52,6 +52,7 @@ export class AlmacenService {
     return this.httpClient.get(this.url.urlAddress + 'Almacen/Unidad', {headers: this.headers});
 
   }
+  // Servicios Productos
   public Read() {
     return this.httpClient.get(this.url.urlAddress + 'Almacen/Producto', {headers: this.headers});
   }

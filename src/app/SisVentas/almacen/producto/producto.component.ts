@@ -257,8 +257,12 @@ export class ProductoComponent implements OnInit {
         if (res.length > 0) {
           this.selectedItem = res[0]['idhijo'];
           this.form.controls.subclase.setValue(this.selectedItem);
-          this.subclase = res
-          $('#subcategoria_update').append('<option value=' + this.subclase.idhijo + '  >' + this.subclase.clasehijo + '</option>');
+          this.subclase = res;
+          console.log('this.subclase.idhijo', this.subclase);
+          $('#subcategoria_update').empty();
+          res.forEach(element => {
+            $('#subcategoria_update').append('<option value=' + element.idhijo + '  >' + element.clasehijo + '</option>');
+          });
           iziToast.success({
           title: 'Succes',
           position: 'topRight',
@@ -290,7 +294,7 @@ export class ProductoComponent implements OnInit {
       data.forEach(prod => {
         res['clapadre'].forEach(clapadre => {
           if (prod.id_clase_producto === clapadre.id_clase_producto) {
-            this.form.controls.clase.setValue(clapadre.id_clase_producto);
+             this.form.controls.clase.setValue(clapadre.id_clase_producto);
             $('#clase_update').append('<option value=' + clapadre.id_clase_producto + '  selected >' + clapadre.clasepadre + '</option>');
           } else {
             $('#clase_update').append('<option value=' + clapadre.id_clase_producto + '  >' + clapadre.clasepadre + '</option>');
