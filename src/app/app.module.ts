@@ -15,7 +15,6 @@ import {ToastrModule} from 'ngx-toastr';
 import { HttpClientModule } from "@angular/common/http";
 //services
 import { AuthenticationService} from './SisVentas/service/Authentication/authentication.service';
-
 @NgModule({
   declarations: [
     AppComponent,

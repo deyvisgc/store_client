@@ -2,45 +2,7 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br><br>
-              <div class="card">
-                <div class="header">
-                  <h2>
-                      <strong>BUSCAR POR: </strong> </h2>
-              
-              </div>
-                <div class="row clearfix">
-                  <div class="col-md-3" style="margin-left: 90px;">
-                      <label>LOTE</label>
-                      <div class="form-group default-select">
-                        <select class="form-control clase loteseach" id="loteseach" name="loteseach"  data-placeholder="Select">
-                          <option selected></option>
-                          <option value="{{lot.id_lote}}" *ngFor="let lot of lote">{{lot.lot_name}}</option>
-                        </select>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <label>CLASE</label>
-                      <div class="form-group default-select">
-                        <select class="form-control claseseach" id="claseseach" name="claseseach"  data-placeholder="Select">
-                          <option selected></option>
-                          <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase1">{{clas.clas_name}}</option>
-                      </select>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                    <label>UNIDAD MEDIDA</label>
-                    <div class="form-group default-select">
-                      <select class="form-control unidadseacrh" id="unidadseacrh" name="unidadseacrh"  data-placeholder="Select">
-                        <option selected></option>
-                        <!-- <option value="{{uni.id_unidad_medida}}" *ngFor="let uni of unidad">{{uni.um_name}}</option> -->
-                      </select>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                  <button _ngcontent-xhm-c6="" class="btn bg-light-blue waves-effect" (click)='Listar()' title="refrest" type="button"><i _ngcontent-dhs-c6="" class="fas fa-undo-alt"></i></button>
-              </div>
-                </div>
-              </div>
+               <app-search (searchtselect)="showDataSearch($event)"></app-search>
                 <div class="card">
                     <div class="body">
                       <div class="row clearfix">
@@ -63,9 +25,10 @@
                                     <!-- Tab panes -->
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
-                                          <div class="table-responsive">
-                                            <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
-                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproducto" style="width: 100%;">
+                                          <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
+                                          <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
+                                          <div class="table-responsive" id="tableactive">
+                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproducto" style="width: 100%;" >
                                                 <thead>
                                                     <tr>
                                                       <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
@@ -93,8 +56,9 @@
                                         </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
-                                          <div class="table-responsive">
-                                            <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
+                                          <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
+                                          <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
+                                          <div class="table-responsive" id="tabledesactivi">
                                             <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproductodesac" style="width: 100%;">
                                                 <thead>
                                                     <tr>
@@ -143,145 +107,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <form [formGroup]="form" (ngSubmit)="Registrar()">
-                <div class="row">
-                  <div class="col-md-12 col-lg-12 col-sm-12">
-                     <label for="pro_nombre" class="control-label required">Producto</label>
-                    <div class="form-group" [ngClass]="displayFieldCss('pro_nombre')">
-                      <div class="form-line">
-                        <input type="text" onkeyup="this.value = this.value.toUpperCase();"
-                               name="pro_nombre" formControlName="pro_nombre" required class="form-control"
-                               placeholder="Escriba el nombre del producto">
-                        <app-field-error-display [displayError]="isFieldValid('pro_nombre')" errorMsg="Nombre Producto requerido">
-                        </app-field-error-display>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="Precio Compra" class="control-label required">Precio Compra</label>
-                    <div class="form-group" [ngClass]="displayFieldCss('pro_precio_compra')">
-                      <div class="form-line">
-                        <input type="number" name="pro_precio_compra" required formControlName="pro_precio_compra" class="form-control"
-                               placeholder="0.00">
-                        <app-field-error-display [displayError]="isFieldValid('pro_precio_compra')" errorMsg="Precio Compra Requerido">
-                        </app-field-error-display>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="Precio Venta" class="control-label required">Precio Venta</label>
-                    <div class="form-group" [ngClass]="displayFieldCss('pro_precio_venta')">
-                      <div class="form-line">
-                        <input type="text" onkeyup="this.value = this.value.toUpperCase();"
-                               name="pro_precio_venta" formControlName="pro_precio_venta" required class="form-control"
-                               placeholder="0.00">
-                        <app-field-error-display [displayError]="isFieldValid('pro_precio_venta')" errorMsg="Precio Venta Requerido">
-                        </app-field-error-display>      
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="Cantidad" class="control-label required">Cantidad</label>
-                    <div class="form-group" [ngClass]="displayFieldCss('cantidad')">
-                      <div class="form-line">
-                        <input type="number" value="{{cantidad}}" name="cantidad" required formControlName="cantidad" class="form-control" >
-                        <app-field-error-display [displayError]="isFieldValid('cantidad')" errorMsg="Cantidad Requerida">
-                        </app-field-error-display> 
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="cantidad_minima" class="control-label required">Cantidad Minima</label>
-                    <div class="form-group" [ngClass]="displayFieldCss('cantidad_minima')">
-                      <div class="form-line" >
-                        <input type="number" name="cantidad_minima"  formControlName="cantidad_minima" required class="form-control"
-                        value="{{cantidad}}">
-                        <app-field-error-display [displayError]="isFieldValid('cantidad_minima')" errorMsg="Cantidad Minima Requerida">
-                        </app-field-error-display>    
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="codigo" class="control-label required">Codigo</label>
-                    <div class="form-group" [ngClass]="displayFieldCss('codigo')">
-                      <div class="form-line">
-                        <input type="text"  value="{{Codigo}}" id="codigo"  readonly name="codigo" formControlName="codigo" class="form-control" placeholder="">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="Codigo Barra" class="control-label required">Codigo Barra</label>
-                    <div class="form-group" [ngClass]="displayFieldCss('codigo_barra')">
-                      <div class="form-line">
-                        <input type="text" value="{{CodigoBarra}}" id="codigo_barra" name="codigo_barra" formControlName="codigo_barra"
-                               class="form-control" placeholder="0000">
-                        <app-field-error-display [displayError]="isFieldValid('codigo_barra')" errorMsg="Codigo Barra Requerido">
-                        </app-field-error-display>
-                      </div>
-                    </div>
-                  </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
-                 <label for="Categoria" class="control-label required">Categoria</label>
-                <div class="form-group default-select" [ngClass]="displayFieldCss('clase')">
-                    <select class="form-control clase" id="clase" name="clase" formControlName="clase" data-placeholder="Select">
-                        <option value="{{clas.id_clase_producto}}" *ngFor="let clas of clase">{{clas.clasepadre}}</option>
-                    </select>
-                    <app-field-error-display [displayError]="isFieldValid('clase')" errorMsg="Categoria Requerido">
-                    </app-field-error-display>
-                </div>
-              </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
-                <label for="Subcategoria" class="control-label required">Subcategoria</label>
-                <div class="form-group default-select" [ngClass]="displayFieldCss('subclase')">
-                    <select class="form-control subclase" [ngModel]="selectedItem" id="subclase" name="subclase" formControlName="subclase" data-placeholder="Select">
-                        <option  value="{{clas.idhijo}}"  *ngFor="let clas of subclase">{{clas.clasehijo}}</option>
-                    </select>
-                    <app-field-error-display [displayError]="isFieldValid('subclase')" errorMsg="Subcategoria Requerido">
-                    </app-field-error-display>
-                </div>
-              </div>
-                  <div class="col-md-6 col-lg-6 col-sm-6">
-                     <label for="Lote" class="control-label required">Lote</label>
-                    <div class="form-group default-select" [ngClass]="displayFieldCss('lote')">
-                        <select class="form-control lote" id="lote" name="lote" formControlName="lote" data-placeholder="Select">
-                            <option  value="{{lot.id_lote}}"  *ngFor="let lot of lote1" >{{lot.lot_name}}</option>
-                        </select>
-                        <app-field-error-display [displayError]="isFieldValid('lote')" errorMsg="Lote Requerido">
-                        </app-field-error-display>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-6 col-sm-6">
-                    <label for="Unidad Medida" class="control-label required">Unidad Medida</label>
-                    <div class="form-group default-select" [ngClass]="displayFieldCss('unidad')">
-                        <select class="form-control unidad" id="unidad" name="unidad" formControlName="unidad"  data-placeholder="Select">
-                            <option value="{{uni.id_unidad_medida}}" *ngFor="let uni of unidad">{{uni.um_name}}</option>
-                        </select>
-                        <app-field-error-display [displayError]="isFieldValid('unidad')" errorMsg="Unidad Medida Requerido">
-                        </app-field-error-display>
-                    </div>
-                  </div>
-                  <!--DESCRIPCION DEL PRODUCTO-->
-                  <div class="col-md-6 col-sm-6 col-lg-12">
-                     <label for="Descripción" class="control-label required">Descripción</label>
-                    <div class="form-group" [ngClass]="displayFieldCss('descripcion')">
-                      <div class="form-line">
-                        <textarea name="textarea" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
-                        <app-field-error-display [displayError]="isFieldValid('descripcion')" errorMsg="Descripcion requerido">
-                        </app-field-error-display>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="divbarcode" class="col-md-6 col-sm-6 col-lg-12">
-                    <svg style="width:10; height: 10;" id="barcode"></svg>
-                  </div>
-                </div>
-                <div class="loader" *ngIf="loading" ></div>
-                <div class="modal-footer">
-                    <button type="button" *ngIf="btnform" (click)='reset()' class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
-                  <button type="submit" *ngIf="btnform" [disabled]="btndisables"  class="btn btn-outline-success btn-border-radius" >Registrar</button>
-                  <button  type="button" *ngIf="btnform" (click)='GenerarCode()' class="btn btn-outline-warning btn-border-radius">Codigo Barra</button>
-                </div>
-              </form>
+           <app-formproducto (productlist)="productlist($event)"></app-formproducto>
         </div>
       </div>
     </div>
@@ -350,7 +176,7 @@
                     <label for="pro_cantidad_minima">Codigo</label>
                     <div class="form-group">
                       <div class="form-line">
-                        <input type="text"  value="{{Codigo}}" id="codigo"  readonly name="codigo" formControlName="codigo" class="form-control" placeholder="">
+                        <input type="text"  value="{{Codigo}}" id="codigo"  name="codigo" formControlName="codigo" class="form-control" placeholder="">
                       </div>
                     </div>
                   </div>
@@ -359,7 +185,7 @@
                     <div class="form-group">
                       <div class="form-line">
                         <input type="text" value="{{CodigoBarra}}" id="codigo_barra" name="codigo_barra" formControlName="codigo_barra"
-                               class="form-control" placeholder="0000">
+                               class="form-control" >
                       </div>
                     </div>
                   </div>

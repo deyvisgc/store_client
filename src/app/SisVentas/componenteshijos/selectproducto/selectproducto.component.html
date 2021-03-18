@@ -1,0 +1,24 @@
+<!-- <div class="form-group default-select">
+  <select class="form-control select2" data-placeholder="Buscar Producto">
+      <option selected value="">Buscar Producto</option>
+      <option value="{{prod.id_product}}" *ngFor="let prod of selectproducto">{{prod.pro_name}}</option>
+  </select>
+</div> -->
+<div class="ng-autocomplete">
+  <ng-autocomplete  #auto
+    [data]="selectproducto"
+    [searchKeyword]="keyword"
+    placeholder="Buscar Producto"
+    (selected)='selectEvent($event)'
+    (inputChanged)='onChangeSearch($event)'
+    (inputFocused)='onFocused($event)'
+    [itemTemplate]="itemTemplate"
+    [notFoundTemplate]="notFoundTemplate">                                 
+  </ng-autocomplete>
+  <ng-template #itemTemplate let-item>
+  <a [innerHTML]="item.pro_name"></a>
+  </ng-template>
+  <ng-template #notFoundTemplate let-notFound>
+  <div [innerHTML]="notFound"></div>
+  </ng-template>
+  </div>

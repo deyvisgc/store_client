@@ -1,0 +1,49 @@
+
+.totales {
+  margin-inline-start: auto;
+  margin-top: 10px;
+}
+.comprastotales {
+  margin-inline-start: auto;
+  font-weight: 1000;
+  margin-left: 20px;
+}
+.comprasubtotal {
+  margin-inline-start: auto;
+  font-weight: 1000;
+}
+.igv {
+  margin-inline-start: auto;
+  font-weight: 1000;
+}
+.total {
+  margin-inline-start: auto;
+  font-weight: 1000;
+}
+.comprasvalor {
+  font-size: 13px;
+  font-weight: 500;
+  margin-left: 5px;
+}
+.stock {
+  margin-right: 300px;
+  font-size: 12px;
+}
+.card .body {
+  font-size: 12px;
+}
+.input-group {
+  margin-bottom: 0px;
+}
+#compra_input {
+  font-size: 12px !important;
+  height: 2.5rem;
+}
+.cardtotales {
+  width: 50%;
+  margin-left: 290px;
+}
+.btnPagar {
+  margin-bottom: 10px;
+  margin-left: 270px;
+}

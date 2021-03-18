@@ -17,6 +17,7 @@ export class ClaseComponent implements OnInit {
   enabled: boolean;
   categoria: '';
   loading: boolean;
+  btndisables: boolean;
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private fb: FormBuilder, public almacenServ: AlmacenService ) { 
     this.form = this.fb.group({
       Cla_nombre: [''],
@@ -54,9 +55,20 @@ export class ClaseComponent implements OnInit {
     }).catch(error => console.log(error));
   }
   Registrar() {
+    this.btndisables = true;
     let clasesupe = document.getElementById('clase_superior')['value'];
     this.form.controls.clase_superior.setValue(clasesupe);
+    if (this.form.value.Cla_nombre === '') {
+      iziToast.error({
+        title: 'Error',
+        position: 'topRight',
+        message: 'Nombre categoria requerida',
+    });
+      this.btndisables = false;
+      return false;
+    }
     this.almacenServ.RegistraClase(this.form.value).subscribe(res => {
+      this.btndisables = false;
       if (res === true) {
         $('#modalRegistrar').modal('hide');
         iziToast.success({

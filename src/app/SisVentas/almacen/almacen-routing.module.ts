@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ClaseComponent } from './clase/clase.component';
+import { LoteComponent } from './lote/lote.component';
 import { ProductoComponent } from './producto/producto.component';
-import { PruebaComponent } from './prueba/prueba.component';
+import { UnidadmedidaComponent } from './unidadmedida/unidadmedida.component';
 
 
 const routes: Routes = [
@@ -15,8 +16,12 @@ const routes: Routes = [
     component: ClaseComponent
   },
   {
-    path: 'Deyvis',
-    component: PruebaComponent
+    path: 'Lote',
+    component: LoteComponent
+  },
+  {
+    path: 'Unidad/Medida',
+    component: UnidadmedidaComponent
   }
 ];
 

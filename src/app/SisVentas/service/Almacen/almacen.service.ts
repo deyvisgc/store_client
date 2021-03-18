@@ -9,11 +9,6 @@ export class AlmacenService {
   headers = this._headers.append('Content-Type', 'application/json');
 
   constructor(private httpClient: HttpClient, private url: EnviromentService ) { }
-
-  public Lote() {
-    console.log('url,', this.url.urlAddress);
-    return this.httpClient.get(this.url.urlAddress + 'Almacen/Lote', {headers: this.headers});
-  }
   //  servicios categorias padre e hijos
   public RegistraClase(data) {
     return this.httpClient.post(this.url.urlAddress + 'Almacen/Clase', {data}, {headers: this.headers});
@@ -46,11 +41,21 @@ export class AlmacenService {
   public filtrarxclasepadre(id) {
     return this.httpClient.get(this.url.urlAddress + 'Almacen/Clase/filtrarxclasepadre/' + id , {headers: this.headers});
   }
-
   //  servicios unidad
   public UnidadMedida() {
     return this.httpClient.get(this.url.urlAddress + 'Almacen/Unidad', {headers: this.headers});
-
+  }
+  public RegistrarUnidad(data) {
+    return this.httpClient.post(this.url.urlAddress + 'Almacen/Unidad', {data}, {headers: this.headers});
+  }
+  public ActualizarUnidad(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Unidad', {data}, {headers: this.headers});
+  }
+  public DeleteUnidad(id) {
+    return this.httpClient.delete(this.url.urlAddress + 'Almacen/Unidad/' + id);
+  }
+  public ChangeStatusUnidad(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Unidad/ChangestatusUnidad', {data}, {headers: this.headers});
   }
   // Servicios Productos
   public Read() {
@@ -73,5 +78,22 @@ export class AlmacenService {
   }
   public changestatus(data) {
     return this.httpClient.patch(this.url.urlAddress + 'Almacen/Producto/changestatus', {data}, {headers: this.headers});
+  }
+  //Servicio Lote
+  public Lote() {
+    console.log('url,', this.url.urlAddress);
+    return this.httpClient.get(this.url.urlAddress + 'Almacen/Lote', {headers: this.headers});
+  }
+  public RegistrarLote(data) {
+    return this.httpClient.post(this.url.urlAddress + 'Almacen/Lote', {data}, {headers: this.headers});
+  }
+  public ActualizarLote(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Lote', {data}, {headers: this.headers});
+  }
+  public DeleteLote(id) {
+    return this.httpClient.delete(this.url.urlAddress + 'Almacen/Lote/' + id);
+  }
+  public ChangeStatusLote(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Lote/ChangestatusLote', {data}, {headers: this.headers});
   }
 }

@@ -63,6 +63,10 @@ const routes: Routes = [
         loadChildren: () => import('./SisVentas/almacen/almacen.module').then(m => m.AlmacenModule)
     },
     {
+        path: 'Compras',
+        loadChildren: () => import('./SisVentas/compras/compras.module').then(m => m.ComprasModule)
+    },
+    {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'

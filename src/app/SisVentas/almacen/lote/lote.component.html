@@ -1,0 +1,226 @@
+<section class="content">
+  <div class="container-fluid">
+      <div class="row clearfix">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="card">
+                  <div class="body">
+                    <div class="row clearfix">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <div class="card">
+                              <div class="body">
+                                  <!-- Nav tabs -->
+                                  <ul class="nav nav-tabs" role="tablist">
+                                      <li role="presentation">
+                                          <a href="#home_with_icon_title" data-toggle="tab" class="active show">
+                                             ACTIVOS
+                                          </a>
+                                      </li>
+                                      <li role="presentation">
+                                          <a href="#profile_with_icon_title" data-toggle="tab">
+                                              DESACTIVOS
+                                          </a>
+                                      </li>
+                                  </ul>
+                                  <!-- Tab panes -->
+                                  <div class="tab-content">
+                                      <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
+                                        <button _ngcontent-xhm-c6="" style="margin-left: 10px;" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
+                                        <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
+                                        <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12"  id="tableactive">
+                                          <div class="table-responsive">
+                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tblote-activate" style="width: 100%;">
+                                              <thead>
+                                                  <tr>
+                                                    <th scope="col">Lote</th>
+                                                    <th scope="col">Codigo</th>
+                                                    <th scope="col">Fecha Creacion</th>
+                                                    <th scope="col">Fecha Expiracion</th>
+                                                    <th scope="col">Estado</th>
+                                                    <th scope="col">OPCIONES</th>
+                                                  </tr>
+                                              </thead>
+                                              <tfoot>
+                                                <tr>
+                                                  <th scope="col">Lote</th>
+                                                  <th scope="col">Codigo</th>
+                                                  <th scope="col">Fecha Creacion</th>
+                                                  <th scope="col">Fecha Expiracion</th>
+                                                  <th scope="col">Estado</th>
+                                                  <th scope="col">OPCIONES</th>
+                                                </tr>
+                                              </tfoot>
+                                            </table>
+                                        </div>
+                                      </div>
+                                      </div>
+                                      <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                                        <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12" id="tabledesactivi">
+                                          <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tblote-disable" style="width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                  <th scope="col">Lote</th>
+                                                  <th scope="col">Codigo</th>
+                                                  <th scope="col">Fecha Creacion</th>
+                                                  <th scope="col">Fecha Expiracion</th>
+                                                  <th scope="col">Estado</th>
+                                                  <th scope="col">OPCIONES</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                              <tr>
+                                                <th scope="col">Lote</th>
+                                                <th scope="col">Codigo</th>
+                                                <th scope="col">Fecha Creacion</th>
+                                                <th scope="col">Fecha Expiracion</th>
+                                                <th scope="col">Estado</th>
+                                                <th scope="col">OPCIONES</th>
+                                              </tr>
+                                            </tfoot>
+                                          </table>
+                                      </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- #END# Exportable Table -->
+  </div>
+</section>
+<div class="modal fade" id="modalRegistrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">REGISTRAR Lotes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="form" (ngSubmit)="Registrar()">
+              <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-12">
+                  <label for="lote" class="control-label required">Lote</label>
+                  <div class="form-group" [ngClass]="displayFieldCss('lote')">
+                    <div class="form-line">
+                      <input type="text" onkeyup="this.value = this.value.toUpperCase();"
+                             name="lote" formControlName="lote" required class="form-control"
+                             placeholder="Escriba el nombre del lote">
+                      <app-field-error-display [displayError]="isFieldValid('lote')" errorMsg="Nombre lote requerido">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="Codigo" class="control-label required">Codigo</label>
+                  <div class="form-group" [ngClass]="displayFieldCss('codigo')">
+                    <div class="form-line">
+                      <input type="text" onkeyup="this.value = this.value.toUpperCase();" name="codigo" formControlName="codigo" required class="form-control"
+                             placeholder="Escriba el codigo">
+                      <app-field-error-display [displayError]="isFieldValid('codigo')" errorMsg="codigo requerido">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="fecha_creacion" class="control-label required">Fecha Creacion</label>
+                  <div class="form-group" [ngClass]="displayFieldCss('fecha_creacion')">
+                    <div class="form-line">
+                      <input type="text"  id="fecha_creacion"  name="fecha_creacion" formControlName="fecha_creacion" placeholder="Seleccione Fecha Creacion" required class="form-control">
+                      <app-field-error-display [displayError]="isFieldValid('fecha_creacion')" errorMsg="Fecha Creacion requerido">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="fecha_expiracion" class="control-label required">Fecha Expiracion</label>
+                  <div class="form-group" [ngClass]="displayFieldCss('fecha_expiracion')">
+                    <div class="form-line">
+                      <input type="text" id="fecha_expiracion" onkeyup="this.value = this.value.toUpperCase();" name="fecha_expiracion" formControlName="fecha_expiracion" required class="form-control" placeholder="Seleccione Fecha Expiracion">
+                      <app-field-error-display [displayError]="isFieldValid('fecha_expiracion')" errorMsg="Fecha Expiracion requerido">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <app-reload style="margin: 150px;" [isloading]="isloading"  message="Cargando"></app-reload>
+                <button type="button" *ngIf="btnform" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
+                <button type="submit" *ngIf="btnform" class="btn btn-outline-success btn-border-radius" >Registrar</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Actualizar Lotes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="formupdate" (ngSubmit)="Actualizar()">
+              <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-12">
+                  <label for="lote" class="control-label required">Lote</label>
+                  <div class="form-group" [ngClass]="displayFieldCssUpdate('lote_update')">
+                    <div class="form-line">
+                      <input type="text" onkeyup="this.value = this.value.toUpperCase();"
+                             name="lote" formControlName="lote_update" required class="form-control"
+                             placeholder="Escriba el nombre del lote">
+                      <app-field-error-display [displayError]="isFieldValidUpdate('lote_update')" errorMsg="Nombre lote requerido">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="Codigo" class="control-label required">Codigo</label>
+                  <div class="form-group" [ngClass]="displayFieldCssUpdate('codigo_update')">
+                    <div class="form-line">
+                      <input type="text" onkeyup="this.value = this.value.toUpperCase();" name="codigo" formControlName="codigo_update" required class="form-control"
+                             placeholder="Escriba el codigo">
+                      <app-field-error-display [displayError]="isFieldValidUpdate('codigo_update')" errorMsg="codigo requerido">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="fecha_creacion" class="control-label required">Fecha Creacion</label>
+                  <div class="form-group" [ngClass]="displayFieldCssUpdate('fecha_creacion_update')">
+                    <div class="form-line">
+                      <input type="text"  id="fecha_creacion" formControlName="fecha_creacion_update" placeholder="Seleccione Fecha Creacion" required class="form-control">
+                      <app-field-error-display [displayError]="isFieldValidUpdate('fecha_creacion_update')" errorMsg="Fecha Creacion requerido">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                </div>
+                  <input type="hidden"  formControlName="id_lote">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="fecha_expiracion" class="control-label required">Fecha Expiracion</label>
+                  <div class="form-group" [ngClass]="displayFieldCssUpdate('fecha_expiracion_update')">
+                    <div class="form-line">
+                      <input type="text" id="fecha_expiracion" onkeyup="this.value = this.value.toUpperCase();" name="fecha_expiracion" formControlName="fecha_expiracion_update" required class="form-control" placeholder="Seleccione Fecha Expiracion">
+                      <app-field-error-display [displayError]="isFieldValidUpdate('fecha_expiracion_update')" errorMsg="Fecha Expiracion requerido">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <app-reload style="margin: 150px;" [isloading]="isloading"  message="Cargando"></app-reload>
+                <button type="button" *ngIf="btnform" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
+                <button type="submit" *ngIf="btnform" class="btn btn-outline-success btn-border-radius" >Guardar</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>

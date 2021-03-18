@@ -11,11 +11,18 @@ import { CustomFormsModule } from 'ng2-validation';
 import { NgxPrintModule } from 'ngx-print';
 import { NgxIziToastModule } from 'ngx-izitoast';
 import { ClaseComponent } from './clase/clase.component';
-import { PruebaComponent } from './prueba/prueba.component';
 import { FieldErrorDisplayComponentComponent } from './messageerror/field-error-display-component/field-error-display-component.component';
+import { LoteComponent } from './lote/lote.component';
+import { UnidadmedidaComponent } from './unidadmedida/unidadmedida.component';
+import { ReloadComponent } from './reload/reload.component';
+import { SearchComponent } from '../componenteshijos/search/search.component';
+import { FormproductoComponent } from '../componenteshijos/formproducto/formproducto.component';
 
 @NgModule({
-  declarations: [ProductoComponent, ClaseComponent, PruebaComponent, FieldErrorDisplayComponentComponent],
+  declarations: [ProductoComponent, ClaseComponent, FieldErrorDisplayComponentComponent, LoteComponent,
+                 UnidadmedidaComponent, ReloadComponent, SearchComponent, FormproductoComponent
+                ],
+  exports: [FieldErrorDisplayComponentComponent],
   imports: [
     CommonModule,
     AlmacenRoutingModule,

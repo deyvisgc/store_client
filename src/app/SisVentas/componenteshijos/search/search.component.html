@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="header">
+    <h2>
+        <strong>BUSCAR POR: </strong> </h2>
+</div>
+  <div class="row clearfix">
+    <div class="col-md-3" style="margin-left: 90px;">
+        <label>LOTE</label>
+        <div class="form-group default-select">
+          <select class="form-control select" id="loteseach" name="loteseach"  data-placeholder="Select">
+            <option selected></option>
+            <option value="{{lot.id_lote}}" *ngFor="let lot of lote1">{{lot.lot_name}}</option>
+          </select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label>CLASE</label>
+        <div class="form-group default-select">
+          <select class="form-control select" id="claseseach" name="claseseach"  data-placeholder="Select">
+            <option selected></option>
+            <option value="{{claspadre.id_clase_producto}}" *ngFor="let claspadre of clase1">{{claspadre.clasepadre}}</option>
+        </select>
+        </div>
+    </div>
+    <div class="col-md-3">
+      <label>UNIDAD MEDIDA</label>
+      <div class="form-group default-select">
+        <select class="form-control select" id="unidadseacrh" name="unidadseacrh"  data-placeholder="Select">
+          <option selected></option>
+          <option value="{{uni.id_unidad_medida}}" *ngFor="let uni of unidad1">{{uni.um_name}}</option>
+        </select>
+      </div>
+  </div>
+  <div class="col-md-2">
+    <button _ngcontent-xhm-c6="" class="btn bg-light-blue waves-effect" (click)='Listar()' title="refrest" type="button"><i _ngcontent-dhs-c6="" class="fas fa-undo-alt"></i></button>
+</div>
+<div class="loader" *ngIf="loading" ></div>
+  </div>
+</div>

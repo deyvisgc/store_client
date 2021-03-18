@@ -1,0 +1,261 @@
+<section class="content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="card">
+                <div _ngcontent-sge-c18="" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><button _ngcontent-sge-c18="" class="btn btn-success btn-lg btn-block waves-effect totales" type="button">Detalle Venta</button></div>
+            </div>
+            <div class="card">
+                <div class="row clearfix">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="card" style="margin: 10px">
+                            <div class="header" style="background-color:  #F9E79F;">
+                                <h2>
+                                    Productos
+                                </h2>
+                            </div>
+                            <div class="body">
+                                <app-selectproducto  (productselect)="showDataProduct($event)"></app-selectproducto><br>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="input-group input-group-lg">
+                                            <span class="input-group-addon">Stock:</span>
+                                            <div class="form-line">
+                                                <span _ngcontent-jwd-c7="" class="badge stock" [ngClass]="{'col-red': product.stock <= 5, 'bg-green': product.stock > 5}"> {{product.stock === 0 ? 0 : product.stock}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                        <div class="input-group input-group-lg">
+                                            <span class="input-group-addon">Lote:</span>
+                                            <div class="form-line">
+                                                <span _ngcontent-jwd-c7="" style="margin-right: 150px;" class="badge" [ngClass]="{'col-red': product.lote === '', 'bg-cyan': product.lote}">{{product.lote === '' ? 'no asignado' : product.lote}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon">Cantidad</span>
+                                    <div class="form-line">
+                                        <input type="number" id="compra_input" class="form-control" [(ngModel)]="product.pro_cantidad">
+                                    </div>
+                                </div>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon">C. Minima</span>
+                                    <div class="form-line">
+                                        <input type="number" id="compra_input" class="form-control" [(ngModel)]="product.pro_cantidad_minima">
+                                    </div>
+                                </div>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon">P Compra</span>
+                                    <div class="form-line">
+                                        <input type="number" id="compra_input" class="form-control" [(ngModel)]="product.precio_compra" placeholder="0.00">
+                                    </div>
+                                </div>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon">C. Barra</span>
+                                    <div class="form-line">
+                                        <input type="number" id="compra_input" [(ngModel)]="product.pro_cod_barra" class="form-control" placeholder="0.00">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="card" style="margin: 10px">
+                            <div class="header" style="background-color:  #F9E79F;">
+                                <h2>
+                                    Proveedores
+                                </h2>
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <app-provedorselect (proveedorselect)="showDaProveedor($event)"></app-provedorselect><br>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <div class="input-group input-group-lg">
+                                                    <span class="input-group-addon">RUC:</span>
+                                                    <div class="form-line">
+                                                        <span _ngcontent-jwd-c7="" style="margin-right: 150px;" class="badge" [ngClass]="{'col-red': persona.per_ruc === '', 'bg-cyan': persona.per_ruc}">{{persona.per_ruc === '' ? 'no asignado' : persona.per_ruc}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 60px;" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <button _ngcontent-vfy-c9="" (click)="AddCart()" class="btn btn-success waves-effect"  type="button"><i class="fas fa-shopping-cart"></i></button>
+                                        <button _ngcontent-vfy-c9="" (click)="Linpiar()" style="margin-left: 2px;" class="btn bg-pink waves-effect" type="button"><i class="fas fa-eraser"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card" style="margin: 10px">
+                            <div class="header" style="background-color:  #F9E79F;">
+                                <h2>
+                                    Proveedores
+                                </h2>
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                      <div class="form-group default-select">
+                                          <select class="form-control tipo_pago" data-placeholder="Buscar Proveedor">
+                                            <option selected value="">Tipo Pago</option>
+                                            <option value="1">Credito</option>
+                                            <option value="1">Contado</option>
+                                         </select>
+                                        </div>
+                                        <div class="form-group default-select">
+                                            <select class="form-control proveedor" data-placeholder="Buscar Proveedor">
+                                                <option selected value="">Tipo Pago</option>
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="card body">
+              <div _ngcontent-sge-c18="" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <button _ngcontent-sge-c18="" class="btn bg-green btn-lg btn-block waves-effect totales" type="button">Totales</button>
+                </div> 
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="p-t-10">
+                            <span class="pull-left progress-label comprastotales">Descu :</span>
+                            <span class="comprasvalor">{{calculoTotales.descuento}}</span>
+                          </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="p-t-10">
+                            <span class="pull-left progress-label igv">Igv :</span>
+                            <span class="comprasvalor">{{calculoTotales.igv}}</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="p-t-10">
+                            <span class="pull-left progress-label comprasubtotal">S.Total :</span>
+                            <span class="comprasvalor" >{{calculoTotales.subtotal}}</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="p-t-10">
+                            <span class="pull-left progress-label total">total :</span>
+                            <span class="comprasvalor" >{{calculoTotales.total}}</span>
+                        </div><br>
+                    </div>
+                    <button _ngcontent-rfq-c10="" class="btn bg-teal waves-effect btnPagar" type="button"><i _ngcontent-rfq-c11="" data-toggle="modal" data-target="#modalPagar" class="fas fa-money-bill-alt"></i><span _ngcontent-rfq-c10="">PAGAR</span></button>
+                </div>
+                <!-- <div class="p-t-10">
+                    <button _ngcontent-vfy-c9="" class="btn btn-success waves-effect btnpagar" type="button"><i class="fas fa-shopping-cart"></i></button>
+                </div> -->
+            </div>
+            <div class="card">
+                <div class="body">
+                    <div class="table-responsive">
+                        <table class="table table-hover js-basic-example contact_list">
+                            <thead>
+                                <tr>
+                                    <th class="center">Producto</th>
+                                    <th class="center">Cantidad</th>
+                                    <th class="center">Precio</th>
+                                    <th class="center">Importe</th>
+                                    <th class="center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listaCarrito | paginate: config">
+                                    <td>{{item.pro_name}}</td>
+                                    <td style="width: 70px;">
+                                        <input id="cantidad_table" (keyup.enter)="UpdateCantidad(item, $event)" type="text" class="validate" value="{{item.cantidad}}">
+                                    </td>
+                                    <td>{{item.precio}}</td>
+                                    <td>{{item.subTotal}}</td>
+                                    <td><button _ngcontent-vfy-c9="" (click)="delete(item)" style="margin-left: 2px;" class="btn bg-pink waves-effect" type="button"><i class="fas fa-trash-alt"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+</section>
+<div class="modal fade" id="modalPagar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content" style="border-radius: 10px;">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Formulario de Pago</h5>
+            <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row clearfix">
+                    <div class="col-md-4">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon">Total</span>
+                            <div class="form-line">
+                                <input type="number" readonly [(ngModel)]="calculoTotales.total" class="form-control" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon">Monto</span>
+                            <div class="form-line">
+                                <input type="number"(keyup)="CalcularVuelto($event)" [(ngModel)]="pago.monto" class="form-control" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon">Vuelto</span>
+                            <div class="form-line">
+                                <input type="number" readonly [(ngModel)]="pago.vuelto" class="form-control" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-md-6">
+                        <label for="pro_cantidad_minima">Tipo Pago</label>
+                        <div class="form-group default-select">
+                            <select class="form-control tipo_pago" id="tipo_pago"  name="tipo_pago"  data-placeholder="Select">
+                                <option  value="">Seleccione</option>
+                                <option  value="credito">Credito</option>
+                                <option  value="debito">Debito</option>
+                                <option  value="contado">Contado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group default-select">
+                            <label for="pro_cantidad_minima">Tipo Comprobante</label>
+                            <select class="form-control tipo_comprobante" id="tipo_comprobante" name="tipo_comprobante" data-placeholder="Select">
+                                <option  value="">Seleccione</option>
+                                <option value="factura">Factura</option>
+                                <option value="boleta">Boleta</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn bg-light-green waves-effect" (click)="Pagar()" style="color: #ffff;">Pagar</button>
+        </div>
+    </div>
+</div>
+</div>
