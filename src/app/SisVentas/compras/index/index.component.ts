@@ -14,6 +14,8 @@ export class IndexComponent implements OnInit {
   idCaja = 1;
   listaCarrito: any = [];
   idPersona = 2;
+  btnpagar = true;
+  labeltypePago = true;
   config = {
     itemsPerPage: 5,
     currentPage: 1,
@@ -53,30 +55,14 @@ export class IndexComponent implements OnInit {
     descuento : '0.00'
   };
   pago = {
-    total: '',
     monto : '',
     vuelto : '',
     tipo_pago : '',
     tipo_comprobante : '',
     serie : '',
-    idProveedor : ''
+    idProveedor : 0
   };
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private compraserv: CompraService) {
-    //Create dummy data
-    for (let i = 0; i < this.listaCarrito.count; i++) {
-      this.listaCarrito.data.push(
-        {
-          id: i + 1,
-          value: "items number " + (i + 1)
-        }
-      );
-    }
-
-    this.config = {
-      itemsPerPage: 4,
-      currentPage: 1,
-      totalItems: this.listaCarrito.count
-    };
   }
   pageChanged(event){
     this.config.currentPage = event;
@@ -92,8 +78,12 @@ export class IndexComponent implements OnInit {
   private loadData() {
     const vm = this;
     vm.ListarCar();
-    $('.tipo_pago').select2({ width: '100%' });
-    $('.tipo_comprobante').select2({ width: '100%' });
+    $('.tipo_pago').select2({ width: '100%' }).on('change', (event) => {
+      this.selecrTipoPago(event.target.value);
+    });
+    $('.tipo_comprobante').select2({ width: '100%' }).on('change', (event) => {
+      this.selecrTipoPago(event.target.value);
+    });
   }
   showDataProduct(event) {
     const vm = this;
@@ -116,11 +106,67 @@ export class IndexComponent implements OnInit {
     vm.compraserv.ListarCarr(vm.idPersona).subscribe((res: any = []) => {
       const lista = res['lista'];
       if (lista.length > 0) {
-        vm.listaCarrito = lista;
+        // vm.listaCarrito = lista;
+        vm.datatable(lista);
         vm.calculos(lista[0]['total']);
       } else {
         return false;
       }
+    });
+  }
+  datatable(datos) {
+    $('.carritoTable').DataTable({
+      "lengthMenu": [[5, 50, 'All'], [5, 50, 'All']],
+      data: datos,
+      columns: [
+        { data: 'pro_name' },
+        { data: 'cantidad' ,
+        render(data, type, row) {
+          // tslint:disable-next-line:semicolon
+          // tslint:disable-next-line:max-line-length
+          return '<input id="cantidad_table"  type="text" class="validate updatecantidad" value=' + row.cantidad + '>';
+        },
+       },
+       { data: 'precio' },
+       { data: 'subTotal' },
+       { data: () => {
+        // tslint:disable-next-line:max-line-length
+        return ('<button _ngcontent-vfy-c6=" style="margin-left: 5px;font-size: 20px;" class="btn bg-pink waves-effect delete" type="button"><i style="padding-bottom:20px class="fas fa-trash-alt"></i></button>');
+      }
+      },
+      ],
+      responsive: true,
+      rowCallback: ( row, data ) => {
+        const vm = this;
+        $('.delete', row).bind('click', () => {
+          vm.delete(data);
+        });
+        $('.updatecantidad', row).bind('keyup.enter' , (e) => {
+            vm.UpdateCantidad(data, e);
+        });
+      },
+      language: {
+        decimal: '',
+        emptyTable: 'No exsiten Compras',
+        info: 'Mostrando _START_ a _END_ de _TOTAL_ Compras',
+        infoEmpty: 'Mostrando 0 to 0 of 0 Entradas',
+        infoFiltered: '(Filtrado de _MAX_ total Compras)',
+        infoPostFix: "",
+        thousands: ",",
+        lengthMenu: 'Mostrar _MENU_ Compras',
+        loadingRecords: 'Cargando...',
+        processing: 'Procesando...',
+        search: 'Buscar:',
+        zeroRecords: 'Sin resultados encontrados',
+        paginate: {
+          first: 'Primero',
+          last: 'Ultimo',
+          next: 'Siguiente',
+          previous: 'Anterior'
+        }
+      },
+      order: [],
+      destroy: true
     });
   }
   AddCart() {
@@ -133,10 +179,9 @@ export class IndexComponent implements OnInit {
       vm.carrito.precio_compra = vm.product.precio_compra;
       vm.carrito.pro_cantidad = vm.product.pro_cantidad;
       vm.compraserv.AddCarr(vm.carrito).subscribe(res => {
-        vm.listaCarrito = res;
+        vm.datatable(res);
         vm.calculos(res[0]['total']);
         vm.Linpiar();
-        console.log(res);
       });
     }
   }
@@ -151,7 +196,7 @@ export class IndexComponent implements OnInit {
     vm.calculoTotales.subtotal = subTotal;
     vm.calculoTotales.igv = igv;
     vm.calculoTotales.total = total1;
-    console.log('t0taoles', vm.calculoTotales.subtotal);
+    vm.btnpagar = false;
   }
   validarCarr() {
     const vm = this;
@@ -203,25 +248,28 @@ export class IndexComponent implements OnInit {
     this.compraserv.comunitacioncomponen(true);
   }
   UpdateCantidad(item, event) {
-    const vm = this;
-    const parameters = {
-      id: item.id,
-      idPersona: item.idPersona,
-      value : event.target.value,
-      precio : item.precio
-    };
-    vm.compraserv.UpdateCantidad(parameters).subscribe(res => {
-      const lista = res['lista'];
-      if (!res['status']) {
-        iziToast.error({
-          title: 'Error',
-          position: 'topRight',
-          message: res['message'],
-        });
-        return false;
-      }
-//
-    });
+    if (event.key === 'Enter') {
+      const vm = this;
+      const parameters = {
+        id: item.id,
+        idPersona: item.idPersona,
+        value : event.target.value,
+        precio : item.precio
+      };
+      vm.compraserv.UpdateCantidad(parameters).subscribe(res => {
+        const lista = res['lista'];
+        if (!res['status']) {
+          iziToast.error({
+            title: 'Error',
+            position: 'topRight',
+            message: res['message'],
+          });
+          return false;
+        }
+        vm.datatable(lista);
+        vm.calculos(lista[0]['total']);
+      });
+  }
   }
   delete(item) {
     const vm = this;
@@ -241,24 +289,25 @@ export class IndexComponent implements OnInit {
         return false;
       }
       if (zise === 0) {
-        vm.listaCarrito = [];
+        vm.datatable([]);
         vm.calculos(0);
         return false;
       }
-      vm.listaCarrito = lista;
+      vm.datatable(lista);
       vm.calculos(lista[0]['total']);
     });
   }
   CalcularVuelto(event) {
     const vm = this;
     const vuelto = parseFloat(vm.calculoTotales.total) - parseFloat(event.target.value);
-    vm.pago.vuelto = vuelto.toFixed(2);
+    const vueltoFinal = Math.abs(vuelto);
+    vm.pago.vuelto = vueltoFinal.toFixed(2);
   }
   Pagar() {
     const vm = this;
     vm.pago.tipo_pago = document.getElementById('tipo_pago')['value'];
     vm.pago.tipo_comprobante = document.getElementById('tipo_comprobante')['value']
-    vm.pago.idProveedor = vm.persona.idProveedor;
+    vm.pago.idProveedor = vm.idPersona;
     const statusValidacion = validacion(vm.calculoTotales.total, vm.pago.monto, vm.pago.tipo_pago, vm.pago.tipo_comprobante);
     if (statusValidacion['status'] === false) {
       iziToast.error({
@@ -269,7 +318,29 @@ export class IndexComponent implements OnInit {
       return false;
     }
     vm.compraserv.Pagar(vm.pago, vm.calculoTotales).subscribe(res => {
-      console.log(res);
+      if (res['status']) {
+        iziToast.success({
+          title: 'OK',
+          position: 'topRight',
+          message: res['message'],
+        });
+        $('#modalPagar').modal('hide');
+        vm.datatable([]);
+        vm.calculos(0);
+      } else {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: statusValidacion['message'],
+        });
+        $('#modalPagar').modal('hide');
+        return false;
+      }
     });
+  }
+  selecrTipoPago(value) {
+    const vm = this;
+    if (value === 'credito') { vm.labeltypePago = true; }
+    if (value === 'debito') { vm.labeltypePago = false; }
   }
 }

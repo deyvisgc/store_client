@@ -150,7 +150,7 @@
                             <span class="comprasvalor" >{{calculoTotales.total}}</span>
                         </div><br>
                     </div>
-                    <button _ngcontent-rfq-c10="" class="btn bg-teal waves-effect btnPagar" type="button"><i _ngcontent-rfq-c11="" data-toggle="modal" data-target="#modalPagar" class="fas fa-money-bill-alt"></i><span _ngcontent-rfq-c10="">PAGAR</span></button>
+                    <button _ngcontent-rfq-c10="" [disabled]="btnpagar" class="btn bg-teal waves-effect btnPagar" type="button"><i _ngcontent-rfq-c11="" data-toggle="modal" data-target="#modalPagar" class="fas fa-money-bill-alt"></i><span _ngcontent-rfq-c10="">PAGAR</span></button>
                 </div>
                 <!-- <div class="p-t-10">
                     <button _ngcontent-vfy-c9="" class="btn btn-success waves-effect btnpagar" type="button"><i class="fas fa-shopping-cart"></i></button>
@@ -159,29 +159,17 @@
             <div class="card">
                 <div class="body">
                     <div class="table-responsive">
-                        <table class="table table-hover js-basic-example contact_list">
+                        <table class="table table-bordered table-striped table-hover js-basic-example carritoTable">
                             <thead>
                                 <tr>
                                     <th class="center">Producto</th>
-                                    <th class="center">Cantidad</th>
+                                    <th style="width: 40px;" class="center">Cantidad</th>
                                     <th class="center">Precio</th>
                                     <th class="center">Importe</th>
                                     <th class="center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr *ngFor="let item of listaCarrito | paginate: config">
-                                    <td>{{item.pro_name}}</td>
-                                    <td style="width: 70px;">
-                                        <input id="cantidad_table" (keyup.enter)="UpdateCantidad(item, $event)" type="text" class="validate" value="{{item.cantidad}}">
-                                    </td>
-                                    <td>{{item.precio}}</td>
-                                    <td>{{item.subTotal}}</td>
-                                    <td><button _ngcontent-vfy-c9="" (click)="delete(item)" style="margin-left: 2px;" class="btn bg-pink waves-effect" type="button"><i class="fas fa-trash-alt"></i></button></td>
-                                </tr>
-                            </tbody>
                         </table>
-                        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
                     </div>
                 </div>
             </div>
@@ -202,6 +190,27 @@
         <div class="modal-body">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="row clearfix">
+                    <div class="col-md-6">
+                        <label for="pro_cantidad_minima">Tipo Pago</label>
+                        <div class="form-group default-select">
+                            <select class="form-control tipo_pago" id="tipo_pago"  name="tipo_pago"  data-placeholder="Select">
+                                <option  value="credito">Credito</option>
+                                <option  value="debito">Debito</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group default-select">
+                            <label for="pro_cantidad_minima">Tipo Comprobante</label>
+                            <select class="form-control tipo_comprobante" id="tipo_comprobante" name="tipo_comprobante" data-placeholder="Select">
+                                <option  value="">Seleccione</option>
+                                <option value="factura">Factura</option>
+                                <option value="boleta">Boleta</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
                     <div class="col-md-4">
                         <div class="input-group input-group-lg">
                             <span class="input-group-addon">Total</span>
@@ -220,33 +229,11 @@
                     </div>
                     <div class="col-md-4">
                         <div class="input-group input-group-lg">
-                            <span class="input-group-addon">Vuelto</span>
+                            <span class="input-group-addon" *ngIf="!labeltypePago">Vuelto</span>
+                            <span class="input-group-addon" *ngIf="labeltypePago">N° Cuotas</span>
                             <div class="form-line">
                                 <input type="number" readonly [(ngModel)]="pago.vuelto" class="form-control" placeholder="0.00">
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="col-md-6">
-                        <label for="pro_cantidad_minima">Tipo Pago</label>
-                        <div class="form-group default-select">
-                            <select class="form-control tipo_pago" id="tipo_pago"  name="tipo_pago"  data-placeholder="Select">
-                                <option  value="">Seleccione</option>
-                                <option  value="credito">Credito</option>
-                                <option  value="debito">Debito</option>
-                                <option  value="contado">Contado</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group default-select">
-                            <label for="pro_cantidad_minima">Tipo Comprobante</label>
-                            <select class="form-control tipo_comprobante" id="tipo_comprobante" name="tipo_comprobante" data-placeholder="Select">
-                                <option  value="">Seleccione</option>
-                                <option value="factura">Factura</option>
-                                <option value="boleta">Boleta</option>
-                            </select>
                         </div>
                     </div>
                 </div>
