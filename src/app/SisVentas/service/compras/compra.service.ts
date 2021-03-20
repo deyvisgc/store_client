@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { EnviromentService } from '../enviroment.service';
 
 @Injectable({
@@ -39,7 +39,8 @@ export class CompraService {
   delete(data) {
     return this.httpClient.post(this.url.urlAddress + 'Compras/Delete', {data}, {headers: this.headers});
   }
-  Pagar(Pagos, Totales) {
-    return this.httpClient.post(this.url.urlAddress + 'Compras/Pagar', {Pagos, Totales}, {headers: this.headers});
-  }
+  // Pagar(Pagos) {
+  //   return this.httpClient.post(this.url.urlAddress + 'Compras/Pagar', {Pagos}, {headers: this.headers});
+  // }
+
 }

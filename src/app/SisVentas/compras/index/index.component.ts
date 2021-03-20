@@ -4,6 +4,8 @@ import { CompraService } from '../../service/compras/compra.service';
 declare const $: any;
 declare const validacion: any;
 import iziToast from 'izitoast';
+import { HttpClient } from '@angular/common/http';
+import { EnviromentService } from '../../service/enviroment.service';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -16,6 +18,9 @@ export class IndexComponent implements OnInit {
   idPersona = 2;
   btnpagar = true;
   labeltypePago = true;
+  showpdf = '';
+  pdfVisualite = true;
+  urlArchivo;
   config = {
     itemsPerPage: 5,
     currentPage: 1,
@@ -62,10 +67,9 @@ export class IndexComponent implements OnInit {
     serie : '',
     idProveedor : 0
   };
-  constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private compraserv: CompraService) {
-  }
-  pageChanged(event){
-    this.config.currentPage = event;
+  constructor(private http: HttpClient, private dynamicScriptLoader: DynamicScriptLoaderService, private compraserv: CompraService, 
+              private url: EnviromentService) {
+
   }
   ngOnInit() {
     this.startScript();
@@ -84,6 +88,7 @@ export class IndexComponent implements OnInit {
     $('.tipo_comprobante').select2({ width: '100%' }).on('change', (event) => {
       this.selecrTipoPago(event.target.value);
     });
+
   }
   showDataProduct(event) {
     const vm = this;
@@ -305,10 +310,17 @@ export class IndexComponent implements OnInit {
   }
   Pagar() {
     const vm = this;
-    vm.pago.tipo_pago = document.getElementById('tipo_pago')['value'];
-    vm.pago.tipo_comprobante = document.getElementById('tipo_comprobante')['value']
-    vm.pago.idProveedor = vm.idPersona;
-    const statusValidacion = validacion(vm.calculoTotales.total, vm.pago.monto, vm.pago.tipo_pago, vm.pago.tipo_comprobante);
+    const form = new FormData();
+    const tipoComprobante = document.getElementById('tipo_comprobante')['value'];
+    const tipoPago = document.getElementById('tipo_pago')['value'];
+    form.append('subtotal', vm.calculoTotales.subtotal);
+    form.append('total', vm.calculoTotales.total);
+    form.append('igv', vm.calculoTotales.igv);
+    form.append('tipoComprobante', tipoComprobante);
+    form.append('tipoPago', tipoPago);
+    form.append('idProveedor', vm.idPersona.toString());
+    form.append('pdf', vm.urlArchivo);
+    const statusValidacion = validacion(vm.calculoTotales.total, vm.pago.monto, tipoPago, tipoComprobante);
     if (statusValidacion['status'] === false) {
       iziToast.error({
         title: 'Error',
@@ -317,7 +329,7 @@ export class IndexComponent implements OnInit {
       });
       return false;
     }
-    vm.compraserv.Pagar(vm.pago, vm.calculoTotales).subscribe(res => {
+    vm.http.post(vm.url.urlAddress + 'Compras/Pagar', form).subscribe(res => {
       if (res['status']) {
         iziToast.success({
           title: 'OK',
@@ -327,6 +339,8 @@ export class IndexComponent implements OnInit {
         $('#modalPagar').modal('hide');
         vm.datatable([]);
         vm.calculos(0);
+        vm.showpdf = '';
+        vm.pdfVisualite = true;
       } else {
         iziToast.error({
           title: 'Error',
@@ -343,4 +357,36 @@ export class IndexComponent implements OnInit {
     if (value === 'credito') { vm.labeltypePago = true; }
     if (value === 'debito') { vm.labeltypePago = false; }
   }
+  SeleccionarFile(event) {
+    const vm = this;
+    vm.urlArchivo = event.target.files[0];
+    // tslint:disable-next-line:one-variable-per-declaration
+    vm.showpdf = (event.target.files[0].name).substring(0, 20);
+    vm.pdfVisualite = false;
+  }
+  verArchivo() {
+    const vm = this;
+    const url = URL.createObjectURL(vm.urlArchivo);
+    window.open(url);
+  }
+
+  // SeleccionarFile(event) {
+  //   const vm = this;
+  //   // Creamos el objeto de la clase FileReader
+  //   const reader = new FileReader();
+
+  //     // Leemos el archivo subido y se lo pasamos a nuestro fileReader
+  //   reader.readAsDataURL(event.target.files[0]);
+
+  //   // Le decimos que cuando este listo ejecute el código interno
+  //   reader.onload = () => {
+  //     const preview = document.getElementById('preview');
+  //     const image = document.createElement('img');
+  //     image.src = reader.result as string;
+  //     image.style.width = '100px';
+  //     preview.innerHTML = '';
+  //     preview.append(image);
+  //   };
+  //   vm.img = false;
+  // }
 }
