@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IndexComponent } from './index/index.component';
+import { ReportesComponent } from './reportes/reportes.component';
 
 
 const routes: Routes = [
   {
     path: 'Index',
     component : IndexComponent
+   },
+   {
+    path: 'Reportes/:id',
+    component : ReportesComponent
    }
 ];
 @NgModule({

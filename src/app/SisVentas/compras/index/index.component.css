@@ -139,3 +139,6 @@ a:hover {
   border-bottom: 1px solid;
   color: #38664f;
 }
+.titulo {
+  font-weight: 900
+}

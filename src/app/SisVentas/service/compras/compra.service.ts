@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { EnviromentService } from '../enviroment.service';
@@ -42,5 +42,15 @@ export class CompraService {
   // Pagar(Pagos) {
   //   return this.httpClient.post(this.url.urlAddress + 'Compras/Pagar', {Pagos}, {headers: this.headers});
   // }
+  LastIdProducto() {
+    return this.httpClient.get(this.url.urlAddress + 'Almacen/LastIdProducto', {headers: this.headers});
+   }
+  ComprasACredito(params) {
+    // let params = new HttpParams();
+    return this.httpClient.get(this.url.urlAddress + 'Compras/ComprasACredito', { params }).toPromise();
+  }
+  ObtenerDetalle(id) {
+    return this.httpClient.get(this.url.urlAddress + 'Compras/Detalle/' + id, {headers: this.headers}).toPromise();
+  }
 
 }

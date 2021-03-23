@@ -1,0 +1,82 @@
+<div class="header">
+  <h2 style="text-align: center;" _ngcontent-okb-c6="" class="m-b-10">Historial de Creditos</h2>
+</div>
+<table class="table table-bordered table-striped table-hover js-basic-example tableCredito">
+    <thead>
+        <tr>
+            <th>N° Compra</th>
+            <th>Proveedor</th>
+            <th>Fecha Compra</th>
+            <th>Estado</th>
+            <th>Cuotas</th>
+            <th>M.Pagado</th>
+            <th>M.Debe</th>
+            <th>Total</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+</table>
+<table *ngIf="detalleCompra.length > 0" class="table table-bordered table-striped table-hover js-basic-example tableCredito_detalle">
+  <thead>
+      <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Sub Total</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of detalleCompra">
+      <td>{{item.pro_name}}</td>
+      <td>{{item.dcCantidad}}</td>
+      <td>{{item.dcPrecioUnitario}}</td>
+      <td>{{item.dcSubTotal}}</td>
+    </tr>
+  </tbody>
+</table>
+<div _ngcontent-rtx-c6="" style="text-align: center;" class="alert alert-danger" *ngIf="detalleCompra.length === 0"><strong _ngcontent-rtx-c6="">OPPS!</strong> No existen detalle para esta compra </div>
+<div class="modal fade" id="modalPagarCredito" tabindex="-1" role="dialog" aria-labelledby="modalPagar" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content" style="border-radius: 10px;">
+          <div class="modal-header">
+              <h5 class="modal-title" style="margin-left: 150px;" id="modalPagar">Formulario de Pago</h5>
+              <button type="button" class="close" data-dismiss="modal"
+                  aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row clearfix">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="input-group-addon titulo">Deuda</label>
+                            <input type="number" readonly [(ngModel)]="credito.deuda" class="form-control" placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="input-group-addon titulo">Monto</label>
+                            <input type="number"(keyup)="CalcularVuelto($event)" [(ngModel)]="credito.monto" class="form-control" placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="input-group-addon titulo" *ngIf="!labelVueltoOrDeuda">Vuelto</label>
+                            <label class="input-group-addon titulo" *ngIf="labelVueltoOrDeuda">Deuda</label>
+                            <input type="number" readonly [(ngModel)]="credito.vuelto" class="form-control" placeholder="0.00">
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn bg-light-green waves-effect" (click)="Pagar()" style="color: #ffff;">Pagar</button>
+        </div>
+      </div>
+  </div>
+  
+
+</div>
+
+

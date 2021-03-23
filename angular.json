@@ -33,10 +33,7 @@
               "src/assets/js/bundles/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css",
               "src/assets/scss/style.scss",
               "src/assets/scss/theme/all-themes.scss",
-              "src/styles.scss",
-              "node_modules/ngx-toastr/toastr.css",
-              "node_modules/bulma/css/bulma.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/styles.scss"
             ],
             "scripts": [
               "src/assets/js/app.min.js",

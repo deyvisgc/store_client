@@ -24,7 +24,7 @@ export class ProvedorselectComponent implements OnInit {
     console.log(val);
   }
   onFocused(e) {
-    console.log(e);
+    this.auto.clear();
   }
   private loadData() {
     const vm = this;
@@ -35,8 +35,10 @@ export class ProvedorselectComponent implements OnInit {
   clear() {
     this.compraserv.listEmpresaObs$.subscribe(data => {
       if (data === true) {
+        this.selectproveedor = [];
+        this.loadData();
         this.auto.clear();
-        // this.auto.close();
+        this.auto.close();
       }
      });
   }

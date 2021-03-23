@@ -1,0 +1,20 @@
+
+#cabecera {
+  font-size: 14px;
+  color: #555;
+  padding: 0px !important;
+}
+.input-group {
+  margin-bottom: 0px;
+}
+#reportes_input {
+  font-size: 12px !important;
+  height: 1.5rem;
+}
+.card .header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  color: #5b626b;
+  font-family: Arial, Helvetica, sans-serif;
+}

@@ -1,0 +1,89 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+              <h2 _ngcontent-okb-c6=""  class="m-b-10 title"> COMPRAS | REPORTES <i _ngcontent-aht-c6="" style="font-size: 30px;margin-left: 10px;color: GREEN;" class="fas fa-chart-line"></i></h2>
+            </div>
+            <div class="body" id="cabecera">
+                <div class="row">
+                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                       <b style="margin-left: 5px;">N° Compra</b>
+                     <div class="input-group">
+                         <span class="input-group-addon">
+                           <i _ngcontent-bre-c6="" style="margin-left: 5px;" class="fas fa-code"></i>
+                         </span>
+                        <div class="form-line">
+                          <input style="margin-left: 5px;" [(ngModel)]="params.numeroCompra" type="text" id="reportes_input"  class="form-control" placeholder="buscar">
+                        </div>
+                     </div>
+                       </div>
+                      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <b>desde</b>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">date_range</i>
+                            </span>
+                            <div class="form-line">
+                                <input style="margin-left: 8px;" [(ngModel)]="params.fechaDesde" type="text" id="reportes_input" class="form-control fecha_desde" placeholder="">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <b>Hasta</b>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">date_range</i>
+                            </span>
+                            <div class="form-line">
+                                <input style="margin-left: 8px;"  [(ngModel)]="params.fechaHasta" type="text" id="reportes_input" class="form-control fecha_hasta" placeholder="">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="form-group default-select">
+                            <b>Proveedor</b>
+                            <select class="form-control Proveedor" [(ngModel)]="params.codeProveedor" data-placeholder="Select">
+                                <option></option>
+                                <option value="{{prove.id_persona}}" *ngFor="let prove of proveedor">{{prove.per_razon_social}}</option>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="form-group default-select">
+                            <b>Tipo Pago</b>
+                            <select class="form-control tipoPago" [(ngModel)]="params.tipoPago" data-placeholder="Select">
+                                <option></option>
+                                <option value="debito">DEBITO</option>
+                                <option value="credito">CREDITO</option>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="form-group default-select">
+                            <b>Tipo Comprobante</b>
+                            <select class="form-control tipoComprobante" [(ngModel)]="params.tipoComprobante"  data-placeholder="Select">
+                                <option></option>
+                                <option value="factura">FACTURA</option>
+                                <option value="boleta">BOLETA</option>
+                            </select>
+                        </div>
+                      </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card">
+          <div class="body">
+            <div id="credito">
+              <app-list-credito #credito></app-list-credito>
+            </div>
+            <div id="mascomprados">
+              <app-list-productos-mas-comprados #mascomprados></app-list-productos-mas-comprados>
+            </div>
+          </div>
+      </div>
+    </div>
+    </div>
+</section>
+    

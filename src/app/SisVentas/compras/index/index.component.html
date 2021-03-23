@@ -70,7 +70,7 @@
                             </div>
                             <div class="body">
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                                         <app-provedorselect (proveedorselect)="showDaProveedor($event)"></app-provedorselect><br>
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -83,9 +83,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div style="margin-left: 60px;" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <button _ngcontent-vfy-c9="" (click)="AddCart()" class="btn btn-success waves-effect"  type="button"><i class="fas fa-shopping-cart"></i></button>
-                                        <button _ngcontent-vfy-c9="" (click)="Linpiar()" style="margin-left: 2px;" class="btn bg-pink waves-effect" type="button"><i class="fas fa-eraser"></i></button>
+                                    <div style="margin-left: 50px;padding: 1px;" class="col-xs-7 col-sm-7 col-md-7 col-lg-12">
+                                        <button _ngcontent-vfy-c9="" [disabled]='product.pro_name === ""' (click)="GenerarCodeBarra()" style="margin-left: 5px;"  class="btn bg-cyan waves-effect" type="button" data-toggle="tooltip" data-placement="top" title="Generar codigo barra"><i _ngcontent-fkp-c6="" class="fas fa-barcode"></i></button>
+                                        <button _ngcontent-vfy-c9="" (click)="AddCart()"  style="margin-left: 5px;"  data-toggle="tooltip" data-placement="top" title="Agregar al carrito" class="btn btn-success waves-effect"  type="button"><i class="fas fa-shopping-cart"></i></button>
+                                        <button _ngcontent-vfy-c9="" (click)="Linpiar()"  style="margin-left: 5px;"  class="btn bg-red waves-effect" type="button" data-toggle="tooltip" data-placement="top" title="Limpiar campos"><i class="fas fa-eraser"></i></button>
+                                    </div><br><br><br>
+                                    <div id="divbarcode" class="col-md-6 col-sm-6 col-lg-12">
+                                        <svg style="width:10; height: 10;" id="barcode"></svg>
                                     </div>
                                 </div>
                             </div>
@@ -159,9 +163,9 @@
             <div class="card">
                 <div class="body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover js-basic-example carritoTable">
+                        <table class="table table-bordered table-striped table-hover save-stage carritoTable" style="width:100%;">
                             <thead>
-                                <tr>
+                                <tr _ngcontent-pxy-c5>
                                     <th class="center">Producto</th>
                                     <th style="width: 40px;" class="center">Cantidad</th>
                                     <th class="center">Precio</th>
@@ -177,11 +181,11 @@
       </div>
   </div>
 </section>
-<div class="modal fade" id="modalPagar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalPagar" tabindex="-1" role="dialog" aria-labelledby="modalPagar" aria-hidden="true">
 <div class="modal-dialog" role="document">
     <div class="modal-content" style="border-radius: 10px;">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Formulario de Pago</h5>
+            <h5 class="modal-title" style="margin-left: 150px;" id="modalPagar">Formulario de Pago</h5>
             <button type="button" class="close" data-dismiss="modal"
                 aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -190,8 +194,8 @@
         <div class="modal-body">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="row clearfix">
-                    <div class="col-md-6">
-                        <label for="pro_cantidad_minima">Tipo Pago</label>
+                    <div class="col-md" [ngClass]="{'-4': labeltypePago, '-6': !labeltypePago}">
+                        <label for="pro_cantidad_minima" class="titulo">Pago</label>
                         <div class="form-group default-select">
                             <select class="form-control tipo_pago" id="tipo_pago"  name="tipo_pago"  data-placeholder="Select">
                                 <option  value="credito">Credito</option>
@@ -199,9 +203,9 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md" [ngClass]="{'-4': labeltypePago, '-6': !labeltypePago}">
                         <div class="form-group default-select">
-                            <label for="pro_cantidad_minima">Tipo Comprobante</label>
+                            <label for="pro_cantidad_minima" class="titulo">Comprobante</label>
                             <select class="form-control tipo_comprobante" id="tipo_comprobante" name="tipo_comprobante" data-placeholder="Select">
                                 <option  value="">Seleccione</option>
                                 <option value="factura">Factura</option>
@@ -209,31 +213,38 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-4" *ngIf="labeltypePago">
+                        <div class="form-group default-select">
+                            <label for="cuotas" class="titulo">Cuota</label>
+                            <select class="form-control cuotas" id="cuotas"  data-placeholder="Select">
+                                <option></option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                      </div>
                 </div>
                 <div class="row clearfix">
                     <div class="col-md-4">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon">Total</span>
-                            <div class="form-line">
-                                <input type="number" readonly [(ngModel)]="calculoTotales.total" class="form-control" placeholder="0.00">
-                            </div>
+                        <div class="form-group">
+                            <label class="input-group-addon titulo">Total</label>
+                            <input type="number" readonly [(ngModel)]="calculoTotales.total" class="form-control" placeholder="0.00">
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon">Monto</span>
-                            <div class="form-line">
-                                <input type="number"(keyup)="CalcularVuelto($event)" [(ngModel)]="pago.monto" class="form-control" placeholder="0.00">
-                            </div>
+                        <div class="form-group">
+                            <label class="input-group-addon titulo">Monto</label>
+                            <input type="number"(keyup)="CalcularVuelto($event)" [(ngModel)]="pago.monto" class="form-control" placeholder="0.00">
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon" *ngIf="!labeltypePago">Vuelto</span>
-                            <span class="input-group-addon" *ngIf="labeltypePago">N° Cuotas</span>
-                            <div class="form-line">
-                                <input type="number" readonly [(ngModel)]="pago.vuelto" class="form-control" placeholder="0.00">
-                            </div>
+                        <div class="form-group">
+                            <label class="input-group-addon titulo" *ngIf="!labeltypePago">Vuelto</label>
+                            <label class="input-group-addon titulo" *ngIf="labeltypePago">Deuda</label>
+                            <input type="number" readonly [(ngModel)]="pago.montoVueltoOrDeuda" class="form-control" placeholder="0.00">
                         </div>
                     </div>
                 </div>

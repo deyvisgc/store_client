@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ToastrService} from 'ngx-toastr';
-import * as CryptoJS from 'crypto-js';
-import {AuthenticationService} from '../../SisVentas/service/Authentication/authentication.service';
+
 declare const jQuery: any;
 
 @Component({
@@ -10,14 +8,12 @@ declare const jQuery: any;
     styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
-    private TO_DECRYPT_ENCRYPT = 'K56QSxGeKImwBRmiYoP';
 
-    constructor(
-        private Toastr: ToastrService,
-        private Auth: AuthenticationService,
-    ) { }
+    constructor() { }
 
     ngOnInit() {
+
+
         (function ($) {
             "use strict";
 
@@ -110,66 +106,4 @@ export class SigninComponent implements OnInit {
         })(jQuery);
     }
 
-    loginUser(event: any) {
-        const form = event.target;
-        const userName = form.userName.value;
-        const userPassword = form.userPassword.value;
-
-        if (userPassword == '' || userName == '') {
-           return this.Toastr.error('CAMPOS INCOMPLETOS', 'Ingrese usuario y contraseña')
-        }
-
-        const passwordEncrypt = this.CryptoJSAesEncrypt(this.TO_DECRYPT_ENCRYPT, userPassword);
-
-        this.Auth.loginUser(userName, passwordEncrypt).subscribe(
-            resp => {
-                if (resp['original']['status'] === true) {
-                    localStorage.setItem('TOKEN_USER', resp['original']['token_user']);
-                    localStorage.setItem('NAME_ROL', atob(resp['original']['name_rol']));
-                    localStorage.setItem('USER_NAME', atob(resp['original']['user_name']));
-                    localStorage.setItem('ROL', resp['original']['rol']);
-                    localStorage.setItem('IDENTIFIER', resp['original']['identifier']);
-                    this.Toastr.info('Iniciaste Sesion con exito', 'SESIÓN INICIADA');
-                    window.location.replace('#/dashboard/main');
-                } else {
-                    return this.Toastr.error('Digite su contraseña correctamente', 'ERROR CONTRASEÑA');
-                }
-            },
-            error => {
-                console.log(error);
-                return this.Toastr.error('No se pudo contactar con el servidor', 'ERROR INESPERADO');
-            }
-        );
-
-        event.preventDefault();
-    }
-
-    CryptoJSAesEncrypt(passphrase, plaintext) {
-
-        const salt = CryptoJS.lib.WordArray.random(256);
-        const iv = CryptoJS.lib.WordArray.random(16);
-
-        const key = CryptoJS.PBKDF2(passphrase, salt, { hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999 });
-
-        const encrypted = CryptoJS.AES.encrypt(plaintext, key, {iv: iv});
-
-        const data = {
-            ciphertext : CryptoJS.enc.Base64.stringify(encrypted.ciphertext),
-            salt : CryptoJS.enc.Hex.stringify(salt),
-            iv : CryptoJS.enc.Hex.stringify(iv)
-        };
-
-        return JSON.stringify(data);
-    }
-
-    CryptoJSAesDecrypt(passphrase, encryptedJsonString) {
-
-        const objJson = JSON.parse(encryptedJsonString);
-        const encrypted = objJson.ciphertext;
-        const salt = CryptoJS.enc.Hex.parse(objJson.salt);
-        const iv = CryptoJS.enc.Hex.parse(objJson.iv);
-        const key = CryptoJS.PBKDF2(passphrase, salt, { hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999});
-        const decrypted = CryptoJS.AES.decrypt(encrypted, key, { iv: iv});
-        return decrypted.toString(CryptoJS.enc.Utf8);
-    }
 }
