@@ -390,6 +390,7 @@ export class IndexComponent implements OnInit {
   }
   verArchivo() {
     const vm = this;
+    console.log('deyvis', vm.urlArchivo);
     const url = URL.createObjectURL(vm.urlArchivo);
     window.open(url);
   }

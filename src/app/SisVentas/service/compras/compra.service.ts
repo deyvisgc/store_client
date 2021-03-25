@@ -52,5 +52,14 @@ export class CompraService {
   ObtenerDetalle(id) {
     return this.httpClient.get(this.url.urlAddress + 'Compras/Detalle/' + id, {headers: this.headers}).toPromise();
   }
+  PagosCredito(data) {
+    return this.httpClient.post(this.url.urlAddress + 'Compras/PagosCredito', {data}, {headers: this.headers}).toPromise();
+  }
+  verPdf(id) {
+    return this.httpClient.get(this.url.urlAddress + 'Compras/VerPdf/' + id, {headers: this.headers}).toPromise();
+  }
+  verPdf1(data) {
+    return this.httpClient.post(this.url.urlAddress + 'Compras/VerPdf' , {data}, {headers: this.headers}).toPromise();
+  }
 
 }

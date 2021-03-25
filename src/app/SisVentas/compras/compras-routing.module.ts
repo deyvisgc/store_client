@@ -10,7 +10,7 @@ const routes: Routes = [
     component : IndexComponent
    },
    {
-    path: 'Reportes/:id',
+    path: 'Reportes/:typelista',
     component : ReportesComponent
    }
 ];

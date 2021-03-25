@@ -17,26 +17,26 @@ export class ReportesComponent implements OnInit {
   proveedor: any = [];
   fechahoy = moment().format('YYYY-MM-DD');
   fechahasta = moment().add(1, 'months').format('YYYY-MM-DD');
-  typelista = this.rutaActiva.snapshot.params.id;
+  typelista = this.rutaActiva.snapshot.params.typelista;
   @ViewChild('credito', {static: true}) liscredito;
   @ViewChild('mascomprados', {static: true}) listmostproductbuy;
    params = {
     numeroCompra   : '',
-    fechaDesde     : '',
-    fechaHasta     :  '',
+    fechaDesde     : this.fechahoy,
+    fechaHasta     :  this.fechahasta,
     codeProveedor  : '',
     tipoPago       : '',
     tipoComprobante: '',
-    default        : 1
+    tabla          : this.typelista
   };
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService,
               private compraserv: CompraService,
               private rutaActiva: ActivatedRoute) {}
 
   ngOnInit() {
+    this.ocultarTable();
+    this.Fetch();
     this.startScript();
-    this.ocularomostrarLista();
-    this.typeComponente(this.params);
   }
   async startScript() {
     await this.dynamicScriptLoader.load('form.min').then(data => {
@@ -46,13 +46,16 @@ export class ReportesComponent implements OnInit {
   private loadData() {
     const vm = this;
     $('.tipoPago').select2({ width: '100%' }).on('change', (event) => {
-      vm.selecTipoPago(event.target.value);
+      vm.params.tipoPago = event.target.value;
+      vm.Fetch();
     });
     $('.tipoComprobante').select2({ width: '100%' }).on('change', (event) => {
-      vm.selecTipoComprobante(event.target.value);
+      vm.params.tipoComprobante = event.target.value;
+      vm.Fetch();
     });
     $('.Proveedor').select2({ width: '100%' }).on('change', (event) => {
-      vm.selecProveedor(event.target.value);
+      vm.params.codeProveedor = event.target.value;
+      vm.Fetch();
     });
     vm.compraserv.SearchProveedor().subscribe((res: any = []) => {
       vm.proveedor = res;
@@ -68,34 +71,24 @@ export class ReportesComponent implements OnInit {
       defaultDate: [this.fechahasta]
     });
   }
-  selecTipoComprobante(event: any) {
-    this.typeComponente(event);
-  }
-  selecTipoPago(event: any) {
-    this.typeComponente(event);
-  }
-  selecProveedor(event) {
-    this.typeComponente(event);
-  }
-  typeComponente(params: object) {
-    if (this.typelista === '1') {
-      this.liscredito.Listar(params);
-    }
-    if (this.typelista === '2') {
-      this.listmostproductbuy.Listar(params);
-    }
-  }
-  ocularomostrarLista() {
+  Fetch() {
     const vm = this;
-    switch (vm.typelista) {
-      case '1':
-        $('#credito').show();
-        $('#mascomprados').hide();
-        break;
-      case '2':
-        $('#credito').hide();
-        $('#mascomprados').show();
-        break;
+    if (this.typelista === 'credito') {
+      this.liscredito.Listar(vm.params);
+    }
+  }
+  ocultarTable() {
+    const vm = this;
+    if (vm.typelista === 'credito') {
+      $('#credito').show();
+      $('#mascomprados').hide();
+      return false;
+    } else if (vm.typelista === 'productomasvendidos') {
+      $('#credito').hide();
+      $('#mascomprados').show();
+    } else {
+      $('#credito').hide();
+      $('#mascomprados').hide();
     }
   }
 }

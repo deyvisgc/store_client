@@ -7,22 +7,11 @@
             </div>
             <div class="body" id="cabecera">
                 <div class="row">
-                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                       <b style="margin-left: 5px;">N° Compra</b>
-                     <div class="input-group">
-                         <span class="input-group-addon">
-                           <i _ngcontent-bre-c6="" style="margin-left: 5px;" class="fas fa-code"></i>
-                         </span>
-                        <div class="form-line">
-                          <input style="margin-left: 5px;" [(ngModel)]="params.numeroCompra" type="text" id="reportes_input"  class="form-control" placeholder="buscar">
-                        </div>
-                     </div>
-                       </div>
                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                        <b>desde</b>
+                        <b style="margin-left: 10px;">desde</b>
                         <div class="input-group">
                             <span class="input-group-addon">
-                                <i class="material-icons">date_range</i>
+                                <i  style="margin-left: 10px;" class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
                                 <input style="margin-left: 8px;" [(ngModel)]="params.fechaDesde" type="text" id="reportes_input" class="form-control fecha_desde" placeholder="">
@@ -36,7 +25,7 @@
                                 <i class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
-                                <input style="margin-left: 8px;"  [(ngModel)]="params.fechaHasta" type="text" id="reportes_input" class="form-control fecha_hasta" placeholder="">
+                                <input style="margin-left: 8px;" (change)="Fetch()"  [(ngModel)]="params.fechaHasta" type="text" id="reportes_input" class="form-control fecha_hasta" placeholder="">
                             </div>
                         </div>
                       </div>
@@ -45,7 +34,7 @@
                             <b>Proveedor</b>
                             <select class="form-control Proveedor" [(ngModel)]="params.codeProveedor" data-placeholder="Select">
                                 <option></option>
-                                <option value="{{prove.id_persona}}" *ngFor="let prove of proveedor">{{prove.per_razon_social}}</option>
+                                <option value="{{prove.id_persona}}"  *ngFor="let prove of proveedor">{{prove.per_razon_social}}</option>
                             </select>
                         </div>
                       </div>
@@ -69,6 +58,10 @@
                             </select>
                         </div>
                       </div>
+                      <button _ngcontent-cba-c19=""  class="btn btn-success waves-effect" type="button"><i _ngcontent-cba-c19="" class="material-icons">home</i></button>
+                      <button _ngcontent-cba-c19="" style="margin-left: 5px;" class="btn btn-success waves-effect" type="button"><i _ngcontent-cba-c19="" class="material-icons">home</i></button>
+                      <button _ngcontent-cba-c19="" style="margin-left: 5px;" class="btn btn-success waves-effect" type="button"><i _ngcontent-cba-c19="" class="material-icons">home</i></button>
+                      
 
                 </div>
             </div>
