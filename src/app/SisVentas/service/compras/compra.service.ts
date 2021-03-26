@@ -58,8 +58,16 @@ export class CompraService {
   verPdf(id) {
     return this.httpClient.get(this.url.urlAddress + 'Compras/VerPdf/' + id, {headers: this.headers}).toPromise();
   }
-  verPdf1(data) {
+  texter(data) {
     return this.httpClient.post(this.url.urlAddress + 'Compras/VerPdf' , {data}, {headers: this.headers}).toPromise();
+  }
+  DowloadExcel(params): Observable<any> {
+    // tslint:disable-next-line:no-unused-expression
+    return this.httpClient.get(this.url.urlAddress + 'Compras/Exportar/', {params, responseType: 'blob'});
+  }
+  DowloadExcelBuyId(id): Observable<any> {
+    // tslint:disable-next-line:no-unused-expression
+    return this.httpClient.get(this.url.urlAddress + 'Compras/Exportar/' + id, {responseType: 'blob'});
   }
 
 }

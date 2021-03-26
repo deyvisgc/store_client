@@ -18,6 +18,7 @@ export class ListCreditoComponent implements OnInit {
   table;
   detalleCompraDeuda: any = [];
   detalleCompraPagada: any = [];
+  cargandoInformacion = false;
   credito = {
     deuda: '',
     monto: '',
@@ -87,10 +88,14 @@ export class ListCreditoComponent implements OnInit {
       { data: (data) => {
         if (data.comEstado === '1') {
           // tslint:disable-next-line:max-line-length
-          return (`<button _ngcontent-njl-c5="" class="btn bg-teal btn-circle waves-effect waves-circle waves-float pagarCredito" type="button"><i _ngcontent-mqk-c6="" style="color:white" class="fab fa-cc-visa"></i></button> <button style="margin-left:5px" _ngcontent-qan-c5="" class="btn btn-danger btn-circle waves-effect waves-circle waves-float verComprobante" type="button"><i _ngcontent-mqs-c7="" class="fas fa-file-pdf"></i></button>`);
+          return (`<button _ngcontent-njl-c5="" class="btn bg-teal btn-circle waves-effect waves-circle waves-float pagarCredito" type="button"><i _ngcontent-mqk-c6="" style="color:white" class="fab fa-cc-visa"></i></button> <button style="margin-left:5px" _ngcontent-qan-c5="" class="btn btn-danger btn-circle waves-effect waves-circle waves-float verComprobante" type="button"><i _ngcontent-mqs-c7="" class="fas fa-file-pdf"></i></button>` +
+                  // tslint:disable-next-line:max-line-length
+                  '<button _ngcontent-cba-c19="" [disabled]="cargandoInformacion" style="margin-left: 5px;" class="btn btn-success btn-circle waves-effect waves-circle waves-float  exportarExcelDetalle" type="button"><i _ngcontent-wdf-c5="" class="fas fa-file-excel"></i></button>');
         } else {
           // tslint:disable-next-line:max-line-length
-          return (`<button style="margin-left:5px" _ngcontent-qan-c5="" class="btn btn-danger btn-circle waves-effect waves-circle waves-float verComprobante" type="button"><i _ngcontent-mqs-c7="" class="fas fa-file-pdf"></i></button>`);
+          return (`<button style="margin-left:5px" _ngcontent-qan-c5="" class="btn btn-danger btn-circle waves-effect waves-circle waves-float verComprobante" type="button"><i _ngcontent-mqs-c7="" class="fas fa-file-pdf"></i></button>` +
+          // tslint:disable-next-line:max-line-length
+          '<button _ngcontent-cba-c19="" [disabled]="cargandoInformacion" style="margin-left: 5px;" class="btn btn-success  btn-circle waves-effect waves-circle waves-float exportarExcelDetalle" type="button"><i _ngcontent-wdf-c5="" class="fas fa-file-excel"></i></button>');
         }
       }
       },
@@ -105,6 +110,9 @@ export class ListCreditoComponent implements OnInit {
         });
         $('.verComprobante', row).bind('click' , (e) => {
           vm.verComprobante(data);
+        });
+        $('.exportarExcelDetalle', row).bind('click' , (e) => {
+          vm.exportarExcelDetalle(data);
         });
         $('td', row).css('cursor', 'pointer');
         // $('td', row).hover(function(){
@@ -169,7 +177,9 @@ export class ListCreditoComponent implements OnInit {
       {data: 'comTotal'},
       { data: () => {
         // tslint:disable-next-line:max-line-length
-        return (`<button style="margin-left:5px" _ngcontent-qan-c5="" class="btn btn-danger btn-circle waves-effect waves-circle waves-float verComprobante" type="button"><i _ngcontent-mqs-c7="" class="fas fa-file-pdf"></i></button>`);
+        return (`<button style="margin-left:5px" _ngcontent-qan-c5="" class="btn btn-danger btn-circle waves-effect waves-circle waves-float verComprobante" type="button"><i _ngcontent-mqs-c7="" class="fas fa-file-pdf"></i></button>` +
+        // tslint:disable-next-line:max-line-length
+        '<button _ngcontent-cba-c19="" [disabled]="cargandoInformacion" style="margin-left: 5px;" class="btn btn-success  btn-circle waves-effect waves-circle waves-float exportarExcelDetalle" type="button"><i _ngcontent-wdf-c5="" class="fas fa-file-excel"></i></button>');
       }
       },
       ],
@@ -177,6 +187,9 @@ export class ListCreditoComponent implements OnInit {
       rowCallback: ( row, data ) => {
         $('.verComprobante', row).bind('click' , () => {
           vm.verComprobante(data);
+        });
+        $('.exportarExcelDetalle', row).bind('click' , (e) => {
+          vm.exportarExcelDetalle(data);
         });
         $('td', row).css('cursor', 'pointer');
         // $('td', row).hover(function(){
@@ -298,11 +311,23 @@ export class ListCreditoComponent implements OnInit {
     vm.credito.vuelto = '';
   }
   verComprobante(value: any) {
+    this.compraserv.texter(this.params).then(res => {
+      console.log(res);
+    });
+  }
+  exportarExcelDetalle(value: any) {
     const vm = this;
-    const url = URL.createObjectURL('3f104f95-c3ee-4126-8a4c-1757acfcf354_1616589571.jpg');
-    window.open(url);
-    // this.compraserv.verPdf1(value.idCompra).then(res => {
-    //   console.log(res);
-    // });
+    vm.cargandoInformacion = true;
+    vm.compraserv.DowloadExcelBuyId(value.idCompra).subscribe(data => {
+      const a          = document.createElement('a');
+      document.body.appendChild(a);
+      const blob       = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'})
+      const url        = window.URL.createObjectURL(blob);
+      a.href         = url;
+      a.download     = `Reporte_Detalle_compras${((new Date()).getTime())}.xlsx`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      vm.cargandoInformacion = false;
+    });
   }
 }

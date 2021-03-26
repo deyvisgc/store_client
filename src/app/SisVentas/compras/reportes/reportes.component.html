@@ -14,7 +14,7 @@
                                 <i  style="margin-left: 10px;" class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
-                                <input style="margin-left: 8px;" [(ngModel)]="params.fechaDesde" type="text" id="reportes_input" class="form-control fecha_desde" placeholder="">
+                                <input [disabled]="cargandoInformacion" style="margin-left: 8px;" [(ngModel)]="params.fechaDesde" type="text" id="reportes_input" class="form-control fecha_desde" placeholder="">
                             </div>
                         </div>
                       </div>
@@ -25,15 +25,15 @@
                                 <i class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
-                                <input style="margin-left: 8px;" (change)="Fetch()"  [(ngModel)]="params.fechaHasta" type="text" id="reportes_input" class="form-control fecha_hasta" placeholder="">
+                                <input [disabled]="cargandoInformacion" style="margin-left: 8px;" (change)="Fetch()"  [(ngModel)]="params.fechaHasta" type="text" id="reportes_input" class="form-control fecha_hasta" placeholder="">
                             </div>
                         </div>
                       </div>
                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                         <div class="form-group default-select">
                             <b>Proveedor</b>
-                            <select class="form-control Proveedor" [(ngModel)]="params.codeProveedor" data-placeholder="Select">
-                                <option></option>
+                            <select class="form-control Proveedor" [disabled]="cargandoInformacion" id="proveedor" [(ngModel)]="params.codeProveedor" data-placeholder="Select">
+                                <option value="select"></option>
                                 <option value="{{prove.id_persona}}"  *ngFor="let prove of proveedor">{{prove.per_razon_social}}</option>
                             </select>
                         </div>
@@ -41,7 +41,7 @@
                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                         <div class="form-group default-select">
                             <b>Tipo Pago</b>
-                            <select class="form-control tipoPago" [(ngModel)]="params.tipoPago" data-placeholder="Select">
+                            <select class="form-control tipoPago" [disabled]="cargandoInformacion" [(ngModel)]="params.tipoPago" data-placeholder="Select">
                                 <option></option>
                                 <option value="debito">DEBITO</option>
                                 <option value="credito">CREDITO</option>
@@ -51,16 +51,16 @@
                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                         <div class="form-group default-select">
                             <b>Tipo Comprobante</b>
-                            <select class="form-control tipoComprobante" [(ngModel)]="params.tipoComprobante"  data-placeholder="Select">
+                            <select class="form-control tipoComprobante" [disabled]="cargandoInformacion" [(ngModel)]="params.tipoComprobante"  data-placeholder="Select">
                                 <option></option>
                                 <option value="factura">FACTURA</option>
                                 <option value="boleta">BOLETA</option>
                             </select>
                         </div>
                       </div>
-                      <button _ngcontent-cba-c19=""  class="btn btn-success waves-effect" type="button"><i _ngcontent-cba-c19="" class="material-icons">home</i></button>
-                      <button _ngcontent-cba-c19="" style="margin-left: 5px;" class="btn btn-success waves-effect" type="button"><i _ngcontent-cba-c19="" class="material-icons">home</i></button>
-                      <button _ngcontent-cba-c19="" style="margin-left: 5px;" class="btn btn-success waves-effect" type="button"><i _ngcontent-cba-c19="" class="material-icons">home</i></button>
+                      <button _ngcontent-cba-c19="" [disabled]="cargandoInformacion" class="btn btn-success waves-effect" type="button" title="actualizar" (click)="FetchActualzar()"><i _ngcontent-cfj-c8="" class="fas fa-sync-alt"></i></button>
+                      <button _ngcontent-cba-c19="" [disabled]="cargandoInformacion" style="margin-left: 5px;" class="btn btn-success waves-effect" (click)="LimpiarFiltros()" type="button"><i _ngcontent-wdf-c5="" class="fas fa-eraser"></i></button>
+                      <button _ngcontent-cba-c19="" [disabled]="cargandoInformacion" style="margin-left: 5px;" class="btn btn-success waves-effect" (click)="Exportar()" type="button"><i _ngcontent-wdf-c5="" class="fas fa-file-excel"></i></button>
                       
 
                 </div>

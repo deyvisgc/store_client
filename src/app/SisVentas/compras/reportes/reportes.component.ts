@@ -16,6 +16,7 @@ declare const flatpickr: any;
 export class ReportesComponent implements OnInit {
   proveedor: any = [];
   fechahoy = moment().format('YYYY-MM-DD');
+  cargandoInformacion = false;
   fechahasta = moment().add(1, 'months').format('YYYY-MM-DD');
   typelista = this.rutaActiva.snapshot.params.typelista;
   @ViewChild('credito', {static: true}) liscredito;
@@ -77,6 +78,29 @@ export class ReportesComponent implements OnInit {
       this.liscredito.Listar(vm.params);
     }
   }
+  FetchActualzar() {
+    const vm = this;
+    vm.LinpiarArray();
+    vm.Fetch();
+  }
+  LimpiarFiltros() {
+    const vm = this;
+    vm.LinpiarArray();
+    vm.Fetch();
+  }
+  LinpiarArray() {
+    const vm = this;
+    vm.params.codeProveedor = '';
+    vm.params.fechaDesde = vm.fechahoy;
+    vm.params.fechaHasta = vm.fechahasta;
+    vm.params.tabla = vm.typelista;
+    vm.params.tipoComprobante = '';
+    vm.params.tipoPago = '';
+    $('#proveedor').val(null).trigger('change');
+    $('.tipoPago').val(null).trigger('change');
+    $('.tipoComprobante').val(null).trigger('change');
+    vm.Fetch();
+  }
   ocultarTable() {
     const vm = this;
     if (vm.typelista === 'credito') {
@@ -90,5 +114,20 @@ export class ReportesComponent implements OnInit {
       $('#credito').hide();
       $('#mascomprados').hide();
     }
+  }
+  Exportar() {
+    const vm = this;
+    vm.cargandoInformacion = true;
+    vm.compraserv.DowloadExcel(vm.params).subscribe(data => {
+      const a          = document.createElement('a');
+      document.body.appendChild(a);
+      const blob       = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'})
+      const url        = window.URL.createObjectURL(blob);
+      a.href         = url;
+      a.download     = `Reporte_Compras_credito${((new Date()).getTime())}.xlsx`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      vm.cargandoInformacion = false;
+    });
   }
 }
