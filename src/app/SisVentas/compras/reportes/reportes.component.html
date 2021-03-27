@@ -43,7 +43,7 @@
                             <b>Tipo Pago</b>
                             <select class="form-control tipoPago" [disabled]="cargandoInformacion" [(ngModel)]="params.tipoPago" data-placeholder="Select">
                                 <option></option>
-                                <option value="debito">DEBITO</option>
+                                <option value="contado">DEBITO</option>
                                 <option value="credito">CREDITO</option>
                             </select>
                         </div>
@@ -68,12 +68,48 @@
         </div>
         <div class="card">
           <div class="body">
-            <div id="credito">
-              <app-list-credito #credito></app-list-credito>
-            </div>
-            <div id="mascomprados">
-              <app-list-productos-mas-comprados #mascomprados></app-list-productos-mas-comprados>
-            </div>
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                  <li role="presentation">
+                      <a href="#Vigentes" data-toggle="tab" class="active show">
+                        <i _ngcontent-mnn-c6="" class="fas fa-shopping-cart"></i> Vigentes <span _ngcontent-ajo-c6="" class="badge bg-green">{{+comprasVigentes === 0 ? 0 : +comprasVigentes}}</span>
+                      </a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#Anuladas" data-toggle="tab">
+                        <i _ngcontent-mnn-c6="" class="fas fa-trash"></i> Anuladas  <span _ngcontent-ajo-c6="" class="badge bg-red">{{comprasAnuladas.length === 0 ? 0 : comprasAnuladas.length}}</span>
+                      </a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#contado" data-toggle="tab">
+                        <i _ngcontent-ahx-c5="" class="fas fa-money-check-alt"></i> Compras Al Contado <span _ngcontent-ajo-c6="" class="badge bg-orange">{{comprasContado.length === 0 ? 0 : comprasContado.length}}</span>
+                      </a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#credito" data-toggle="tab">
+                        <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> Compras Al credito <span _ngcontent-ajo-c6="" class="badge bg-cyan">{{comprasCredito.length === 0 ? 0 : comprasCredito.length}}</span>
+                      </a>
+                  </li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                  <div role="tabpanel" (click)="comprasanuladas()" class="tab-pane fade in active show" id="Vigentes">
+                      <h5 class="tittle">Compras Vigentes</h5>
+                      <app-compras-vigentes #vigentes></app-compras-vigentes>
+                  </div>
+                  <div role="tabpanel"  class="tab-pane fade" id="Anuladas">
+                      <b class="tittle">Compras Anuladas</b>
+                      <app-compras-anuladas #anuladas></app-compras-anuladas>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="contado">
+                      <b class="tittle">Compras al contado</b>
+                      <app-compras-contado #contado></app-compras-contado>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="credito">
+                      <b class="tittle">Compras al credito</b>
+                      <app-compras-credito #credito></app-compras-credito>
+                  </div>
+              </div>
           </div>
       </div>
     </div>

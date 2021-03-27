@@ -17,10 +17,16 @@ export class ReportesComponent implements OnInit {
   proveedor: any = [];
   fechahoy = moment().format('YYYY-MM-DD');
   cargandoInformacion = false;
+  comprasVigentes: any = [];
+  comprasAnuladas: any = [];
+  comprasCredito: any = [];
+  comprasContado: any = [];
   fechahasta = moment().add(1, 'months').format('YYYY-MM-DD');
   typelista = this.rutaActiva.snapshot.params.typelista;
-  @ViewChild('credito', {static: true}) liscredito;
-  @ViewChild('mascomprados', {static: true}) listmostproductbuy;
+  @ViewChild('vigentes', {static: true}) vigentes;
+  @ViewChild('anuladas', {static: true}) anuladas;
+  @ViewChild('contado', {static: true}) contado;
+  @ViewChild('credito', {static: true}) credito;
    params = {
     numeroCompra   : '',
     fechaDesde     : this.fechahoy,
@@ -28,15 +34,15 @@ export class ReportesComponent implements OnInit {
     codeProveedor  : '',
     tipoPago       : '',
     tipoComprobante: '',
-    tabla          : this.typelista
+    tabla          : 'vigente'
   };
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService,
               private compraserv: CompraService,
               private rutaActiva: ActivatedRoute) {}
 
   ngOnInit() {
-    this.ocultarTable();
     this.Fetch();
+    this.SendData();
     this.startScript();
   }
   async startScript() {
@@ -74,9 +80,7 @@ export class ReportesComponent implements OnInit {
   }
   Fetch() {
     const vm = this;
-    if (this.typelista === 'credito') {
-      this.liscredito.Listar(vm.params);
-    }
+    vm.vigentes.FetchVigentes(vm.params);
   }
   FetchActualzar() {
     const vm = this;
@@ -101,20 +105,6 @@ export class ReportesComponent implements OnInit {
     $('.tipoComprobante').val(null).trigger('change');
     vm.Fetch();
   }
-  ocultarTable() {
-    const vm = this;
-    if (vm.typelista === 'credito') {
-      $('#credito').show();
-      $('#mascomprados').hide();
-      return false;
-    } else if (vm.typelista === 'productomasvendidos') {
-      $('#credito').hide();
-      $('#mascomprados').show();
-    } else {
-      $('#credito').hide();
-      $('#mascomprados').hide();
-    }
-  }
   Exportar() {
     const vm = this;
     vm.cargandoInformacion = true;
@@ -129,5 +119,21 @@ export class ReportesComponent implements OnInit {
       window.URL.revokeObjectURL(url);
       vm.cargandoInformacion = false;
     });
+  }
+  SendData() {
+    const vm = this;
+    vm.compraserv.Compra$.subscribe(data => {
+       vm.comprasVigentes = data[0];
+       vm.comprasAnuladas = data[1];
+       vm.comprasCredito  = data[2];
+       vm.comprasContado  = data[3];
+       vm.SendInformacion();
+  });
+  }
+  SendInformacion() {
+   const vm = this;
+   vm.anuladas.FetchAnuladas(vm.comprasAnuladas, vm.params);
+   vm.contado.FetchContado(vm.comprasContado, vm.params);
+   vm.credito.FetchCredito(vm.comprasCredito, vm.params);
   }
 }

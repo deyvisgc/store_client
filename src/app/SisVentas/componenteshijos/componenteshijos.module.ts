@@ -13,15 +13,20 @@ import { FieldErrorDisplayComponentComponent } from '../almacen/messageerror/fie
 import { BrowserModule } from '@angular/platform-browser';
 import { ListCreditoComponent } from './list-credito/list-credito.component';
 import { ListProductosMasCompradosComponent } from './list-productos-mas-comprados/list-productos-mas-comprados.component';
+import { ComprasAnuladasComponent } from './compras-anuladas/compras-anuladas.component';
+import { ComprasVigentesComponent } from './compras-vigentes/compras-vigentes.component';
+import { ComprasContadoComponent } from './compras-contado/compras-contado.component';
+import { ComprasCreditoComponent } from './compras-credito/compras-credito.component';
 
 
 @NgModule({
   declarations: [SelectproductoComponent, SelectclientesComponent, ProvedorselectComponent, SearchComponent,
-                 FormproductoComponent, FieldErrorDisplayComponentComponent, ListCreditoComponent, ListProductosMasCompradosComponent
+                 FormproductoComponent, FieldErrorDisplayComponentComponent, ListCreditoComponent, ListProductosMasCompradosComponent,
+                 ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent, ComprasCreditoComponent
                 ],
   exports: [
-    SelectproductoComponent, SearchComponent , FormproductoComponent, ProvedorselectComponent, ListCreditoComponent, 
-    ListProductosMasCompradosComponent
+    SelectproductoComponent, SearchComponent , FormproductoComponent, ProvedorselectComponent, ListCreditoComponent,
+    ListProductosMasCompradosComponent, ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent, ComprasCreditoComponent
   ],
   imports: [
     BrowserModule,

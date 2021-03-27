@@ -2,6 +2,7 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRequest } from '@an
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { EnviromentService } from '../enviroment.service';
+import { Compra } from './compras.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,21 @@ export class CompraService {
   _headers = new HttpHeaders();
   headers = this._headers.append('Content-Type', 'application/json');
   private listEmpresa = new Subject<boolean>(); // creo un nuevo objeto con tun type boolean para obtener un mensaje
+  private Compra = new Subject<Compra[]>();
   // tslint:disable-next-line:max-line-length
   listEmpresaObs$ = this.listEmpresa.asObservable(); // creo una variable obs$y le paso el oservable esto es para que observe si existe algun cambio en la clase a heredar
+  Compra$ = this.Compra.asObservable();
+
   constructor(private httpClient: HttpClient, private url: EnviromentService) { }
+
+    // creo un metodo para enviar el mensaje
+    comunitacioncomponen(message: boolean) {
+    this.listEmpresa.next(message);
+    }
+
+    SendListasCompras(lista: Compra[]) {
+      this.Compra.next(lista);
+    }
 
   // public Search(id: number) {
   //   return this.httpClient.post(this.url.urlAddress + 'Compras/search', + {id}, {headers: this.headers});
@@ -25,10 +38,6 @@ export class CompraService {
   }
   public ListarCarr(idPersona) {
     return this.httpClient.get(this.url.urlAddress + 'Compras/ListarCarr/' + idPersona, {headers: this.headers});
-  }
-  // creo un metodo para enviar el mensaje
-  comunitacioncomponen(message: boolean) {
-    this.listEmpresa.next(message);
   }
   public Read() {
     return this.httpClient.get(this.url.urlAddress + 'Almacen/Producto', {headers: this.headers});
@@ -55,8 +64,8 @@ export class CompraService {
   PagosCredito(data) {
     return this.httpClient.post(this.url.urlAddress + 'Compras/PagosCredito', {data}, {headers: this.headers}).toPromise();
   }
-  verPdf(id) {
-    return this.httpClient.get(this.url.urlAddress + 'Compras/VerPdf/' + id, {headers: this.headers}).toPromise();
+  Compras(params) {
+   return this.httpClient.get(this.url.urlAddress + 'Compras/All', {params, headers: this.headers}).toPromise();
   }
   texter(data) {
     return this.httpClient.post(this.url.urlAddress + 'Compras/VerPdf' , {data}, {headers: this.headers}).toPromise();
