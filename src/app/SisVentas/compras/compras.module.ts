@@ -18,12 +18,13 @@ import { ComprasVigentesComponent } from '../componenteshijos/compras-vigentes/c
 import { ComprasContadoComponent } from '../componenteshijos/compras-contado/compras-contado.component';
 import { ComprasCreditoComponent } from '../componenteshijos/compras-credito/compras-credito.component';
 import { CargardoComponentComponent } from '../componenteshijos/cargardo-component/cargardo-component.component';
+import { InventarioComponent } from './reportes/inventario/inventario.component';
 
 @NgModule({
   declarations: [IndexComponent, SelectproductoComponent, ProvedorselectComponent, ReportesComponent, ListCreditoComponent, 
                  ListProductosMasCompradosComponent , ListProductosMasCompradosComponent,
                  ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent,
-                 ComprasCreditoComponent, CargardoComponentComponent
+                 ComprasCreditoComponent, CargardoComponentComponent, InventarioComponent
                 ],
   imports: [
     CommonModule,

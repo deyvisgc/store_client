@@ -1,0 +1,49 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+.input-group {
+  margin-bottom: 0px;
+}
+#reportes_input {
+  font-size: 14px !important;
+  height: 1rem;
+}
+.card .header h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 900;
+  color: #5b626b;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.card .body {
+  font-size: 14px;
+  color: #555;
+  padding: 9px;
+}
+.card .body .col-lg-2 {
+  margin-bottom: 0px;
+}
+.form-group {
+  width: 100%;
+  margin-bottom: 25px;
+  margin: 0px;
+}
+.card .header {
+  color: #555;
+  padding: 5px;
+  position: relative;
+}
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: #999;
+  font-size: 14px !important;
+}
+.btn-group, .btn-group-vertical {
+  box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 0px 00px rgb(0 0 0 / 12%);
+  margin-left: 60px;
+}
+.titleLista {
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  font-family: math !important;
+}
