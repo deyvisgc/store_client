@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { DynamicScriptLoaderService } from 'src/app/services/dynamic-script-loader.service';
 import { CompraService } from '../../service/compras/compra.service';
 import { Spanish } from 'flatpickr/dist/l10n/es.js';
+import iziToast from 'izitoast';
 declare const $: any;
 declare const sendRespuesta: any;
 declare const flatpickr: any;
@@ -17,16 +18,36 @@ export class ReportesComponent implements OnInit {
   proveedor: any = [];
   fechahoy = moment().format('YYYY-MM-DD');
   cargandoInformacion = false;
+  isModalTransaccion = false;
+  messageProceso      = '';
   comprasVigentes: any = [];
   comprasAnuladas: any = [];
   comprasCredito: any = [];
   comprasContado: any = [];
+  listaDetalle: any = [];
+  compracabecera = {
+    fecha: '',
+    numeroCompra: '',
+    formaPago: '',
+    proveedor: '',
+    ruc: '',
+    cuotas: '',
+    FormaPago: '',
+    Comprobante: '',
+    numeroComprobante: '',
+    estado: '',
+    subtotal: '',
+    igv: '',
+    total: ''
+  };
+  showTab = 1;
   fechahasta = moment().add(1, 'months').format('YYYY-MM-DD');
   typelista = this.rutaActiva.snapshot.params.typelista;
   @ViewChild('vigentes', {static: true}) vigentes;
   @ViewChild('anuladas', {static: true}) anuladas;
   @ViewChild('contado', {static: true}) contado;
   @ViewChild('credito', {static: true}) credito;
+  @ViewChild('isloading', {static: true}) isloading;
    params = {
     numeroCompra   : '',
     fechaDesde     : this.fechahoy,
@@ -43,7 +64,14 @@ export class ReportesComponent implements OnInit {
   ngOnInit() {
     this.Fetch();
     this.SendData();
+    this.showActiveTab();
     this.startScript();
+    window.addEventListener('keyup', e => {
+      if (e.keyCode === 27) {
+        $('#DetalleModal').modal('hide');
+        this.isloading.closeModal();
+      }
+    });
   }
   async startScript() {
     await this.dynamicScriptLoader.load('form.min').then(data => {
@@ -135,5 +163,94 @@ export class ReportesComponent implements OnInit {
    vm.anuladas.FetchAnuladas(vm.comprasAnuladas, vm.params);
    vm.contado.FetchContado(vm.comprasContado, vm.params);
    vm.credito.FetchCredito(vm.comprasCredito, vm.params);
+  }
+  showActiveTab() {
+    const vm = this;
+    vm.compraserv.showActive$.subscribe(res => {
+      vm.showTab = res;
+    });
+  }
+  DetalleCompra(event) {
+    const vm = this;
+    vm.messageProceso = 'Cargando Detallesss';
+    vm.isloading.openModal(vm.messageProceso);
+    vm.compracabecera.fecha = event.comFecha;
+    vm.compracabecera.numeroCompra = event.comSerieCorrelativo;
+    vm.compracabecera.formaPago = event.comTipoPago;
+    vm.compracabecera.proveedor = event.razonSocial;
+    vm.compracabecera.ruc       = event.ruc;
+    vm.compracabecera.cuotas  = event.com_cuotas;
+    vm.compracabecera.Comprobante = event.comTipoComprobante;
+    vm.compracabecera.numeroComprobante = event.comSerieComprobante;
+    vm.compracabecera.estado = event.comEstado;
+    vm.compracabecera.subtotal = event.comSubTotal;
+    vm.compracabecera.igv = event.comIgv;
+    vm.compracabecera.total = event.comTotal;
+    vm.compraserv.ObtenerDetalle(event.idCompra).then(res => {
+      const rpta = sendRespuesta(res);
+      rpta.data.forEach((element, i) => {
+        rpta.data[i].precio = parseFloat(element.precio).toFixed(2);
+        rpta.data[i].subTotal = parseFloat(element.subTotal).toFixed(2);
+      });
+      vm.listaDetalle = rpta.data;
+    }).catch((e) => {
+      vm.isloading.closeModal();
+      alert(e);
+    }).then(() => {
+      vm.isloading.closeModal();
+      $('#DetalleModal').modal('show');
+  }, () => {
+      vm.isloading.closeModal();
+      console.log('Not fired due to the catch');
+  });
+  }
+  Anular(idCompra) {
+    const vm = this;
+    vm.messageProceso = 'Anulando Compra';
+    vm.isloading.openModal(vm.messageProceso);
+    vm.compraserv.ChangeStatus(idCompra).then(res => {
+      const rpta = sendRespuesta(res);
+      if (rpta.status === true) {
+        iziToast.success({
+          title: 'OK',
+          position: 'topRight',
+          message: rpta.message,
+        });
+      }
+    }).catch((e) => {
+      vm.isloading.closeModal();
+      iziToast.error({
+        title: 'Error',
+        position: 'topRight',
+        message: e,
+      });
+    }).then(() => {
+      vm.isloading.closeModal();
+      vm.Fetch();
+    }, () => {
+      console.log('Not fired due to the catch');
+     });
+  }
+  Close() {
+    const vm = this;
+    $('#DetalleModal').modal('hide');
+    vm.isloading.closeModal();
+  }
+  exportarExcelById(value: any) {
+    console.log(value);
+    const vm = this;
+    vm.messageProceso = 'Exportando el detalle de esta compra';
+    vm.isloading.openModal(vm.messageProceso);
+    vm.compraserv.DowloadExcelBuyId(value).subscribe(data => {
+      const a          = document.createElement('a');
+      document.body.appendChild(a);
+      const blob       = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'})
+      const url        = window.URL.createObjectURL(blob);
+      a.href         = url;
+      a.download     = `Reporte_Detalle_compras${((new Date()).getTime())}.xlsx`;
+      a.click();
+      vm.isloading.closeModal();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }

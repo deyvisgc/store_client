@@ -10,21 +10,27 @@ import { Compra } from './compras.interface';
 export class CompraService {
   _headers = new HttpHeaders();
   headers = this._headers.append('Content-Type', 'application/json');
-  private listEmpresa = new Subject<boolean>(); // creo un nuevo objeto con tun type boolean para obtener un mensaje
-  private Compra = new Subject<Compra[]>();
+  private listEmpresa = new Subject<boolean>(); //para limpiar el autocomplete de la compra
+  private Compra = new Subject<Compra[]>(); // Obtener el listado de todas las listas
+  private showActive = new Subject<number>();
   // tslint:disable-next-line:max-line-length
   listEmpresaObs$ = this.listEmpresa.asObservable(); // creo una variable obs$y le paso el oservable esto es para que observe si existe algun cambio en la clase a heredar
   Compra$ = this.Compra.asObservable();
+  showActive$ = this.showActive.asObservable();
 
   constructor(private httpClient: HttpClient, private url: EnviromentService) { }
 
-    // creo un metodo para enviar el mensaje
+    // borrar el autocoplete de compras
     comunitacioncomponen(message: boolean) {
     this.listEmpresa.next(message);
     }
-
+    // listar la lista en los reportes compras vegentes, anuladas ,credito y contado
     SendListasCompras(lista: Compra[]) {
       this.Compra.next(lista);
+    }
+    //Activa o desacitivar el tab
+    ShowActiveTab(message: number) {
+      this.showActive.next(message);
     }
 
   // public Search(id: number) {
@@ -58,17 +64,17 @@ export class CompraService {
     // let params = new HttpParams();
     return this.httpClient.get(this.url.urlAddress + 'Compras/ComprasACredito', { params }).toPromise();
   }
-  ObtenerDetalle(id) {
-    return this.httpClient.get(this.url.urlAddress + 'Compras/Detalle/' + id, {headers: this.headers}).toPromise();
-  }
   PagosCredito(data) {
     return this.httpClient.post(this.url.urlAddress + 'Compras/PagosCredito', {data}, {headers: this.headers}).toPromise();
   }
   Compras(params) {
    return this.httpClient.get(this.url.urlAddress + 'Compras/All', {params, headers: this.headers}).toPromise();
   }
-  texter(data) {
-    return this.httpClient.post(this.url.urlAddress + 'Compras/VerPdf' , {data}, {headers: this.headers}).toPromise();
+  ObtenerDetalle(id) {
+    return this.httpClient.get(this.url.urlAddress + 'Compras/Detalle/' + id, {headers: this.headers}).toPromise();
+  }
+  ChangeStatus(id) {
+    return this.httpClient.patch(this.url.urlAddress + 'Compras/ChangeStatus/' + id, {headers: this.headers}).toPromise();
   }
   DowloadExcel(params): Observable<any> {
     // tslint:disable-next-line:no-unused-expression

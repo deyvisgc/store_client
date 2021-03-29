@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DynamicScriptLoaderService } from 'src/app/services/dynamic-script-loader.service';
 import { CompraService } from '../../service/compras/compra.service';
 import iziToast from 'izitoast';
@@ -19,6 +19,9 @@ export class ComprasVigentesComponent implements OnInit {
     tipoPago       : '',
     tipoComprobante: ''
   };
+  @Output() sendIdCompra = new EventEmitter<any>();
+  @Output() sendIdCompraEstado = new EventEmitter<number>();
+  @Output() sendIdCompraExcel = new EventEmitter<number>();
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private compraserv: CompraService) { }
   async startScript() {
     await this.dynamicScriptLoader.load('form.min').then(data => {
@@ -30,7 +33,7 @@ export class ComprasVigentesComponent implements OnInit {
     const vm = this;
     vm.compraserv.Compras(params).then(res => {
       const rpata = sendRespuesta(res);
-      const vigentes = rpata.data.filter(f => f.comEstado !== 0);
+      const vigentes = rpata.data.filter(f => f.comEstado === 1);
       const anuladas = rpata.data.filter(f => f.comEstado === 0);
       const credito = rpata.data.filter(f => f.comTipoPago === 'credito');
       const contado = rpata.data.filter(f => f.comTipoPago === 'contado');
@@ -71,34 +74,37 @@ export class ComprasVigentesComponent implements OnInit {
       },
       },
       { data: (data) => {
-        if (data.comEstado === '1') {
-          // tslint:disable-next-line:max-line-length
-          return (`<button _ngcontent-njl-c5="" class="btn bg-teal btn-circle waves-effect waves-circle waves-float pagarCredito" type="button"><i _ngcontent-mqk-c6="" style="color:white" class="fab fa-cc-visa"></i></button> <button style="margin-left:5px" _ngcontent-qan-c5="" class="btn btn-danger btn-circle waves-effect waves-circle waves-float verComprobante" type="button"><i _ngcontent-mqs-c7="" class="fas fa-file-pdf"></i></button>` +
-                  // tslint:disable-next-line:max-line-length
-                  '<button _ngcontent-cba-c19="" [disabled]="cargandoInformacion" style="margin-left: 5px;" class="btn btn-success btn-circle waves-effect waves-circle waves-float  exportarExcelDetalle" type="button"><i _ngcontent-wdf-c5="" class="fas fa-file-excel"></i></button>');
-        } else {
-          // tslint:disable-next-line:max-line-length
-          return (`<button style="margin-left:5px" _ngcontent-qan-c5="" class="btn btn-danger btn-circle waves-effect waves-circle waves-float verComprobante" type="button"><i _ngcontent-mqs-c7="" class="fas fa-file-pdf"></i></button>` +
-          // tslint:disable-next-line:max-line-length
-          '<button _ngcontent-cba-c19="" [disabled]="cargandoInformacion" style="margin-left: 5px;" class="btn btn-success  btn-circle waves-effect waves-circle waves-float exportarExcelDetalle" type="button"><i _ngcontent-wdf-c5="" class="fas fa-file-excel"></i></button>');
-        }
+        return (
+          '<div _ngcontent-aai-c5="" class="btn-group" style="margin-left: 20px;">' +
+          '<button _ngcontent-aai-c5="" aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"' +
+          'data-toggle="dropdown" type="button"><i _ngcontent-eev-c7="" class="fas fa-align-justify"></i>' +
+          '<span _ngcontent-aai-c5="" class="caret">' +
+          '</span></button><ul _ngcontent-aai-c5="" class="dropdown-menu"><li _ngcontent-aai-c5="">' +
+          '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="detalleCompra">' +
+          '<i _ngcontent-ogf-c5="" class="fas fa-eye"></i> Detalle</a></li>' +
+          '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="anular">' +
+          '<i _ngcontent-ccs-c5="" class="fas fa-times-circle"></i> Anular</a></li>' +
+          '<li _ngcontent-aai-c5="">' +
+          '</li><li _ngcontent-aai-c5="">' +
+          '<a _ngcontent-aai-c5="" class="exportarExcelDetalle">' +
+          '<i _ngcontent-toy-c5="" style="color: black;font-weight: bold;" class="far fa-file-excel "></i>' +
+          '<span > Exportar</span></a></li></ul></div>'
+        );
       }
       },
       ],
       responsive: true,
       rowCallback: ( row, data ) => {
-        // $('.verComprobante', row).bind('click' , (e) => {
-        //   vm.verComprobante(data);
-        // });
+        $('td', row).css('cursor', 'pointer');
         $('.exportarExcelDetalle', row).bind('click' , (e) => {
           vm.exportarExcelDetalle(data);
         });
-        $('td', row).css('cursor', 'pointer');
-        // $('td', row).hover(function(){
-        //   $(this).css('background-color', '#ABA8A9');
-        //   }, function() {
-        //   $(this).css('background-color', 'white');
-        // });
+        $('.detalleCompra', row).bind('click' , (e) => {
+          vm.detalleCompra(data);
+        });
+        $('.anular', row).bind('click' , (e) => {
+          vm.anular(data);
+        });
       },
       language: {
         decimal: '',
@@ -126,15 +132,14 @@ export class ComprasVigentesComponent implements OnInit {
   }
   exportarExcelDetalle(value: any) {
     const vm = this;
-    vm.compraserv.DowloadExcelBuyId(value.idCompra).subscribe(data => {
-      const a          = document.createElement('a');
-      document.body.appendChild(a);
-      const blob       = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'})
-      const url        = window.URL.createObjectURL(blob);
-      a.href         = url;
-      a.download     = `Reporte_Detalle_compras${((new Date()).getTime())}.xlsx`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    });
+    vm.sendIdCompraExcel.emit(value.idCompra);
+  }
+  anular(value: any) {
+    const vm = this;
+    vm.sendIdCompraEstado.emit(value.idCompra);
+  }
+  detalleCompra(value) {
+    const vm = this;
+    vm.sendIdCompra.emit(value);
   }
 }

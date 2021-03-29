@@ -311,9 +311,6 @@ export class ListCreditoComponent implements OnInit {
     vm.credito.vuelto = '';
   }
   verComprobante(value: any) {
-    this.compraserv.texter(this.params).then(res => {
-      console.log(res);
-    });
   }
   exportarExcelDetalle(value: any) {
     const vm = this;

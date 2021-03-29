@@ -17,16 +17,19 @@ import { ComprasAnuladasComponent } from './compras-anuladas/compras-anuladas.co
 import { ComprasVigentesComponent } from './compras-vigentes/compras-vigentes.component';
 import { ComprasContadoComponent } from './compras-contado/compras-contado.component';
 import { ComprasCreditoComponent } from './compras-credito/compras-credito.component';
+import { CargardoComponentComponent } from './cargardo-component/cargardo-component.component';
 
 
 @NgModule({
   declarations: [SelectproductoComponent, SelectclientesComponent, ProvedorselectComponent, SearchComponent,
                  FormproductoComponent, FieldErrorDisplayComponentComponent, ListCreditoComponent, ListProductosMasCompradosComponent,
-                 ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent, ComprasCreditoComponent
+                 ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent, ComprasCreditoComponent,
+                 CargardoComponentComponent
                 ],
   exports: [
     SelectproductoComponent, SearchComponent , FormproductoComponent, ProvedorselectComponent, ListCreditoComponent,
-    ListProductosMasCompradosComponent, ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent, ComprasCreditoComponent
+    ListProductosMasCompradosComponent, ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent, 
+    ComprasCreditoComponent, CargardoComponentComponent
   ],
   imports: [
     BrowserModule,
