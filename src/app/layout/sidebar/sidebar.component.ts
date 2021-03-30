@@ -14,6 +14,8 @@ export class SidebarComponent implements OnInit {
     privileges: any[] = [];
     tempPrivileges: any[] = [];
     tempKeys: any[] = [];
+    sidebarStatus = false;
+
     privilegesGroup: any[] = [];
     privilegesRoute: any[] = [];
 
@@ -28,7 +30,7 @@ export class SidebarComponent implements OnInit {
         }
     }
 
-    public getPrivilegesByRol() {
+    getPrivilegesByRol() {
         const idRol = localStorage.getItem('ROL');
 
         this.privilege.getPrivilegesByRol(idRol).subscribe(
@@ -42,19 +44,16 @@ export class SidebarComponent implements OnInit {
                         }
                         this.privileges[this.tempPrivileges[i][j].pri_group].push({
                             pri_access: this.tempPrivileges[i][j].pri_acces,
-                            pri_icon: this.tempPrivileges[i][j].pri_ico,
                             pri_name: this.tempPrivileges[i][j].pri_nombre,
                         });
                     }
                 }
 
-                for (let key in this.privileges) {
+                for (const key in this.privileges) {
                     this.privilegesGroup.push(key);
                     this.privilegesRoute.push(this.privileges[key]);
                 }
-
-                console.warn(this.privilegesRoute);
-                console.warn(this.privilegesGroup);
+                this.sidebarStatus = true;
             },
             error => {
                 console.error(error);

@@ -16,60 +16,58 @@
                     </div>
                 </li>
 
-                <li routerLinkActive="active" *ngFor="let group of this.privilegesGroup; let a = index" >
+                <li routerLinkActive="active" *ngFor="let group of privilegesGroup; let a = index" >
                     <a href="#" onClick="return false;" class="menu-toggle">
                         <i class="fas fa-tag"></i>
                         <span>{{group}}</span>
                     </a>
                     <ul class="ml-menu">
-                        <li routerLinkActive="active" *ngFor="let route of this.privilegesRoute[a]">
-                            <a routerLink="{{route.pri_access}}">
-                                <span>{{route.pri_name}}</span>
-                            </a>
+                        <li routerLinkActive="active" *ngFor="let route of privilegesRoute[a]">
+                            <a routerLink="{{route.pri_access}}">{{route.pri_name}}</a>
                         </li>
                     </ul>
                 </li>
 
-<!--                <li routerLinkActive="active">-->
-<!--                    <a href="#" onClick="return false;" class="menu-toggle">-->
-<!--                        <i class="fas fa-tachometer-alt"></i>-->
-<!--                        <span>Home</span>-->
-<!--                    </a>-->
-<!--                    <ul class="ml-menu">-->
-<!--                        <li routerLinkActive="active">-->
-<!--                            <a routerLink="dashboard/main">Dashboard 1</a>-->
-<!--                        </li>-->
-<!--                        <li routerLinkActive="active">-->
-<!--                            <a routerLink="dashboard/dashboard2">Dashboard 2</a>-->
-<!--                        </li>-->
-<!--                        <li routerLinkActive="active">-->
-<!--                            <a routerLink="dashboard/dashboard3">Dashboard 3</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--                <li routerLinkActive="active">-->
-<!--                    <a routerLink="apps/calendar">-->
-<!--                        <i class="far fa-calendar"></i>-->
-<!--                        <span>Events</span>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--                <li routerLinkActive="active">-->
-<!--                    <a href="#" onClick="return false;" class="menu-toggle">-->
-<!--                        <i class="fas fa-mail-bulk"></i>-->
-<!--                        <span>Email</span>-->
-<!--                    </a>-->
-<!--                    <ul class="ml-menu">-->
-<!--                        <li routerLinkActive="active">-->
-<!--                            <a routerLink="email/inbox">Inbox</a>-->
-<!--                        </li>-->
-<!--                        <li routerLinkActive="active">-->
-<!--                            <a routerLink="email/compose">Compose</a>-->
-<!--                        </li>-->
-<!--                        <li routerLinkActive="active">-->
-<!--                            <a routerLink="email/read-mail">Read Email</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </li>-->
+                <!--                <li routerLinkActive="active">-->
+                <!--                    <a href="#" onClick="return false;" class="menu-toggle">-->
+                <!--                        <i class="fas fa-tachometer-alt"></i>-->
+                <!--                        <span>Home</span>-->
+                <!--                    </a>-->
+                <!--                    <ul class="ml-menu">-->
+                <!--                        <li routerLinkActive="active">-->
+                <!--                            <a routerLink="dashboard/main">Dashboard 1</a>-->
+                <!--                        </li>-->
+                <!--                        <li routerLinkActive="active">-->
+                <!--                            <a routerLink="dashboard/dashboard2">Dashboard 2</a>-->
+                <!--                        </li>-->
+                <!--                        <li routerLinkActive="active">-->
+                <!--                            <a routerLink="dashboard/dashboard3">Dashboard 3</a>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </li>-->
+                <!--                <li routerLinkActive="active">-->
+                <!--                    <a routerLink="apps/calendar">-->
+                <!--                        <i class="far fa-calendar"></i>-->
+                <!--                        <span>Events</span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+                <!--                <li routerLinkActive="active">-->
+                <!--                    <a href="#" onClick="return false;" class="menu-toggle">-->
+                <!--                        <i class="fas fa-mail-bulk"></i>-->
+                <!--                        <span>Email</span>-->
+                <!--                    </a>-->
+                <!--                    <ul class="ml-menu">-->
+                <!--                        <li routerLinkActive="active">-->
+                <!--                            <a routerLink="email/inbox">Inbox</a>-->
+                <!--                        </li>-->
+                <!--                        <li routerLinkActive="active">-->
+                <!--                            <a routerLink="email/compose">Compose</a>-->
+                <!--                        </li>-->
+                <!--                        <li routerLinkActive="active">-->
+                <!--                            <a routerLink="email/read-mail">Read Email</a>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </li>-->
                 <!--                <li routerLinkActive="active">-->
                 <!--                    <a href="#" onClick="return false;" class="menu-toggle">-->
                 <!--                        <i class="fab fa-google-play"></i>-->
@@ -95,85 +93,85 @@
                 <!--                            <a routerLink="apps/support">Support</a>-->
                 <!--                        </li>-->
                 <!--                    </ul>-->
-                <!--                <li routerLinkActive="active">-->
-                <!--                    <a href="#" onClick="return false;" class="menu-toggle">-->
-                <!--                        <i class="fab fa-pagelines"></i>-->
-                <!--                        <span>Widgets</span>-->
-                <!--                    </a>-->
-                <!--                    <ul class="ml-menu">-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="widget/chart-widget">Chart Widget</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="widget/data-widget">Data Widget</a>-->
-                <!--                        </li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
-                <!--                <li routerLinkActive="active">-->
-                <!--                    <a href="#" onClick="return false;" class="menu-toggle">-->
-                <!--                        <i class="fas fa-drafting-compass"></i>-->
-                <!--                        <span>User Interface (UI)</span>-->
-                <!--                    </a>-->
-                <!--                    <ul class="ml-menu">-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/alerts">Alerts</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/animations">Animations</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/badges">Badges</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/modal">Modal</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/buttons">Buttons</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/collapse">Collapse</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/dialogs">Dialogs</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/cards">Cards</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/labels">Labels</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/list-group">List Group</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/media-object">Media Object</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/notifications">Notifications</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/preloaders">Preloaders</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/progressbars">Progress Bars</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/rangeslider">Range Sliders</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/tabs">Tabs</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/waves">Waves</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/typography">Typography</a>-->
-                <!--                        </li>-->
-                <!--                        <li routerLinkActive="active">-->
-                <!--                            <a routerLink="ui/helper-classes">Helper Classes</a>-->
-                <!--                        </li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
+                                <li routerLinkActive="active">
+                                    <a href="#" onClick="return false;" class="menu-toggle">
+                                        <i class="fab fa-pagelines"></i>
+                                        <span>Widgets</span>
+                                    </a>
+                                    <ul class="ml-menu">
+                                        <li routerLinkActive="active">
+                                            <a routerLink="widget/chart-widget">Chart Widget</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="widget/data-widget">Data Widget</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li routerLinkActive="active">
+                                    <a href="#" onClick="return false;" class="menu-toggle">
+                                        <i class="fas fa-drafting-compass"></i>
+                                        <span>User Interface (UI)</span>
+                                    </a>
+                                    <ul class="ml-menu">
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/alerts">Alerts</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/animations">Animations</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/badges">Badges</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/modal">Modal</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/buttons">Buttons</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/collapse">Collapse</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/dialogs">Dialogs</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/cards">Cards</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/labels">Labels</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/list-group">List Group</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/media-object">Media Object</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/notifications">Notifications</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/preloaders">Preloaders</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/progressbars">Progress Bars</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/rangeslider">Range Sliders</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/tabs">Tabs</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/waves">Waves</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/typography">Typography</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/helper-classes">Helper Classes</a>
+                                        </li>
+                                    </ul>
+                                </li>
                 <!--                <li routerLinkActive="active">-->
                 <!--                    <a href="#" onClick="return false;" class="menu-toggle">-->
                 <!--                        <i class="fab fa-wpforms"></i>-->
@@ -408,6 +406,7 @@
                 <!--                        </li>-->
                 <!--                    </ul>-->
                 <!--                </li>-->
+
             </ul>
         </div>
         <!-- #Menu -->
