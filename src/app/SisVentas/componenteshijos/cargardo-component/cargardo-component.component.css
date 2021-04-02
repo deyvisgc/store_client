@@ -227,7 +227,7 @@
 }
 
 .loading-global-sil-container {
-    margin: 40px auto
+    margin: 10px auto
 }
 
 .loading-global-sil {
@@ -264,13 +264,9 @@
     font-family      : "Helvetica Neue, "Helvetica", ""arial";
     font-size        : 9px;
     font-weight      : 500;
-    margin-top       : 40px;
     opacity          : 0;
     position         : absolute;
     text-align       : center;
     text-transform   : uppercase;
-    top              : -17px;
-    width            : 75px;
 }
-
 /* FIN loading-global-sil */

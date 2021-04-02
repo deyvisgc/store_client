@@ -237,7 +237,6 @@ export class ReportesComponent implements OnInit {
     vm.isloading.closeModal();
   }
   exportarExcelById(value: any) {
-    console.log(value);
     const vm = this;
     vm.messageProceso = 'Exportando el detalle de esta compra';
     vm.isloading.openModal(vm.messageProceso);

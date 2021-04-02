@@ -13,10 +13,12 @@ export class CompraService {
   private listEmpresa = new Subject<boolean>(); //para limpiar el autocomplete de la compra
   private Compra = new Subject<Compra[]>(); // Obtener el listado de todas las listas
   private showActive = new Subject<number>();
+  private exporpdf = new Subject<number>();
   // tslint:disable-next-line:max-line-length
   listEmpresaObs$ = this.listEmpresa.asObservable(); // creo una variable obs$y le paso el oservable esto es para que observe si existe algun cambio en la clase a heredar
   Compra$ = this.Compra.asObservable();
   showActive$ = this.showActive.asObservable();
+  exporpdf$ = this.exporpdf.asObservable();
 
   constructor(private httpClient: HttpClient, private url: EnviromentService) { }
 
@@ -31,6 +33,9 @@ export class CompraService {
     //Activa o desacitivar el tab
     ShowActiveTab(message: number) {
       this.showActive.next(message);
+    }
+    ExportarPdf(message: number) {
+      this.exporpdf.next(message);
     }
 
   // public Search(id: number) {

@@ -1,0 +1,165 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+          <div class="header">
+            <h2 _ngcontent-okb-c6=""  class="m-b-10"> <span class="title" >REPORTES | SANGRIA</span> <i _ngcontent-art-c7="" style="font-size: 30px;margin-left: 10px;color: #052337;" class="fas fa-money-check-alt"></i></h2>
+          </div>
+          <div class="body" id="cabecera">
+              <div class="row">
+                    <!-- <div style="padding: 10px;" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                      <div class="input-group">
+                          <div class="form-line">
+                              <input [disabled]="cargandoInformacion" style="margin-left: 8px;" (keyup.enter)="Fetch()"  type="text" id="reportes_input" class="form-control fecha_desde" placeholder="Buscar por Ingresos">
+                          </div>
+                      </div>
+                    </div>
+                    <div style="padding: 10px;" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                      <div class="input-group">
+                          <div class="form-line">
+                              <input [disabled]="cargandoInformacion" style="margin-left: 8px;" (keyup.enter)="Fetch()"  type="text" id="reportes_input" class="form-control fecha_desde" placeholder="Buscar por Egresos">
+                          </div>
+                      </div>
+                    </div> -->
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                      <b>Fecha desde</b>
+                      <div class="input-group">
+                          <span class="input-group-addon">
+                              <i  style="margin-left: 10px;cursor: pointer" class="material-icons">date_range</i>
+                          </span>
+                          <div class="form-line">
+                              <input [disabled]="cargandoInformacion"   style="cursor: pointer"  [(ngModel)]="filtros.fechaDesde" type="text" id="reportes_input" class="form-control fecha_desde" placeholder="">
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                      <b>Fecha hasta</b>
+                      <div class="input-group">
+                          <span class="input-group-addon">
+                              <i style="cursor: pointer"  class="material-icons">date_range</i>
+                          </span>
+                          <div class="form-line">
+                              <input  [disabled]="cargandoInformacion" style="cursor: pointer" [(ngModel)]="filtros.fechaHasta"  (change)="Fetch()" type="text" id="reportes_input" class="form-control fecha_hasta" placeholder="">
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <b>Caja</b>
+                      <div class="input-group">
+                          <span class="input-group-addon">
+                          </span>
+                          <div class="form-group default-select" style="padding-top: 13px;">
+                            <select class="form-control caja"   [(ngModel)]="filtros.caja"  [disabled]="cargandoInformacion"  data-placeholder="Seleccione">
+                            </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <b>Tipo Sangria</b>
+                      <div class="input-group">
+                          <span class="input-group-addon">
+                          </span>
+                          <div class="form-group default-select" style="padding-top: 13px;">
+                            <select class="form-control tipoSangriaFiltro"   [(ngModel)]="filtros.tipoSangria"  [disabled]="cargandoInformacion"  data-placeholder="Seleccione">
+                            </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="btn-group pull-right">
+                      <button type="button" (click)="reporte();" class="btn btn-default"><i class="fa fa-print"></i> PDF
+                      </button>
+                      <button type="button" (click)="inventarioExcel();"  [disabled]="cargandoInformacion" class="btn btn-default"><i _ngcontent-mgn-c8="" class="fas fa-file-excel"></i>  Excel
+                      </button>
+                      <button type="button" (click)="Actualizar()" class="btn btn-default"><i _ngcontent-cfj-c8="" class="fas fa-sync-alt"></i> Actualizar
+                      </button>
+                   </div>
+                   <app-reload-filtros #isloading></app-reload-filtros>
+              </div>
+          </div>
+      </div>
+      <div class="card">
+        <div class="body">
+          <div class="header">
+            <h2 _ngcontent-okb-c6=""  class="m-b-10 titleLista"> Formulario de Ingresos y Egresos </h2>
+          </div><p></p>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+              <div class="col-md-2">
+                <b>Monto</b>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                      <i _ngcontent-yvt-c7="" class="material-icons">attach_money</i>
+                    </span>
+                    <div class="form-line">
+                        <input type="number" [(ngModel)]="sangria.monto" class="form-control time24" placeholder="0.00">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <b>Fecha</b>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">date_range</i>
+                    </span>
+                    <div class="form-line">
+                        <input [(ngModel)]="sangria.fechaHoy" type="text"  class="form-control fechaHoy">
+                    </div>
+                </div>
+               </div>
+               <div class="col-md-2">
+                <b>Tipo Operacion</b>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                    </span>
+                    <div class="form-group default-select" style="padding-top: 13px;">
+                      <select class="form-control tipoSangria" id="tipoSangria"  [(ngModel)]="sangria.tipoSangria"  [disabled]="cargandoInformacion"  data-placeholder="Seleccione">
+                          <option value="ingreso">INGRESO</option>
+                          <option value="salida">SALIDA</option>
+                      </select>
+                  </div>
+                </div>
+               </div>
+               <div class="col-md-4">
+                <b>Motivo</b>
+                <div class="input-group">
+                    <div class="form-line">
+                      <textarea [(ngModel)]="sangria.motivo" id="textarea2" class="materialize-textarea"></textarea>
+                    </div>
+                </div>
+               </div>
+              <button _ngcontent-aer-c6="" (click)="Guardar()" class="btn btn-outline-success btn-border-radius" type="button">
+               <label *ngIf="!accion" style="margin-top: 3px; font-weight:bolder;font-family: initial;">GUARDAR</label>
+               <label *ngIf="accion" style="margin-top: 3px; font-weight:bolder;font-family: initial;">ACTUALIZAR</label>
+              </button>
+            </div>
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation">
+                    <a href="#ingresos" data-toggle="tab" [ngClass]="{'active show': showTab === 1, '': showTab !== 1}"> INGRESOS
+                      <span _ngcontent-ajo-c6="" class="badge bg-green">{{listIngresos.length === 0 ? 0 : listIngresos.length}}</span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#egresos" data-toggle="tab"   [ngClass]="{'active show': showTab === 2, '': showTab !== 2}"> EGRESOS
+                      <span _ngcontent-ajo-c6="" class="badge bg-red">{{listSalidas.length === 0 ? 0 : listSalidas.length}}</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active show" [ngClass]="{'active show': showTab === 1, '': showTab !== 1}" id="ingresos">
+                    <b>Historial ingresos</b>
+                    <app-ingresos #ingresos (sendIngresoxid)="Editar($event)" (idSangria)="Anular($event)" ></app-ingresos>
+                </div>
+                <div role="tabpanel"  class="tab-pane fade" [ngClass]="{'active show': showTab === 2, '': showTab !== 2}" id="egresos">
+                    <b>Historial egresos</b>
+                    <app-egresos #salida></app-egresos>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  </div>
+</section>
+<app-cargardo-component #isloadingModal></app-cargardo-component>
+
+

@@ -2,6 +2,15 @@ body {
   margin: 0px;
   padding: 0px;
 }
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: black !important;
+}
+.title {
+  font-size: 20px;
+  color: black;
+  font-weight: bold;
+  font-family: sans-serif;
+}
 .input-group {
   margin-bottom: 0px;
 }
@@ -43,9 +52,11 @@ body {
   margin-left: 60px;
 }
 .titleLista {
-  font-size: 20px !important;
-  font-weight: 400 !important;
-  font-family: math !important;
+  color: black;
+  font-weight: bolder !important;
+  font-size: 15px !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+
 }
 .btn-default {
   background-color: #f4f4f4 !important;
@@ -54,4 +65,12 @@ body {
 }
 #reportes_input {
   text-transform: uppercase;
+  padding-top: 30px;
+  text-align: center;
+}
+::placeholder{
+  color: black;
+}
+input {
+  color: black !important;
 }
