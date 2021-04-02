@@ -18,12 +18,13 @@ export class ReportesService {
     // tslint:disable-next-line:no-unused-expression
     return this.httpClient.get(this.url.urlAddress + 'Reportes/Pdf', {responseType: 'blob'});
   }
-   ExportarPdfInventario(params) {
+   ExportarExcelInventario(params) {
     return this.httpClient.get(this.url.urlAddress + 'Reportes/Exprotar/Inventario', {params, responseType: 'blob'});
    }
    probando() {
     return this.httpClient.get(this.url.urlAddress + 'Reportes/probar', {headers: this.headers}).toPromise();
    }
+   // sangria
    AddSangria(sangria) {
      return this.httpClient.post(this.url.urlAddress + 'Reportes/AddSangria', {sangria}, {headers: this.headers}).toPromise();
    }
@@ -32,5 +33,8 @@ export class ReportesService {
    }
    deleteSngria(id) {
     return this.httpClient.post(this.url.urlAddress + 'Reportes/DeleteSangria', { id, headers: this.headers}).toPromise();
+   }
+   ExportarExcelSangria(params) {
+    return this.httpClient.get(this.url.urlAddress + 'Reportes/Exprotar/Sangria', {params, responseType: 'blob'});
    }
 }

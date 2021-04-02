@@ -7,20 +7,6 @@
           </div>
           <div class="body" id="cabecera">
               <div class="row">
-                    <!-- <div style="padding: 10px;" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                      <div class="input-group">
-                          <div class="form-line">
-                              <input [disabled]="cargandoInformacion" style="margin-left: 8px;" (keyup.enter)="Fetch()"  type="text" id="reportes_input" class="form-control fecha_desde" placeholder="Buscar por Ingresos">
-                          </div>
-                      </div>
-                    </div>
-                    <div style="padding: 10px;" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                      <div class="input-group">
-                          <div class="form-line">
-                              <input [disabled]="cargandoInformacion" style="margin-left: 8px;" (keyup.enter)="Fetch()"  type="text" id="reportes_input" class="form-control fecha_desde" placeholder="Buscar por Egresos">
-                          </div>
-                      </div>
-                    </div> -->
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                       <b>Fecha desde</b>
                       <div class="input-group">
@@ -50,6 +36,7 @@
                           </span>
                           <div class="form-group default-select" style="padding-top: 13px;">
                             <select class="form-control caja"   [(ngModel)]="filtros.caja"  [disabled]="cargandoInformacion"  data-placeholder="Seleccione">
+                              <option value="{{item.id_caja}}" *ngFor="let item of listCaja">{{item.ca_name}}</option>
                             </select>
                         </div>
                       </div>
@@ -61,16 +48,16 @@
                           </span>
                           <div class="form-group default-select" style="padding-top: 13px;">
                             <select class="form-control tipoSangriaFiltro"   [(ngModel)]="filtros.tipoSangria"  [disabled]="cargandoInformacion"  data-placeholder="Seleccione">
+                              <option value="ingreso">INGRESO</option>
+                              <option value="salida">SALIDA</option>
                             </select>
                         </div>
                       </div>
                     </div>
                     <div class="btn-group pull-right">
-                      <button type="button" (click)="reporte();" class="btn btn-default"><i class="fa fa-print"></i> PDF
+                      <button type="button" (click)="ExportarExcel();"  [disabled]="cargandoInformacion" class="btn btn-default"><i _ngcontent-mgn-c8="" class="fas fa-file-excel"></i>  Excel
                       </button>
-                      <button type="button" (click)="inventarioExcel();"  [disabled]="cargandoInformacion" class="btn btn-default"><i _ngcontent-mgn-c8="" class="fas fa-file-excel"></i>  Excel
-                      </button>
-                      <button type="button" (click)="Actualizar()" class="btn btn-default"><i _ngcontent-cfj-c8="" class="fas fa-sync-alt"></i> Actualizar
+                      <button type="button" (click)="Actualizar()" [disabled]="cargandoInformacion" class="btn btn-default"><i _ngcontent-cfj-c8="" class="fas fa-sync-alt"></i> Actualizar
                       </button>
                    </div>
                    <app-reload-filtros #isloading></app-reload-filtros>
@@ -91,7 +78,7 @@
                       <i _ngcontent-yvt-c7="" class="material-icons">attach_money</i>
                     </span>
                     <div class="form-line">
-                        <input type="number" [(ngModel)]="sangria.monto" class="form-control time24" placeholder="0.00">
+                        <input type="number" [disabled]="cargandoInformacion" [(ngModel)]="sangria.monto" class="form-control time24" placeholder="0.00">
                     </div>
                 </div>
               </div>
@@ -102,7 +89,7 @@
                         <i class="material-icons">date_range</i>
                     </span>
                     <div class="form-line">
-                        <input [(ngModel)]="sangria.fechaHoy" type="text"  class="form-control fechaHoy">
+                        <input [(ngModel)]="sangria.fechaHoy" [disabled]="cargandoInformacion" type="text"  class="form-control fechaHoy">
                     </div>
                 </div>
                </div>
@@ -112,7 +99,7 @@
                     <span class="input-group-addon">
                     </span>
                     <div class="form-group default-select" style="padding-top: 13px;">
-                      <select class="form-control tipoSangria" id="tipoSangria"  [(ngModel)]="sangria.tipoSangria"  [disabled]="cargandoInformacion"  data-placeholder="Seleccione">
+                      <select class="form-control tipoSangria" [disabled]="cargandoInformacion" id="tipoSangria"  [(ngModel)]="sangria.tipoSangria"  [disabled]="cargandoInformacion"  data-placeholder="Seleccione">
                           <option value="ingreso">INGRESO</option>
                           <option value="salida">SALIDA</option>
                       </select>
@@ -123,13 +110,13 @@
                 <b>Motivo</b>
                 <div class="input-group">
                     <div class="form-line">
-                      <textarea [(ngModel)]="sangria.motivo" id="textarea2" class="materialize-textarea"></textarea>
+                      <textarea [disabled]="cargandoInformacion" [(ngModel)]="sangria.motivo" id="textarea2" class="materialize-textarea"></textarea>
                     </div>
                 </div>
                </div>
-              <button _ngcontent-aer-c6="" (click)="Guardar()" class="btn btn-outline-success btn-border-radius" type="button">
-               <label *ngIf="!accion" style="margin-top: 3px; font-weight:bolder;font-family: initial;">GUARDAR</label>
-               <label *ngIf="accion" style="margin-top: 3px; font-weight:bolder;font-family: initial;">ACTUALIZAR</label>
+               <button _ngcontent-smb-c6="" (click)="Guardar()" [disabled]="cargandoInformacion" class="btn btn-success waves-effect" type="button">
+                <i *ngIf="!accion" title="Crear Nueva Solicitud" _ngcontent-jev-c5="" class="fas fa-plus-square"><span style="font-size: 15px;font-weight: bold;font-family: sans-serif;">Crear</span></i>
+                <i *ngIf="accion" title="Actualizar Informacion" _ngcontent-lbr-c10="" class="fas fa-edit"><span style="font-size: 15px;font-weight: bold;font-family: sans-serif;">Editar</span></i>
               </button>
             </div>
             <ul class="nav nav-tabs" role="tablist">
@@ -147,11 +134,11 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active show" [ngClass]="{'active show': showTab === 1, '': showTab !== 1}" id="ingresos">
                     <b>Historial ingresos</b>
-                    <app-ingresos #ingresos (sendIngresoxid)="Editar($event)" (idSangria)="Anular($event)" ></app-ingresos>
+                    <app-ingresos #ingresos (sendIngresoxid)="Editar($event)"></app-ingresos>
                 </div>
-                <div role="tabpanel"  class="tab-pane fade" [ngClass]="{'active show': showTab === 2, '': showTab !== 2}" id="egresos">
+                <div role="tabpanel" class="tab-pane fade" [ngClass]="{'active show': showTab === 2, '': showTab !== 2}" id="egresos">
                     <b>Historial egresos</b>
-                    <app-egresos #salida></app-egresos>
+                    <app-egresos #salida (sendSalidaxid)="Editar($event)"></app-egresos>
                 </div>
             </div>
           </div>

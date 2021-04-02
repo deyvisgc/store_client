@@ -18,6 +18,7 @@ declare const sendRespuesta: any;
 export class SangriaComponent implements OnInit {
   fechaHoy = moment().format('YYYY-MM-DD');
   fechahasta = moment().add(7, 'days').format('YYYY-MM-DD');
+  cargandoInformacion = false;
   accion = false;
   @ViewChild('isloading', {static: true}) isloading;
   @ViewChild('isloadingModal', {static: true}) isloadingModal;
@@ -27,6 +28,7 @@ export class SangriaComponent implements OnInit {
 
   listIngresos = [];
   listSalidas = [];
+  listCaja = [];
   sumaIngresos = 0;
   sumaSalidas = 0;
   sangria = {
@@ -60,10 +62,18 @@ export class SangriaComponent implements OnInit {
       $('.caja').select2({ width: '100%' }).on('change', (event) => {
         const vm = this;
         vm.filtros.caja = event.target.value;
+        vm.Fetch();
       });
       $('.tipoSangriaFiltro').select2({ width: '100%' }).on('change', (event) => {
         const vm = this;
-        vm.sangria.tipoSangria = event.target.value;
+        vm.filtros.tipoSangria = event.target.value;
+        if (vm.filtros.tipoSangria === 'ingreso') {
+          vm.showTab = 1;
+        }
+        if (vm.filtros.tipoSangria === 'salida') {
+          vm.showTab = 2;
+        }
+        vm.Fetch();
       });
       flatpickr('.fechaHoy', {
         locale: Spanish,
@@ -83,7 +93,8 @@ export class SangriaComponent implements OnInit {
         vm.sangria.idUsuario = 2;
         message = 'Registrando Sangria';
       }
-      this.isloadingModal.openModal(message);
+      vm.isloadingModal.openModal(message);
+      vm.cargandoInformacion = true;
       vm.reporteSer.AddSangria(vm.sangria).then( res => {
         const rpta = sendRespuesta(res);
         if (rpta.status === true) {
@@ -102,11 +113,14 @@ export class SangriaComponent implements OnInit {
         }
       }).catch((err) => {
         alert(err);
+        vm.cargandoInformacion = false;
       }).then(() => {
         this.isloadingModal.closeModal();
         this.setearSangia();
+        vm.cargandoInformacion = false;
       }, () => {
         this.isloadingModal.closeModal();
+        vm.cargandoInformacion = false;
       });
   }
   }
@@ -148,26 +162,31 @@ export class SangriaComponent implements OnInit {
   }
   Fetch() {
     const vm = this;
+    vm.isloading.showLoading();
+    vm.cargandoInformacion = true;
     vm.reporteSer.GetSangria(this.filtros).then( res => {
     vm.sumaIngresos = 0;
     vm.sumaSalidas = 0;
     const rpta = sendRespuesta(res);
-
-    vm.listIngresos = rpta.data.filter( i => i.san_tipo_sangria === 'ingreso');
+    if (rpta.data.caja.length > 0) {
+      vm.listCaja = rpta.data.caja;
+    }
+    vm.listIngresos = rpta.data.lista.filter( i => i.san_tipo_sangria === 'ingreso');
 
     vm.listIngresos.map((x, index) => {
       vm.sumaIngresos += vm.listIngresos[index].san_monto;
     });
 
-    vm.listSalidas = rpta.data.filter( e => e.san_tipo_sangria === 'salida');
+    vm.listSalidas = rpta.data.lista.filter( e => e.san_tipo_sangria === 'salida');
 
     vm.listSalidas.map((x, index) => {
       vm.sumaSalidas += vm.listSalidas[index].san_monto;
     });
 
-    vm.ingresos.FetchIngresos(vm.filtros, vm.listIngresos, vm.sumaIngresos.toFixed(2));
-    vm.salida.FetchSalidas(vm.filtros, vm.listSalidas, vm.sumaSalidas.toFixed(2));
-
+    vm.ingresos.FetchIngresos(vm.listIngresos, vm.sumaIngresos.toFixed(2));
+    vm.salida.FetchSalidas(vm.listSalidas, vm.sumaSalidas.toFixed(2));
+    vm.isloading.closeLoading();
+    vm.cargandoInformacion = false;
     }).catch((err) => {
       console.log(err);
     }).then(() => {
@@ -184,6 +203,14 @@ export class SangriaComponent implements OnInit {
     vm.sangria.idUsuario = 0;
     vm.sangria.idCaja = 0;
   }
+  setearFiltros() {
+    const vm = this;
+    $('.caja').val(null).trigger('change');
+    $('.tipoSangriaFiltro').val(null).trigger('change');
+    vm.filtros.fechaDesde = vm.fechaHoy;
+    vm.filtros.fechaHasta = vm.fechahasta;
+
+  }
   Editar(event) {
     const vm = this;
     vm.accion = true;
@@ -193,50 +220,34 @@ export class SangriaComponent implements OnInit {
     vm.sangria.motivo = event.san_motivo;
     vm.sangria.id = event.id_sangria;
     $('.tipoSangria').val(event.san_tipo_sangria).trigger('change');
-  }
-  Anular(event) {
-    const vm = this;
-    const swalWithBootstrapButtons = swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
+    iziToast.success({
+      title: 'OK',
+      position: 'topRight',
+      message: 'Informacion Encontrada',
     });
-    swalWithBootstrapButtons.fire({
-      title: 'Are you sure?',
-      text: 'Seguro de eliminar esta sangria',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Si, Eliminar!',
-      cancelButtonText: 'No, cancelar!',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.isConfirmed) {
-        vm.reporteSer.deleteSngria(event).then( res => {
-          const rpta = sendRespuesta(res);
-          if (rpta.status) {
-            swalWithBootstrapButtons.fire(
-              'Deleted!',
-               rpta.message,
-              'success');
-            this.Fetch();
-          } else {
-            swalWithBootstrapButtons.fire(
-              'Error!',
-              rpta.message,
-              'error');
-          }
-        });
-      } else if (
-        result.dismiss === swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire(
-          'Cancelled',
-          'Tu sangira está a salvo :)',
-          'error'
-          );
-      }
+  }
+  Actualizar() {
+    const vm = this;
+    vm.setearFiltros();
+    vm.showTab = 1;
+    vm.accion = false;
+    vm.Fetch();
+  }
+  ExportarExcel() {
+    const vm = this;
+    vm.cargandoInformacion = true;
+    vm.isloading.showLoading();
+    vm.reporteSer.ExportarExcelSangria(vm.filtros).subscribe(data => {
+      const a          = document.createElement('a');
+      document.body.appendChild(a);
+      const blob       = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'});
+      const url        = window.URL.createObjectURL(blob);
+      a.href         = url;
+      a.download     = `Reporte_sangria${((new Date()).getTime())}.xlsx`;
+      vm.cargandoInformacion = false;
+      vm.isloading.closeLoading();
+      a.click();
+      window.URL.revokeObjectURL(url);
     });
   }
 }

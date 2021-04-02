@@ -1,8 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { DynamicScriptLoaderService } from 'src/app/services/dynamic-script-loader.service';
-import { ReportesService } from 'src/app/SisVentas/service/reportes/reportes.service';
 declare const $: any;
-declare const sendRespuesta: any;
 @Component({
   selector: 'app-ingresos',
   templateUrl: './ingresos.component.html',
@@ -11,21 +8,11 @@ declare const sendRespuesta: any;
 export class IngresosComponent implements OnInit {
   total = 0;
   @Output() sendIngresoxid = new EventEmitter<any>();
-  @Output() idSangria = new EventEmitter<number> ();
-  constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private reporteSer: ReportesService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.startScript();
   }
-  async startScript() {
-    await this.dynamicScriptLoader.load('form.min').then(data => {
-      this.loadData();
-    }).catch(error => console.log(error));
-  }
-  private loadData() {
-    const vm = this;
-  }
-  FetchIngresos(params, ingresos, total) {
+  FetchIngresos(ingresos, total) {
     const vm = this;
     vm.total = total;
     vm.datatable(ingresos, '.ingresos');
@@ -48,17 +35,9 @@ export class IngresosComponent implements OnInit {
       {data: 'san_monto'},
       { data: () => {
         return (
-          '<div _ngcontent-aai-c5="" class="btn-group" style="margin-left: 20px;">' +
-          '<button _ngcontent-aai-c5="" aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"' +
-          'data-toggle="dropdown" type="button"><i _ngcontent-eev-c7="" class="fas fa-align-justify"></i>' +
-          '<span _ngcontent-aai-c5="" class="caret">' +
-          '</span></button><ul _ngcontent-aai-c5="" class="dropdown-menu"><li _ngcontent-aai-c5="">' +
-          '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" style="cursor: pointer" class="edit">' +
-          '<i _ngcontent-ogf-c5="" class="fas fa-eye"></i> Editar</a></li>' +
-          '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" style="cursor: pointer" class="anular">' +
-          '<i _ngcontent-ccs-c5="" class="fas fa-times-circle"></i> Anular</a></li>' +
-          '<li _ngcontent-aai-c5="">' +
-          '</li>'
+          '<button _ngcontent-smb-c6="" class="btn btn-success waves-effect edit" type="button">' +
+          '<i *ngIf="accion" title="Actualizar Informacion" _ngcontent-lbr-c10="" class="fas fa-edit"></i>' +
+          '</button>'
         );
       }
       },
@@ -68,9 +47,6 @@ export class IngresosComponent implements OnInit {
         $('td', row).css('cursor', 'pointer');
         $('.edit', row).bind('click' , (e) => {
           vm.Editar(data);
-        });
-        $('.anular', row).bind('click' , (e) => {
-          vm.Anular(data);
         });
       },
       language: {
@@ -100,9 +76,5 @@ export class IngresosComponent implements OnInit {
   Editar(value: any) {
     const vm = this;
     vm.sendIngresoxid.emit(value);
-  }
-  Anular(value) {
-    const vm = this;
-    vm.idSangria.emit(value.id_sangria);
   }
 }

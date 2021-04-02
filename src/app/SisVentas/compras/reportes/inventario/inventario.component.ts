@@ -120,13 +120,13 @@ export class InventarioComponent implements OnInit {
     const vm = this;
     vm.cargandoInformacion = true;
     vm.isloading.showLoading();
-    vm.reporServ.ExportarPdfInventario(vm.filtros).subscribe(data => {
+    vm.reporServ.ExportarExcelInventario(vm.filtros).subscribe(data => {
       const a          = document.createElement('a');
       document.body.appendChild(a);
       const blob       = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'});
       const url        = window.URL.createObjectURL(blob);
       a.href         = url;
-      a.download     = `ReporteInventario${((new Date()).getTime())}.xlsx`;
+      a.download     = `Reporte_Inventario${((new Date()).getTime())}.xlsx`;
       vm.cargandoInformacion = false;
       vm.isloading.closeLoading();
       a.click();

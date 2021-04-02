@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 declare const $: any;
-declare const sendRespuesta: any;
 @Component({
   selector: 'app-egresos',
   templateUrl: './egresos.component.html',
@@ -8,11 +7,12 @@ declare const sendRespuesta: any;
 })
 export class EgresosComponent implements OnInit {
  total = 0;
+ @Output() sendSalidaxid = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit() {
   }
-  FetchSalidas(params, salidas, total) {
+  FetchSalidas(salidas, total) {
     const vm = this;
     vm.datatable(salidas);
     vm.total = total;
@@ -35,26 +35,19 @@ export class EgresosComponent implements OnInit {
       {data: 'san_monto'},
       { data: () => {
         return (
-          '<div _ngcontent-aai-c5="" class="btn-group" style="margin-left: 20px;">' +
-          '<button _ngcontent-aai-c5="" aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"' +
-          'data-toggle="dropdown" type="button"><i _ngcontent-eev-c7="" class="fas fa-align-justify"></i>' +
-          '<span _ngcontent-aai-c5="" class="caret">' +
-          '</span></button><ul _ngcontent-aai-c5="" class="dropdown-menu"><li _ngcontent-aai-c5="">' +
-          '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="detalleCompra">' +
-          '<i _ngcontent-ogf-c5="" class="fas fa-eye"></i> Detalle</a></li>' +
-          '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="anular">' +
-          '<i _ngcontent-ccs-c5="" class="fas fa-times-circle"></i> Anular</a></li>' +
-          '<li _ngcontent-aai-c5="">' +
-          '</li><li _ngcontent-aai-c5="">' +
-          '<a _ngcontent-aai-c5="" class="exportarExcelDetalle">' +
-          '<i _ngcontent-toy-c5="" style="color: black;font-weight: bold;" class="far fa-file-excel "></i>' +
-          '<span > Exportar</span></a></li></ul></div>'
+          '<button _ngcontent-smb-c6="" class="btn btn-success waves-effect edit" type="button">' +
+          '<i *ngIf="accion" title="Actualizar Informacion" _ngcontent-lbr-c10="" class="fas fa-edit"></i>' +
+          '</button>'
         );
       }
       },
       ],
       responsive: true,
       rowCallback: ( row, data ) => {
+        $('td', row).css('cursor', 'pointer');
+        $('.edit', row).bind('click' , (e) => {
+          vm.Editar(data);
+        });
       },
       language: {
         decimal: '',
@@ -79,5 +72,9 @@ export class EgresosComponent implements OnInit {
       order: [],
       destroy: true
     });
+  }
+  Editar(value: any) {
+    const vm = this;
+    vm.sendSalidaxid.emit(value);
   }
 }

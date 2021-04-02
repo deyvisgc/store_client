@@ -60,7 +60,7 @@ body {
 }
 .btn-default {
   background-color: #f4f4f4 !important;
-  color: #444 !important;
+  color: green !important;
   border-color: #ddd !important;
 }
 #reportes_input {
