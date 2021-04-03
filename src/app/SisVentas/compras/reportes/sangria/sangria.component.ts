@@ -25,20 +25,21 @@ export class SangriaComponent implements OnInit {
   @ViewChild('ingresos', {static: true}) ingresos;
   @ViewChild('salida', {static: true}) salida;
   showTab = 1;
-
   listIngresos = [];
   listSalidas = [];
   listCaja = [];
   sumaIngresos = 0;
   sumaSalidas = 0;
+  idUsuario = 2;
+  idCaja = 3;
   sangria = {
     id: 0,
     monto: '',
-    fecha: this.fechaHoy,
+    fecha: moment().format('YYYY-MM-DD HH:mm'),
     tipoSangria: '',
     motivo: '',
-    idUsuario: 2,
-    idCaja: 3
+    idUsuario: this.idUsuario,
+    idCaja: this.idCaja
   };
   filtros = {
     fechaDesde: this.fechaHoy,
@@ -77,8 +78,17 @@ export class SangriaComponent implements OnInit {
       });
       flatpickr('.fechaHoy', {
         locale: Spanish,
+        defaultDate: [moment().format('YYYY-MM-DD HH:mm')]
+      });
+      flatpickr('.fecha_desde', {
+        locale: Spanish,
         dateFormat: 'Y-m-d',
         defaultDate: [this.fechaHoy]
+      });
+      flatpickr('.fecha_hasta', {
+        locale: Spanish,
+        dateFormat: 'Y-m-d',
+        defaultDate: [this.fechahasta]
       });
     }).catch(error => console.log(error));
   }
@@ -89,8 +99,6 @@ export class SangriaComponent implements OnInit {
       if (vm.sangria.id > 0) {
         message = 'Actualizando Sangria';
       } else {
-        vm.sangria.idCaja = 3;
-        vm.sangria.idUsuario = 2;
         message = 'Registrando Sangria';
       }
       vm.isloadingModal.openModal(message);
@@ -197,19 +205,19 @@ export class SangriaComponent implements OnInit {
   setearSangia() {
     const vm = this;
     vm.sangria.monto = '';
-    vm.sangria.fecha = vm.fechaHoy;
+    vm.sangria.fecha = moment().format('YYYY-MM-DD HH:mm');
     vm.sangria.motivo = '';
     $('.tipoSangria').val(null).trigger('change');
-    vm.sangria.idUsuario = 0;
-    vm.sangria.idCaja = 0;
+    vm.sangria.idUsuario = vm.idUsuario;
+    vm.sangria.idCaja = vm.idCaja;
   }
   setearFiltros() {
     const vm = this;
-    $('.caja').val(null).trigger('change');
-    $('.tipoSangriaFiltro').val(null).trigger('change');
+    $('.caja').val(null).trigger('change.select2');
+    $('.caja').val(null).trigger('change.select2');
+    $('.tipoSangriaFiltro').val(null).trigger('change.select2');
     vm.filtros.fechaDesde = vm.fechaHoy;
     vm.filtros.fechaHasta = vm.fechahasta;
-
   }
   Editar(event) {
     const vm = this;
@@ -228,6 +236,7 @@ export class SangriaComponent implements OnInit {
   }
   Actualizar() {
     const vm = this;
+    vm.setearSangia();
     vm.setearFiltros();
     vm.showTab = 1;
     vm.accion = false;

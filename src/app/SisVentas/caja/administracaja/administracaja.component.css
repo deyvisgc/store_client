@@ -1,0 +1,61 @@
+.estado {
+  font-size: 15px;
+  font-weight: 600;
+  font-family: sans-serif;
+}
+.fecha {
+  margin-left: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: sans-serif;
+}
+.value {
+  margin-left: 15px;
+  font-size: 15px;
+}
+.detallecaja {
+  font-size: 17px;
+  font-family: sans-serif;
+  font-weight: 600;
+}
+.montoInicial {
+  color: grey;
+}
+.montoIngreso {
+  color: green;
+}
+.devoluciones {
+  color: red;
+}
+.gastos {
+  color: lightskyblue;
+}
+hr {
+  border: 1px solid;
+  width: 180px;
+}
+.ingresos-totales {
+  margin-left: 20px;
+  color: green;
+  font-weight: bold;
+}
+.salidas-totales{
+  margin-left: 20px;
+  color: red;
+  font-weight: bold;
+}
+.saldo-totales{
+  margin-left: 20px;
+  color: gray;
+  font-weight: bold;
+}
+.saldo-totales{
+  margin-left: 20px;
+  color: gray;
+  font-weight: bold;
+}
+.monto-saldo-totales{
+  margin-left: 20px;
+  color: lightskyblue;
+  font-weight: bold;
+}

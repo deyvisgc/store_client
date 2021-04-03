@@ -67,6 +67,10 @@ const routes: Routes = [
         loadChildren: () => import('./SisVentas/compras/compras.module').then(m => m.ComprasModule)
     },
     {
+        path: 'Caja',
+        loadChildren: () => import('./SisVentas/caja/caja.module').then(m => m.CajaModule)
+    },
+    {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'

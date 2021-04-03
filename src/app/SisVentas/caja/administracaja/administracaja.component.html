@@ -1,0 +1,132 @@
+<section class="content">
+  <div class="container-fluid">
+      <div class="block-header">
+          <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <ul class="breadcrumb breadcrumb-style ">
+                      <li class="breadcrumb-item">
+                          <h4 class="page-title">CAJA</h4>
+                      </li>
+                      <li class="breadcrumb-item bcrumb-1">
+                          <a routerLink="/dashboard/main">
+                            <i style="font-size: 20px;margin-left: 10px;color: GREEN;"  _ngcontent-mkb-c6="" class="fas fa-box-open"></i> Home</a>
+                      </li>
+                      <li class="breadcrumb-item bcrumb-2">
+                          <a href="#" onClick="return false;">Administrar Caja</a>
+                      </li>
+                      <li class="breadcrumb-item active">
+                        <a href="#" onClick="return false;">Movimientos de Caja </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="body" id="cabecera">
+              <h5>Administrar Caja</h5><p></p>
+              <span class="estado">Estado:</span>
+              <span *ngIf="estadoCaja" class="badge bg-green value">Abierto</span>
+              <span *ngIf="!estadoCaja" class="badge bg-red value">Cerrado</span>
+              <span class="fecha">Fecha:</span>
+              <span class="value">12/10/2020</span>
+            </div>
+        </div>
+        <div class="card">
+         <div class="body" id="cabecera">
+            <span class="detallecaja">Detalle Caja</span><p></p>
+           <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="card body " style="margin-bottom: 0px;">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                          <i _ngcontent-gyp-c7="" class="fas fa-arrow-circle-up montoInicial m-r-5"></i>
+                            <b class="montoInicial">Monto Inicial</b>
+                            <a class="pull-right"> S/. 1,200</a>
+                        </li>
+                        <li class="list-group-item">
+                          <i _ngcontent-gyp-c7="" class="fas fa-arrow-circle-up montoIngreso m-r-5"></i>
+                            <b class="montoIngreso">Ingresos</b>
+                            <a class="pull-right">S/. 450</a>
+                        </li>
+                        <li class="list-group-item">
+                          <i _ngcontent-gyp-c7="" class="fas fa-arrow-circle-up devoluciones m-r-5"></i>
+                            <b class="devoluciones">Devoluciones</b>
+                            <a class="pull-right">S/. 345</a>
+                        </li>
+                        <li class="list-group-item">
+                          <i _ngcontent-gyp-c7="" class="fas fa-arrow-circle-up gastos m-r-5"></i>
+                            <b class="gastos">Gastos</b>
+                            <a class="pull-right">S/. 172</a>
+                        </li>
+                        <hr>
+                        <li class="list-group-item">
+                          <b class="ingresos-totales">Ingre + M. Ini</b>
+                            <a class="pull-right">S/.432</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b class="salidas-totales">Gas + Devo</b>
+                            <a class="pull-right">S/.432</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b class="monto-saldo-totales">Total</b>
+                            <a class="pull-right">S/.432</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                <div class="card">
+                    <div class="body">
+                    </div>
+                </div>
+            </div>
+           </div>
+         </div>   
+        </div>
+        <div class="card">
+          <div class="body">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                  <li role="presentation">
+                      <a href="#Vigentes" data-toggle="tab" [ngClass]="{'active show': showTab === 1, '': showTab !== 1}"> 
+                        <i _ngcontent-mnn-c6="" class="fas fa-shopping-cart"></i> Vigentes <span _ngcontent-ajo-c6="" class="badge bg-green">{{+comprasVigentes === 0 ? 0 : +comprasVigentes}}</span>
+                      </a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#Anuladas" data-toggle="tab"   [ngClass]="{'active show': showTab === 2, '': showTab !== 2}">
+                        <i _ngcontent-mnn-c6="" class="fas fa-trash"></i> Anuladas  <span _ngcontent-ajo-c6="" class="badge bg-red">{{comprasAnuladas.length === 0 ? 0 : comprasAnuladas.length}}</span>
+                      </a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#contado" data-toggle="tab" [ngClass]="{'active show': showTab === 3, '': showTab !== 3}">
+                        <i _ngcontent-ahx-c5="" class="fas fa-money-check-alt"></i> Compras Al Contado <span _ngcontent-ajo-c6="" class="badge bg-orange">{{comprasContado.length === 0 ? 0 : comprasContado.length}}</span>
+                      </a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#credito" data-toggle="tab"  [ngClass]="{'active show': showTab === 4, '': showTab !== 4}">
+                        <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> Compras Al credito <span _ngcontent-ajo-c6="" class="badge bg-cyan">{{comprasCredito.length === 0 ? 0 : comprasCredito.length}}</span>
+                      </a>
+                  </li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane fade in" [ngClass]="{'active show': showTab === 1, '': showTab !== 1}" id="Vigentes">
+                      <h5 class="tittle">Compras Vigentes</h5>
+                  
+                  </div>
+                  <div role="tabpanel"  class="tab-pane fade" [ngClass]="{'active show': showTab === 2, '': showTab !== 2}" id="Anuladas">
+                      <b class="tittle">Compras Anuladas</b>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" [ngClass]="{'active show': showTab === 3, '': showTab !== 3}" id="contado">
+                      <b class="tittle">Compras al contado</b>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" [ngClass]="{'active show': showTab === 4, '': showTab !== 4}" id="credito">
+                      <b class="tittle">Compras al credito</b>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+</section>
