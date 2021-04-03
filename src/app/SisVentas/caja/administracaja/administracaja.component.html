@@ -42,42 +42,43 @@
                         <li class="list-group-item">
                           <i _ngcontent-gyp-c7="" class="fas fa-arrow-circle-up montoInicial m-r-5"></i>
                             <b class="montoInicial">Monto Inicial</b>
-                            <a class="pull-right"> S/. 1,200</a>
+                            <a class="pull-right"> S/ {{+subtotales.montoInicial === 0 ? 0 : +subtotales.montoInicial }}</a>
                         </li>
                         <li class="list-group-item">
                           <i _ngcontent-gyp-c7="" class="fas fa-arrow-circle-up montoIngreso m-r-5"></i>
                             <b class="montoIngreso">Ingresos</b>
-                            <a class="pull-right">S/. 450</a>
+                            <a class="pull-right">S/ {{+subtotales.ingresos === 0 ? 0 : +subtotales.ingresos }}</a>
                         </li>
                         <li class="list-group-item">
                           <i _ngcontent-gyp-c7="" class="fas fa-arrow-circle-up devoluciones m-r-5"></i>
                             <b class="devoluciones">Devoluciones</b>
-                            <a class="pull-right">S/. 345</a>
+                            <a class="pull-right">S/ {{+subtotales.devoluciones === 0 ? 0 : +subtotales.devoluciones }}</a>
                         </li>
                         <li class="list-group-item">
                           <i _ngcontent-gyp-c7="" class="fas fa-arrow-circle-up gastos m-r-5"></i>
                             <b class="gastos">Gastos</b>
-                            <a class="pull-right">S/. 172</a>
+                            <a class="pull-right">S/ {{+subtotales.gastos === 0 ? 0 : +subtotales.gastos }}</a>
                         </li>
                         <hr>
                         <li class="list-group-item">
                           <b class="ingresos-totales">Ingre + M. Ini</b>
-                            <a class="pull-right">S/.432</a>
+                            <a class="pull-right">S/ {{totales.IngresosMostInicial === 0 ? 0 : totales.IngresosMostInicial }}</a>
                         </li>
                         <li class="list-group-item">
                           <b class="salidas-totales">Gas + Devo</b>
-                            <a class="pull-right">S/.432</a>
+                            <a class="pull-right">S/ {{totales.GastosMostDevoluciones === 0 ? 0 : totales.GastosMostDevoluciones }}</a>
                         </li>
                         <li class="list-group-item">
                           <b class="monto-saldo-totales">Total</b>
-                            <a class="pull-right">S/.432</a>
+                            <a class="pull-right">S/ {{totales.total === 0 ? 0 : totales.total }}</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
                 <div class="card">
-                    <div class="body">
+                    <div class="body" style="    margin-left: 250px;">
+                      <div id="chartcaja"></div>
                     </div>
                 </div>
             </div>
@@ -90,22 +91,22 @@
               <ul class="nav nav-tabs" role="tablist">
                   <li role="presentation">
                       <a href="#Vigentes" data-toggle="tab" [ngClass]="{'active show': showTab === 1, '': showTab !== 1}"> 
-                        <i _ngcontent-mnn-c6="" class="fas fa-shopping-cart"></i> Vigentes <span _ngcontent-ajo-c6="" class="badge bg-green">{{+comprasVigentes === 0 ? 0 : +comprasVigentes}}</span>
+                        <i _ngcontent-mnn-c6="" class="fas fa-shopping-cart"></i> Vigentes <span _ngcontent-ajo-c6="" class="badge bg-green"></span>
                       </a>
                   </li>
                   <li role="presentation">
                       <a href="#Anuladas" data-toggle="tab"   [ngClass]="{'active show': showTab === 2, '': showTab !== 2}">
-                        <i _ngcontent-mnn-c6="" class="fas fa-trash"></i> Anuladas  <span _ngcontent-ajo-c6="" class="badge bg-red">{{comprasAnuladas.length === 0 ? 0 : comprasAnuladas.length}}</span>
+                        <i _ngcontent-mnn-c6="" class="fas fa-trash"></i> Anuladas  <span _ngcontent-ajo-c6="" class="badge bg-red"></span>
                       </a>
                   </li>
                   <li role="presentation">
                       <a href="#contado" data-toggle="tab" [ngClass]="{'active show': showTab === 3, '': showTab !== 3}">
-                        <i _ngcontent-ahx-c5="" class="fas fa-money-check-alt"></i> Compras Al Contado <span _ngcontent-ajo-c6="" class="badge bg-orange">{{comprasContado.length === 0 ? 0 : comprasContado.length}}</span>
+                        <i _ngcontent-ahx-c5="" class="fas fa-money-check-alt"></i> Compras Al Contado <span _ngcontent-ajo-c6="" class="badge bg-orange"></span>
                       </a>
                   </li>
                   <li role="presentation">
                       <a href="#credito" data-toggle="tab"  [ngClass]="{'active show': showTab === 4, '': showTab !== 4}">
-                        <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> Compras Al credito <span _ngcontent-ajo-c6="" class="badge bg-cyan">{{comprasCredito.length === 0 ? 0 : comprasCredito.length}}</span>
+                        <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> Compras Al credito <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
                       </a>
                   </li>
               </ul>

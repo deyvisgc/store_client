@@ -19,16 +19,16 @@
   font-weight: 600;
 }
 .montoInicial {
-  color: grey;
+  color: rgb(119, 93, 208);
 }
 .montoIngreso {
-  color: green;
+  color: rgb(0, 227, 150);
 }
 .devoluciones {
-  color: red;
+  color: rgb(254, 176, 25);
 }
 .gastos {
-  color: lightskyblue;
+  color: rgb(255, 69, 96);
 }
 hr {
   border: 1px solid;
@@ -58,4 +58,7 @@ hr {
   margin-left: 20px;
   color: lightskyblue;
   font-weight: bold;
+}
+.apexcharts-legend-marker {
+  color: #9aa0ac;
 }
