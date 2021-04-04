@@ -118,10 +118,13 @@ export class SangriaComponent implements OnInit {
             position: 'topRight',
             message: rpta.message,
           });
+          vm.cargandoInformacion = false;
+          vm.isloading.closeLoading();
         }
       }).catch((err) => {
         alert(err);
         vm.cargandoInformacion = false;
+        vm.isloading.closeLoading();
       }).then(() => {
         this.isloadingModal.closeModal();
         this.setearSangia();
@@ -197,6 +200,8 @@ export class SangriaComponent implements OnInit {
     vm.cargandoInformacion = false;
     }).catch((err) => {
       console.log(err);
+      vm.isloading.closeLoading();
+      vm.cargandoInformacion = false;
     }).then(() => {
       console.log('finish');
     }, () => {

@@ -62,3 +62,20 @@ hr {
 .apexcharts-legend-marker {
   color: #9aa0ac;
 }
+#reportes_input {
+  text-transform: uppercase;
+  text-align: center;
+  color: black;
+  font-weight: bolder;
+}
+.islike {
+  font-size: 150px;
+  font-weight: 400;
+  color: #BFAED2;
+  padding-bottom: 20px;
+  margin-left: 100px;
+}
+.btn-group, .btn-group-vertical {
+   box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 0px 00px rgb(0 0 0 / 12%) !important;
+   /* padding: 20px; */
+}
