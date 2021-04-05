@@ -1,0 +1,49 @@
+#cantidad {
+  background-color: yellow;
+  width: 50px;
+}
+#tr {
+  color: #F9A704;
+}
+#tfoot {
+  background-color: #F9A704
+}
+.form-control {
+  width: 100%;
+  height: calc(0em + 0rem + 0px) !important;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+.cabecera {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Font Awesome 5 Brands';
+  background-color: #0D1656
+}
+.total {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Font Awesome 5 Brands';
+}
+.dolar {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Font Awesome 5 Brands';
+}
+#cantidad_input {
+  text-align: center;
+}

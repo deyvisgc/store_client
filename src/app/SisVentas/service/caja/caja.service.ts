@@ -23,4 +23,7 @@ export class CajaService {
   ValidarCaja(params) {
     return this.httpClient.get(this.url.urlAddress + 'Caja/ValidarCaja', { params , headers: this.headers}).toPromise();
   }
+  obtenerCorte() {
+    return this.httpClient.get(this.url.urlAddress + 'Caja/ObtenerCortes').toPromise();
+   }
 }

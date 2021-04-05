@@ -1,0 +1,171 @@
+<section class="content">
+  <div class="container-fluid">
+      <div class="block-header">
+          <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <ul class="breadcrumb breadcrumb-style ">
+                      <li class="breadcrumb-item">
+                          <h4 class="page-title">CAJA</h4>
+                      </li>
+                      <li class="breadcrumb-item bcrumb-1">
+                          <a routerLink="/dashboard/main">
+                            <i style="font-size: 20px;margin-left: 10px;color: GREEN;"  _ngcontent-mkb-c6="" class="fas fa-box-open"></i> Home</a>
+                      </li>
+                      <li class="breadcrumb-item bcrumb-2">
+                          <a href="#" onClick="return false;">Administrar Caja</a>
+                      </li>
+                      <li class="breadcrumb-item active">
+                        <a href="#" onClick="return false;">Movimientos de Caja </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2 _ngcontent-okb-c6=""  class="m-b-10 title"> FORMATO DE CORTE DE CAJA DIARIO</h2>
+          </div>
+            <div class="body" id="cabecera">
+              <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                  <b>Fecha</b>
+                  <div class="input-group">
+                      <span class="input-group-addon">
+                          <i  style="margin-left: 10px;cursor: pointer" class="material-icons">date_range</i>
+                      </span>
+                      <div class="form-line">
+                          <input   style="cursor: pointer"   type="text" style="margin-left: 10px;" class="form-control fechaDesde" placeholder="">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                  <b>Hora de Inicio</b>
+                  <div class="input-group">
+                      <span class="input-group-addon">
+                          <i  style="margin-left: 10px;cursor: pointer" class="material-icons">date_range</i>
+                      </span>
+                      <div class="form-line">
+                          <input   style="cursor: pointer" style="margin-left: 10px;" type="text" id="horaInicio" class="form-control fechaDesde" placeholder="">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                  <b>Hora de Termino</b>
+                  <div class="input-group">
+                      <span class="input-group-addon">
+                          <i  style="margin-left: 10px;cursor: pointer" class="material-icons">date_range</i>
+                      </span>
+                      <div class="form-line">
+                          <input   style="cursor: pointer" style="margin-left: 10px;" type="text" id="horaTermino" class="form-control fechaDesde" placeholder="">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                  <span>CORTE N° </span>
+                  <span> 34</span>
+                </div>
+              </div>
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="card">
+              <div class="body">
+                  <div class="table-responsive">
+                      <table class="table table-hover table-bordered monedas" style="width: 80%;">
+                        <thead>
+                          <tr><th colspan="4" class="text-center cabecera">MONEDAS</th></tr>
+                              <tr>
+                                  <th class="center" id="tr"  style="width: 50px;">Valor</th>
+                                  <th class="center" id="tr" style="width: 50px;">Cantidad</th>
+                                  <th class="center" id="tr"  style="width: 50px;">Total</th>
+                              </tr>
+                          </thead>
+                        <tfoot id="tfoot">
+                          <tr>
+                            <th colspan="2" class="text-right total"> Total Monedas</th>
+                            <td>
+                              <span class="total">S/ {{total}}</span>
+                          </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="card">
+                  <div class="body">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-bordered js-basic-example contact_list" style="width: 80%;">
+                          <thead>
+                            <tr><th colspan="4" class="text-center cabecera">BILLETES</th></tr>
+                                <tr>
+                                    <th class="center" id="tr"  style="width: 50px;">Valor</th>
+                                    <th class="center" id="tr" style="width: 50px;">Cantidad</th>
+                                    <th class="center" id="tr"  style="width: 50px;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                              <td> S/ 10.00</td>
+                              <td id="cantidad">
+                                <div class="form-line">
+                                  <input  type="text" id="cantidad_input" class="form-control" placeholder="">
+                              </div>
+                              </td>
+                              <td></td>
+                              </tr>
+                              <tr>
+                              <td style="width: 50px;">S/ 20.00</td>
+                              <td style="width: 50px;" id="cantidad">
+                                <input  type="text" id="cantidad_input" class="form-control" placeholder="">
+                              </td>
+                              <td style="width: 50px;"></td>
+                              </tr>
+                              <tr>
+                                <td>S/ 50.00</td>
+                                <td id="cantidad">
+                                  <input  type="text" id="cantidad_input" class="form-control" placeholder="">
+                                </td>
+                                <td style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                  <td> S/ 100.00</td>
+                                  <td id="cantidad">
+                                    <input  type="text" id="cantidad_input" class="form-control" placeholder="">
+                                  </td>
+                                  <td></td>
+                                  </tr>
+                                  <tr>
+                                    <td> S/ 200.00</td>
+                                    <td id="cantidad">
+                                      <input  type="text" id="cantidad_input" class="form-control" placeholder="">
+                                    </td>
+                                    <td></td>
+                                    </tr>
+                          </tbody>
+                          <tfoot id="tfoot">
+                            <tr>
+                              <th colspan="2" class="text-right total"> Total Billetes</th>
+                              <td>
+                                <span class="dolar">S/</span> {{total}}
+                            </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+</section>
+
+
+
+
+

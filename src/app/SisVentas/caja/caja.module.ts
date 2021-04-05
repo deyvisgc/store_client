@@ -7,10 +7,11 @@ import { AdministracajaComponent } from './administracaja/administracaja.compone
 import { FormsModule } from '@angular/forms';
 import { CargardoComponentComponent } from '../componenteshijos/cargardo-component/cargardo-component.component';
 import { ReloadFiltrosComponent } from '../componenteshijos/reload-filtros/reload-filtros.component';
+import { CortesxdiaComponent } from './cortesxdia/cortesxdia.component';
 
 
 @NgModule({
-  declarations: [HistorialcajaComponent, AdministracajaComponent, CargardoComponentComponent, ReloadFiltrosComponent],
+  declarations: [HistorialcajaComponent, AdministracajaComponent, CargardoComponentComponent, ReloadFiltrosComponent, CortesxdiaComponent],
   imports: [
     CommonModule,
     CajaRoutingModule,

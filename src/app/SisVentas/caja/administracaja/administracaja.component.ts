@@ -242,18 +242,12 @@ export class AdministracajaComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         vm.cajaSer.CerrarCaja(vm.caja).subscribe(res => {
-          // if (res['status'] === true) {
-          //   swalWithBootstrapButtons.fire(
-          //     'Deleted!',
-          //     'Su Producto ha sido eliminado.',
-          //     'success');
-          //   this.Listar();
-          // } else {
-          //   swalWithBootstrapButtons.fire(
-          //     'Error!',
-          //     'Producto no eliminado',
-          //     'error');
-          // }
+          const rpta = sendRespuesta(res);
+          swalWithBootstrapButtons.fire(
+            'Cerrada!',
+            rpta.message,
+            'success');
+          this.FetchTotales();
         });
       } else if (
         /* Read more about handling dismissals below */
@@ -261,7 +255,7 @@ export class AdministracajaComponent implements OnInit {
       ) {
         swalWithBootstrapButtons.fire(
           'Cancelled',
-          'Tu Producto está a salvo :)',
+          'Caja no cerrada :)',
           'error'
           );
       }
