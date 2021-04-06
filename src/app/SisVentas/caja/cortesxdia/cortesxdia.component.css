@@ -8,23 +8,6 @@
 #tfoot {
   background-color: #F9A704
 }
-.form-control {
-  width: 100%;
-  height: calc(0em + 0rem + 0px) !important;
-  padding: .375rem .75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: .25rem;
-  -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
-  transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
-}
 .cabecera {
   color: white;
   font-size: 16px;
@@ -46,4 +29,21 @@
 }
 #cantidad_input {
   text-align: center;
+}
+#value {
+  margin-left: 20px;
+}
+.islike {
+  font-size: 150px;
+  font-weight: 400;
+  color: #BFAED2;
+  padding-bottom: 20px;
+  margin-left: 45%;
+}
+.messageerror {
+  margin-left: 20% !important;
+}
+.btnvolvercaja {
+  width: 30% !important;
+  margin-left: 35%;
 }

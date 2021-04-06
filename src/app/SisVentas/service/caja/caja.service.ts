@@ -23,7 +23,10 @@ export class CajaService {
   ValidarCaja(params) {
     return this.httpClient.get(this.url.urlAddress + 'Caja/ValidarCaja', { params , headers: this.headers}).toPromise();
   }
-  obtenerCorte() {
-    return this.httpClient.get(this.url.urlAddress + 'Caja/ObtenerCortes').toPromise();
+  ObtenerSaldoInicial(idCaja) {
+    return this.httpClient.get(this.url.urlAddress + 'Caja/ObtenerSaldoInicial/' + idCaja, {headers: this.headers}).toPromise();
    }
+  GuardarCorteDiario(corteCaja, fechas) {
+    return this.httpClient.post(this.url.urlAddress + 'Caja/GuardarCorteDiario', { corteCaja, fechas}, {headers: this.headers}).toPromise();
+  }
 }

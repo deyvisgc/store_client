@@ -1,5 +1,5 @@
 <section class="content">
-  <div class="container-fluid">
+  <div class="container-fluid" *ngIf="cargandoInformacion">
       <div class="block-header">
           <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -32,10 +32,10 @@
                   <b>Fecha</b>
                   <div class="input-group">
                       <span class="input-group-addon">
-                          <i  style="margin-left: 10px;cursor: pointer" class="material-icons">date_range</i>
+                          <i  class="material-icons">date_range</i>
                       </span>
                       <div class="form-line">
-                          <input   style="cursor: pointer"   type="text" style="margin-left: 10px;" class="form-control fechaDesde" placeholder="">
+                          <input type="text" [(ngModel)]="fechaHoy" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaDesde" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -43,10 +43,10 @@
                   <b>Hora de Inicio</b>
                   <div class="input-group">
                       <span class="input-group-addon">
-                          <i  style="margin-left: 10px;cursor: pointer" class="material-icons">date_range</i>
+                        <i _ngcontent-bhr-c6="" class="material-icons">access_time</i>
                       </span>
                       <div class="form-line">
-                          <input   style="cursor: pointer" style="margin-left: 10px;" type="text" id="horaInicio" class="form-control fechaDesde" placeholder="">
+                          <input  style="margin-left: 15px;" [(ngModel)]="horaActual" type="text" id="horaInicio" class="form-control" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -54,21 +54,32 @@
                   <b>Hora de Termino</b>
                   <div class="input-group">
                       <span class="input-group-addon">
-                          <i  style="margin-left: 10px;cursor: pointer" class="material-icons">date_range</i>
+                        <i _ngcontent-bhr-c6="" class="material-icons">access_time</i>
                       </span>
                       <div class="form-line">
-                          <input   style="cursor: pointer" style="margin-left: 10px;" type="text" id="horaTermino" class="form-control fechaDesde" placeholder="">
+                          <input style="margin-left: 15px;"  [(ngModel)]="horaTermino" type="text" id="horaTermino" class="form-control" placeholder="">
                       </div>
                   </div>
-                </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                  <span>CORTE N° </span>
-                  <span> 34</span>
                 </div>
               </div>
         </div>
         </div>
         <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+              <div class="body">
+                <div class="row">
+                  <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div _ngcontent-mgq-c6="" class="badge col-cyan">SALDO AL INICIO DEL DIA</div> <span class="badge bg-cyan " id="value">S/ {{saldoInicio}}</span></div>
+                    <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-4 col-md-4 col-lg-4">
+                    <div _ngcontent-mgq-c6="" class="badge col-green">EFECTIVO COBRADO DURANTE EL DIA</div> <span class="badge bg-teal" id="value">S/ {{totalCobrado}}</span></div>
+                    <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                      <div _ngcontent-mgq-c6="" class="badge col-indigo">TOTAL A ENTREGAR</div> <span class="badge bg-purple" id="value">S/ {{totalEntregar}}</span></div>
+                      <button _ngcontent-qva-c5="" class="btn bg-success waves-effect" (click)="guardar()" type="button"><i _ngcontent-qva-c5="" style="color: white;" class="material-icons">save</i></button>
+                </div>
+              </div>
+          </div>
+          </div>
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div class="card">
               <div class="body">
@@ -86,7 +97,7 @@
                           <tr>
                             <th colspan="2" class="text-right total"> Total Monedas</th>
                             <td>
-                              <span class="total">S/ {{total}}</span>
+                              <span class="total">S/ {{totalMonedas}}</span>
                           </td>
                           </tr>
                         </tfoot>
@@ -99,7 +110,7 @@
               <div class="card">
                   <div class="body">
                       <div class="table-responsive">
-                        <table class="table table-hover table-bordered js-basic-example contact_list" style="width: 80%;">
+                        <table class="table table-hover table-bordered js-basic-example billetes" style="width: 80%;">
                           <thead>
                             <tr><th colspan="4" class="text-center cabecera">BILLETES</th></tr>
                                 <tr>
@@ -108,50 +119,11 @@
                                     <th class="center" id="tr"  style="width: 50px;">Total</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                              <tr>
-                              <td> S/ 10.00</td>
-                              <td id="cantidad">
-                                <div class="form-line">
-                                  <input  type="text" id="cantidad_input" class="form-control" placeholder="">
-                              </div>
-                              </td>
-                              <td></td>
-                              </tr>
-                              <tr>
-                              <td style="width: 50px;">S/ 20.00</td>
-                              <td style="width: 50px;" id="cantidad">
-                                <input  type="text" id="cantidad_input" class="form-control" placeholder="">
-                              </td>
-                              <td style="width: 50px;"></td>
-                              </tr>
-                              <tr>
-                                <td>S/ 50.00</td>
-                                <td id="cantidad">
-                                  <input  type="text" id="cantidad_input" class="form-control" placeholder="">
-                                </td>
-                                <td style="width: 50px;"></td>
-                                </tr>
-                                <tr>
-                                  <td> S/ 100.00</td>
-                                  <td id="cantidad">
-                                    <input  type="text" id="cantidad_input" class="form-control" placeholder="">
-                                  </td>
-                                  <td></td>
-                                  </tr>
-                                  <tr>
-                                    <td> S/ 200.00</td>
-                                    <td id="cantidad">
-                                      <input  type="text" id="cantidad_input" class="form-control" placeholder="">
-                                    </td>
-                                    <td></td>
-                                    </tr>
-                          </tbody>
                           <tfoot id="tfoot">
                             <tr>
                               <th colspan="2" class="text-right total"> Total Billetes</th>
                               <td>
-                                <span class="dolar">S/</span> {{total}}
+                                <span class="total">S/ {{totalBilletes}}</span>
                             </td>
                             </tr>
                           </tfoot>
@@ -163,6 +135,17 @@
       </div>
   </div>
   </div>
+  <div class="container-fluid" *ngIf="!cargandoInformacion">
+    <div class="card">
+        <div class="body" id="cabecera">
+          <h5>
+            <i _ngcontent-duh-c6="" class="fas fa-thumbs-down islike"></i>
+            <div _ngcontent-qsc-c12="" class="col-xs-6 col-sm-6 col-md-3 col-lg-3 messageerror"><div _ngcontent-qsc-c12="" class="badge col-deep-orange">PORFAVOR INGRESE UN NUMERO DE CAJA EXISTENTE PARA INGRESAR AL FORMULARIO DE CORTE DE CAJA</div></div>
+            <div _ngcontent-dpn-c5="" class="container-login100-form-btn p-t-30 btnvolvercaja"><button _ngcontent-dpn-c5="" class="login100-form-btn" (click)="volveracaja()"> Volver a caja </button></div>
+          </h5>
+        </div>
+    </div>
+</div>
 </section>
 
 

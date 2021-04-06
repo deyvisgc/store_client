@@ -37,5 +37,4 @@ export class ReportesService {
    ExportarExcelSangria(params) {
     return this.httpClient.get(this.url.urlAddress + 'Reportes/Exprotar/Sangria', {params, responseType: 'blob'});
    }
-  
 }
