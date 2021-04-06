@@ -8,10 +8,11 @@ import { FormsModule } from '@angular/forms';
 import { CargardoComponentComponent } from '../componenteshijos/cargardo-component/cargardo-component.component';
 import { ReloadFiltrosComponent } from '../componenteshijos/reload-filtros/reload-filtros.component';
 import { CortesxdiaComponent } from './cortesxdia/cortesxdia.component';
+import { CortesxsemanaComponent } from './administracaja/cortesxsemana/cortesxsemana.component';
 
 
 @NgModule({
-  declarations: [HistorialcajaComponent, AdministracajaComponent, CargardoComponentComponent, ReloadFiltrosComponent, CortesxdiaComponent],
+  declarations: [HistorialcajaComponent, AdministracajaComponent, CargardoComponentComponent, ReloadFiltrosComponent, CortesxdiaComponent, CortesxsemanaComponent],
   imports: [
     CommonModule,
     CajaRoutingModule,

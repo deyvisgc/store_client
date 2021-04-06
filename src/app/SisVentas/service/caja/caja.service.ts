@@ -26,7 +26,8 @@ export class CajaService {
   ObtenerSaldoInicial(idCaja) {
     return this.httpClient.get(this.url.urlAddress + 'Caja/ObtenerSaldoInicial/' + idCaja, {headers: this.headers}).toPromise();
    }
-  GuardarCorteDiario(corteCaja, fechas) {
-    return this.httpClient.post(this.url.urlAddress + 'Caja/GuardarCorteDiario', { corteCaja, fechas}, {headers: this.headers}).toPromise();
+  GuardarCorteDiario(detalleCorteCaja, corteCaja ) {
+    // tslint:disable-next-line:max-line-length
+    return this.httpClient.post(this.url.urlAddress + 'Caja/GuardarCorteDiario', { detalleCorteCaja, corteCaja}, {headers: this.headers}).toPromise();
   }
 }

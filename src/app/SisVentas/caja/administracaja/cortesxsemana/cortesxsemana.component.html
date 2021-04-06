@@ -1,1 +1,202 @@
-<p>cortesxsemana works!</p>
+<section class="content">
+  <div class="container-fluid" *ngIf="cargandoInformacion">
+    
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2 _ngcontent-okb-c6=""  class="m-b-10 title"> FORMATO DE CORTE DE CAJA DIARIO</h2>
+          </div>
+            <div class="body" id="cabecera">
+              <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                  <b>Fecha</b>
+                  <div class="input-group">
+                      <span class="input-group-addon">
+                          <i  class="material-icons">date_range</i>
+                      </span>
+                      <div class="form-line">
+                          <input type="text" [(ngModel)]="fechaHoy" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaDesde" placeholder="">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                  <b>Hora de Inicio</b>
+                  <div class="input-group">
+                      <span class="input-group-addon">
+                        <i _ngcontent-bhr-c6="" class="material-icons">access_time</i>
+                      </span>
+                      <div class="form-line">
+                          <input  style="margin-left: 15px;" [(ngModel)]="horaActual" type="text" id="horaInicio" class="form-control" placeholder="">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                  <b>Hora de Termino</b>
+                  <div class="input-group">
+                      <span class="input-group-addon">
+                        <i _ngcontent-bhr-c6="" class="material-icons">access_time</i>
+                      </span>
+                      <div class="form-line">
+                          <input style="margin-left: 15px;"  [(ngModel)]="horaTermino" type="text" id="horaTermino" class="form-control" placeholder="">
+                      </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+              <div class="body">
+                <div class="row">
+                  <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div _ngcontent-mgq-c6="" class="badge col-cyan">SALDO AL INICIO DEL DIA</div> <span class="badge bg-cyan " id="value">S/ {{+saldoInicio === 0 ? '0.00': saldoInicio }}</span></div>
+                    <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-4 col-md-4 col-lg-4">
+                    <div _ngcontent-mgq-c6="" class="badge col-green">EFECTIVO COBRADO DURANTE EL DIA</div> <span class="badge bg-teal" id="value">S/ {{+totalCobrado === 0 ? '0.00': totalCobrado}}</span></div>
+                    <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                      <div _ngcontent-mgq-c6="" class="badge col-indigo">TOTAL A ENTREGAR</div> <span class="badge bg-purple" id="value">S/ {{+totalEntregar === 0 ? '0.00': totalEntregar}}</span></div>
+                      <button _ngcontent-qva-c5="" class="btn bg-success waves-effect" (click)="guardar()" type="button"><i _ngcontent-qva-c5="" style="color: white;" class="material-icons">save</i></button>
+                </div>
+              </div>
+          </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+              <div class="body">
+                  <ul class="nav nav-tabs" role="tablist">
+                      <li role="presentation">
+                          <a href="#lunes" data-toggle="tab" class="active show"> 
+                            <i _ngcontent-mnn-c6="" class="fas fa-shopping-cart"></i> LUNES <span _ngcontent-ajo-c6="" class="badge bg-green"></span>
+                          </a>
+                      </li>
+                      <li role="presentation">
+                          <a href="#martes" data-toggle="tab">
+                            <i _ngcontent-mnn-c6="" class="fas fa-trash"></i> MARTES  <span _ngcontent-ajo-c6="" class="badge bg-red"></span>
+                          </a>
+                      </li>
+                      <li role="presentation">
+                          <a href="#miercoles" data-toggle="tab">
+                            <i _ngcontent-ahx-c5="" class="fas fa-money-check-alt"></i> MIERCOLES <span _ngcontent-ajo-c6="" class="badge bg-orange"></span>
+                          </a>
+                      </li>
+                      <li role="presentation">
+                          <a href="#jueves" data-toggle="tab">
+                            <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> JUEVES <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
+                          </a>
+                      </li>
+                      <li role="presentation">
+                        <a href="#viernes" data-toggle="tab">
+                          <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> VIERNES <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
+                        </a>
+                     </li>
+                     <li role="presentation">
+                      <a href="#sabado" data-toggle="tab">
+                        <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> SABADO <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
+                      </a>
+                   </li>
+                   <li role="presentation">
+                    <a href="#domingo" data-toggle="tab">
+                      <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> DOMINGO <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
+                    </a>
+                 </li>
+                  </ul>
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade in active show" id="lunes">
+                          <h5 class="tittle">lunes</h5>
+                      </div>
+                      <div role="tabpanel"  class="tab-pane fade" id="martes">
+                          <b class="tittle">martes</b>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="miercoles">
+                          <b class="tittle">miercoles</b>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="jueves">
+                          <b class="tittle">jueves</b>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="viernes">
+                        <b class="tittle">Viernes</b>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="sabado">
+                        <b class="tittle">sabados</b>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="domingo">
+                        <b class="tittle">domingos</b>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+          <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="card">
+              <div class="body">
+                  <div class="table-responsive">
+                      <table class="table table-hover table-bordered monedas" style="width: 80%;">
+                        <thead>
+                          <tr><th colspan="4" class="text-center cabecera">MONEDAS</th></tr>
+                              <tr>
+                                  <th class="center" id="tr"  style="width: 50px;">Valor</th>
+                                  <th class="center" id="tr" style="width: 50px;">Cantidad</th>
+                                  <th class="center" id="tr"  style="width: 50px;">Total</th>
+                              </tr>
+                          </thead>
+                        <tfoot id="tfoot">
+                          <tr>
+                            <th colspan="2" class="text-right total"> Total Monedas</th>
+                            <td>
+                              <span class="total">S/ {{totalMonedas}}</span>
+                          </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="card">
+                  <div class="body">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-bordered js-basic-example billetes" style="width: 80%;">
+                          <thead>
+                            <tr><th colspan="4" class="text-center cabecera">BILLETES</th></tr>
+                                <tr>
+                                    <th class="center" id="tr"  style="width: 50px;">Valor</th>
+                                    <th class="center" id="tr" style="width: 50px;">Cantidad</th>
+                                    <th class="center" id="tr"  style="width: 50px;">Total</th>
+                                </tr>
+                            </thead>
+                          <tfoot id="tfoot">
+                            <tr>
+                              <th colspan="2" class="text-right total"> Total Billetes</th>
+                              <td>
+                                <span class="total">S/ {{totalBilletes}}</span>
+                            </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                  </div>
+              </div>
+          </div> -->
+      </div>
+  </div>
+  </div>
+  <div class="container-fluid" *ngIf="!cargandoInformacion">
+    <div class="card">
+        <div class="body" id="cabecera">
+          <h5>
+            <i _ngcontent-duh-c6="" class="fas fa-thumbs-down islike"></i>
+            <div _ngcontent-qsc-c12="" class="col-xs-6 col-sm-6 col-md-3 col-lg-3 messageerror"><div _ngcontent-qsc-c12="" class="badge col-deep-orange">PORFAVOR INGRESE UN NUMERO DE CAJA EXISTENTE PARA INGRESAR AL FORMULARIO DE CORTE DE CAJA</div></div>
+            <div _ngcontent-dpn-c5="" class="container-login100-form-btn p-t-30 btnvolvercaja"><button _ngcontent-dpn-c5="" class="login100-form-btn" (click)="volveracaja()"> Volver a caja </button></div>
+          </h5>
+        </div>
+    </div>
+</div>
+</section>
+<app-cargardo-component #isloadingModal></app-cargardo-component>
+
+
+
+
+

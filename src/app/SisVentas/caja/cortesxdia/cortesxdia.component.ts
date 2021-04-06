@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Spanish } from 'flatpickr/dist/l10n/es.js';
 import { DynamicScriptLoaderService } from 'src/app/services/dynamic-script-loader.service';
 import { CajaService } from '../../service/caja/caja.service';
@@ -16,7 +16,8 @@ import iziToast from 'izitoast';
 export class CortesxdiaComponent implements OnInit {
   fechaHoy = moment().format('YYYY-MM-DD');
   horaActual = moment().format('HH:mm');
-  horaTermino = moment().add(11, 'hour').format('HH:mm');
+  horaTermino = moment().add(7, 'hour').format('HH:mm');
+  @ViewChild('isloadingModal', {static: true}) isloadingModal;
   monedasarray: any = [];
   billetesarray: any = [];
   cajaAdd = [];
@@ -79,10 +80,16 @@ export class CortesxdiaComponent implements OnInit {
      descripcion : 'S/ 200.00'
     }
   ];
-  fechas = {
+  corteDiario = {
     fecha: this.fechaHoy,
     horaInicio : this.horaActual,
-    horaTermino: this.horaTermino
+    horaTermino: this.horaTermino,
+    idCaja: this.rutaActiva.snapshot.params.idCaja,
+    totalMonedas: 0,
+    totalBilletes: 0,
+    saldoInicio : 0,
+    totalCobrado : 0,
+    totalEntregado: 0
   };
   ngOnInit() {
     this.startScript();
@@ -221,7 +228,8 @@ export class CortesxdiaComponent implements OnInit {
         vm.monedasarray.push({
           valor : fila0,
           cantidad : fila1,
-          subtotao : fila2
+          subtotal : fila2,
+          type_money: 1
         });
       }
     });
@@ -233,7 +241,8 @@ export class CortesxdiaComponent implements OnInit {
         vm.billetesarray.push({
           valor : fila0,
           cantidad : fila1,
-          subtotao : fila2
+          subtotal : fila2,
+          type_money: 2
         });
       }
     });
@@ -247,13 +256,28 @@ export class CortesxdiaComponent implements OnInit {
       alert('se necesita como minimo un iten para guardar esta informacion');
       return false;
     }
-    vm.cajaSer.GuardarCorteDiario(vm.cajaAdd, vm.fechas).then(res => {
-      console.log(res);
+    vm.corteDiario.totalMonedas = vm.totalMonedas;
+    vm.corteDiario.totalBilletes = vm.totalBilletes;
+    vm.corteDiario.saldoInicio = vm.saldoInicio;
+    vm.corteDiario.totalCobrado = parseFloat(vm.totalCobrado);
+    vm.corteDiario.totalEntregado = parseFloat(vm.totalEntregar);
+    vm.isloadingModal.openModal('Guardando corte de caja');
+    vm.cajaSer.GuardarCorteDiario(vm.cajaAdd, vm.corteDiario).then(res => {
+      const rpta = sendRespuesta(res);
+      if (rpta.status) {
+        iziToast.success({
+          title: 'OK',
+          position: 'topRight',
+          message: rpta.message,
+        });
+      } else {
+        console.log(rpta.message);
+      }
     }).catch((err) => {
-
+      console.log(err);
     }).then(() => {
-    }, () => {
-      console.log('error');
+      vm.Limpiartotales();
+      vm.isloadingModal.closeModal();
     });
   }
   obtenerSaldoInicio() {
@@ -285,5 +309,14 @@ export class CortesxdiaComponent implements OnInit {
   }
   volveracaja() {
     this.router.navigate(['Caja/Administrar']);
+  }
+  Limpiartotales() {
+    const vm = this;
+    vm.totalBilletes = 0;
+    vm.totalMonedas = 0;
+    vm.totalCobrado = '';
+    vm.totalEntregar = '';
+    vm.datatable(vm.monedas, '.monedas');
+    vm.datatableBilletes(vm.billetes, '.billetes');
   }
 }
