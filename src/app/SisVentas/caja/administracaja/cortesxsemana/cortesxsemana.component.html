@@ -66,119 +66,74 @@
                   <ul class="nav nav-tabs" role="tablist">
                       <li role="presentation">
                           <a href="#lunes" data-toggle="tab" class="active show"> 
-                            <i _ngcontent-mnn-c6="" class="fas fa-shopping-cart"></i> LUNES <span _ngcontent-ajo-c6="" class="badge bg-green"></span>
+                            <i _ngcontent-iwq-c7="" style="color: cornflowerblue;" class="fas fa-calendar-alt"></i> LUNES <span _ngcontent-ajo-c6="" class="badge bg-green"></span>
                           </a>
                       </li>
                       <li role="presentation">
                           <a href="#martes" data-toggle="tab">
-                            <i _ngcontent-mnn-c6="" class="fas fa-trash"></i> MARTES  <span _ngcontent-ajo-c6="" class="badge bg-red"></span>
+                            <i _ngcontent-iwq-c7="" style="color: blueviolet" class="fas fa-calendar-alt"></i> MARTES  <span _ngcontent-ajo-c6="" class="badge bg-red"></span>
                           </a>
                       </li>
                       <li role="presentation">
                           <a href="#miercoles" data-toggle="tab">
-                            <i _ngcontent-ahx-c5="" class="fas fa-money-check-alt"></i> MIERCOLES <span _ngcontent-ajo-c6="" class="badge bg-orange"></span>
+                            <i _ngcontent-iwq-c7="" style="color: yellowgreen;" class="fas fa-calendar-alt"></i> MIERCOLES <span _ngcontent-ajo-c6="" class="badge bg-orange"></span>
                           </a>
                       </li>
                       <li role="presentation">
                           <a href="#jueves" data-toggle="tab">
-                            <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> JUEVES <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
+                            <i _ngcontent-iwq-c7="" style="color: steelblue;" class="fas fa-calendar-alt"></i> JUEVES <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
                           </a>
                       </li>
                       <li role="presentation">
                         <a href="#viernes" data-toggle="tab">
-                          <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> VIERNES <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
+                          <i _ngcontent-iwq-c7="" style="color: teal;" class="fas fa-calendar-alt"></i> VIERNES <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
                         </a>
                      </li>
                      <li role="presentation">
                       <a href="#sabado" data-toggle="tab">
-                        <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> SABADO <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
+                        <i _ngcontent-iwq-c7="" style="color: seagreen;" class="fas fa-calendar-alt"></i> SABADO <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
                       </a>
                    </li>
                    <li role="presentation">
                     <a href="#domingo" data-toggle="tab">
-                      <i _ngcontent-mnn-c6="" class="fas fa-credit-card"></i> DOMINGO <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
+                      <i _ngcontent-iwq-c7="" style="color: orangered;" class="fas fa-calendar-alt"></i> DOMINGO <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
                     </a>
                  </li>
                   </ul>
                   <!-- Tab panes -->
                   <div class="tab-content">
                       <div role="tabpanel" class="tab-pane fade in active show" id="lunes">
-                          <h5 class="tittle">lunes</h5>
+                        <b class="tittle">lunes</b>
+                        <app-lunes></app-lunes>
                       </div>
                       <div role="tabpanel"  class="tab-pane fade" id="martes">
                           <b class="tittle">martes</b>
+                          <app-martes></app-martes>
                       </div>
                       <div role="tabpanel" class="tab-pane fade" id="miercoles">
-                          <b class="tittle">miercoles</b>
+                        <b class="tittle">Miercoles</b>
+                        <app-miercoles></app-miercoles>
                       </div>
                       <div role="tabpanel" class="tab-pane fade" id="jueves">
-                          <b class="tittle">jueves</b>
+                        <b class="tittle">Jueves</b>
+                        <app-jueves></app-jueves>
                       </div>
                       <div role="tabpanel" class="tab-pane fade" id="viernes">
                         <b class="tittle">Viernes</b>
+                        <app-viernes></app-viernes>
                       </div>
                       <div role="tabpanel" class="tab-pane fade" id="sabado">
                         <b class="tittle">sabados</b>
+                        <app-sabado></app-sabado>
                       </div>
                       <div role="tabpanel" class="tab-pane fade" id="domingo">
                         <b class="tittle">domingos</b>
+                        <app-domingo></app-domingo>
                       </div>
                   </div>
               </div>
           </div>
           </div>
-          <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <div class="card">
-              <div class="body">
-                  <div class="table-responsive">
-                      <table class="table table-hover table-bordered monedas" style="width: 80%;">
-                        <thead>
-                          <tr><th colspan="4" class="text-center cabecera">MONEDAS</th></tr>
-                              <tr>
-                                  <th class="center" id="tr"  style="width: 50px;">Valor</th>
-                                  <th class="center" id="tr" style="width: 50px;">Cantidad</th>
-                                  <th class="center" id="tr"  style="width: 50px;">Total</th>
-                              </tr>
-                          </thead>
-                        <tfoot id="tfoot">
-                          <tr>
-                            <th colspan="2" class="text-right total"> Total Monedas</th>
-                            <td>
-                              <span class="total">S/ {{totalMonedas}}</span>
-                          </td>
-                          </tr>
-                        </tfoot>
-                      </table>
-                  </div>
-              </div>
-          </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-              <div class="card">
-                  <div class="body">
-                      <div class="table-responsive">
-                        <table class="table table-hover table-bordered js-basic-example billetes" style="width: 80%;">
-                          <thead>
-                            <tr><th colspan="4" class="text-center cabecera">BILLETES</th></tr>
-                                <tr>
-                                    <th class="center" id="tr"  style="width: 50px;">Valor</th>
-                                    <th class="center" id="tr" style="width: 50px;">Cantidad</th>
-                                    <th class="center" id="tr"  style="width: 50px;">Total</th>
-                                </tr>
-                            </thead>
-                          <tfoot id="tfoot">
-                            <tr>
-                              <th colspan="2" class="text-right total"> Total Billetes</th>
-                              <td>
-                                <span class="total">S/ {{totalBilletes}}</span>
-                            </td>
-                            </tr>
-                          </tfoot>
-                        </table>
-                      </div>
-                  </div>
-              </div>
-          </div> -->
       </div>
   </div>
   </div>

@@ -1,0 +1,6 @@
+
+.nav-tabs > li > a {
+  border: none !important;
+  color: black !important;
+  border-radius: 0;
+}
