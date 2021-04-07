@@ -30,4 +30,7 @@ export class CajaService {
     // tslint:disable-next-line:max-line-length
     return this.httpClient.post(this.url.urlAddress + 'Caja/GuardarCorteDiario', { detalleCorteCaja, corteCaja}, {headers: this.headers}).toPromise();
   }
+  BuscarcortesXFechas(params) {
+    return this.httpClient.get(this.url.urlAddress + 'Caja/SearXFechas', { params , headers: this.headers}).toPromise();
+  }
 }
