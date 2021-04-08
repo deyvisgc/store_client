@@ -8,12 +8,13 @@ import { FormsModule } from '@angular/forms';
 import { CargardoComponentComponent } from '../componenteshijos/cargardo-component/cargardo-component.component';
 import { ReloadFiltrosComponent } from '../componenteshijos/reload-filtros/reload-filtros.component';
 import { CortesxdiaComponent } from './cortesxdia/cortesxdia.component';
-import { CortesxsemanaComponent } from './administracaja/cortesxsemana/cortesxsemana.component';
-import { LunesComponent } from './administracaja/cortesxsemana/lunes/lunes.component';
-import { MartesComponent } from './administracaja/cortesxsemana/martes/martes.component';
-import { JuevesComponent } from './administracaja/cortesxsemana/jueves/jueves.component';
-import { MiercolesComponent } from './administracaja/cortesxsemana/miercoles/miercoles.component';
-import { ViernesComponent } from './administracaja/cortesxsemana/viernes/viernes.component';
+import { CortesxsemanaComponent } from './cortesxsemana/cortesxsemana.component';
+import { LunesComponent } from './cortesxsemana/lunes/lunes.component';
+import { MartesComponent } from './cortesxsemana/martes/martes.component';
+import { MiercolesComponent } from './cortesxsemana/miercoles/miercoles.component';
+import { ViernesComponent } from './cortesxsemana/viernes/viernes.component';
+import { JuevesComponent } from './cortesxsemana/jueves/jueves.component';
+
 
 @NgModule({
   declarations: [HistorialcajaComponent, AdministracajaComponent,

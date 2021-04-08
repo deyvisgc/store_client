@@ -3,7 +3,7 @@
     <div class="card">
       <div class="body">
           <div class="table-responsive">
-              <table class="table table-hover table-bordered monedas" style="width: 80%;">
+              <table class="table table-hover table-bordered" style="width: 80%;">
                 <thead>
                   <tr><th colspan="4" class="text-center cabecera">MONEDAS</th></tr>
                       <tr>
@@ -12,6 +12,13 @@
                           <th class="center" id="tr"  style="width: 50px;">Total</th>
                       </tr>
                   </thead>
+                  <tbody>
+                    <tr *ngFor="let item of listMonedas">
+                      <td>{{item.dcc_valor}}</td>
+                      <td>{{item.dcc_cantidad}}</td>
+                      <td><span id="total" class="badge bg-green value">{{item.dcc_total}}</span></td>
+                    </tr>
+                  </tbody>
                 <tfoot id="tfoot">
                   <tr>
                     <th colspan="2" class="text-right total"> Total Monedas</th>
@@ -29,7 +36,7 @@
       <div class="card">
           <div class="body">
               <div class="table-responsive">
-                <table class="table table-hover table-bordered js-basic-example billetes" style="width: 80%;">
+                <table class="table table-hover table-bordered js-basic-example" style="width: 80%;">
                   <thead>
                     <tr><th colspan="4" class="text-center cabecera">BILLETES</th></tr>
                         <tr>
@@ -38,6 +45,13 @@
                             <th class="center" id="tr"  style="width: 50px;">Total</th>
                         </tr>
                     </thead>
+                    <tbody>
+                      <tr *ngFor="let item of listBilletes">
+                        <td>{{item.dcc_valor}}</td>
+                        <td>{{item.dcc_cantidad}}</td>
+                        <td><span id="total" class="badge bg-green value">{{item.dcc_total}}</span></td>
+                      </tr>
+                    </tbody>
                   <tfoot id="tfoot">
                     <tr>
                       <th colspan="2" class="text-right total"> Total Billetes</th>

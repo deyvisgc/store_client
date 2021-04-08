@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdministracajaComponent } from './administracaja/administracaja.component';
-import { CortesxsemanaComponent } from './administracaja/cortesxsemana/cortesxsemana.component';
 import { CortesxdiaComponent } from './cortesxdia/cortesxdia.component';
+import { CortesxsemanaComponent } from './cortesxsemana/cortesxsemana.component';
 import { HistorialcajaComponent } from './historialcaja/historialcaja.component';
 
 

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { EnviromentService } from '../enviroment.service';
 
 @Injectable({
@@ -10,6 +11,34 @@ export class CajaService {
   _headers = new HttpHeaders();
   headers = this._headers.append('Content-Type', 'application/json');
   constructor(private httpClient: HttpClient, private url: EnviromentService) { }
+  private lunes = new Subject<[]>();
+  private martes = new Subject<[]>();
+  private miercoles = new Subject<[]>();
+  private jueves = new Subject<[]>();
+  // private viernes = new Subject<[]>();
+
+  lunesarrayObs$ = this.lunes.asObservable();
+  MartesarrayObs$ = this.martes.asObservable();
+  MiercolesrrayObs$ = this.miercoles.asObservable();
+  juevesrrayObs$ = this.jueves.asObservable();
+  // viernesrrayObs$ = this.jueves.asObservable();
+
+   obtenerCorteLunes(message: []) {
+    this.lunes.next(message);
+  }
+  obtenerCorteMartes(message: []) {
+    this.martes.next(message);
+  }
+  obtenerCorteMiercoles(message: []) {
+    this.miercoles.next(message);
+  }
+
+  obtenerCorteJueves(message: []) {
+    this.jueves.next(message);
+  }
+  // obtenerCorteViernes(message: []) {
+  //   this.viernes.next(message);
+  // }
 
   Totales(params) {
     return this.httpClient.get(this.url.urlAddress + 'Caja/Administrar', { params , headers: this.headers}).toPromise();

@@ -18,9 +18,11 @@ export class CortesxsemanaComponent implements OnInit {
   fechadesdePrueba = moment().subtract(2, 'd').format('YYYY-MM-DD');
   fechaHastaPrueba = moment().add(2, 'd').format('YYYY-MM-DD');
   fechaDesde = moment().subtract(5, 'd').format('YYYY-MM-DD');
+  lunesarray = [];
   horaActual = moment().format('HH:mm');
   horaTermino = moment().add(7, 'hour').format('HH:mm');
   @ViewChild('isloadingModal', {static: true}) isloadingModal;
+  @ViewChild('lunesComponent', {static: true}) lunesComponent;
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService,
               private cajaSer: CajaService,private rutaActiva: ActivatedRoute,
               private router: Router) { }
@@ -73,14 +75,13 @@ export class CortesxsemanaComponent implements OnInit {
       });
       const lunes = rpta.data.filter(l => l.diaSemana === 'Lunes');
       const martes = rpta.data.filter(l => l.diaSemana === 'Martes');
-      const Miercoles = rpta.data.filter(l => l.diaSemana === 'Miercoles');
+      const miercoles = rpta.data.filter(l => l.diaSemana === 'Miercoles');
       const jueves = rpta.data.filter(l => l.diaSemana === 'Jueves');
-      const viernes = rpta.data.filter(l => l.diaSemana === 'Viernes');
-      console.log('lunes', lunes);
-      console.log('martes', martes);
-      console.log('Miercoles', Miercoles);
-      console.log('jueves', jueves);
-      console.log('viernes', viernes);
+      // const viernes = rpta.data.filter(l => l.diaSemana === 'Viernes');
+      vm.cajaSer.obtenerCorteLunes(lunes);
+      vm.cajaSer.obtenerCorteMartes(martes);
+      vm.cajaSer.obtenerCorteMiercoles(miercoles);
+      vm.cajaSer.obtenerCorteJueves(jueves);
     }).catch((err) => {
       console.log(err);
     }).then(() => {

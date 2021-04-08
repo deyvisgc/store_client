@@ -2,6 +2,7 @@
   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <div class="card">
       <div class="body">
+        <button type="button" (click)="verdata()">ver data</button>
           <div class="table-responsive">
               <table class="table table-hover table-bordered monedas" style="width: 80%;">
                 <thead>
@@ -12,6 +13,13 @@
                           <th class="center" id="tr"  style="width: 50px;">Total</th>
                       </tr>
                   </thead>
+                  <tbody>
+                    <tr *ngFor="let mo of monedas;let indice=index">
+                      <td>$/ {{mo.value}}</td>
+                      <td> <input type="text" value="{{mo.cantidad}}" (keyup.enter)="calcular($event,monedas,indice)" ></td>
+                      <td>{{mo.subtotal}}</td>
+                    </tr>
+                  </tbody>
                 <tfoot id="tfoot">
                   <tr>
                     <th colspan="2" class="text-right total"> Total Monedas</th>
