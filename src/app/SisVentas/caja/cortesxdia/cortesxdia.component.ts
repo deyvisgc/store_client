@@ -226,7 +226,7 @@ export class CortesxdiaComponent implements OnInit {
       const fila2 =  $(this).find('td').eq(2).text();
       if (+fila0 !== 0 && +fila1 !== 0 && +fila2 !== 0) {
         vm.monedasarray.push({
-          valor : fila0,
+          descripcion : fila0,
           cantidad : fila1,
           subtotal : fila2,
           type_money: 1
@@ -239,7 +239,7 @@ export class CortesxdiaComponent implements OnInit {
       const fila2 =  $(this).find('td').eq(2).text();
       if (+fila0 !== 0 && +fila1 !== 0 && +fila2 !== 0) {
         vm.billetesarray.push({
-          valor : fila0,
+          descripcion : fila0,
           cantidad : fila1,
           subtotal : fila2,
           type_money: 2
@@ -249,7 +249,8 @@ export class CortesxdiaComponent implements OnInit {
     if (vm.monedasarray.length > 0 || vm.monedasarray.length > 0) {
       vm.cajaAdd.push({
         monedas: vm.monedasarray,
-        billetes: vm.billetesarray
+        billetes: vm.billetesarray,
+        corteSemanal: false
       });
     }
     if (vm.cajaAdd.length === 0) {
@@ -270,14 +271,16 @@ export class CortesxdiaComponent implements OnInit {
           position: 'topRight',
           message: rpta.message,
         });
+        vm.Limpiartotales();
       } else {
         console.log(rpta.message);
       }
     }).catch((err) => {
       console.log(err);
     }).then(() => {
-      vm.Limpiartotales();
       vm.isloadingModal.closeModal();
+    }, () => {
+      console.log('error');
     });
   }
   obtenerSaldoInicio() {

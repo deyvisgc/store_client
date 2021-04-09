@@ -15,7 +15,7 @@
                           <i  class="material-icons">date_range</i>
                       </span>
                       <div class="form-line">
-                          <input type="text" [(ngModel)]="fechaHoy" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaDesde" placeholder="">
+                          <input type="text" [(ngModel)]="fechaHasta" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaDesde" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -49,32 +49,32 @@
             <div class="card">
               <div class="body">
                 <div class="row">
-                    <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div _ngcontent-mgq-c6="" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                       <b>Fecha desde</b>
                       <div class="input-group">
                           <span class="input-group-addon">
                               <i  class="material-icons">date_range</i>
                           </span>
                           <div class="form-line">
-                              <input type="text" [(ngModel)]="fechadesdePrueba" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaDesde" placeholder="">
+                              <input type="text" [(ngModel)]="fechaDesde" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaDesde" placeholder="">
                           </div>
                       </div>
                     </div>
-                    <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div _ngcontent-mgq-c6="" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                       <b>Fecha Hasta</b>
                       <div class="input-group">
                           <span class="input-group-addon">
                               <i  class="material-icons">date_range</i>
                           </span>
                           <div class="form-line">
-                              <input type="text" [(ngModel)]="fechaHastaPrueba" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaHasta" placeholder="">
+                              <input type="text" [(ngModel)]="fechaHasta" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaHasta" placeholder="">
                           </div>
                       </div>
                     </div>
                       <button _ngcontent-qva-c5="" title="buscar" class="btn bg-info waves-effect" (click)="SearchCortes()" type="button"><i _ngcontent-xmo-c12="" style="color: white;" class="fas fa-search"></i></button>
-                      <button _ngcontent-qva-c5="" class="btn bg-success waves-effect" (click)="guardar()" style="margin-left: 10px;" type="button"><i _ngcontent-qva-c5="" style="color: white;" class="material-icons">save</i></button>
-                      <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                        <div _ngcontent-mgq-c6="" style="margin-left: 50px;" class="badge col-indigo">TOTAL INGRESADO</div> <span class="badge bg-purple" id="value">S/ {{+totalEntregar === 0 ? '0.00': totalEntregar}}</span>
+                      <button _ngcontent-qva-c5="" class="btn bg-success waves-effect" [disabled]="btnguardar" (click)="Guardar()" style="margin-left: 10px;" type="button"><i _ngcontent-qva-c5="" style="color: white;" class="material-icons">save</i></button>
+                      <div _ngcontent-mgq-c6="" class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                        <div _ngcontent-mgq-c6=""   class="badge col-indigo">TOTAL INGRESADO DE LA SEMANA</div> <span class="badge bg-purple" id="value">S/ {{+totalEntregarSemanal === 0 ? '0.00': totalEntregarSemanal}}</span>
                       </div>
                 </div>
               </div>
@@ -85,7 +85,7 @@
               <div class="body">
                   <ul class="nav nav-tabs" role="tablist">
                       <li role="presentation">
-                          <a href="#lunes" data-toggle="tab" class="active show"> 
+                          <a href="#lunes" data-toggle="tab"> 
                             <i _ngcontent-iwq-c7="" style="color: cornflowerblue;" class="fas fa-calendar-alt"></i> LUNES <span _ngcontent-ajo-c6="" class="badge bg-green"></span>
                           </a>
                       </li>
@@ -105,14 +105,14 @@
                           </a>
                       </li>
                       <li role="presentation">
-                        <a href="#viernes" data-toggle="tab">
+                        <a href="#viernes" data-toggle="tab" class="active show">
                           <i _ngcontent-iwq-c7="" style="color: teal;" class="fas fa-calendar-alt"></i> VIERNES <span _ngcontent-ajo-c6="" class="badge bg-cyan"></span>
                         </a>
                      </li>
                   </ul>
                   <!-- Tab panes -->
                   <div class="tab-content">
-                      <div role="tabpanel" class="tab-pane fade in active show" id="lunes">
+                      <div role="tabpanel" class="tab-pane fade" id="lunes">
                         <app-lunes></app-lunes>
                       </div>
                       <div role="tabpanel"  class="tab-pane fade" id="martes">
@@ -124,16 +124,8 @@
                       <div role="tabpanel" class="tab-pane fade" id="jueves">
                         <app-jueves></app-jueves>
                       </div>
-                      <div role="tabpanel" class="tab-pane fade" id="viernes">
-                        <div class="row">
-                          <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                            <div _ngcontent-mgq-c6="" class="badge col-cyan">SALDO AL INICIO DEL DIA</div> <span class="badge bg-cyan " id="value">S/ {{+saldoInicio === 0 ? '0.00': saldoInicio }}</span></div>
-                            <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-4 col-md-4 col-lg-4">
-                            <div _ngcontent-mgq-c6="" class="badge col-green">EFECTIVO COBRADO DURANTE EL DIA</div> <span class="badge bg-teal" id="value">S/ {{+totalCobrado === 0 ? '0.00': totalCobrado}}</span></div>
-                            <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                              <div _ngcontent-mgq-c6="" class="badge col-indigo">TOTAL A ENTREGAR</div> <span class="badge bg-purple" id="value">S/ {{+totalEntregar === 0 ? '0.00': totalEntregar}}</span></div>
-                        </div>
-                        <app-viernes></app-viernes>
+                      <div role="tabpanel" class="tab-pane fade in active show" id="viernes">
+                        <app-viernes (corteSemanal)="corteSemanal($event)" ></app-viernes>
                       </div>
                   </div>
               </div>

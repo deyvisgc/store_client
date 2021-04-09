@@ -15,13 +15,13 @@ export class CajaService {
   private martes = new Subject<[]>();
   private miercoles = new Subject<[]>();
   private jueves = new Subject<[]>();
-  // private viernes = new Subject<[]>();
+  private viernes = new Subject<boolean>();
 
   lunesarrayObs$ = this.lunes.asObservable();
   MartesarrayObs$ = this.martes.asObservable();
   MiercolesrrayObs$ = this.miercoles.asObservable();
   juevesrrayObs$ = this.jueves.asObservable();
-  // viernesrrayObs$ = this.jueves.asObservable();
+  viernesrrayObs$ = this.viernes.asObservable();
 
    obtenerCorteLunes(message: []) {
     this.lunes.next(message);
@@ -36,9 +36,9 @@ export class CajaService {
   obtenerCorteJueves(message: []) {
     this.jueves.next(message);
   }
-  // obtenerCorteViernes(message: []) {
-  //   this.viernes.next(message);
-  // }
+  obtenerCorteViernes(message: boolean) {
+    this.viernes.next(message);
+  }
 
   Totales(params) {
     return this.httpClient.get(this.url.urlAddress + 'Caja/Administrar', { params , headers: this.headers}).toPromise();
@@ -58,6 +58,10 @@ export class CajaService {
   GuardarCorteDiario(detalleCorteCaja, corteCaja ) {
     // tslint:disable-next-line:max-line-length
     return this.httpClient.post(this.url.urlAddress + 'Caja/GuardarCorteDiario', { detalleCorteCaja, corteCaja}, {headers: this.headers}).toPromise();
+  }
+  GuardarCorteSemanal(detalleCorteCaja, corteCaja ) {
+    // tslint:disable-next-line:max-line-length
+    return this.httpClient.post(this.url.urlAddress + 'Caja/GuardarCorteSemanal', { detalleCorteCaja, corteCaja}, {headers: this.headers}).toPromise();
   }
   BuscarcortesXFechas(params) {
     return this.httpClient.get(this.url.urlAddress + 'Caja/SearXFechas', { params , headers: this.headers}).toPromise();

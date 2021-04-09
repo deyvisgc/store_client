@@ -1,22 +1,28 @@
 <div class="row">
+  <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div _ngcontent-mgq-c6="" class="badge col-cyan">SALDO INICIAL</div> <span class="badge bg-cyan " id="value">S/ {{+saldoInicio === 0 ? '0.00': saldoInicio }}</span></div>
+    <div _ngcontent-mgq-c6="" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <div _ngcontent-mgq-c6="" class="badge col-green">GANANCIAS DEL DIA</div> <span class="badge bg-teal" id="value">S/ {{+totalCobrado === 0 ? '0.00': totalCobrado}}</span></div>
+    <div _ngcontent-mgq-c6="" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <div _ngcontent-mgq-c6="" class="badge col-indigo">TOTAL A ENTREGAR</div> <span class="badge bg-purple" id="value">S/ {{+totalAentregar === 0 ? '0.00': totalAentregar}}</span></div>
+      <button _ngcontent-qva-c5="" title="Sumar Totales" class="btn bg-info waves-effect" (click)="SumarTotales()" type="button"><i _ngcontent-yeo-c12="" style="color: white;" class="fas fa-plus"></i></button>
   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <div class="card">
       <div class="body">
-        <button type="button" (click)="verdata()">ver data</button>
           <div class="table-responsive">
               <table class="table table-hover table-bordered monedas" style="width: 80%;">
                 <thead>
                   <tr><th colspan="4" class="text-center cabecera">MONEDAS</th></tr>
                       <tr>
                           <th class="center" id="tr"  style="width: 50px;">Valor</th>
-                          <th class="center" id="tr" style="width: 50px;">Cantidad</th>
+                          <th class="center" id="tr" style="width: 20px;">Cantidad</th>
                           <th class="center" id="tr"  style="width: 50px;">Total</th>
                       </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let mo of monedas;let indice=index">
-                      <td>$/ {{mo.value}}</td>
-                      <td> <input type="text" value="{{mo.cantidad}}" (keyup.enter)="calcular($event,monedas,indice)" ></td>
+                      <td>{{mo.descripcion}}</td>
+                      <td> <input type="number" value="{{mo.cantidad}}"  style="height: 1rem !important;border-bottom: 0px solid #9e9e9e !important;text-align: center;"  (keyup)="calcularMonedas($event,monedas,indice)" ></td>
                       <td>{{mo.subtotal}}</td>
                     </tr>
                   </tbody>
@@ -46,6 +52,13 @@
                             <th class="center" id="tr"  style="width: 50px;">Total</th>
                         </tr>
                     </thead>
+                  <tbody>
+                      <tr *ngFor="let bille of billetes;let indice=index">
+                        <td>{{bille.descripcion}}</td>
+                        <td> <input type="number" value="{{bille.cantidad}}"  style="height: 1rem !important;border-bottom: 0px solid #9e9e9e !important;text-align: center;"  (keyup)="calcularBilletes($event,billetes,indice)" ></td>
+                        <td>{{bille.subtotal}}</td>
+                      </tr>
+                  </tbody>
                   <tfoot id="tfoot">
                     <tr>
                       <th colspan="2" class="text-right total"> Total Billetes</th>
