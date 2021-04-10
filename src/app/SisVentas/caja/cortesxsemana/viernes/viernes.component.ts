@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CajaService } from 'src/app/SisVentas/service/caja/caja.service';
-declare const $: any;
 declare const sendRespuesta: any;
 import _ from 'lodash';
+declare const $: any;
 @Component({
   selector: 'app-viernes',
   templateUrl: './viernes.component.html',
@@ -11,6 +11,7 @@ import _ from 'lodash';
 })
 export class ViernesComponent implements OnInit {
   @Output() corteSemanal = new EventEmitter<any>();
+  @Output() cargandoInformacion = new EventEmitter<any>();
   monedasarray: any = [];
   billetesarray: any = [];
   cajaAdd = [];
@@ -109,6 +110,9 @@ export class ViernesComponent implements OnInit {
   constructor(private cajaSer: CajaService, private rutaActiva: ActivatedRoute) { }
 
   ngOnInit() {
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
     this.obtenerSaldoInicio();
     this.limpiar();
     this.obtenerDataLocalStorage();
@@ -152,6 +156,7 @@ export class ViernesComponent implements OnInit {
     if (rpta.status) {
       vm.saldoInicio =  rpta.data[0].saldoInicial;
     } else {
+      vm.cargandoInformacion.emit(rpta);
     }
     }).catch((err) => {
 

@@ -14,7 +14,7 @@
                           <i  class="material-icons">date_range</i>
                       </span>
                       <div class="form-line">
-                          <input type="text" [(ngModel)]="fechaHoy" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaDesde" placeholder="">
+                          <input type="text" [(ngModel)]="corteDiario.fecha" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaHoy" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -52,10 +52,10 @@
               <div class="body">
                 <div class="row">
                   <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    <div _ngcontent-mgq-c6="" class="badge col-cyan">SALDO AL INICIO DEL DIA</div> <span class="badge bg-cyan " id="value">S/ {{+saldoInicio === 0 ? '0.00': saldoInicio }}</span></div>
-                    <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-4 col-md-4 col-lg-4">
-                    <div _ngcontent-mgq-c6="" class="badge col-green">EFECTIVO COBRADO DURANTE EL DIA</div> <span class="badge bg-teal" id="value">S/ {{+totalCobrado === 0 ? '0.00': totalCobrado}}</span></div>
-                    <div _ngcontent-mgq-c6="" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div _ngcontent-mgq-c6="" class="badge col-cyan">SALDO INICIAL</div> <span class="badge bg-cyan " id="value">S/ {{+saldoInicio === 0 ? '0.00': saldoInicio }}</span></div>
+                    <div _ngcontent-mgq-c6="" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <div _ngcontent-mgq-c6="" class="badge col-green">GANANCIAS DEL DIA</div> <span class="badge bg-teal" id="value">S/ {{+totalCobrado === 0 ? '0.00': totalCobrado}}</span></div>
+                    <div _ngcontent-mgq-c6="" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                       <div _ngcontent-mgq-c6="" class="badge col-indigo">TOTAL A ENTREGAR</div> <span class="badge bg-purple" id="value">S/ {{+totalEntregar === 0 ? '0.00': totalEntregar}}</span></div>
                       <button _ngcontent-qva-c5="" class="btn bg-success waves-effect" (click)="guardar()" type="button"><i _ngcontent-qva-c5="" style="color: white;" class="material-icons">save</i></button>
                 </div>

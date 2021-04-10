@@ -4,7 +4,7 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
           <div class="header">
-            <h2 _ngcontent-okb-c6=""  class="m-b-10 title"> FORMATO DE CORTE DE CAJA DIARIO</h2>
+            <h2 _ngcontent-okb-c6=""  class="m-b-10 title"> FORMATO DE CORTE DE CAJA SEMANAL</h2>
           </div>
             <div class="body" id="cabecera">
               <div class="row">
@@ -15,7 +15,7 @@
                           <i  class="material-icons">date_range</i>
                       </span>
                       <div class="form-line">
-                          <input type="text" [(ngModel)]="fechaHasta" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaDesde" placeholder="">
+                          <input type="text" [(ngModel)]="corteSemanalTotales.fecha" style="margin-left: 15px; color: black; font-weight: bolder;" class="form-control fechaHoy" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -41,6 +41,9 @@
                       </div>
                   </div>
                 </div>
+                <button _ngcontent-qva-c5="" style="margin-left:100px ;" class="btn-hover btn-border-radius color-8" (click)="volveracaja()" type="button">
+                  <i _ngcontent-vro-c8="" style="color: white;" class="fas fa-angle-double-left"><span style="font-size: 15px;padding-top: 20px;"> Volver a caja</span></i>
+                </button>
               </div>
         </div>
         </div>
@@ -71,8 +74,8 @@
                           </div>
                       </div>
                     </div>
-                      <button _ngcontent-qva-c5="" title="buscar" class="btn bg-info waves-effect" (click)="SearchCortes()" type="button"><i _ngcontent-xmo-c12="" style="color: white;" class="fas fa-search"></i></button>
-                      <button _ngcontent-qva-c5="" class="btn bg-success waves-effect" [disabled]="btnguardar" (click)="Guardar()" style="margin-left: 10px;" type="button"><i _ngcontent-qva-c5="" style="color: white;" class="material-icons">save</i></button>
+                      <button _ngcontent-qva-c5="" title="buscar" class="btn bg-info waves-effect search" data-toggle="tooltip" data-placement="top" title="Buscar Cortes Diarios" (click)="SearchCortes()" type="button"><i _ngcontent-xmo-c12="" style="color: white;" class="fas fa-search"></i></button>
+                      <button _ngcontent-qva-c5="" class="btn bg-success waves-effect" [disabled]="btnguardar" data-toggle="tooltip" data-placement="top" title="Guardar Corte Semanal" (click)="Guardar()" style="margin-left: 10px;" type="button"><i _ngcontent-qva-c5="" style="color: white;" class="material-icons">save</i></button>
                       <div _ngcontent-mgq-c6="" class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                         <div _ngcontent-mgq-c6=""   class="badge col-indigo">TOTAL INGRESADO DE LA SEMANA</div> <span class="badge bg-purple" id="value">S/ {{+totalEntregarSemanal === 0 ? '0.00': totalEntregarSemanal}}</span>
                       </div>
@@ -125,7 +128,7 @@
                         <app-jueves></app-jueves>
                       </div>
                       <div role="tabpanel" class="tab-pane fade in active show" id="viernes">
-                        <app-viernes (corteSemanal)="corteSemanal($event)" ></app-viernes>
+                        <app-viernes (corteSemanal)="corteSemanal($event)" (cargandoInformacion)="existIdCaja($event)" ></app-viernes>
                       </div>
                   </div>
               </div>
@@ -139,8 +142,10 @@
         <div class="body" id="cabecera">
           <h5>
             <i _ngcontent-duh-c6="" class="fas fa-thumbs-down islike"></i>
-            <div _ngcontent-qsc-c12="" class="col-xs-6 col-sm-6 col-md-3 col-lg-3 messageerror"><div _ngcontent-qsc-c12="" class="badge col-deep-orange">PORFAVOR INGRESE UN NUMERO DE CAJA EXISTENTE PARA INGRESAR AL FORMULARIO DE CORTE DE CAJA</div></div>
-            <div _ngcontent-dpn-c5="" class="container-login100-form-btn p-t-30 btnvolvercaja"><button _ngcontent-dpn-c5="" class="login100-form-btn" (click)="volveracaja()"> Volver a caja </button></div>
+            <div _ngcontent-qsc-c12="" class="col-xs-6 col-sm-6 col-md-3 col-lg-3 messageerror"><div _ngcontent-qsc-c12="" class="badge col-deep-orange">PORFAVOR INGRESE UN NUMERO DE CAJA EXISTENTE PARA INGRESAR AL FORMULARIO DE CORTE DE CAJA SEMANAL</div></div>
+            <button _ngcontent-qva-c5="" style="margin-left: 50%;" class="btn-hover btn-border-radius color-8" (click)="volveracaja()" type="button">
+              <i _ngcontent-vro-c8="" style="color: white;" class="fas fa-angle-double-left"><span style="font-size: 15px;padding-top: 20px;"> Volver a caja</span></i>
+            </button>
           </h5>
         </div>
     </div>

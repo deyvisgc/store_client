@@ -97,7 +97,7 @@ export class CortesxdiaComponent implements OnInit {
   async startScript() {
     const vm = this;
     await this.dynamicScriptLoader.load('form.min').then(data => {
-      flatpickr('.fechaDesde', {
+      flatpickr('.fechaHoy', {
         locale: Spanish,
         defaultDate: [this.fechaHoy]
       });
@@ -315,6 +315,9 @@ export class CortesxdiaComponent implements OnInit {
   }
   Limpiartotales() {
     const vm = this;
+    vm.corteDiario.fecha = vm.fechaHoy;
+    vm.corteDiario.horaInicio = vm.horaActual;
+    vm.corteDiario.horaTermino = vm.horaTermino;
     vm.totalBilletes = 0;
     vm.totalMonedas = 0;
     vm.totalCobrado = '';

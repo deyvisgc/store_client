@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Spanish } from 'flatpickr/dist/l10n/es.js';
+declare const $: any;
 declare const sendRespuesta: any;
 declare const flatpickr: any;
 import _ from 'lodash';
@@ -16,7 +17,7 @@ import { CajaService } from 'src/app/SisVentas/service/caja/caja.service';
 export class CortesxsemanaComponent implements OnInit {
   totalEntregarSemanal = '';
   cargandoInformacion = true;
-  fechaHasta = moment().format('YYYY-MM-DD');
+  fechaHasta = moment().format('YYYY-MM-DD HH:mm');
   fechaDesde = moment().subtract(4, 'd').format('YYYY-MM-DD');
   horaActual = moment().format('HH:mm');
   horaTermino = moment().add(7, 'hour').format('HH:mm');
@@ -55,10 +56,17 @@ export class CortesxsemanaComponent implements OnInit {
   }
   async startScript() {
     const vm = this;
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
     await this.dynamicScriptLoader.load('form.min').then(data => {
       flatpickr('.fechaDesde', {
         locale: Spanish,
         defaultDate: [this.fechaDesde]
+      });
+      flatpickr('.fechaHoy', {
+        locale: Spanish,
+        defaultDate: [this.fechaHasta]
       });
       flatpickr('.fechaHasta', {
         locale: Spanish,
@@ -224,6 +232,7 @@ export class CortesxsemanaComponent implements OnInit {
         });
         vm.removeLocalStorage();
         vm.cajaSer.obtenerCorteViernes(true);
+        vm.vacearArrayxSemana();
       } else {
         console.log(rpta.message);
       }
@@ -244,5 +253,30 @@ export class CortesxsemanaComponent implements OnInit {
     localStorage.removeItem('totalCobrado');
     localStorage.removeItem('totalAentregar');
     this.totalEntregarSemanal = '';
+    this.corteSemanalTotales.fecha = this.fechaHasta;
+    this.corteSemanalTotales.horaInicio = this.horaActual;
+    this.corteSemanalTotales.horaTermino = this.horaTermino;
+  }
+  existIdCaja(data) {
+    iziToast.error({
+      title: 'Error',
+      position: 'topRight',
+      message: data.message,
+    });
+    this.cargandoInformacion = false;
+  }
+  volveracaja() {
+    this.router.navigate(['Caja/Administrar']);
+  }
+  vacearArrayxSemana() {
+    const vm = this;
+    vm.lunes = [];
+    vm.martes = [];
+    vm.miercoles = [];
+    vm.jueves = [];
+    vm.cajaSer.obtenerCorteLunes([]);
+    vm.cajaSer.obtenerCorteMartes([]);
+    vm.cajaSer.obtenerCorteMiercoles([]);
+    vm.cajaSer.obtenerCorteJueves([]);
   }
 }

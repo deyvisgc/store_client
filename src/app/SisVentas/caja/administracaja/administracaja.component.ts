@@ -213,6 +213,8 @@ export class AdministracajaComponent implements OnInit {
   Close() {
       const vm = this;
       $('#modalCaja').modal('hide');
+      $('#arqueoCajaDiario').modal('hide');
+      vm.isloadingModal.closeModal();
       vm.isloadingModal.closeModal();
   }
   limpiar() {

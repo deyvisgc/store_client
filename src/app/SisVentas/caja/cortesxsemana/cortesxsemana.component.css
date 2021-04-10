@@ -4,3 +4,20 @@
   color: black !important;
   border-radius: 0;
 }
+.islike {
+  font-size: 150px;
+  font-weight: 400;
+  color: #BFAED2;
+  padding-bottom: 20px;
+  margin-left: 45%;
+}
+.messageerror {
+  margin-left: 20% !important;
+}
+.btnvolvercaja {
+  width: 30% !important;
+  margin-left: 35%;
+}
+.search{
+  background-color: cornflowerblue !important;
+}
