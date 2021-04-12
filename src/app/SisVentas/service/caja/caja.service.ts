@@ -66,4 +66,10 @@ export class CajaService {
   BuscarcortesXFechas(params) {
     return this.httpClient.get(this.url.urlAddress + 'Caja/SearXFechas', { params , headers: this.headers}).toPromise();
   }
+  ObtenerTotalesArqueo(params) {
+    return this.httpClient.get(this.url.urlAddress + 'Caja/Arequeo/ObtenerTotalesArqueo', { params , headers: this.headers}).toPromise();
+  }
+  GuardarArqueo(params) {
+    return this.httpClient.post(this.url.urlAddress + 'Caja/Arequeo/GuardarArqueo', {params}, {headers: this.headers}).toPromise();
+  }
 }

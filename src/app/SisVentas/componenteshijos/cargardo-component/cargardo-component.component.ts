@@ -7,15 +7,19 @@ declare const $: any;
 })
 export class CargardoComponentComponent implements OnInit {
   messageProceso = '';
+  modal;
   constructor() { }
   ngOnInit() {
   }
-openModal(message) {
+  openModal(message) {
   const vm = this;
   vm.messageProceso = message;
   $('#isModalTransaccion').modal('show');
 }
-closeModal() {
+ closeModal() {
   $('#isModalTransaccion').modal('hide');
+//   $('#isModalTransaccion').one('shown.bs.modal', function(){
+//     $(this).modal("hide");
+// });
 }
 }

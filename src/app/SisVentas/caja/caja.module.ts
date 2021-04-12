@@ -14,14 +14,14 @@ import { MartesComponent } from './cortesxsemana/martes/martes.component';
 import { MiercolesComponent } from './cortesxsemana/miercoles/miercoles.component';
 import { ViernesComponent } from './cortesxsemana/viernes/viernes.component';
 import { JuevesComponent } from './cortesxsemana/jueves/jueves.component';
-import { ArquecajaComponent } from './arquecaja/arquecaja.component';
+import { ArqueocajaComponent } from './arqueocaja/arqueocaja.component';
 
 
 @NgModule({
   declarations: [HistorialcajaComponent, AdministracajaComponent,
                   CargardoComponentComponent, ReloadFiltrosComponent, CortesxdiaComponent,
                   CortesxsemanaComponent, LunesComponent, MartesComponent, JuevesComponent,
-                   MiercolesComponent, ViernesComponent, ArquecajaComponent],
+                   MiercolesComponent, ViernesComponent, ArqueocajaComponent ],
   imports: [
     CommonModule,
     CajaRoutingModule,

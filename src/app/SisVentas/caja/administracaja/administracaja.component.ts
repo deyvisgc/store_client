@@ -7,6 +7,7 @@ import iziToast from 'izitoast';
 declare const flatpickr: any;
 declare const ApexCharts: any;
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 declare const $: any;
 declare const sendRespuesta: any;
 @Component({
@@ -50,7 +51,7 @@ export class AdministracajaComponent implements OnInit {
     status : 'open'
   };
   cargandoInformacion = false;
-  constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private cajaSer: CajaService) { }
+  constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private cajaSer: CajaService, private router: Router) { }
   estadoCaja = false;
   ngOnInit() {
     this.startScript();
@@ -83,11 +84,13 @@ export class AdministracajaComponent implements OnInit {
       });
       vm.YearNow();
       vm.FetchTotales();
+      $('[data-toggle="tooltip"]').tooltip();
     }).catch(error => console.log(error));
   }
   FetchTotales() {
     const vm = this;
     vm.chartsLengt = false;
+    vm.isloading.showLoading();
     vm.cajaSer.Totales(vm.filtros).then(res => {
        if (vm.filtros.fechaDesde !== null && vm.filtros.fechaHasta !== null) {
          vm.filtros.month = 0;
@@ -102,10 +105,10 @@ export class AdministracajaComponent implements OnInit {
        vm.totales.GastosMostDevoluciones = parseFloat(rpta.data[1].totalSalidas) + parseFloat(rpta.data[2].totalDevoluciones);
        vm.totales.total = (vm.totales.IngresosMostInicial - vm.totales.GastosMostDevoluciones).toFixed(2);
        vm.chartCaja();
-       vm.isloadingModal.closeModal();
     }).catch((err) => {
       alert(err);
     }).then(() => {
+      vm.isloading.closeLoading();
     }, () => {
       alert('ronald');
     });
@@ -169,7 +172,6 @@ export class AdministracajaComponent implements OnInit {
     const day = d.getDay();
     vm.dayxdefault = day;
     $('.filtroxmes').val(m).trigger('change.select2');
-    $('.filtroxdia').val(day).trigger('change.select2');
     for (let i = n; i >= 2019; i--) {
       vm.years.push({
         year: i
@@ -280,5 +282,20 @@ export class AdministracajaComponent implements OnInit {
   }, () => {
     console.log('error');
   });
+  }
+  Arqueo() {
+    this.router.navigate(['Caja/Administrar/Arqueo/' + this.idCaja]);
+  }
+  LimpiarFiltros() {
+    const vm = this;
+    vm.filtros = {
+      fechaDesde: this.fechaHoy,
+      fechaHasta: this.fechaHasta,
+      month: 0,
+      year : 0,
+      idUsuario: this.idUsuario
+    };
+    vm.YearNow();
+    vm.FetchTotales();
   }
 }

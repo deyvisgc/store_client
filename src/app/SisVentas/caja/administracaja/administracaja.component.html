@@ -23,7 +23,7 @@
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
-            <div class="body" id="cabecera">
+            <div class="body" style="height: 160px;">
               <div class="row">
                 <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                   <h5>Administrar Caja</h5><p></p>
@@ -58,28 +58,80 @@
                 </li>
               </ul>
               </div>
-              <div _ngcontent-npc-c6="" class="btn-group">
-                <button _ngcontent-npc-c6="" style="margin-left: 5px;" aria-expanded="false" aria-haspopup="true" class="btn btn-info waves-effect dropdown-toggle" data-toggle="dropdown" type="button"> <i _ngcontent-anl-c6="" class="material-icons">monetization_on</i> ARQUEO DE CAJA <span _ngcontent-npc-c6="" class="caret">
-              </span>
+              <button (click)="Arqueo()" style="margin-left: 0.5%;" _ngcontent-vqb-c5="" class="btn btn-info  waves-effect" type="button">
+                <span  _ngcontent-vqb-c5="" ><i _ngcontent-anl-c6=""  class="material-icons">monetization_on</i> ARQUEO DE CAJA </span>
               </button>
-            <ul _ngcontent-npc-c6="" class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(15px, 36px, 0px);">
-              <li _ngcontent-npc-c6="">
-                <a _ngcontent-npc-c6="" data-toggle="modal" data-target="#arqueoCajaDiario"  href="#" onclick="return false;">
-                 Diario
-              </a>
-              </li>
-              <li _ngcontent-npc-c6="">
-                <a _ngcontent-npc-c6="" href="#" onclick="return false;">Semanal</a>
-              </li>
-            </ul>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h5 style="font-size: 12px;color: black;font-family: fangsong;">FILTRAR POR </h5>
+                <div class="row">
+                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <div class="input-group input-group-sm">
+                      <span style="font-size: 12px;color: black;" class="input-group-addon">
+                          Desde
+                      </span>
+                      <div class="form-line">
+                          <input type="text" style="text-align: center; height: 1rem !important; color: black;" [(ngModel)]="filtros.fechaDesde" class="form-control fechaDesde">
+                      </div>
+                  </div>
+                  </div>
+                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <div  class="input-group input-group-sm">
+                      <span style="font-size: 12px;color: black;" class="input-group-addon">
+                          Hasta
+                      </span>
+                      <div class="form-line">
+                          <input type="text" style="text-align: center; height: 1rem !important; color: black;" (change)="FetchTotales()" [(ngModel)]="filtros.fechaHasta" class="form-control fechaHasta">
+                      </div>
+                  </div>
+                  </div>
+                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div  class="input-group input-group-sm">
+                      <span style="font-size: 12px;color: black;" class="input-group-addon">
+                          MES
+                      </span>
+                      <div class="form-group default-select">
+                        <select class="form-control filtroxmes"  [disabled]="cargandoInformacion"  data-placeholder="Seleccione Mes">
+                            <option value="1">ENERO</option>
+                            <option value="2">FEBRERO</option>
+                            <option value="3">MARZO</option>
+                            <option value="4">ABRIL</option>
+                            <option value="5">MAYO</option>
+                            <option value="6">JUNIO</option>
+                            <option value="7">JULIO</option>
+                            <option value="8">AGOSTO</option>
+                            <option value="9">SEPTIEMBRE</option>
+                            <option value="10">OCTUBRE</option>
+                            <option value="11">NOVIEMBRE</option>
+                            <option value="12">DICIEMBRE</option>
+                        </select>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <div  class="input-group input-group-sm">
+                      <span style="font-size: 12px;color: black;" class="input-group-addon">
+                          AÑO
+                      </span>
+                      <div class="form-group default-select">
+                        <select class="form-control filtroxyear"  [disabled]="cargandoInformacion"  data-placeholder="Seleccione Mes">
+                            <option *ngFor="let item of years" value="{{item.year}}">{{item.year}}</option>
+                        </select>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                    <button _ngcontent-cgu-c5="" class="btn bg-teal waves-effect calculator" data-toggle="tooltip" data-placement="top" title="Limpiar Filtros"  (click)="LimpiarFiltros()" type="button"><i _ngcontent-lqp-c6="" style="color: white;" class="fas fa-broom"></i></button>
+                  </div>
+                  <app-reload-filtros #isloading></app-reload-filtros>
+                </div>
               </div>
-              <app-reload-filtros #isloading></app-reload-filtros>
+
               </div>
             </div>
         </div>
         <div class="card">
          <div class="body" id="cabecera">
-            <span class="detallecaja">Detalle Caja</span><p></p>
+            <!-- <span class="detallecaja">Detalle Caja</span><p></p> -->
            <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                 <div class="card body " style="margin-bottom: 0px;">

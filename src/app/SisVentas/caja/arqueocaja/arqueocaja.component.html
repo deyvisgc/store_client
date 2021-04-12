@@ -1,0 +1,132 @@
+<section class="content">
+  <div class="container-fluid">
+      <div class="block-header">
+          <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <ul class="breadcrumb breadcrumb-style ">
+                      <li class="breadcrumb-item">
+                          <h4 class="page-title">CAJA</h4>
+                      </li>
+                      <li class="breadcrumb-item bcrumb-1">
+                          <a routerLink="/dashboard/main">
+                            <i style="font-size: 20px;margin-left: 10px;color: GREEN;"  _ngcontent-mkb-c6="" class="fas fa-box-open"></i> Home</a>
+                      </li>
+                      <li class="breadcrumb-item bcrumb-2">
+                          <a href="#" onClick="return false;">Administrar Caja</a>
+                      </li>
+                      <li class="breadcrumb-item active">
+                        <a href="#" onClick="return false;">Movimientos de Caja </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="body" id="cabecera">
+              <div class="row">
+                <div style="padding: 10px;" class="col-xs-3  col-sm-3 col-md-3 col-lg-3">
+                  <span class="responsable">Responsable:</span>
+                  <span class="badge bg-default">Deyvis Garcia</span>
+                </div>
+                <div style="padding: 10px;" class="col-xs-3  col-sm-3 col-md-3 col-lg-3">
+                  <span class="responsable">Empresa:</span>
+                  <span class="badge bg-default">Hermanos Garcia</span>
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon">
+                        Fecha
+                    </span>
+                    <div class="form-line">
+                        <input type="text" style="text-align: center;" class="form-control fechaHoy" [(ngModel)]="arqueoCaja.fecha">
+                    </div>
+                </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon">
+                        Hora
+                    </span>
+                    <div class="form-line">
+                        <input type="text" style="text-align: center;" class="form-control horaActual" [(ngModel)]="arqueoCaja.hora">
+                    </div>
+                </div>
+                </div>
+                <!-- <button _ngcontent-qva-c5=""  class="btn-hover btn-border-radius color-8" (click)="volveracaja()" type="button">
+                  <i _ngcontent-vro-c8="" style="color: white;" class="fas fa-angle-double-left"><span style="font-size: 15px;padding-top: 20px;"> Volver a caja</span></i>
+                </button> -->
+              </div>
+            </div>
+        </div>
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7" >
+                <span class="tituloResumen">OPCIONES DE ARQUEO</span>
+                  <div class="card body" style="background-color: #e9ecef;">
+                    <div class="row">
+                      <img style="margin-left: 5%;" src="assets/images/caja-apertura.png" class="img-responsive" alt="">
+                      <button _ngcontent-cgu-c5="" class="btn bg-teal waves-effect calculator" data-toggle="tooltip" data-placement="top" title="Calcular Arqueo de Caja"  (click)="calcular()" type="button"><i _ngcontent-qik-c7="" class="fas fa-calculator"></i></button>
+                      <button _ngcontent-cgu-c5="" [disabled]="btnguardar" data-toggle="tooltip" data-placement="top" title="Guardar Arqueo Caja"   class="btn bg-teal waves-effect" (click)="guardar()" style="margin-left: 2%;" type="button"><i _ngcontent-jhm-c5="" class="fas fa-save"></i></button>
+                      <app-reload-filtros #reloadFiltros></app-reload-filtros>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                <span class="tituloResumen">RESUMEN DE ARQUEO</span>
+                  <div class="card" style="background-color: #e9ecef;">
+                      <div class="body">
+                        <div class="row padretotales" >
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="totales">Total Monedas</span>
+                            <span class="total_monedas">S/ {{arqueoCaja.totalMonedas === '' ? '0.00' : arqueoCaja.totalMonedas}}</span>
+                          </div>
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="totales">Total Billetes</span>
+                            <span class="total_billetes">S/ {{arqueoCaja.totalBilletes === '' ? '0.00' : arqueoCaja.totalBilletes}}</span>
+                          </div>
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="totales">Caja Apertura</span>
+                            <span class="total_apertura" >S/ {{arqueoCaja.cajaApertura === '' ? '0.00' : arqueoCaja.cajaApertura}}</span>
+                          </div>
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="totales">Total Venta</span>
+                            <span class="total_venta">S/ {{arqueoCaja.totalVenta === '' ? '0.00' : arqueoCaja.totalVenta}}</span>
+                          </div>
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="totales">Total Corte</span>
+                            <span class="total_corte_Caja">S/ {{arqueoCaja.totalCorte === '' ? '0.00' : arqueoCaja.totalCorte}}</span>
+                          </div>
+                          <hr>
+                          <div *ngIf="statusArqueo === 1" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="totales">Caja Cuadrada</span>
+                            <span class="badge bg-green" style="margin-left: 5%;">SI</span>
+                          </div>
+                          <div *ngIf="statusArqueo === 2" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="totales">Faltantes</span>
+                            <span class="total_faltantes">S/ {{arqueoCaja.faltantes === '' ? '0.00' : arqueoCaja.faltantes}}</span>
+                          </div>
+                          <div *ngIf="statusArqueo === 3" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="totales">Sobrantes</span>
+                            <span class="total_sobrantes">S/ {{arqueoCaja.sobrantes === '' ? '0.00' : arqueoCaja.sobrantes}}</span>
+                          </div>
+                          <div *ngIf="statusArqueo !== 0" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <b>Observaciones</b>
+                            <div class="input-group">
+                                <div class="form-line">
+                                  <textarea id="textarea2" [(ngModel)]="arqueoCaja.observaciones" class="materialize-textarea"></textarea>
+                                </div>
+                            </div>
+                           </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+        </div>
+  </div>
+  </div>
+</section>
+<app-cargardo-component #isloadingModal></app-cargardo-component>

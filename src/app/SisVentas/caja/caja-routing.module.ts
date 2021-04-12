@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdministracajaComponent } from './administracaja/administracaja.component';
+import { ArqueocajaComponent } from './arqueocaja/arqueocaja.component';
 import { CortesxdiaComponent } from './cortesxdia/cortesxdia.component';
 import { CortesxsemanaComponent } from './cortesxsemana/cortesxsemana.component';
 import { HistorialcajaComponent } from './historialcaja/historialcaja.component';
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'Administrar/CortesSemanales/:idCaja',
     component : CortesxsemanaComponent
+  },
+  {
+    path: 'Administrar/Arqueo/:idCaja',
+    component : ArqueocajaComponent
   }
 ];
 

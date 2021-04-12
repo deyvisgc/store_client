@@ -254,7 +254,11 @@ export class CortesxdiaComponent implements OnInit {
       });
     }
     if (vm.cajaAdd.length === 0) {
-      alert('se necesita como minimo un iten para guardar esta informacion');
+      iziToast.error({
+        title: 'Error',
+        position: 'topRight',
+        message: 'se necesita como minimo un iten para guardar esta informacion',
+      });
       return false;
     }
     vm.corteDiario.totalMonedas = vm.totalMonedas;
@@ -324,5 +328,8 @@ export class CortesxdiaComponent implements OnInit {
     vm.totalEntregar = '';
     vm.datatable(vm.monedas, '.monedas');
     vm.datatableBilletes(vm.billetes, '.billetes');
+  }
+  Arqueo() {
+    this.router.navigate(['Caja/Administrar/Arqueo/' + 2]);
   }
 }
