@@ -92,10 +92,6 @@ export class AdministracajaComponent implements OnInit {
     vm.chartsLengt = false;
     vm.isloading.showLoading();
     vm.cajaSer.Totales(vm.filtros).then(res => {
-       if (vm.filtros.fechaDesde !== null && vm.filtros.fechaHasta !== null) {
-         vm.filtros.month = 0;
-         vm.filtros.year = 0;
-       }
        const rpta = sendRespuesta(res);
        vm.subtotales.montoInicial = rpta.data[3].montoInicial;
        vm.subtotales.ingresos = rpta.data[0].totalIngreso;
@@ -296,6 +292,14 @@ export class AdministracajaComponent implements OnInit {
       idUsuario: this.idUsuario
     };
     vm.YearNow();
+    vm.FetchTotales();
+  }
+  FiltrarXFechas() {
+    const vm = this;
+    vm.filtros.fechaDesde = vm.fechaHoy;
+    vm.filtros.fechaHasta = vm.fechaHasta;
+    vm.filtros.month = 0;
+    vm.filtros.year = 0;
     vm.FetchTotales();
   }
 }

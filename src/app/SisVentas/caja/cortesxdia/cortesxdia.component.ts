@@ -330,6 +330,6 @@ export class CortesxdiaComponent implements OnInit {
     vm.datatableBilletes(vm.billetes, '.billetes');
   }
   Arqueo() {
-    this.router.navigate(['Caja/Administrar/Arqueo/' + 2]);
+    this.router.navigate(['Caja/Administrar/Arqueo/' + this.rutaActiva.snapshot.params.idCaja]);
   }
 }

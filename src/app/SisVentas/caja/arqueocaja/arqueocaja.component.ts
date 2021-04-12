@@ -70,27 +70,35 @@ export class ArqueocajaComponent implements OnInit {
     vm.reloadFiltros.showLoading();
     vm.cajaServ.ObtenerTotalesArqueo(params).then(res => {
       const rpta = sendRespuesta(res);
-      vm.arqueoCaja.totalMonedas =  rpta.data.Corte.total_monedas;
-      vm.arqueoCaja.totalBilletes =  rpta.data.Corte.total_billetes;
-      vm.arqueoCaja.cajaApertura =  rpta.data.Corte.monto_inicial;
-      vm.arqueoCaja.totalVenta =  parseFloat(rpta.data.totalVenta).toFixed(2);
-      vm.arqueoCaja.totalCorte = parseFloat(rpta.data.totalCorte).toFixed(2);
-      const totalDiferencia = (Number(vm.arqueoCaja.totalVenta) - Number(vm.arqueoCaja.totalCorte));
-      if (totalDiferencia === 0) {
-        vm.statusArqueo = 1;
-        return false;
-      }
-      const status = Math.sign(totalDiferencia);
-      if (status === -1) {
-           vm.statusArqueo = 2;
-           const numbernegativo = Number(totalDiferencia);
-           vm.arqueoCaja.faltantes = Math.abs(numbernegativo).toFixed(2) ;
-           return;
-      }
-      if (status === 1) {
-        vm.statusArqueo = 3;
-        vm.arqueoCaja.sobrantes = Number(totalDiferencia).toFixed(2);
-        return;
+      if (rpta.status) {
+        vm.arqueoCaja.totalMonedas =  rpta.data.Corte.total_monedas;
+        vm.arqueoCaja.totalBilletes =  rpta.data.Corte.total_billetes;
+        vm.arqueoCaja.cajaApertura =  rpta.data.Corte.monto_inicial;
+        vm.arqueoCaja.totalVenta =  parseFloat(rpta.data.totalVenta).toFixed(2);
+        vm.arqueoCaja.totalCorte = parseFloat(rpta.data.totalCorte).toFixed(2);
+        const totalDiferencia = (Number(vm.arqueoCaja.totalVenta) - Number(vm.arqueoCaja.totalCorte));
+        if (totalDiferencia === 0) {
+          vm.statusArqueo = 1;
+          return false;
+        }
+        const status = Math.sign(totalDiferencia);
+        if (status === -1) {
+             vm.statusArqueo = 2;
+             const numbernegativo = Number(totalDiferencia);
+             vm.arqueoCaja.faltantes = Math.abs(numbernegativo).toFixed(2) ;
+             return;
+        }
+        if (status === 1) {
+          vm.statusArqueo = 3;
+          vm.arqueoCaja.sobrantes = Number(totalDiferencia).toFixed(2);
+          return;
+        }
+      } else {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: rpta.message,
+        });
       }
     }).catch((err) => {
       console.log(err);
