@@ -330,6 +330,13 @@ export class CortesxdiaComponent implements OnInit {
     vm.datatableBilletes(vm.billetes, '.billetes');
   }
   Arqueo() {
-    this.router.navigate(['Caja/Administrar/Arqueo/' + this.rutaActiva.snapshot.params.idCaja]);
+    const vm = this;
+    const obj = {
+      fechaDesde: vm.corteDiario.fecha,
+      fechaHasta: '',
+      typeCorte: 'diario'
+    };
+    vm.cajaSer.changeFechas(obj);
+    vm.router.navigate(['Caja/Administrar/Arqueo/' + this.rutaActiva.snapshot.params.idCaja]);
   }
 }

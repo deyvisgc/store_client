@@ -28,6 +28,7 @@ export class CortesxsemanaComponent implements OnInit {
   miercoles = [];
   jueves = [];
   idCortes = [];
+  reload = false;
   corteSemanalTotales = {
     saldoInicio : 0,
     totalCobrado : 0,
@@ -47,6 +48,7 @@ export class CortesxsemanaComponent implements OnInit {
     fechaTermino: this.fechaHasta,
     corteSemanal: true
   };
+  data: any;
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService,
               private cajaSer: CajaService, private rutaActiva: ActivatedRoute,
               private router: Router) { }
@@ -278,5 +280,16 @@ export class CortesxsemanaComponent implements OnInit {
     vm.cajaSer.obtenerCorteMartes([]);
     vm.cajaSer.obtenerCorteMiercoles([]);
     vm.cajaSer.obtenerCorteJueves([]);
+  }
+  buscarTotales() {
+    const vm = this;
+    const obj = {
+      fechaDesde: vm.fechaDesde,
+      fechaHasta: vm.fechaHasta,
+      typeCorte: 'semanal'
+    };
+    this.cajaSer.changeFechas(obj);
+    this.router.navigate(['Caja/Administrar/Arqueo/' + this.rutaActiva.snapshot.params.idCaja]);
+    $('#searchFechasmodal').modal('hide');
   }
 }

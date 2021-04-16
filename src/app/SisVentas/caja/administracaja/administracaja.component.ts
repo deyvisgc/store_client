@@ -19,7 +19,9 @@ export class AdministracajaComponent implements OnInit {
   @ViewChild('isloading', {static: true}) isloading;
   @ViewChild('isloadingModal', {static: true}) isloadingModal;
   fechaHoy = moment().format('YYYY-MM-DD');
-  fechaHasta = moment().add(7, 'days').format('YYYY-MM-DD');
+  descripcion = '';
+  fechaDesde = '';
+  fechaHasta = '';
   idUsuario = 2;
   idCaja = 3;
   chartsLengt = false;
@@ -38,10 +40,9 @@ export class AdministracajaComponent implements OnInit {
     total: '',
   };
   filtros = {
-    fechaDesde: this.fechaHoy,
-    fechaHasta: this.fechaHasta,
-    month: 0,
-    year : 0,
+    fechaDesde: '',
+    fechaHasta: '',
+    idCaja: this.idCaja,
     idUsuario: this.idUsuario
   };
   caja = {
@@ -60,49 +61,50 @@ export class AdministracajaComponent implements OnInit {
     const vm = this;
     vm.ValidarCaja();
     await this.dynamicScriptLoader.load('form.min').then(data => {
-      $('.filtroxmes').select2({ width: '100%' }).on('change', (event) => {
-        vm.filtros.month = event.target.value;
-        vm.filtros.fechaDesde = null;
-        vm.filtros.fechaHasta = null;
-        vm.filtros.year = 0;
-        vm.FetchTotales();
-      });
-      $('.filtroxyear').select2({ width: '100%' }).on('change', (event) => {
-        vm.filtros.year = event.target.value;
-        vm.filtros.fechaDesde = null;
-        vm.filtros.fechaHasta = null;
-        vm.filtros.month = 0;
-        vm.FetchTotales();
-      });
+      const diasemana = vm.weekDate(new Date());
+      vm.fechaDesde = diasemana[0];
+      vm.fechaHasta = diasemana[6];
+      vm.chartCortes(diasemana);
       flatpickr('.fechaDesde', {
         locale: Spanish,
-        defaultDate: [this.fechaHoy]
+        dateFormat: 'd-m-Y',
+        defaultDate: [this.fechaDesde]
       });
       flatpickr('.fechaHasta', {
         locale: Spanish,
+        dateFormat: 'd-m-Y',
         defaultDate: [this.fechaHasta]
       });
-      vm.YearNow();
       vm.FetchTotales();
       $('[data-toggle="tooltip"]').tooltip();
     }).catch(error => console.log(error));
   }
   FetchTotales() {
     const vm = this;
+    console.log(vm.filtros);
     vm.chartsLengt = false;
     vm.isloading.showLoading();
     vm.cajaSer.Totales(vm.filtros).then(res => {
        const rpta = sendRespuesta(res);
-       vm.subtotales.montoInicial = rpta.data[3].montoInicial;
-       vm.subtotales.ingresos = rpta.data[0].totalIngreso;
-       vm.subtotales.gastos = rpta.data[1].totalSalidas;
-       vm.subtotales.devoluciones = rpta.data[2].totalDevoluciones;
-       vm.totales.IngresosMostInicial = parseFloat(rpta.data[0].totalIngreso) + parseFloat(rpta.data[3].montoInicial);
-       vm.totales.GastosMostDevoluciones = parseFloat(rpta.data[1].totalSalidas) + parseFloat(rpta.data[2].totalDevoluciones);
-       vm.totales.total = (vm.totales.IngresosMostInicial - vm.totales.GastosMostDevoluciones).toFixed(2);
-       vm.chartCaja();
+       if (rpta.status) {
+        vm.descripcion = rpta.message;
+        vm.subtotales.montoInicial = rpta.data[0].montoInicial || 0;
+        vm.subtotales.ingresos = rpta.data[1].totalIngreso || 0;
+        vm.subtotales.gastos = rpta.data[2].totalSalidas || 0;
+        vm.subtotales.devoluciones = rpta.data[3].totalDevoluciones || 0;
+        vm.totales.IngresosMostInicial = parseFloat(rpta.data[1].totalIngreso) + parseFloat(rpta.data[0].montoInicial) || 0;
+        vm.totales.GastosMostDevoluciones = parseFloat(rpta.data[2].totalSalidas) + parseFloat(rpta.data[3].totalDevoluciones) || 0;
+        vm.totales.total = (vm.totales.IngresosMostInicial - vm.totales.GastosMostDevoluciones).toFixed(2) || '0';
+        vm.chartCaja();
+       } else {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: rpta.message,
+        });
+       }
     }).catch((err) => {
-      alert(err);
+      console.log(err);
     }).then(() => {
       vm.isloading.closeLoading();
     }, () => {
@@ -159,20 +161,110 @@ export class AdministracajaComponent implements OnInit {
     chart.render();
 
   }
-  YearNow() {
-    const vm = this;
-    vm.years = [];
-    const n = (new Date()).getFullYear();
-    const d = new Date();
-    const m = d.getMonth() + 1;
-    const day = d.getDay();
-    vm.dayxdefault = day;
-    $('.filtroxmes').val(m).trigger('change.select2');
-    for (let i = n; i >= 2019; i--) {
-      vm.years.push({
-        year: i
-      });
+  private chartCortes(diasemana) {
+    const totalMonedasLunes = 0;
+    const totalMonedasMartes = 0;
+    const totalMonedasMiercoles = 0;
+    const totalMonedasJueves = 0;
+    const totalMonedasViernes = 0;
+    const totalMonedasSabado = 0;
+    const totalMonedasDomingo = 0;
+
+    const totalBilletesLunes = 0;
+    const totalBilletesMartes = 0;
+    const totalBilletesMiercoles = 0;
+    const totalBilletesJueves = 0;
+    const totalBilletesViernes = 0;
+    const totalBilletesSabado = 0;
+    const totalBilletesDomingo = 0;
+
+    const totalGananciasLunes = 0;
+    const totalGananciasMartes = 0;
+    const totalGananciasMiercoles = 0;
+    const totalGananciasJueves = 0;
+    const totalGananciasViernes = 0;
+    const totalGananciasSabado = 0;
+    const totalGananciasDomingo = 0;
+
+    const totalEntregadoLunes = 0;
+    const totalEntregadoMartes = 0;
+    const totalEntregadoMiercoles = 0;
+    const totalEntregadoJueves = 0;
+    const totalEntregadoViernes = 0;
+    const totalEntregadoSabado = 0;
+    const totalEntregadoDomingo = 0;
+    const options = {
+      series: [{
+      name: 'Total Monedas',
+      data: [totalMonedasLunes, totalMonedasMartes, totalMonedasMiercoles,
+             totalMonedasJueves, totalMonedasViernes, totalMonedasSabado,
+             totalMonedasDomingo
+            ]
+    }, {
+      name: 'Total billetes',
+      data: [totalBilletesLunes, totalBilletesMartes, totalBilletesMiercoles,
+             totalBilletesJueves, totalBilletesViernes, totalBilletesSabado,
+             totalBilletesDomingo
+            ]
+    }, {
+      name: 'Total Ganancia',
+      data: [totalGananciasLunes, totalGananciasMartes, totalGananciasMiercoles,
+             totalGananciasJueves, totalGananciasViernes, totalGananciasSabado,
+             totalGananciasDomingo
+            ]
+    }, {
+      name: 'Total entregado',
+      data: [totalEntregadoLunes, totalEntregadoMartes, totalEntregadoMiercoles,
+             totalEntregadoJueves, totalEntregadoViernes, totalEntregadoSabado,
+             totalEntregadoDomingo
+            ]
+    }],
+      chart: {
+      type: 'bar',
+      height: 350,
+      stacked: true,
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+      },
+    },
+    stroke: {
+      width: 1,
+      colors: ['#fff']
+    },
+    xaxis: {
+      categories: [diasemana[0], diasemana[1], diasemana[2], diasemana[3], diasemana[4], diasemana[5], diasemana[6]],
+      labels: {
+        formatter: function (val) {
+          return val + "K"
+        }
+      }
+    },
+    yaxis: {
+      title: {
+        text: undefined
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return val + "K"
+        }
+      }
+    },
+    fill: {
+      opacity: 1
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'left',
+      offsetX: 40
     }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart8"), options);
+    chart.render();
   }
   Aperturar() {
     const vm = this;
@@ -279,27 +371,37 @@ export class AdministracajaComponent implements OnInit {
     console.log('error');
   });
   }
-  Arqueo() {
-    this.router.navigate(['Caja/Administrar/Arqueo/' + this.idCaja]);
+  FiltrarXFechas() {
+    const vm = this;
+    vm.filtros.fechaDesde = vm.fechaDesde;
+    vm.filtros.fechaHasta = vm.fechaHasta;
+    vm.FetchTotales();
   }
   LimpiarFiltros() {
     const vm = this;
     vm.filtros = {
-      fechaDesde: this.fechaHoy,
+      fechaDesde: this.fechaDesde,
       fechaHasta: this.fechaHasta,
-      month: 0,
-      year : 0,
+      idCaja : this.idCaja,
       idUsuario: this.idUsuario
     };
-    vm.YearNow();
     vm.FetchTotales();
   }
-  FiltrarXFechas() {
-    const vm = this;
-    vm.filtros.fechaDesde = vm.fechaHoy;
-    vm.filtros.fechaHasta = vm.fechaHasta;
-    vm.filtros.month = 0;
-    vm.filtros.year = 0;
-    vm.FetchTotales();
+   weekDate(current) {
+    const week = [];
+    const weekFormat = [];
+    if (current.getDay() === 0) {//En los casos en que es domingo, restar como si fuera septimo dia y no cero
+        current.setDate(((current.getDate() - 7) + 1));
+    } else {
+        current.setDate(((current.getDate() - current.getDay()) + 1));
+    }
+    for (let i = 0; i < 7; i++) {
+        week.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+    }
+    week.forEach((w) => {
+        weekFormat.push(moment(w).format('DD-MM-YYYY'));
+    });
+    return weekFormat;
   }
 }

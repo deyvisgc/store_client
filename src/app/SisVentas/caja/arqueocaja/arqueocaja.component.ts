@@ -22,6 +22,7 @@ export class ArqueocajaComponent implements OnInit {
   fechaHoy = moment().format('YYYY-MM-DD HH:mm');
   horaActual = moment().format('HH:mm');
   statusArqueo = 0;
+  data: any;
   arqueoCaja = {
     empresa: '',
     fecha: this.fechaHoy,
@@ -41,7 +42,8 @@ export class ArqueocajaComponent implements OnInit {
               private cajaServ: CajaService) { }
 
   ngOnInit() {
-   this.activarToltip();
+    this.obtenerTotales();
+    this.activarToltip();
   }
   async startScript() {
     const vm = this;
@@ -59,53 +61,6 @@ export class ArqueocajaComponent implements OnInit {
         defaultDate : [this.horaActual]
       });
     }).catch(error => console.log(error));
-  }
-  calcular() {
-    const vm = this;
-    const params = {
-      idCaja: vm.arqueoCaja.idCaja,
-      fecha: vm.arqueoCaja.fecha
-    };
-    // vm.isloadingModal.openModal('Calculando arqueo de caja');
-    vm.reloadFiltros.showLoading();
-    vm.cajaServ.ObtenerTotalesArqueo(params).then(res => {
-      const rpta = sendRespuesta(res);
-      if (rpta.status) {
-        vm.arqueoCaja.totalMonedas =  rpta.data.Corte.total_monedas;
-        vm.arqueoCaja.totalBilletes =  rpta.data.Corte.total_billetes;
-        vm.arqueoCaja.cajaApertura =  rpta.data.Corte.monto_inicial;
-        vm.arqueoCaja.totalVenta =  parseFloat(rpta.data.totalVenta).toFixed(2);
-        vm.arqueoCaja.totalCorte = parseFloat(rpta.data.totalCorte).toFixed(2);
-        const totalDiferencia = (Number(vm.arqueoCaja.totalVenta) - Number(vm.arqueoCaja.totalCorte));
-        if (totalDiferencia === 0) {
-          vm.statusArqueo = 1;
-          return false;
-        }
-        const status = Math.sign(totalDiferencia);
-        if (status === -1) {
-             vm.statusArqueo = 2;
-             const numbernegativo = Number(totalDiferencia);
-             vm.arqueoCaja.faltantes = Math.abs(numbernegativo).toFixed(2) ;
-             return;
-        }
-        if (status === 1) {
-          vm.statusArqueo = 3;
-          vm.arqueoCaja.sobrantes = Number(totalDiferencia).toFixed(2);
-          return;
-        }
-      } else {
-        iziToast.error({
-          title: 'Error',
-          position: 'topRight',
-          message: rpta.message,
-        });
-      }
-    }).catch((err) => {
-      console.log(err);
-    }).then(() => {
-      vm.btnguardar = false;
-      vm.reloadFiltros.closeLoading();
-    });
   }
   activarToltip() {
     $('[data-toggle="tooltip"]').tooltip();
@@ -129,6 +84,7 @@ export class ArqueocajaComponent implements OnInit {
         console.log(err);
       }).then(() => {
         vm.isloadingModal.closeModal();
+        this.router.navigate(['Caja/Administrar']);
       });
     } else {
       iziToast.error({
@@ -156,5 +112,97 @@ export class ArqueocajaComponent implements OnInit {
     };
     vm.statusArqueo = 0;
     vm.btnguardar = true;
+    localStorage.removeItem('totales');
+  }
+  obtenerTotales() {
+    const vm = this;
+    vm.cajaServ.fechaData.subscribe(data => {
+      const params = {
+        idCaja: vm.arqueoCaja.idCaja,
+        fechaDesde: '',
+        fechaHasta: ''
+        };
+      if (data.typeCorte === 'semanal') { // calculo semanal
+         params.fechaDesde = data.fechaDesde;
+         params.fechaHasta = moment(data.fechaHasta).format('YYYY-MM-DD');
+      } else {
+        params.fechaDesde = data.fechaDesde;
+      } // calculo diario
+      if (!data.fechaDesde && !data.fechaHasta && !data.typeCorte) {
+        const totaleslocalStorage = localStorage.getItem('totales');
+        const totales =  JSON.parse(totaleslocalStorage);
+        vm.arqueoCaja.totalMonedas = totales.totalMonedas;
+        vm.arqueoCaja.totalBilletes = totales.totalBilletes;
+        vm.arqueoCaja.cajaApertura = totales.cajaApertura;
+        vm.arqueoCaja.totalVenta = totales.totalVenta;
+        vm.arqueoCaja.totalCorte = totales.totalCorte;
+        vm.arqueoCaja.sobrantes = totales.sobrantes;
+        vm.arqueoCaja.faltantes = totales.faltantes;
+        vm.btnguardar = false;
+        const totalDiferencia = (Number(vm.arqueoCaja.totalVenta) - Number(vm.arqueoCaja.totalCorte));
+        if (totalDiferencia === 0) {
+          vm.statusArqueo = 1;
+          return false;
+        }
+        const status = Math.sign(totalDiferencia);
+        if (status === -1) {
+             vm.statusArqueo = 2;
+             const numbernegativo = Number(totalDiferencia);
+             vm.arqueoCaja.faltantes = Math.abs(numbernegativo).toFixed(2) ;
+             return;
+        }
+        if (status === 1) {
+          vm.statusArqueo = 3;
+          vm.arqueoCaja.sobrantes = Number(totalDiferencia).toFixed(2);
+          return;
+        }
+      } else {
+        vm.calcular(params);
+      }
+    });
+  }
+  calcular(params) {
+    const vm = this;
+    vm.isloadingModal.openModal('Calculando Totales');
+    vm.cajaServ.ObtenerTotalesArqueo(params).then(res => {
+      const rpta = sendRespuesta(res);
+      if (rpta.status) {
+        vm.arqueoCaja.totalMonedas =  rpta.data.Corte.monedas;
+        vm.arqueoCaja.totalBilletes =  rpta.data.Corte.billetes;
+        vm.arqueoCaja.cajaApertura =  rpta.data.Corte.montoApertura;
+        vm.arqueoCaja.totalVenta =  parseFloat(rpta.data.venta.totalVenta).toFixed(2);
+        vm.arqueoCaja.totalCorte = parseFloat(rpta.data.Corte.totalEntregado).toFixed(2);
+        localStorage.setItem('totales', JSON.stringify(vm.arqueoCaja));
+        const totalDiferencia = (Number(vm.arqueoCaja.totalVenta) - Number(vm.arqueoCaja.totalCorte));
+        if (totalDiferencia === 0) {
+          vm.statusArqueo = 1;
+          return false;
+        }
+        const status = Math.sign(totalDiferencia);
+        if (status === -1) {
+             vm.statusArqueo = 2;
+             const numbernegativo = Number(totalDiferencia);
+             vm.arqueoCaja.faltantes = Math.abs(numbernegativo).toFixed(2) ;
+             return;
+        }
+        if (status === 1) {
+          vm.statusArqueo = 3;
+          vm.arqueoCaja.sobrantes = Number(totalDiferencia).toFixed(2);
+          return;
+        }
+      } else {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: rpta.message,
+        });
+        vm.isloadingModal.closeModal();
+      }
+    }).catch((err) => {
+      console.log(err);
+    }).then(() => {
+      vm.btnguardar = false;
+      vm.isloadingModal.closeModal();
+    });
   }
 }

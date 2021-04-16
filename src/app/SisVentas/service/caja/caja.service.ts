@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { EnviromentService } from '../enviroment.service';
 
 @Injectable({
@@ -16,13 +16,17 @@ export class CajaService {
   private miercoles = new Subject<[]>();
   private jueves = new Subject<[]>();
   private viernes = new Subject<boolean>();
+  private fechas = new BehaviorSubject({fechaDesde: '', fechaHasta: '', typeCorte: ''});
+  fechaData = this.fechas.asObservable();
 
   lunesarrayObs$ = this.lunes.asObservable();
   MartesarrayObs$ = this.martes.asObservable();
   MiercolesrrayObs$ = this.miercoles.asObservable();
   juevesrrayObs$ = this.jueves.asObservable();
   viernesrrayObs$ = this.viernes.asObservable();
-
+  changeFechas(data: any) {
+    this.fechas.next(data);
+  }
    obtenerCorteLunes(message: []) {
     this.lunes.next(message);
   }
