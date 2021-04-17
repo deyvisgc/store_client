@@ -148,7 +148,6 @@
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-          <span id="descripcion">{{descripcion}}</span>
             <div role="tabpanel" class="tab-pane fade in active show" id="cajaAdministrar">
             <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
@@ -191,8 +190,9 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" style="margin-bottom: 0px !important;">
-                <div class="card">
-                    <div class="body chart"  style=" margin-left: 100px;">
+              <span id="descripcion">{{descripcion}}</span> 
+              <div class="card">
+                    <div class="body chart">
                       <div *ngIf="!chartsLengt" id="chartcaja"></div>
                       <div *ngIf="chartsLengt"> 
                         <h5>
@@ -241,10 +241,29 @@
             <div role="tabpanel"  class="tab-pane fade" id="cortesCaja">
               <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                  <div class="card">
-                    <div class="body">
-                      <div id="chart8"></div>
-                    </div>
+                  <div id="chart8"></div>
+                  <div class="table-responsive">
+                    <h5>Historial de totales de corte de caja </h5>
+                    <table class="table table-hover table-bordered js-basic-example table-corte" style="width: 100%;">
+                      <thead>
+                            <tr>
+                                <th>Fecha Corte</th>
+                                <th>Efectivo en Monedas</th>
+                                <th>Efectivo en Billetes</th>
+                                <th>Ganancias</th>
+                                <th>Entregado</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                      <tfoot id="tfoot">
+                        <tr>
+                          <th colspan="3" class="text-right total"> Total</th>
+                          <td>
+                            <span class="total">S/ {{totalGanancias}}</span>
+                        </td>
+                        </tr>
+                      </tfoot>
+                    </table>
                   </div>
                 </div>
               </div>

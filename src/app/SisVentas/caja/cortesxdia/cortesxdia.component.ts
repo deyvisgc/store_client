@@ -292,11 +292,19 @@ export class CortesxdiaComponent implements OnInit {
     vm.cajaSer.ObtenerSaldoInicial(vm.rutaActiva.snapshot.params.idCaja).then(res => {
     const rpta = sendRespuesta(res);
     if (rpta.status) {
-      iziToast.success({
-        title: 'OK',
-        position: 'topRight',
-        message: rpta.message,
-      });
+      if (+rpta.data[0].saldoInicial > 0) {
+        iziToast.success({
+          title: 'OK',
+          position: 'topRight',
+          message: rpta.message,
+        });
+      } else {
+        iziToast.warning({
+          title: 'Error',
+          position: 'topRight',
+          message: 'No existe un monto Inicial Para esta fecha',
+        });
+      }
       vm.cargandoInformacion = true;
       vm.saldoInicio =  rpta.data[0].saldoInicial;
     } else {

@@ -8,8 +8,10 @@ declare const flatpickr: any;
 declare const ApexCharts: any;
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { format } from 'd3';
 declare const $: any;
 declare const sendRespuesta: any;
+import _ from 'lodash';
 @Component({
   selector: 'app-administracaja',
   templateUrl: './administracaja.component.html',
@@ -51,6 +53,14 @@ export class AdministracajaComponent implements OnInit {
     montoApertura: 0,
     status : 'open'
   };
+  lunes = [];
+  martes = [];
+  miercoles = [];
+  jueves = [];
+  viernes = [];
+  sabado = [];
+  domingo = [];
+
   cargandoInformacion = false;
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private cajaSer: CajaService, private router: Router) { }
   estadoCaja = false;
@@ -64,7 +74,6 @@ export class AdministracajaComponent implements OnInit {
       const diasemana = vm.weekDate(new Date());
       vm.fechaDesde = diasemana[0];
       vm.fechaHasta = diasemana[6];
-      vm.chartCortes(diasemana);
       flatpickr('.fechaDesde', {
         locale: Spanish,
         dateFormat: 'd-m-Y',
@@ -76,6 +85,7 @@ export class AdministracajaComponent implements OnInit {
         defaultDate: [this.fechaHasta]
       });
       vm.FetchTotales();
+      vm.FechTotalCorte();
       $('[data-toggle="tooltip"]').tooltip();
     }).catch(error => console.log(error));
   }
@@ -109,6 +119,52 @@ export class AdministracajaComponent implements OnInit {
       vm.isloading.closeLoading();
     }, () => {
       alert('ronald');
+    });
+  }
+  FechTotalCorte() {
+    const vm = this;
+    if (vm.filtros.idCaja === 0) {
+      iziToast.error({
+        title: 'Error',
+        position: 'topRight',
+        message: 'el numero caja debe ser mayor a 0',
+      });
+      return false;
+    }
+    vm.filtros.fechaDesde = vm.fechaDesde;
+    vm.filtros.fechaHasta = vm.fechaHasta;
+    vm.cajaSer.FetchTotalesCorte(vm.filtros).then( res => {
+      const rpta = sendRespuesta(res);
+      if (rpta.status) {
+        if (rpta.data.length > 0) {
+          const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+          const diasemanas = vm.weekDate(new Date());
+          rpta.data.forEach((element, index) => {
+            const date  = new Date(rpta.data[index].fecha_corte);
+            rpta.data[index].diaSemana = dias[date.getDay()];
+            vm.lunes = rpta.data.filter(l => l.diaSemana === 'Lunes');
+            vm.martes = rpta.data.filter(l => l.diaSemana === 'Martes');
+            vm.miercoles = rpta.data.filter(l => l.diaSemana === 'Miercoles');
+            vm.jueves = rpta.data.filter(l => l.diaSemana === 'Jueves');
+            vm.viernes = rpta.data.filter(l => l.diaSemana === 'Viernes');
+            vm.sabado = rpta.data.filter(l => l.diaSemana === 'Sabado');
+            vm.domingo = rpta.data.filter(l => l.diaSemana === 'Domingo');
+          });
+          vm.datatable(rpta.data, '.table-corte');
+          vm.chartCortes(diasemanas);
+          return true;
+        }
+        iziToast.warning({
+          title: 'Upss',
+          position: 'topRight',
+          message: 'No se encontraron registro para este rango de fechas',
+        });
+      }
+      console.log(res);
+    }).catch((err) => {
+
+    }). then(() => {
+
     });
   }
   private chartCaja() {
@@ -162,46 +218,52 @@ export class AdministracajaComponent implements OnInit {
 
   }
   private chartCortes(diasemana) {
-    const totalMonedasLunes = 0;
-    const totalMonedasMartes = 0;
-    const totalMonedasMiercoles = 0;
-    const totalMonedasJueves = 0;
-    const totalMonedasViernes = 0;
-    const totalMonedasSabado = 0;
-    const totalMonedasDomingo = 0;
+    const vm = this;
+    const totalMonedasLunes     = vm.lunes.length     === 0 ? 0 : Number(this.lunes[0].total_monedas);
+    const totalMonedasMartes    = vm.martes.length    === 0 ? 0 : Number(this.martes[0].total_monedas);
+    const totalMonedasMiercoles = vm.miercoles.length === 0 ? 0 : Number(this.miercoles[0].total_monedas);
+    const totalMonedasJueves    = vm.jueves.length    === 0 ? 0 : Number(this.jueves[0].total_monedas);
+    const totalMonedasViernes   = vm.viernes.length   === 0 ? 0 : Number(this.viernes[0].total_monedas);
+    const totalMonedasSabado    = vm.sabado.length    === 0 ? 0 : Number(this.sabado[0].total_monedas);
+    const totalMonedasDomingo   = vm.domingo.length   === 0 ? 0 : Number(this.domingo[0].total_monedas);
+    console.log(totalMonedasLunes);
 
-    const totalBilletesLunes = 0;
-    const totalBilletesMartes = 0;
-    const totalBilletesMiercoles = 0;
-    const totalBilletesJueves = 0;
-    const totalBilletesViernes = 0;
-    const totalBilletesSabado = 0;
-    const totalBilletesDomingo = 0;
+    const totalBilletesLunes     = vm.lunes.length === 0 ? 0 : Number(this.lunes[0].total_billetes);
+    console.log(totalBilletesLunes);
+    const totalBilletesMartes    = vm.martes.length    === 0 ? 0 : Number(this.martes[0].total_billetes);
+    const totalBilletesMiercoles = vm.miercoles.length === 0 ? 0 : Number(this.miercoles[0].total_billetes);
+    const totalBilletesJueves    = vm.jueves.length    === 0 ? 0 : Number(this.jueves[0].total_billetes);
+    const totalBilletesViernes   =  vm.viernes.length  === 0 ? 0 : Number(this.viernes[0].total_billetes);
+    const totalBilletesSabado    =   vm.sabado.length  === 0 ? 0 : Number(this.sabado[0].total_billetes);
+    const totalBilletesDomingo   =  vm.domingo.length  === 0 ? 0 : Number(this.domingo[0].total_billetes);
 
-    const totalGananciasLunes = 0;
-    const totalGananciasMartes = 0;
-    const totalGananciasMiercoles = 0;
-    const totalGananciasJueves = 0;
-    const totalGananciasViernes = 0;
-    const totalGananciasSabado = 0;
-    const totalGananciasDomingo = 0;
+    const totalGananciasLunes     =  vm.lunes.length    === 0 ? 0 : Number(this.lunes[0].ganancias_x_dia);
+    console.log(totalGananciasLunes);
+    const totalGananciasMartes    =  vm.martes.length   === 0 ? 0 : Number(this.martes[0].ganancias_x_dia);
+    const totalGananciasMiercoles = vm.miercoles.length === 0 ? 0 : Number(this.miercoles[0].ganancias_x_dia);
+    const totalGananciasJueves    =  vm.jueves.length   === 0 ? 0 : Number(this.jueves[0].ganancias_x_dia);
+    const totalGananciasViernes   =  vm.viernes.length  === 0 ? 0 : Number(this.viernes[0].ganancias_x_dia);
+    const totalGananciasSabado    =   vm.sabado.length  === 0 ? 0 : Number(this.sabado[0].ganancias_x_dia);
+    const totalGananciasDomingo   =  vm.domingo.length  === 0 ? 0 : Number(this.domingo[0].ganancias_x_dia);
 
-    const totalEntregadoLunes = 0;
-    const totalEntregadoMartes = 0;
-    const totalEntregadoMiercoles = 0;
-    const totalEntregadoJueves = 0;
-    const totalEntregadoViernes = 0;
-    const totalEntregadoSabado = 0;
-    const totalEntregadoDomingo = 0;
+
+    const totalEntregadoLunes     =  vm.lunes.length     === 0 ? 0 : Number(this.lunes[0].monto_entregado_dia);
+    const totalEntregadoMartes    =  vm.martes.length    === 0 ? 0 : Number(this.martes[0].monto_entregado_dia);
+    const totalEntregadoMiercoles =  vm.miercoles.length === 0 ? 0 : Number(this.miercoles[0].monto_entregado_dia);
+    const totalEntregadoJueves    =  vm.jueves.length    === 0 ? 0 : Number(this.jueves[0].monto_entregado_dia);
+    const totalEntregadoViernes   =  vm.viernes.length   === 0 ? 0 : Number(this.viernes[0].monto_entregado_dia);
+    const totalEntregadoSabado    =  vm.sabado.length    === 0 ? 0 : Number(this.sabado[0].monto_entregado_dia);
+    const totalEntregadoDomingo   =  vm.domingo.length   === 0 ? 0 : Number(this.domingo[0].monto_entregado_dia);
+    console.log(totalEntregadoLunes);
     const options = {
       series: [{
-      name: 'Total Monedas',
+      name: 'Efectivo en Monedas',
       data: [totalMonedasLunes, totalMonedasMartes, totalMonedasMiercoles,
              totalMonedasJueves, totalMonedasViernes, totalMonedasSabado,
              totalMonedasDomingo
             ]
     }, {
-      name: 'Total billetes',
+      name: 'Efectivo en billetes',
       data: [totalBilletesLunes, totalBilletesMartes, totalBilletesMiercoles,
              totalBilletesJueves, totalBilletesViernes, totalBilletesSabado,
              totalBilletesDomingo
@@ -223,10 +285,17 @@ export class AdministracajaComponent implements OnInit {
       type: 'bar',
       height: 350,
       stacked: true,
+      toolbar: {
+        show: true
+      },
+      zoom: {
+        enabled: true
+      }
     },
     plotOptions: {
       bar: {
         horizontal: true,
+        columnWidth: '180%',
       },
     },
     stroke: {
@@ -403,5 +472,55 @@ export class AdministracajaComponent implements OnInit {
         weekFormat.push(moment(w).format('DD-MM-YYYY'));
     });
     return weekFormat;
+  }
+  datatable(datos, table) {
+    $(table).DataTable({
+      "lengthMenu": [[10, 20, 50], [10, 20, 50]],
+      data: datos,
+      columns: [
+      { data: 'fecha_corte'},
+      {data:  'total_monedas' },
+      {data:  'total_billetes'},
+      {data: 'ganancias_x_dia'},
+      {data: 'monto_entregado_dia'},
+      { data: () => {
+        return (
+          '<button _ngcontent-smb-c6="" class="btn btn-success waves-effect edit" type="button">' +
+          '<i *ngIf="accion" title="Actualizar Informacion" _ngcontent-lbr-c10="" class="fas fa-edit"></i>' +
+          '</button>'
+        );
+      }
+      },
+      ],
+      responsive: true,
+      rowCallback: ( row, data ) => {
+        $('td', row).css('cursor', 'pointer');
+        $('.edit', row).bind('click' , (e) => {
+          // vm.Editar(data);
+        });
+      },
+      language: {
+        decimal: '',
+        emptyTable: 'No exsiten Ingresos',
+        info: 'Mostrando _START_ a _END_ de _TOTAL_ Ingresos',
+        infoEmpty: 'Mostrando 0 to 0 of 0 Entradas',
+        infoFiltered: '(Filtrado de _MAX_ total Ingresos)',
+        infoPostFix: '',
+        thousands: ',',
+        lengthMenu: 'Mostrar _MENU_ Ingresos',
+        loadingRecords: 'Cargando...',
+        processing: 'Procesando...',
+        search: 'Buscar:',
+        zeroRecords: 'Sin resultados encontrados',
+        paginate: {
+          first: 'Primero',
+          last: 'Ultimo',
+          next: 'Siguiente',
+          previous: 'Anterior'
+        }
+      },
+      order: [],
+      destroy: true,
+    });
   }
 }

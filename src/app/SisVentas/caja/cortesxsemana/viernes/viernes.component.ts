@@ -4,6 +4,7 @@ import { CajaService } from 'src/app/SisVentas/service/caja/caja.service';
 declare const sendRespuesta: any;
 import _ from 'lodash';
 declare const $: any;
+import iziToast from 'izitoast';
 @Component({
   selector: 'app-viernes',
   templateUrl: './viernes.component.html',
@@ -154,7 +155,20 @@ export class ViernesComponent implements OnInit {
     vm.cajaSer.ObtenerSaldoInicial(vm.rutaActiva.snapshot.params.idCaja).then(res => {
     const rpta = sendRespuesta(res);
     if (rpta.status) {
-      vm.saldoInicio =  rpta.data[0].saldoInicial;
+      if (+rpta.data[0].saldoInicial > 0) {
+        vm.saldoInicio =  rpta.data[0].saldoInicial;
+        iziToast.success({
+          title: 'OK',
+          position: 'topRight',
+          message: rpta.message,
+        });
+      } else {
+        iziToast.warning({
+          title: 'Error',
+          position: 'topRight',
+          message: 'No existe un monto Inicial Para esta fecha',
+        });
+      }
     } else {
       vm.cargandoInformacion.emit(rpta);
     }

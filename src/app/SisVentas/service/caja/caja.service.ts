@@ -56,24 +56,30 @@ export class CajaService {
   ValidarCaja(params) {
     return this.httpClient.get(this.url.urlAddress + 'Caja/ValidarCaja', { params , headers: this.headers}).toPromise();
   }
+  // corte caja
   ObtenerSaldoInicial(idCaja) {
-    return this.httpClient.get(this.url.urlAddress + 'Caja/ObtenerSaldoInicial/' + idCaja, {headers: this.headers}).toPromise();
+    return this.httpClient.get(this.url.urlAddress + 'Caja/corte/ObtenerSaldoInicial/' + idCaja, {headers: this.headers}).toPromise();
    }
   GuardarCorteDiario(detalleCorteCaja, corteCaja ) {
     // tslint:disable-next-line:max-line-length
-    return this.httpClient.post(this.url.urlAddress + 'Caja/GuardarCorteDiario', { detalleCorteCaja, corteCaja}, {headers: this.headers}).toPromise();
+    return this.httpClient.post(this.url.urlAddress + 'Caja/corte/GuardarCorteDiario', { detalleCorteCaja, corteCaja}, {headers: this.headers}).toPromise();
   }
   GuardarCorteSemanal(detalleCorteCaja, corteCaja ) {
     // tslint:disable-next-line:max-line-length
     return this.httpClient.post(this.url.urlAddress + 'Caja/GuardarCorteSemanal', { detalleCorteCaja, corteCaja}, {headers: this.headers}).toPromise();
   }
   BuscarcortesXFechas(params) {
-    return this.httpClient.get(this.url.urlAddress + 'Caja/SearXFechas', { params , headers: this.headers}).toPromise();
+    return this.httpClient.get(this.url.urlAddress + 'Caja/corte/SearXFechas', { params , headers: this.headers}).toPromise();
   }
+  FetchTotalesCorte(params) {
+    return this.httpClient.get(this.url.urlAddress + 'Caja/corte/ObtenerCorte', { params , headers: this.headers}).toPromise();
+  }
+  // arqueo caja
+
   ObtenerTotalesArqueo(params) {
-    return this.httpClient.get(this.url.urlAddress + 'Caja/Arequeo/ObtenerTotalesArqueo', { params , headers: this.headers}).toPromise();
+    return this.httpClient.get(this.url.urlAddress + 'Caja/Arqueo/ObtenerTotalesArqueo', { params , headers: this.headers}).toPromise();
   }
   GuardarArqueo(params) {
-    return this.httpClient.post(this.url.urlAddress + 'Caja/Arequeo/GuardarArqueo', {params}, {headers: this.headers}).toPromise();
+    return this.httpClient.post(this.url.urlAddress + 'Caja/Arqueo/GuardarArqueo', {params}, {headers: this.headers}).toPromise();
   }
 }
