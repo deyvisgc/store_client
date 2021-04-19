@@ -47,8 +47,8 @@ const routes: Routes = [
         loadChildren: () => import('./icons/icons.module').then(m => m.IconsModule)
     },
     {
-        path: 'authentication',
-        loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
+        path: 'auth',
+        loadChildren: () => import('./SisVentas/Auth/login.module').then(m => m.LoginModule)
     },
     {
         path: 'extra-pages',
@@ -72,7 +72,7 @@ const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'auth',
         pathMatch: 'full'
     }
 ];

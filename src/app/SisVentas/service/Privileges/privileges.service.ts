@@ -16,11 +16,7 @@ export class PrivilegesService {
       private url: EnviromentService,
   ) { }
 
-  public getPrivilegesByRol(idRol) {
-    return this.httpClient.post(
-        this.url.urlAddress + 'PrivilegiosRol',
-        {idRol},
-        {headers: this.header}
-    );
+  getPrivilegesByRol(params) {
+    return this.httpClient.get(this.url.urlAddress + 'PrivilegiosRol', {params, headers: this.header}).toPromise();
   }
 }

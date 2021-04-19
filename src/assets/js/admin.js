@@ -99,7 +99,7 @@ $.MyAdmin.leftSideBar = {
       if (e.target.nodeName.toLowerCase() === "i") {
         $target = $(e.target).parent();
       }
-
+      console.log($target);
       if (
         !$target.hasClass("bars") &&
         _this.isOpen() &&

@@ -1,0 +1,103 @@
+<div>
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar">
+        <!-- Menu -->
+        <div class="menu">
+            <ul class="list">
+                <li class="sidebar-user-panel">
+                    <div class="user-panel">
+                        <div class=" image">
+                            <img src="assets/images/usrbig.jpg" class="img-circle user-img-circle" alt="User Image" />
+                        </div>
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="sidebar-userpic-name"> {{this.userName}} </div>
+                        <div class="profile-usertitle-job "> {{this.rolName}} </div>
+                    </div>
+                </li>
+                <li routerLinkActive="active" *ngFor="let group of privilegesGroup; let a = index">
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i class="fab fa-pagelines"></i>
+                         <span>{{group}}</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <!-- <style style="display: block;"></style> -->
+                        <li routerLinkActive="active">
+                            <a routerLink="widget/chart-widget">Chart Widget</a>
+                        </li>
+                        <li routerLinkActive="active">
+                            <a routerLink="widget/data-widget">Data Widget</a>
+                        </li>
+                   </ul>
+                </li>
+                <li routerLinkActive="active">
+                <a href="#" onClick="return false;" class="menu-toggle">
+                                        <i class="fas fa-drafting-compass"></i>
+                                        <span>User Interface (UI)</span>
+                                    </a>
+                                    <ul class="ml-menu">
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/alerts">Alerts</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/animations">Animations</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/badges">Badges</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/modal">Modal</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/buttons">Buttons</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/collapse">Collapse</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/dialogs">Dialogs</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/cards">Cards</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/labels">Labels</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/list-group">List Group</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/media-object">Media Object</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/notifications">Notifications</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/preloaders">Preloaders</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/progressbars">Progress Bars</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/rangeslider">Range Sliders</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/tabs">Tabs</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/waves">Waves</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/typography">Typography</a>
+                                        </li>
+                                        <li routerLinkActive="active">
+                                            <a routerLink="ui/helper-classes">Helper Classes</a>
+                                        </li>
+                                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- #Menu -->
+    </aside>
+    <!-- #END# Left Sidebar -->
+</div>

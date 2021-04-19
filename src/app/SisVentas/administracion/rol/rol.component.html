@@ -1,0 +1,218 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+                            <h4 class="page-title">Principal</h4>
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a routerLink="/dashboard/main">
+                                <i class="fas fa-home"></i> Administración</a>
+                        </li>
+                        <li class="breadcrumb-item bcrumb-2">
+                            <a href="#" onClick="return false;">Rol</a>
+                        </li>
+                        <li class="breadcrumb-item active">Rol</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Administrar Roles</strong>
+                        </h2>
+                        <ul class="header-dropdown m-r--5">
+                            <li class="dropdown">
+                                <a href="#" onClick="return false;" class="dropdown-toggle" data-toggle="dropdown"
+                                   role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="#" onClick="return false;">Crear</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onClick="return false;">Listar</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onClick="return false;">Deshabilitar</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <button class="btn btn-success waves-effect" data-toggle="modal" data-target="#createRolModal" type="button">
+                            <i class="material-icons">library_add</i>
+                            <span>Crear Rol</span>
+                        </button>
+                        <br>
+                        <!--#START# Rol list-->
+                        <ul class="nav nav-tabs pull-right" role="tablist">
+                            <li role="presentation">
+                                <a href="#home_with_icon_title" data-toggle="tab" class="active show">
+                                    ROLES HABILITADOS
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#profile_with_icon_title" data-toggle="tab">
+                                    ROLES DESHABILITADOS
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
+                                <br><br>
+                                <div class="table-responsive">
+                                    <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbRolEnable" style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Opciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Opciones</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                                <br><br>
+                                <div class="table-responsive">
+                                    <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbRolDisabled" style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Opciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Opciones</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="createRolModal" tabindex="-1" role="dialog"
+         aria-labelledby="createModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModal">Crear Rol</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="formCreateRol" (ngSubmit)="createRol()">
+                        <label for="rolName">Nombre Rol</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="rolName" formControlName="rolName"  class="form-control"
+                                       placeholder="Escriba nombre del rol">
+                            </div>
+                        </div>
+                        <div class="modal-footer" *ngIf="creating">
+                            <button type="submit" class="btn btn-info waves-effect">Crear</button>
+                            <button type="button" class="btn btn-danger waves-effect"
+                                    data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12 text-center" *ngIf="!creating">
+                            <br><br><br>
+                            <div _ngcontent-dju-c6="" class="preloader pl-gray">
+                                <div _ngcontent-dju-c6="" class="spinner-layer pl-green">
+                                    <div _ngcontent-dju-c6="" class="circle-clipper left">
+                                        <div _ngcontent-dju-c6="" class="circle">
+                                        </div>
+                                    </div>
+                                    <div _ngcontent-dju-c6="" class="circle-clipper right">
+                                        <div _ngcontent-dju-c6="" class="circle">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><br></p>
+                            <p class="text-dark">Se esta registrando los datos del rol...</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal fade" id="editRolModal" tabindex="-1" role="dialog"
+     aria-labelledby="editModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModal">Editar Rol</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formEditRol" (ngSubmit)="editRol()">
+                    <label for="rolName">Nombre Rol</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="hidden" formControlName="idRol">
+                            <input type="hidden" formControlName="rolStatus">
+                            <input type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="rolName" id="eRolName" name="eRolName" class="form-control"
+                                   placeholder="Escriba nombre del rol">
+                        </div>
+                    </div>
+                    <div class="modal-footer" *ngIf="editing">
+                        <button type="submit" class="btn btn-info waves-effect">Editar</button>
+                        <button type="button" class="btn btn-danger waves-effect"
+                                data-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-lg-12 text-center" *ngIf="!creating">
+                        <br><br><br>
+                        <div _ngcontent-dju-c6="" class="preloader pl-gray">
+                            <div _ngcontent-dju-c6="" class="spinner-layer pl-green">
+                                <div _ngcontent-dju-c6="" class="circle-clipper left">
+                                    <div _ngcontent-dju-c6="" class="circle">
+                                    </div>
+                                </div>
+                                <div _ngcontent-dju-c6="" class="circle-clipper right">
+                                    <div _ngcontent-dju-c6="" class="circle">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p><br></p>
+                        <p class="text-dark">Se esta editando los datos del rol...</p>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

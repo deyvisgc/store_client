@@ -306,7 +306,7 @@ export class AdministracajaComponent implements OnInit {
       categories: [diasemana[0], diasemana[1], diasemana[2], diasemana[3], diasemana[4], diasemana[5], diasemana[6]],
       labels: {
         formatter: function (val) {
-          return val + "K"
+          return 'S/. ' + val;
         }
       }
     },
@@ -318,7 +318,7 @@ export class AdministracajaComponent implements OnInit {
     tooltip: {
       y: {
         formatter: function (val) {
-          return val + "K"
+          return 'S/. ' + val;
         }
       }
     },
