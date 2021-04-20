@@ -41,18 +41,19 @@ export class LoginComponent implements OnInit {
     vm.autservice.loginUser(this.usuario, password).then( res => {
       const rpta = sendRespuesta(res);
       if (rpta.status) {
+        // vm.router.navigate(['dashboard']);
+        localStorage.setItem('token', rpta.api_key);
+        localStorage.setItem('usuario', rpta.perfil.us_usuario);
+        localStorage.setItem('idUsuario', rpta.perfil.id_user);
+        localStorage.setItem('caja', rpta.caja.id_caja);
+        localStorage.setItem('rol_name', rpta.rolName);
+        localStorage.setItem('idRol', rpta.perfil.id_rol);
         iziToast.success({
           title: 'Exito',
           position: 'topRight',
-          message: rpta.message,
+          message: 'Exito al iniciar session',
         });
-        vm.router.navigate(['dashboard']);
-        localStorage.setItem('token', rpta.data.api_key);
-        localStorage.setItem('usuario', rpta.data.perfil.us_usuario);
-        localStorage.setItem('idUsuario', rpta.data.perfil.id_user);
-        localStorage.setItem('caja', rpta.data.caja.id_caja);
-        localStorage.setItem('rol_name', rpta.data.perfil.rol_name);
-        localStorage.setItem('idRol', rpta.data.perfil.id_rol);
+        window.location.replace('#/Compras/Index');
         return false;
       } else {
         iziToast.error({
@@ -68,5 +69,8 @@ export class LoginComponent implements OnInit {
       console.log('entro');
       vm.btnisLoading = false;
     });
+  }
+  verContra() {
+    alert('deyvis');
   }
 }

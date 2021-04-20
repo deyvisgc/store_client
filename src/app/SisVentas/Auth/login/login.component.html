@@ -4,9 +4,14 @@
   <h2 class="login-header">Login</h2>
 
   <div class="login-container">
-    <p><input type="text" [(ngModel)]="usuario" placeholder="Username"></p>
-    <p><input type="password" [(ngModel)]="password" placeholder="Contraseña"></p>
-   
+    <div class="left-inner-addon input-container">
+      <i _ngcontent-gnu-c5="" style="margin-left: 5px;" class="fas fa-user"></i>
+      <input type="text" [(ngModel)]="usuario" placeholder="Username">
+    </div>
+    <div class="right-inner-addon input-container">
+      <i _ngcontent-gnu-c5="" class="fas fa-eye"></i>
+      <input style="cursor: pointer;" type="password" [(ngModel)]="password" placeholder="Contraseña" />
+    </div>
     <p><button (click)="Login()" [disabled]="btnisLoading" class="btn-lg btn-block"><span *ngIf="!btnisLoading"> INGRESAR</span><div *ngIf="btnisLoading" _ngcontent-yja-c6="" class="preloader pl-size-xs"><div _ngcontent-yja-c6="" class="spinner-layer pl-red-grey"><div _ngcontent-yja-c6="" class="circle-clipper left"><div _ngcontent-yja-c6="" class="circle"></div></div><div _ngcontent-yja-c6="" class="circle-clipper right"><div _ngcontent-yja-c6="" class="circle"></div></div></div></div></button>
   </div>
 </div>

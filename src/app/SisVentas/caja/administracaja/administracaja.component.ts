@@ -8,7 +8,6 @@ declare const flatpickr: any;
 declare const ApexCharts: any;
 import * as moment from 'moment';
 import { Router } from '@angular/router';
-import { format } from 'd3';
 declare const $: any;
 declare const sendRespuesta: any;
 import _ from 'lodash';

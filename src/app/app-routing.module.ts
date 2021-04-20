@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CheckloginGuard } from './SisVentas/guards/checklogin.guard';
 
 const routes: Routes = [
     {
@@ -60,15 +61,20 @@ const routes: Routes = [
     },
     {
         path: 'Almacen',
-        loadChildren: () => import('./SisVentas/almacen/almacen.module').then(m => m.AlmacenModule)
+        loadChildren: () => import('./SisVentas/almacen/almacen.module').then(m => m.AlmacenModule),
+        canActivate: [CheckloginGuard],
+        data: {role: ['vendedor', 'Administrador']},
     },
     {
         path: 'Compras',
-        loadChildren: () => import('./SisVentas/compras/compras.module').then(m => m.ComprasModule)
+        loadChildren: () => import('./SisVentas/compras/compras.module').then(m => m.ComprasModule),
+        canActivate: [CheckloginGuard],
+        data: {role: ['vendedor', 'Administrador']}
     },
     {
         path: 'Caja',
-        loadChildren: () => import('./SisVentas/caja/caja.module').then(m => m.CajaModule)
+        loadChildren: () => import('./SisVentas/caja/caja.module').then(m => m.CajaModule),
+        canActivate: [CheckloginGuard]
     },
     {
         path: '',

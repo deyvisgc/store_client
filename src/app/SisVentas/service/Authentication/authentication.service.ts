@@ -33,6 +33,21 @@ export class AuthenticationService {
     };
     return JSON.stringify(data);
   }
+  CryptoJSAesDecrypt(passphrase, encryptedJsonString) {
+
+    const objJson = JSON.parse(encryptedJsonString);
+
+    const encrypted = objJson.ciphertext;
+    const salt = CryptoJS.enc.Hex.parse(objJson.salt);
+    const iv = CryptoJS.enc.Hex.parse(objJson.iv);
+
+    const key = CryptoJS.PBKDF2(passphrase, salt, { hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999});
+
+
+    const decrypted = CryptoJS.AES.decrypt(encrypted, key, { iv: iv});
+
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  }
   public loginUser(userName, password) {
     return this.httpClient.post(this.url.urlAddress + 'LoginUser', {userName, password}, {headers: this.header}).toPromise();
   }
@@ -49,6 +64,10 @@ export class AuthenticationService {
         .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('token'))
     };
     return headerxauth;
+  }
+  isLoggedInUser(): boolean {
+    const authToken = localStorage.getItem('token');
+    return (authToken != null) ? true : false;
   }
   sidebarObs(message: []) {
     this.sidebar.next(message);

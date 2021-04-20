@@ -11,89 +11,125 @@
                         </div>
                     </div>
                     <div class="profile-usertitle">
-                        <div class="sidebar-userpic-name"> {{this.userName}} </div>
-                        <div class="profile-usertitle-job "> {{this.rolName}} </div>
+                        <div class="sidebar-userpic-name"> {{userName}} </div>
+                        <div class="profile-usertitle-job "> {{rolName}} </div>
                     </div>
                 </li>
-                <li routerLinkActive="active" *ngFor="let group of privilegesGroup; let a = index">
+                <li routerLinkActive="active">
+                    <a href="#"  onClick="return false;" routerLink="">
+                        <i _ngcontent-ohl-c3="" class="fas fa-tachometer-alt"></i>
+                        <span>dashboard</span>
+                    </a>
+                </li>
+                <li routerLinkActive="active" *ngIf="rolName === 'Administrador'">
                     <a href="#" onClick="return false;" class="menu-toggle">
-                        <i class="fab fa-pagelines"></i>
-                         <span>{{group}}</span>
+                        <i _ngcontent-ohl-c6="" class="fas fa-user-cog"></i>
+                        <span>Administracion</span>
                     </a>
                     <ul class="ml-menu">
-                        <!-- <style style="display: block;"></style> -->
-                        <li routerLinkActive="active">
-                            <a routerLink="widget/chart-widget">Chart Widget</a>
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
                         </li>
-                        <li routerLinkActive="active">
-                            <a routerLink="widget/data-widget">Data Widget</a>
-                        </li>
-                   </ul>
+                    </ul>
                 </li>
                 <li routerLinkActive="active">
-                <a href="#" onClick="return false;" class="menu-toggle">
-                                        <i class="fas fa-drafting-compass"></i>
-                                        <span>User Interface (UI)</span>
-                                    </a>
-                                    <ul class="ml-menu">
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/alerts">Alerts</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/animations">Animations</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/badges">Badges</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/modal">Modal</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/buttons">Buttons</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/collapse">Collapse</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/dialogs">Dialogs</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/cards">Cards</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/labels">Labels</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/list-group">List Group</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/media-object">Media Object</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/notifications">Notifications</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/preloaders">Preloaders</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/progressbars">Progress Bars</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/rangeslider">Range Sliders</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/tabs">Tabs</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/waves">Waves</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/typography">Typography</a>
-                                        </li>
-                                        <li routerLinkActive="active">
-                                            <a routerLink="ui/helper-classes">Helper Classes</a>
-                                        </li>
-                                    </ul>
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i _ngcontent-ohl-c6="" class="fas fa-box-open"></i>
+                        <span>Almacen</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li routerLinkActive="active">
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i _ngcontent-ohl-c6="" class="fas fa-hands-helping"></i>
+                        <span>Caja</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li routerLinkActive="active">
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i _ngcontent-gnu-c5="" class="fas fa-shopping-basket"></i>
+                        <span>Compras</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li routerLinkActive="active">
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i _ngcontent-gnu-c5="" class="fas fa-shopping-cart"></i>
+                        <span>Ventas</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li routerLinkActive="active">
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i _ngcontent-gnu-c5="" class="fas fa-money-check-alt"></i>
+                        <span>Sangria</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li routerLinkActive="active">
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i _ngcontent-gnu-c5="" class="fas fa-chart-line"></i>
+                        <span>Reportes</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li routerLinkActive="active">
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i _ngcontent-gnu-c5="" class="fas fa-money-check-alt"></i>
+                        <span>Devoluciones</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li routerLinkActive="active" *ngIf="rolName === 'Administrador'">
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i _ngcontent-gnu-c5="" class="fas fa-cog"></i>
+                        <span>Permisos del Sistema</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li routerLinkActive="active" *ngIf="rolName === 'Administrador'">
+                    <a href="#" onClick="return false;" class="menu-toggle">
+                        <i _ngcontent-gnu-c5="" class="fas fa-cog"></i>
+                        <span>Configuracion del sistema</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                            <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

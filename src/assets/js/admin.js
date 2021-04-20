@@ -99,7 +99,6 @@ $.MyAdmin.leftSideBar = {
       if (e.target.nodeName.toLowerCase() === "i") {
         $target = $(e.target).parent();
       }
-      console.log($target);
       if (
         !$target.hasClass("bars") &&
         _this.isOpen() &&
@@ -125,14 +124,14 @@ $.MyAdmin.leftSideBar = {
 
     //Collapse or Expand Menu
     $(".menu-toggle").on("click", function(e) {
+      console.log('e.target');
       var $this = $(this);
       var $content = $this.next();
-
       if ($($this.parents("ul")[0]).hasClass("list")) {
         var $not = $(e.target).hasClass("menu-toggle")
           ? e.target
           : $(e.target).parents(".menu-toggle");
-
+          console.log('e.target', e.target);
         $.each(
           $(".menu-toggle.toggled")
             .not($not)
@@ -648,6 +647,7 @@ $(window).on("scroll", function() {
 
 /************* collapse button in panel***************8*/
 $(document).on("click", ".card .tools .t-collapse", function() {
+  console.log('deyvis');
   var el = $(this)
     .parents(".card")
     .children(".card-body");

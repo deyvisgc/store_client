@@ -85,6 +85,8 @@ body {
   background: #fff;
   border-color: #bbb;
   color: #555;
+  width: 355px;
+  margin-left: 10px;
 }
 
 /* Text fields' focus effect */
@@ -110,4 +112,59 @@ button:hover {
 }
 .spinner-layer {
   border-color: white !important;
+}
+
+.left-inner-addon input {
+    padding-left: 35px !important; 
+}
+.left-inner-addon i {
+    position: absolute;
+    padding: 12px 12px;
+    pointer-events: none;
+}
+
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 12px 12px;
+    pointer-events: none;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.left-and-right-inner-addon {
+    position: relative;
+}
+.left-and-right-inner-addon input {
+    padding-right: 35px !important;
+    padding-left: 35px !important;
+}
+.left-and-right-inner-addon i.left {
+    position: absolute;
+    padding: 12px 12px;
+    pointer-events: none;
+}
+.left-and-right-inner-addon i.right {
+    position: absolute;
+    right: 0px;
+    padding: 12px 12px;
+    pointer-events: none;
+}
+
+
+.right-inner-addon-b {
+    position: relative;
+}
+.right-inner-addon-b input {
+    padding-right: 35px !important;
+}
+.right-inner-addon-b i {
+    position: absolute;
+    right: 0px;
+    padding: 9px 12px;
+    pointer-events: none;
 }
