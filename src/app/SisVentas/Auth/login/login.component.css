@@ -131,7 +131,6 @@ button:hover {
     position: absolute;
     right: 0px;
     padding: 12px 12px;
-    pointer-events: none;
     margin-right: 5px;
     cursor: pointer;
 }

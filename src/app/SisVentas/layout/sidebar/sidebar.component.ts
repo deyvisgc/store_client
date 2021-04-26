@@ -36,8 +36,9 @@ export class SidebarComponent implements OnInit {
         this.privilege.getPrivilegesByRol(params).then( res => {
             const rpta = sendRespuesta(res);
             const data = rpta.data.filter(f => f.pri_group === 'Almacen');
+            const admin = rpta.data.filter(f => f.pri_group === 'Administracion');
             this.submenuAlmacen = data;
-            console.log('this.submenuAlmacen', this.submenuAlmacen);
+            this.submenuAdministracion = admin;
             // this.tempPrivileges.push(rpta.data);
             // for (let i = 0; i < this.tempPrivileges.length; i++) {
             //     for (let j = i; j < this.tempPrivileges[i].length; j++) {

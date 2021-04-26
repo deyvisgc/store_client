@@ -1,113 +1,183 @@
 <section class="content">
-    <div class="container-fluid">
-        <div class="block-header">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <ul class="breadcrumb breadcrumb-style ">
-                        <li class="breadcrumb-item">
-                            <h4 class="page-title">Principal</h4>
-                        </li>
-                        <li class="breadcrumb-item bcrumb-1">
-                            <a routerLink="/dashboard/main">
-                                <i class="fas fa-home"></i> Administración</a>
-                        </li>
-                        <li class="breadcrumb-item bcrumb-2">
-                            <a href="#" onClick="return false;">Privilegios</a>
-                        </li>
-                        <li class="breadcrumb-item active">Privilegios</li>
-                    </ul>
+  <div class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+          <div class="header">
+            <h2 _ngcontent-okb-c6=""  class="m-b-10"> <span class="title" >Privilegios | Roles</span> <i _ngcontent-dig-c5="" style="margin-left: 5px;" class="fas fa-th-list"></i></h2>
+          </div>
+      </div>
+      <div class="card">
+        <div class="body">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation">
+                    <a href="#tabGrupo" data-toggle="tab" class="active show"> PRIVILEGIOS GRUPOS
+                      <span _ngcontent-ajo-c6="" class="badge bg-green"></span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#tabPrivilegios" data-toggle="tab"> SUB PRIVILEGIOS
+                      <span _ngcontent-ajo-c6="" class="badge bg-red"></span>
+                    </a>
+                </li>
+                <li role="presentation">
+                  <a href="#tabRoles" data-toggle="tab"> ROLES
+                    <span _ngcontent-ajo-c6="" class="badge bg-red"></span>
+                  </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active show" id="tabGrupo">
+                  <button _ngcontent-kvq-c6="" class="btn btn-outline-info" style="margin-bottom: 10px;"  (click)="showGrupo()" type="button">Grupo <i _ngcontent-dig-c5="" class="fas fa-plus"></i></button>
+                    <table class="table table-bordered table-striped  js-basic-example tbgrupos" style="width: 100%;">
+                      <thead>
+                          <tr>
+                              <th>N°</th>
+                              <th>Grupo</th>
+                              <th>Acceso</th>
+                              <th>Icon</th>
+                              <th>Estado</th>
+                              <th>Opciones</th>
+                          </tr>
+                      </thead>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane fade"  id="tabPrivilegios">
+                  <button _ngcontent-kvq-c6="" class="btn btn-outline-warning" (click)="showPrivilegio()" style="margin-bottom: 10px; margin-left: 10px;"  type="button">Privilegios <i _ngcontent-dig-c5="" class="fas fa-plus"></i></button>
+                  <table class="table table-bordered table-striped  js-basic-example privilegios" style="width: 100%;">
+                      <thead>
+                          <tr>
+                              <th>N°</th>
+                              <th>Nombre</th>
+                              <th>Acceso</th>
+                              <th>Grupo</th>
+                              <th>Estado</th>
+                              <th>Opciones</th>
+                          </tr>
+                      </thead>
+                  </table>
+                </div>
+                <div role="tabpanel" class="tab-pane fade"  id="tabRoles">
+                  <app-rol></app-rol>
                 </div>
             </div>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="header">
-                        <h2>
-                            <strong>Administrar Privilegios</strong>
-                        </h2>
-                        <ul class="header-dropdown m-r--5">
-                            <li class="dropdown">
-                                <a href="#" onClick="return false;" class="dropdown-toggle" data-toggle="dropdown"
-                                   role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="#" onClick="return false;">Action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" onClick="return false;">Another action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" onClick="return false;">Something else here</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="body">
-<!--                        <div class="row clearfix js-sweetalert">-->
-<!--                            &lt;!&ndash; #START# Modal Form Example &ndash;&gt;-->
-<!--                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">-->
-<!--                                <p>Modal With Form</p>-->
-<!--                                <button type="button" class="btn btn-primary" data-toggle="modal"-->
-<!--                                        data-target="#exampleModal">Modal-->
-<!--                                    With Form</button>-->
-<!--                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"-->
-<!--                                     aria-labelledby="formModal" aria-hidden="true">-->
-<!--                                    <div class="modal-dialog" role="document">-->
-<!--                                        <div class="modal-content">-->
-<!--                                            <div class="modal-header">-->
-<!--                                                <h5 class="modal-title" id="formModal">Modal title</h5>-->
-<!--                                                <button type="button" class="close" data-dismiss="modal"-->
-<!--                                                        aria-label="Close">-->
-<!--                                                    <span aria-hidden="true">&times;</span>-->
-<!--                                                </button>-->
-<!--                                            </div>-->
-<!--                                            <div class="modal-body">-->
-<!--                                                <form>-->
-<!--                                                    <label for="email_address1">Email Address</label>-->
-<!--                                                    <div class="form-group">-->
-<!--                                                        <div class="form-line">-->
-<!--                                                            <input type="text" id="email_address1" class="form-control"-->
-<!--                                                                   placeholder="Enter your email address">-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                    <label for="password">Password</label>-->
-<!--                                                    <div class="form-group">-->
-<!--                                                        <div class="form-line">-->
-<!--                                                            <input type="password" id="password" class="form-control"-->
-<!--                                                                   placeholder="Enter your password">-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="form-check m-l-10">-->
-<!--                                                        <label class="form-check-label"> <input class="form-check-input"-->
-<!--                                                                                                type="checkbox" value="">-->
-<!--                                                            Remember Me <span class="form-check-sign"> <span-->
-<!--                                                                    class="check"></span>-->
-<!--                                                            </span>-->
-<!--                                                        </label>-->
-<!--                                                    </div>-->
-<!--                                                    <br>-->
-<!--                                                    <button type="button"-->
-<!--                                                            class="btn btn-primary m-t-15 waves-effect">LOGIN</button>-->
-<!--                                                </form>-->
-<!--                                            </div>-->
-<!--                                            <div class="modal-footer">-->
-<!--                                                <button type="button" class="btn btn-info waves-effect">Save</button>-->
-<!--                                                <button type="button" class="btn btn-danger waves-effect"-->
-<!--                                                        data-dismiss="modal">Cancel</button>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            &lt;!&ndash; #END# Modal Form Example &ndash;&gt;-->
-<!--                        </div>-->
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </section>
+<div class="modal fade" id="modalGrupoAndPrivlegio"  tabindex="-1"  aria-labelledby="modalGrupoAndPrivlegio" aria-hidden="true">
+  <div class="modal-dialog"  role="document">
+      <div class="modal-content" style="border-radius: 10px">
+          <div class="modal-header">
+              <span class="modal-title" style="margin-left: 170px; font-weight: 100;font-family: unset;">{{title}}</span>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="row clearfix">
+                    <div *ngIf="!viewDetalle" class="card">
+                      <div class="body">
+                          <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                              <div class="input-group">
+                                  <div class="form-line">
+                                      <label>Nombre</label>
+                                      <input type="text" [(ngModel)]="privilegio.nombre"  style="margin-left: 10px;" id="inputVertical" class="form-control" placeholder="">
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                              <div class="input-group">
+                                  <div class="form-line">
+                                    <label>Acceso</label>
+                                      <input type="text" [(ngModel)]="privilegio.acceso" style="margin-left: 14px;" id="inputVertical" class="form-control " placeholder="">
+                                  </div>
+                              </div>
+                            </div>
+                            <div *ngIf="!grupoPrivile" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <label for="id_label_single">
+                                ICON
+                              </label>
+                              <select id="icons" name="threads-icon" class="form-control fa" data-placeholder="Seleccione">
+                                <option selected value="">Seleccione</option>
+                              </select>
+                            </div>
+                            <div *ngIf="grupoPrivile" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <label for="id_label_single">
+                                GRUPO
+                              </label>
+                              <select id="grupos" class="form-control grupo" (change)="selectGrupo($event)" data-placeholder="Seleccione">
+                                <option selected value="">Seleccione</option>
+                                <option value="{{item.id_privilegio}} {{item.pri_group}}" *ngFor="let item of listGrupos">{{item.pri_group}}</option>
+                              </select>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                              <button *ngIf="!btnOperacion" _ngcontent-yvb-c7="" [disabled]="btnisLoading" class="btn btn-outline-success btn-lg btn-block waves-effect" (click)="guardarGrupo()" type="button">
+                                <span *ngIf="!btnisLoading"> Guardar</span>
+                                <div *ngIf="btnisLoading" _ngcontent-yja-c6="" class="preloader pl-size-xs">
+                                <div _ngcontent-yja-c6="" class="spinner-layer pl-red-grey">
+                                  <div _ngcontent-yja-c6="" class="circle-clipper left">
+                                    <div _ngcontent-yja-c6="" class="circle"></div>
+                                    </div>
+                                  <div _ngcontent-yja-c6="" class="circle-clipper right">
+                                    <div _ngcontent-yja-c6="" class="circle"></div>
+                                  </div>
+                                </div>
+                                </div>
+                              </button>
+                              <button _ngcontent-yvb-c7="" *ngIf="btnOperacion" [disabled]="btnisLoading" class="btn btn-outline-success btn-lg btn-block waves-effect" (click)="Actualizar()" type="button">
+                                <span *ngIf="!btnisLoading"> Actualizar</span>
+                                <div *ngIf="btnisLoading" _ngcontent-yja-c6="" class="preloader pl-size-xs">
+                                <div _ngcontent-yja-c6="" class="spinner-layer pl-red-grey">
+                                  <div _ngcontent-yja-c6="" class="circle-clipper left">
+                                    <div _ngcontent-yja-c6="" class="circle"></div>
+                                    </div>
+                                  <div _ngcontent-yja-c6="" class="circle-clipper right">
+                                    <div _ngcontent-yja-c6="" class="circle"></div>
+                                  </div>
+                                </div>
+                                </div>
+                              </button>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                              <button _ngcontent-yvb-c7="" class="btn btn-outline-danger btn-lg btn-block waves-effect"  data-dismiss="modal" type="button">Volver a lista</button>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div *ngIf="viewDetalle" class="card">
+                      <div class="body">
+                          <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <table class="table table-bordered table-striped  js-basic-example tbgrupos" style="width: 120%;">
+                                <thead>
+                                    <tr>
+                                        <th>NOMBRE</th>
+                                        <th>ACCESO</th>
+                                        <th>ELIMINAR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let item of detallePrivielgios">
+                                    <td>{{item.pri_nombre}}</td>
+                                    <td>{{item.pri_acces}}</td>
+                                    <td>
+                                      <i (click)="eliminarPrivilegioGrupo(item)" style="color: red;margin-left: 30px; cursor: pointer;" class="fas fa-trash-alt"></i>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+      </div>
+  </div>
+</div>
+</div>

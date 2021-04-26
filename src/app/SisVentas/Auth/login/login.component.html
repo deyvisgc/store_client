@@ -6,11 +6,14 @@
   <div class="login-container">
     <div class="left-inner-addon input-container">
       <i _ngcontent-gnu-c5="" style="margin-left: 5px;" class="fas fa-user"></i>
-      <input type="text" [(ngModel)]="usuario" placeholder="Username">
+      <input type="text" [(ngModel)]="usuario" placeholder="usuario">
     </div>
     <div class="right-inner-addon input-container">
-      <i _ngcontent-gnu-c5="" class="fas fa-eye"></i>
-      <input style="cursor: pointer;" type="password" [(ngModel)]="password" placeholder="Contraseña" />
+     <span  (click)="ShowPassword($event)">
+       <i style="cursor: pointer;" *ngIf="!ShowPasswordIcon" _ngcontent-gnu-c5="" class="fas fa-eye"></i>
+       <i style="cursor: pointer;" *ngIf="ShowPasswordIcon" _ngcontent-gnu-c5="" class="fas fa-eye-slash"></i>
+      </span>
+      <input  type="password" id="password" [(ngModel)]="password" placeholder="contraseña" />
     </div>
     <p><button (click)="Login()" [disabled]="btnisLoading" class="btn-lg btn-block"><span *ngIf="!btnisLoading"> INGRESAR</span><div *ngIf="btnisLoading" _ngcontent-yja-c6="" class="preloader pl-size-xs"><div _ngcontent-yja-c6="" class="spinner-layer pl-red-grey"><div _ngcontent-yja-c6="" class="circle-clipper left"><div _ngcontent-yja-c6="" class="circle"></div></div><div _ngcontent-yja-c6="" class="circle-clipper right"><div _ngcontent-yja-c6="" class="circle"></div></div></div></div></button>
   </div>

@@ -123,7 +123,7 @@ export class UsuarioComponent implements OnInit {
     }
 
     getRol() {
-        this.rolService.getRol().subscribe(
+        this.rolService.getRol().then(
             (resp: any = []) => {
                 this.rols = resp.filter(rol => rol.rol_status === 'ACTIVE');
             },

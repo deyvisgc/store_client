@@ -15,7 +15,7 @@
                         <div class="profile-usertitle-job "> {{rolName}} </div>
                     </div>
                 </li>
-                <li routerLinkActive="active">
+                <li routerLinkActive="active" *ngFor="let item of list">
                     <a href="#"  onClick="return false;" routerLink="">
                         <i _ngcontent-ohl-c3="" class="fas fa-tachometer-alt"></i>
                         <span>dashboard</span>
@@ -27,12 +27,12 @@
                         <span>Administracion</span>
                     </a>
                     <ul class="ml-menu">
-                        <li routerLinkActive="active" *ngFor="let item of submenuAlmacen">
+                        <li routerLinkActive="active" *ngFor="let item of submenuAdministracion">
                             <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
                         </li>
                     </ul>
                 </li>
-                <li routerLinkActive="active">
+                <!-- <li routerLinkActive="active">
                     <a href="#" onClick="return false;" class="menu-toggle">
                         <i _ngcontent-ohl-c6="" class="fas fa-box-open"></i>
                         <span>Almacen</span>
@@ -130,7 +130,7 @@
                             <a routerLink="{{item.pri_acces}}">{{item.pri_nombre}}</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
             </ul>
         </div>
         <!-- #Menu -->

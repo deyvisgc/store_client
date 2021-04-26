@@ -6,8 +6,9 @@ import {EnviromentService} from '../../enviroment.service';
   providedIn: 'root'
 })
 export class RolService {
-  head = new HttpHeaders();
-  private headers = this.head.append('Content-Type', 'application/json');
+  httpHeaders = new HttpHeaders()
+  .append('Content-Type', 'application/json')
+  .append('Authorization',  'Bearer' + ' ' + localStorage.getItem('token'));
 
   constructor(
       private client: HttpClient,
@@ -15,48 +16,33 @@ export class RolService {
   ) { }
 
   createRol(rol) {
-    return this.client.post(
-        this.url.urlAddress + 'Rol',
-        {rol},
-        {headers: this.headers}
-    );
+    return this.client.post(this.url.urlAddress + 'CreateRol', {rol}, {headers: this.httpHeaders}).toPromise();
   }
 
   getRol() {
-    return this.client.get(
-      this.url.urlAddress + 'Rol',
-        {headers: this.headers}
-    );
+    return this.client.get(this.url.urlAddress + 'getRol', {headers: this.httpHeaders}).toPromise();
   }
 
   deleteRol(idRol) {
     return this.client.delete(
         this.url.urlAddress + 'Rol/' + idRol,
-        {headers: this.headers}
-    );
+        {headers: this.httpHeaders}
+    ).toPromise();
   }
-
-  getRolById(idRol: number) {
-    return this.client.get(
-        this.url.urlAddress + 'Rol/' + idRol,
-        {headers: this.headers}
-    );
-  }
-
   editRol(rol) {
     return this.client.put(
         this.url.urlAddress + 'Rol',
         {rol},
-        {headers: this.headers}
-    );
+        {headers: this.httpHeaders}
+    ).toPromise();
   }
 
-  changeStatusRol(idRol) {
+  changeStatusRol(data) {
     return this.client.post(
         this.url.urlAddress + 'Rol/Status',
-        {idRol},
-        {headers: this.headers}
-    );
+        {data},
+        {headers: this.httpHeaders}
+    ).toPromise();
   }
 
 }

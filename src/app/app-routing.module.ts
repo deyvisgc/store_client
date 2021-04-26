@@ -77,6 +77,12 @@ const routes: Routes = [
         canActivate: [CheckloginGuard]
     },
     {
+        path: 'Administracion',
+        loadChildren: () => import('./SisVentas/administracion/administracion.module').then(m => m.AdministracionModule),
+        canActivate: [CheckloginGuard],
+        data: {role: ['vendedor', 'Administrador']}
+    },
+    {
         path: '',
         redirectTo: 'auth',
         pathMatch: 'full'

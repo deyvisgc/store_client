@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   password: '';
   keycript = 'K56QSxGeKImwBRmiY';
   btnisLoading = false;
+  ShowPasswordIcon = false;
   constructor(private formBuilder: FormBuilder, private autservice: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
@@ -71,6 +72,17 @@ export class LoginComponent implements OnInit {
     });
   }
   verContra() {
-    alert('deyvis');
+    document.getElementById('vercontra').click(); // Click on the checkbox
+  }
+  ShowPassword(event: any) {
+    event.preventDefault();
+    const password = document.getElementById('password');
+    if (password['type'] === 'password') {
+      password['type'] = 'text';
+      this.ShowPasswordIcon = true;
+    } else {
+      password['type'] = 'password';
+      this.ShowPasswordIcon = false;
+    }
   }
 }

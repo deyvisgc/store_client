@@ -1,121 +1,186 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {RolService} from '../../service/Administracion/rol/rol.service';
-import {ToastrService} from 'ngx-toastr';
 import swal from 'sweetalert2';
 import {DynamicScriptLoaderService} from '../../../services/dynamic-script-loader.service';
-
+import iziToast from 'izitoast';
 declare const $: any;
+declare const sendRespuesta: any;
 
 @Component({
     selector: 'app-rol',
     templateUrl: './rol.component.html',
-    styleUrls: ['./rol.component.sass']
+    styleUrls: ['./rol.component.css']
 })
 export class RolComponent implements OnInit {
-    formCreateRol: FormGroup;
-    formEditRol: FormGroup;
+    @ViewChild('isloadingCreate', {static: true}) isloadingCreate;
+    @ViewChild('isloadingUpdate', {static: true}) isloadingUpdate;
+    formRol: FormGroup;
+    btnisLoading = false;
+    btnaccion   = false;
     creating = true;
     editing = true;
     activeRol: any[] = [];
     disabledRol: any[] = [];
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private rolService: RolService,
-        private toast: ToastrService,
-        private dynamicScriptLoader: DynamicScriptLoaderService
-    ) {
-        this.formCreateRol = this.formBuilder.group({
-            rolName: [''],
-        });
-
-        this.formEditRol = this.formBuilder.group({
-            rolName: [''],
-            idRol: [''],
-            rolStatus: [''],
-        });
-    }
+    constructor( private formBuilder: FormBuilder, private rolService: RolService,
+                 private dynamicScriptLoader: DynamicScriptLoaderService) {
+                     this.formRol = this.formBuilder.group({
+                       rolName: [''],
+                       idRol: 0,
+                     });
+                }
 
     ngOnInit() {
-        this.getRol();
         this.startScript();
+        document.getElementById('update').style.display = 'none';
     }
-
-    private loadData() {
-        $('.estadoRol').select2({ width: '100%' });
-    }
-
     async startScript() {
         await this.dynamicScriptLoader.load('form.min').then(data => {
-            this.loadData();
+            this.getRol();
+            this.closeModal();
         }).catch(error => console.log(error));
     }
-
     createRol() {
-        const rolName = this.formCreateRol.get('rolName').value;
-
+        const vm = this;
+        const rolName = vm.formRol.get('rolName').value;
         if (!rolName) {
-            return this.toast.warning('Complete el nombre del rol', 'CAMPOS INCOMPLETOS');
+            iziToast.warning({
+                title: 'Advertencia',
+                position: 'topRight',
+                message: 'Nombre rol requerido',
+            });
+            return;
         }
-        this.creating = false;
-        this.rolService.createRol(this.formCreateRol.value).subscribe(
-            resp => {
-                if (resp['original']['code'] === 200 && resp['original']['status']  === true) {
-                    this.toast.success('Se registro correctamente el rol', 'ROL REGISTRADO');
-                    this.getRol();
-                    this.clearFormFields();
-                    $('#createRolModal').modal('hide');
-                    this.creating = true;
-                } else {
-                    this.creating = true;
-                    return this.toast.error('No se enviaron los datos al servidor, intentelo nuevamente', 'ERROR CREANDO ROL');
-                }
-            },
-            error => {
-                this.toast.error('No se enviaron los datos al servidor, intentelo nuevamente', 'ERROR CREANDO ROL');
+        vm.isloadingCreate.showReload();
+        vm.btnisLoading = true;
+        vm.rolService.createRol(vm.formRol.value).then( res => {
+          const rpta = sendRespuesta(res);
+          if (rpta.status) {
+              iziToast.success({
+                title: 'Exito',
+                position: 'topRight',
+                message: rpta.message,
+              });
+            } else {
+                iziToast.error({
+                    title: 'Error',
+                    position: 'topRight',
+                    message: rpta.message,
+                });
             }
-        );
+        }).catch((err) => {
+            console.log('Error', err);
+        }).finally(() => {
+            vm.isloadingCreate.closeReload();
+            vm.getRol();
+        });
     }
 
     getRol() {
-        this.rolService.getRol().subscribe(
-            (data: any = []) => {
-                this.activeRol = data.filter(r => r.rol_status === 'ACTIVE');
-                this.disabledRol = data.filter(r => r.rol_status === 'DISABLED');
-                this.datatable('.tbRolEnable', this.activeRol);
-                this.datatable('.tbRolDisabled', this.disabledRol);
-            },
-            error => {
-                return this.toast.error('No se pudo obtener los roles del servidor', 'ERROR OBTENER ROLES');
-            }
-        );
+      const vm = this;
+      this.rolService.getRol().then( res => {
+       const rpta = sendRespuesta(res);
+       vm.datatable('.tbRol', rpta.data);
+      }).catch((err) => {
+          console.log('Error', err);
+      }).finally(() => {
+          console.log('Final');
+      });
     }
-
-    getRolById(rol: any) {
-
-        this.rolService.getRolById(rol.id_rol).subscribe(
-          resp => {
-              if (resp[0]['id_rol'] > 0) {
-                  $('#editRolModal').modal({
-                      keyboard: false,
-                      backdrop: 'static',
-                      show: true
-                  });
-                  this.formEditRol.controls.idRol.setValue(resp[0]['id_rol']);
-                  this.formEditRol.controls.rolName.setValue(resp[0]['rol_name']);
-                  this.formEditRol.controls.rolStatus.setValue(resp[0]['rol_status']);
+    datatable(table, rol) {
+      $(table).DataTable({
+          data: rol,
+          columns: [
+              { data: 'rol_name'},
+              { data: 'rol_status',
+                render: (data, type, row) => {
+                    if (row.rol_status === 'active') {
+                        return '<span class="badge bg-green">HABILITADO</span>';
+                    } else {
+                         return '<span class="badge bg-red">DESHABILITADO</span>';
+                    }
+                }
+              },
+              { data: (data) => {
+                  // tslint:disable-next-line:max-line-length
+                  const btnActualizar = '<button  title="ACTUALIZAR GRUPO" class="btn bg-green btn-circle  waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;">' + '<i class="fas fa-pen"></i>' + '</button>';
+                  // tslint:disable-next-line:max-line-length
+                  const btneliminar   =  '<button title="ELIMINAR" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button"' + 'style="margin-left: 5px;font-size: 20px;">' +
+                                      '<i class="fas fa-trash-alt"></i>' + '</button>';
+                  if (data.rol_status === 'active') {
+                      return (
+                        btnActualizar + btneliminar +
+                          // tslint:disable-next-line:max-line-length
+                          '<button title="DESABILITAR" class="btn bg-deep-orange btn-circle waves-effect waves-circle waves-float changeStatus" ' + 
+                          ' type="button"' +
+                          'style="margin-left: 5px;font-size: 20px;">' +
+                          '<i _ngcontent-aoo-c6="" class="fas fa-user-slash"></i>' +
+                          '</button>'
+                      );
+                  } else {
+                      return (
+                        btnActualizar + btneliminar +
+                        '<button title="HABILITAR" class="btn bg-cyan btn-circle waves-effect waves-circle waves-float changeStatus" ' + 
+                        ' type="button"' +
+                        'style="margin-left: 5px;font-size: 20px;">' +
+                        '<i _ngcontent-cfq-c7="" class="fas fa-check-square"></i>' +
+                        '</button>'
+                      );
+                  }
               }
+            },
+          ],
+          // tslint:disable-next-line:ban-types
+          rowCallback: (row: Node, data: any[] | Object, index: number) => {
+            const vem = this;
+            $('.edit', row).bind('click', () => {
+                vem.getRolById(data);
+            });
+            $('.delete', row).bind('click', () => {
+                vem.deleteRol(data);
+            });
+            $('.changeStatus', row).bind('click', () => {
+                vem.changeStatus(data);
+            });
+            return row;
           },
-            error => {
-              return this.toast.error('No se obtenieron los datos del rol', 'ERROR');
+          language: {
+            decimal: '',
+            emptyTable: 'No exsiten Roles',
+            info: 'Mostrando _START_ a _END_ de _TOTAL_ Entradas',
+            infoEmpty: 'Mostrando 0 to 0 of 0 Entradas',
+            infoFiltered: '(Filtrado de _MAX_ total entradas)',
+            infoPostFix: '',
+            thousands: ',',
+            lengthMenu: 'Mostrar _MENU_ Entradas',
+            loadingRecords: 'Cargando...',
+            processing: 'Procesando...',
+            search: 'Buscar:',
+            zeroRecords: 'Sin resultados encontrados',
+            paginate: {
+                first: 'Primero',
+                last: 'Ultimo',
+                next: 'Siguiente',
+                previous: 'Anterior'
             }
-        );
+         },
+         order: [],
+         destroy: true
+      });
+    }
+    getRolById(rol: any) {
+        const vm = this;
+        vm.formRol.controls.idRol.setValue(rol.id_rol);
+        vm.formRol.controls.rolName.setValue( rol.rol_name);
+        vm.btnisLoading = false;
+        document.getElementById('create').style.display = 'none';
+        document.getElementById('update').style.display = 'block';
+        $('#RolModal').modal('show');
     }
 
     deleteRol(rol: any) {
-        const me = this;
-
+        const vm = this;
         const swalWithBootstrapButtons = swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -134,179 +199,137 @@ export class RolComponent implements OnInit {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                me.rolService.deleteRol(rol.id_rol).subscribe(
-                    resp => {
-                        if (resp['original']['status'] === true && resp['original']['code'] === 200) {
-                            swalWithBootstrapButtons.fire(
-                                'Eliminado!',
-                                'El rol fue eliminado.',
-                                'success'
-                            );
-                            this.getRol();
-                        } else {
-                            swalWithBootstrapButtons.fire(
-                                'ERROR',
-                                'No se pudo eliminar el rol',
-                                'error'
-                            );
-                        }
-                    },
-                    error => {
+                vm.rolService.deleteRol(rol.id_rol).then( res => {
+                    const rpta = sendRespuesta(res);
+                    if (rpta.status) {
+                        swalWithBootstrapButtons.fire(
+                            'Exito!',
+                            rpta.message,
+                            'success'
+                        );
+                    } else {
                         swalWithBootstrapButtons.fire(
                             'ERROR',
-                            'No se pudo eliminar el rol',
+                            rpta.message,
                             'error'
                         );
                     }
-                );
+                }).catch(( err) => {
+                    console.log('Error', err);
+                }).finally(() => {
+                    vm.getRol();
+                });
             } else if (
                 result.dismiss === swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
                     'Cancelado',
-                    'Rol no eliminado',
+                    'Rol a salvo',
                     'error'
                 );
             }
         });
     }
-
-    editRol() {
-        const rolName = this.formEditRol.get('rolName').value;
-
-
-        if (!rolName) {
-            return this.toast.warning('Complete el nombre del rol', 'CAMPOS INCOMPLETOS');
-        }
-        this.editing = false;
-
-        this.rolService.editRol(this.formEditRol.value).subscribe(
-            resp => {
-                if (resp['original']['code'] === 200 && resp['original']['status']  === true) {
-                    this.toast.success('Se edito correctamente el rol', 'ROL EDITADO');
-                    this.getRol();
-                    this.clearFormFieldsEdit();
-                    $('#editRolModal').modal('hide');
-                    this.editing = true;
-                } else {
-                    this.editing = true;
-                    return this.toast.error('No se enviaron los datos al servidor, intentelo nuevamente', 'ERROR EDITANDO ROL');
-                }
-            },
-            error => {
-                return this.toast.error('No se pudo actualizar los datos del rol', 'ERROR ACTUALIZANDO');
-            }
-        );
-    }
-
-    clearFormFields() {
-        this.formCreateRol.controls.rolName.setValue(['']);
-    }
-
-    clearFormFieldsEdit() {
-        this.formEditRol.controls.idRol.setValue(['']);
-        this.formEditRol.controls.rolStatus.setValue(['']);
-        this.formEditRol.controls.rolName.setValue(['']);
-    }
-
-    changeStatus(data: any) {
-        this.rolService.changeStatusRol(data.id_rol).subscribe(
-            resp => {
-                if (resp['original']['code'] === 200 && resp['original']['status']  === true) {
-                    this.toast.info('Se habilito el rol', 'ROL HABILITADO');
-                    this.getRol();
-                } else {
-                    return this.toast.error('No se pudo contactar con el servidor intentelo mas tarde', 'ROL NO HABILITADO');
-                }
-            },
-            error => {
-                return this.toast.error('No se pudo contactar con el servidor intentelo mas tarde', 'ROL NO HABILITADO');
-            }
-        );
-    }
-
-    datatable(url, data) {
-        $(url).DataTable({
-            // tslint:disable-next-line:object-literal-shorthand
-            data: data,
-            columns: [
-                { data: 'rol_name'},
-                { data: 'rol_status',
-                    // tslint:disable-next-line:object-literal-shorthand no-shadowed-variable
-                    render: (data, type, row) => {
-                        if (row.rol_status === 'ACTIVE') {
-                            return '<span class="badge bg-green">HABILITADO</span>';
-                        } else {
-                            return '<span class="badge bg-red">DESHABILITADO</span>';
-                        }
-                    }
-                },
-                // tslint:disable-next-line:no-shadowed-variable
-                { data: (data) => {
-                        if (data.rol_status === 'ACTIVE') {
-                            return (
-                                // tslint:disable-next-line:max-line-length
-                                '<button  title="ACTUALIZAR" class="btn bg-green btn-circle  waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;">' +
-                                '<i style="padding-bottom:20px" class="fas fa-pen"></i>' +
-                                '</button>' +
-                                '<button title="ELIMINAR" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button"' +
-                                'style="margin-left: 5px;font-size: 20px;">' +
-                                '<i class="fas fa-trash-alt"></i>' +
-                                '</button>'
-                            );
-                        } else {
-                            return (
-                                // tslint:disable-next-line:max-line-length
-                                '<button  title="ACTUALIZAR" class="btn bg-green btn-circle waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;">' +
-                                '<i style="padding-bottom:20px" class="fas fa-pen"></i>' +
-                                '</button>' +
-                                '<button title="HABLITAR ROL" class="btn bg-blue btn-circle waves-effect waves-circle waves-float changeStatus" type="button"' +
-                                'style="margin-left: 5px;font-size: 20px;">' +
-                                '<i class="fas fa-redo"></i>' +
-                                '</button>'
-                            );
-                        }
-                    }
-                },
-            ],
-            // tslint:disable-next-line:ban-types no-shadowed-variable
-            rowCallback: (row: Node, data: any[] | Object, index: number) => {
-                const vem = this;
-
-                $('.edit', row).bind('click', () => {
-                    vem.getRolById(data);
-                });
-                $('.delete', row).bind('click', () => {
-                    vem.deleteRol(data);
-                });
-                $('.changeStatus', row).bind('click', () => {
-                   vem.changeStatus(data);
-                });
-                return row;
-            },
-            language: {
-                decimal: '',
-                emptyTable: 'No exsiten Productos',
-                info: 'Mostrando _START_ a _END_ de _TOTAL_ Entradas',
-                infoEmpty: 'Mostrando 0 to 0 of 0 Entradas',
-                infoFiltered: '(Filtrado de _MAX_ total entradas)',
-                infoPostFix: '',
-                thousands: ',',
-                lengthMenu: 'Mostrar _MENU_ Entradas',
-                loadingRecords: 'Cargando...',
-                processing: 'Procesando...',
-                search: 'Buscar:',
-                zeroRecords: 'Sin resultados encontrados',
-                paginate: {
-                    first: 'Primero',
-                    last: 'Ultimo',
-                    next: 'Siguiente',
-                    previous: 'Anterior'
-                }
-            },
-            order: [],
-            destroy: true
+    UpdateRol() {
+      const vm = this;
+      const rolName = vm.formRol.get('rolName').value;
+      if (!rolName) {
+        iziToast.warning({
+            title: 'Advertencia',
+            position: 'topRight',
+            message: 'Nombre rol requerido',
         });
+        return;
+      }
+      vm.isloadingUpdate.showReload();
+      vm.btnisLoading = true;
+      vm.rolService.editRol(vm.formRol.value).then( res => {
+        const rpta = sendRespuesta(res);
+        if (rpta.status) {
+            iziToast.success({
+              title: 'Exito',
+              position: 'topRight',
+              message: rpta.message,
+            });
+          } else {
+              iziToast.error({
+                  title: 'Error',
+                  position: 'topRight',
+                  message: rpta.message,
+              });
+          }
+      }).catch((err) => {
+          console.log('Error', err);
+      }).finally(() => {
+        vm.isloadingUpdate.closeReload();
+        vm.getRol();
+        $('#RolModal').modal('hide');
+      });
+    }
+    clearFormFields() {
+        const vm = this;
+        vm.formRol.controls.rolName.setValue(['']);
+        vm.formRol.controls.idRol.setValue(['']);
+    }
+    changeStatus(data: any) {
+        const vm = this;
+        const texto = data.rol_status === 'active' ? 'Seguro de desabilitar este rol' : 'Seguro de habilirar este rol';
+        const confirmButton = data.rol_status === 'active' ? ' Desabilitar' : 'Habilitar';
+        const swalWithBootstrapButtons = swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: confirmButton + ' ?',
+            text: texto,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, ' + confirmButton,
+            cancelButtonText: 'No, cancelar!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                vm.rolService.changeStatusRol(data).then( res => {
+                    const rpta = sendRespuesta(res);
+                    if (rpta.status) {
+                        swalWithBootstrapButtons.fire(
+                            'Exito!',
+                            rpta.message,
+                            'success'
+                        );
+                    } else {
+                        swalWithBootstrapButtons.fire(
+                            'ERROR',
+                            rpta.message,
+                            'error'
+                        );
+                    }
+                }).catch(( err) => {
+                    console.log('Error', err);
+                }).finally(() => {
+                    vm.getRol();
+                });
+            } else if (
+                result.dismiss === swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Rol a salvo',
+                    'error'
+                );
+            }
+        });
+    }
+    closeModal() {
+      $('body').on('hidden.bs.modal', '.modal', () => {
+        document.getElementById('create').style.display = 'block';
+        document.getElementById('update').style.display = 'none';
+        this.formRol.controls.rolName.setValue('');
+      });
     }
 
 }

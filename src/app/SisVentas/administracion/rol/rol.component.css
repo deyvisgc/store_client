@@ -1,0 +1,19 @@
+#inputVertical {
+  height: 1.5rem !important;
+  box-sizing: border-box;
+  display: 0px !important;
+  width: 80%;
+  border-width: 0.5px;
+  border-radius: 5px ;
+  border-style: solid;
+  padding: 16px;
+  outline: 0;
+  font-family: inherit;
+  background: #fff;
+  border-color: #48c78e;
+  color: #555;
+  margin-left: 10px;
+}
+.btn:not(.btn-link):not(.btn-circle) span {
+  top: 0px !important;
+}
