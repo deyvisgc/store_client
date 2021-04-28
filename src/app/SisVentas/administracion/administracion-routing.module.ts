@@ -4,6 +4,7 @@ import {PrivilegioComponent} from './privilegio/privilegio.component';
 import {RolComponent} from './rol/rol.component';
 import {UsuarioComponent} from './usuario/usuario.component';
 import {ProveedorComponent} from './proveedor/proveedor.component';
+import { PermisosComponent } from './permisos/permisos.component';
 
 
 const routes: Routes = [
@@ -12,8 +13,8 @@ const routes: Routes = [
     component: PrivilegioComponent
   },
   {
-    path: 'Rol',
-    component: RolComponent
+    path: 'Permisos',
+    component: PermisosComponent
   },
   {
     path: 'Usuarios',

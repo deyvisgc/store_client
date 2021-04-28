@@ -1,0 +1,75 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+          <div class="header">
+            <h2 _ngcontent-okb-c6=""  class="m-b-10"> <span class="title" >Asignar Permisos</span> <i _ngcontent-dig-c5="" style="margin-left: 5px;" class="fas fa-th-list"></i></h2>
+          </div>
+      </div>
+      <div class="card">
+        <div class="body">
+          <button *ngIf="!isloadinglista" _ngcontent-kvq-c6="" class="btn btn-outline-info" style="margin-bottom: 10px;"  (click)="showModal()" type="button">Permisos <i _ngcontent-dig-c5="" class="fas fa-plus"></i></button>
+          <table  class="table table-bordered table-striped  js-basic-example tbPermisos" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Usuario</th>
+                    <th>Privlegio</th>
+                    <th>Rol</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="modal fade" id="modalPermisos"  tabindex="-1"  aria-labelledby="modalPermisos" aria-hidden="true">
+  <div class="modal-dialog modal-lg"  role="document">
+      <div class="modal-content" style="border-radius: 10px">
+          <div class="modal-header">
+              <span class="modal-title" style="margin-left: 170px; font-weight: 100;font-family: unset;">Permisos</span>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <div class="body">
+              <div class="row clearfix">
+                  <div class="col-md-8">
+                      <p>
+                          <b>Privilegios</b>
+                      </p>
+                      <div class="form-group default-select">
+                          <select class="form-control privilegio" multiple="" data-placeholder="Seleccionar">
+                            <option value="{{item.id_privilegio}}" *ngFor="let item of listPrivilegios">{{item.pri_nombre}}</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                    <p>
+                      <b>Roles</b>
+                  </p>
+                  <div class="form-group default-select">
+                      <select class="form-control rol" data-placeholder="Seleccionar">
+                           <option value="" selected></option>
+                          <option value="{{item.id_rol}}" *ngFor="let item of listRoles">{{item.rol_name}}</option>
+                      </select>
+                  </div>
+                  </div>
+                  <div class="col-md-6">
+                    <button id="create"  _ngcontent-yvb-c7="" [disabled]="btnisLoading" class="btn btn-outline-success btn-lg btn-block waves-effect" (click)="guardar()" type="button">
+                      <span *ngIf="!btnisLoading"> Guardar</span>
+                      <app-reloadform #isloading></app-reloadform>
+                   </button>
+                  </div>
+                  <div class="col-md-6">
+                    <button  _ngcontent-yvb-c7="" [disabled]="btnisLoading" class="btn btn-outline-danger btn-lg btn-block waves-effect"  data-dismiss="modal" type="button">Volver a lista</button>
+                  </div>
+              </div>
+          </div>
+          </div>
+      </div>
+     </div>
+</div>

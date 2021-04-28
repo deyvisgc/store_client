@@ -62,13 +62,13 @@ export class RolComponent implements OnInit {
                 position: 'topRight',
                 message: rpta.message,
               });
-            } else {
-                iziToast.error({
-                    title: 'Error',
-                    position: 'topRight',
-                    message: rpta.message,
-                });
-            }
+          } else {
+            iziToast.error({
+                title: 'Error',
+                position: 'topRight',
+                message: rpta.message,
+            });
+          }
         }).catch((err) => {
             console.log('Error', err);
         }).finally(() => {

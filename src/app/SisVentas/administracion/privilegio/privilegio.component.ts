@@ -18,6 +18,7 @@ export class PrivilegioComponent implements OnInit {
   listGrupos = [];
   viewDetalle = false;
   detallePrivielgios = [];
+  idPrivilegios = [];
   btnOperacion = false;
   privilegio = {
     nombre: '',
@@ -111,7 +112,7 @@ export class PrivilegioComponent implements OnInit {
     //   },
     // });
   }
-  guardarGrupo() {
+  guardarGrupoAndPrivilegios() {
     const vm = this;
     const statusValidacion = vm.validar(vm.privilegio.idPadre);
     if (statusValidacion) {
@@ -139,6 +140,7 @@ export class PrivilegioComponent implements OnInit {
       }).finally(() => {
         vm.btnisLoading = false;
         vm.getGrupos();
+        vm.getPrivilegios();
       });
     }
   }

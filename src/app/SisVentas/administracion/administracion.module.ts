@@ -8,10 +8,13 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProveedorComponent } from './proveedor/proveedor.component';
 import { ReloadformComponent } from '../reload/reloadform/reloadform.component';
+import { PermisosComponent } from './permisos/permisos.component';
+import { ReloadComponent } from '../almacen/reload/reload.component';
 
 
 @NgModule({
-  declarations: [PrivilegioComponent, RolComponent, UsuarioComponent, ProveedorComponent, ReloadformComponent],
+  declarations: [PrivilegioComponent, RolComponent, UsuarioComponent, ProveedorComponent, ReloadformComponent, PermisosComponent, 
+                 ReloadComponent],
     imports: [
         CommonModule,
         AdministracionRoutingModule,
