@@ -99,6 +99,7 @@ $.MyAdmin.leftSideBar = {
       if (e.target.nodeName.toLowerCase() === "i") {
         $target = $(e.target).parent();
       }
+      console.log('deyvis', $target);
       if (
         !$target.hasClass("bars") &&
         _this.isOpen() &&
@@ -127,7 +128,7 @@ $.MyAdmin.leftSideBar = {
       console.log('e.target');
       var $this = $(this);
       var $content = $this.next();
-      if ($($this.parents("ul")[0]).hasClass("list")) {
+      if ($($this.parents("ul")).hasClass("list")) {
         var $not = $(e.target).hasClass("menu-toggle")
           ? e.target
           : $(e.target).parents(".menu-toggle");

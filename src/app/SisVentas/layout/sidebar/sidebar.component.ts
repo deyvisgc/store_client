@@ -6,62 +6,70 @@ declare const sendRespuesta: any;
 import _ from 'lodash';
 
 import { AuthenticationService } from '../../service/Authentication/authentication.service';
+import { Router } from '@angular/router';
+import { DisplayreportServiceService } from '../../service/displayreport-service.service';
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.sass']
+    styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
     SecretRol = 'K56QSxGeKImwBRmiY';
+    expanded = new Array(3).fill(false);
+    datalis: string;
+    allReportCategories: any[];
+    reportsubCategory: any[];
+    reportByCategoryId: any[];
+    allReportsubCategory: any[];
+    reportCategoryIdparam: string;
     rolName = '';
     userName = localStorage.getItem('usuario');
     tokenUser: string = localStorage.getItem('TOKEN_USER');
-    submenuAdministracion: [];
-    submenuCompra: [];
-    submenuCaja: [];
-    submenuAlmacen: [];
-    submenuSangria: [];
+    lista: any [];
     constructor(
-        private privilege: PrivilegesService, private autser: AuthenticationService
+        private privilege: PrivilegesService, private autser: AuthenticationService,
+        public http: HttpClient, private _router: Router,
+        private _displayreport: DisplayreportServiceService
     ) { }
 
     ngOnInit() {
-        this.desencriptar();
+        // this.privilege.getallReportCategories();
         this.getPrivilegesByRol();
+        // this.allReportCategories = this.privilege.getallReportCategories().map((e) => {
+        //     e.collapse = false;
+        //     return e;
+        // });
     }
-
+    toggleAccordian(event, index, rep) {
+        console.log('rep', rep);
+        this.lista = this.GetreportByCategoryId(rep.id_privilegio);
+        this.allReportCategories[index].collapse = !this.allReportCategories[index].collapse;
+    }
     getPrivilegesByRol() {
         const idRol = localStorage.getItem('idRol');
         const params = {idRol};
+        this.allReportCategories = [];
+        const arra = [];
         this.privilege.getPrivilegesByRol(params).then( res => {
             const rpta = sendRespuesta(res);
-            const data = rpta.data.filter(f => f.pri_group === 'Almacen');
-            const admin = rpta.data.filter(f => f.pri_group === 'Administracion');
-            this.submenuAlmacen = data;
-            this.submenuAdministracion = admin;
-            // this.tempPrivileges.push(rpta.data);
-            // for (let i = 0; i < this.tempPrivileges.length; i++) {
-            //     for (let j = i; j < this.tempPrivileges[i].length; j++) {
-            //         if (!this.privileges.hasOwnProperty(this.tempPrivileges[i][j].pri_group)) {
-            //             this.privileges[this.tempPrivileges[i][j].pri_group] = [];
-            //         }
-            //         this.privileges[this.tempPrivileges[i][j].pri_group].push({
-            //             pri_access: this.tempPrivileges[i][j].pri_acces,
-            //             pri_name: this.tempPrivileges[i][j].pri_nombre,
-            //         });
-            //     }
-            // }
-            // // tslint:disable-next-line:forin
-            // for (const key in this.privileges) {
-            //     this.privilegesGroup.push(key);
-            //     this.privilegesRoute.push(this.privileges[key]);
-            // }
-            // console.log(this.privilegesRoute);
-            // this.sidebarStatus = true;
-            // rpta.data.forEach(element => {
-            //     this.grupos.push(element.pri_group);
-            //     this.privilegesGroup =  _.uniq(this.grupos);
+            rpta.data.privilegiosGrupo.data.forEach(element => {
+                this.allReportCategories = rpta.data.subPrivilegios.forEach(f => {
+                    if (element.id_privilegio === f.id_Padre) {
+                        arra.push(element);
+                    }
+                });
+            });
+            this.allReportCategories = _.uniqBy(arra, 'id_privilegio');
+            console.log('arra', this.allReportCategories);
+            // this.allReportCategories = rpta.data.privilegiosGrupo.data.map((e) => {
+            //     // e.collapse = false;
+            //   const data =  rpta.data.subPrivilegios.filter(f => f.id_Padre === e.id_privilegio);
+            //   if (data.length > 0) {
+            //       return data;
+            //   }
             // });
+            this.lista = rpta.data.subPrivilegios;
+            console.log('privilegio', rpta.data.subPrivilegios);
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
@@ -72,5 +80,9 @@ export class SidebarComponent implements OnInit {
      const vm = this;
      const rol = localStorage.getItem('rol_name');
      vm.rolName = vm.autser.CryptoJSAesDecrypt(vm.SecretRol, rol);
+    }
+    GetreportByCategoryId(id: string) {
+        console.log(this.lista);
+        return this.lista.filter(reportsubCategory => reportsubCategory.id_Padre === id);
     }
 }

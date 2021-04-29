@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {EnviromentService} from '../enviroment.service';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class PrivilegesService {
   httpHeaders = new HttpHeaders()
                 .append('Content-Type', 'application/json')
@@ -14,7 +16,19 @@ export class PrivilegesService {
       private httpClient: HttpClient,
       private url: EnviromentService,
   ) { }
+  private subject = new Subject<any>();
 
+  sendMessage(message: []) {
+      this.subject.next({ something: message });
+  }
+
+  clearMessage() {
+      this.subject.next();
+  }
+
+  getMessage(): Observable<any> {
+      return this.subject.asObservable();
+  }
   getPrivilegesByRol(params) {
     return this.httpClient.get(this.url.urlAddress + 'PrivilegiosRol', {params , headers: this.httpHeaders}).toPromise();
   }

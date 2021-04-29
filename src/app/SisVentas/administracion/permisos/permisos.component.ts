@@ -48,6 +48,8 @@ export class PermisosComponent implements OnInit {
   getPermisos() {
     const vm = this;
     this.isloadinglista = true;
+    $('#btn').hide();
+    $('#table').hide();
     vm.permSer.List().then( res => {
       const rpta = sendRespuesta(res);
       rpta.data.lista.forEach((element, index) => {
@@ -61,7 +63,10 @@ export class PermisosComponent implements OnInit {
     }).catch((err) => {
       alert(err);
     }).finally(() => {
+      $('#btn').show();
+      $('#table').show();
       console.log('finalll');
+      this.isloadinglista = false;
     });
   }
   getPrivilegios() {
@@ -194,7 +199,6 @@ export class PermisosComponent implements OnInit {
        order: [],
        destroy: true
     });
-    this.isloadinglista = false;
   }
   deletePermisos(permisos: any) {
     const vm = this;

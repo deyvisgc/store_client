@@ -15,6 +15,8 @@ import { HeaderComponent } from './SisVentas/layout/header/header.component';
 import { PageLoaderComponent } from './SisVentas/layout/page-loader/page-loader.component';
 import { SidebarComponent } from './SisVentas/layout/sidebar/sidebar.component';
 import { RightSidebarComponent } from './SisVentas/layout/right-sidebar/right-sidebar.component';
+import { DisplayreportServiceService } from './SisVentas/service/displayreport-service.service';
+import { PrivilegesService } from './SisVentas/service/Privileges/privileges.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +49,7 @@ import { RightSidebarComponent } from './SisVentas/layout/right-sidebar/right-si
   providers: [
       AuthenticationService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    DynamicScriptLoaderService
+    DynamicScriptLoaderService, DisplayreportServiceService, PrivilegesService
   ],
   bootstrap: [AppComponent]
 })

@@ -8,8 +8,9 @@
       </div>
       <div class="card">
         <div class="body">
-          <button *ngIf="!isloadinglista" _ngcontent-kvq-c6="" class="btn btn-outline-info" style="margin-bottom: 10px;"  (click)="showModal()" type="button">Permisos <i _ngcontent-dig-c5="" class="fas fa-plus"></i></button>
-          <table  class="table table-bordered table-striped  js-basic-example tbPermisos" style="width: 100%;">
+          <app-reload style="margin: 150px;" *ngIf="isloadinglista" [isloading]="isloadinglista"  message="Cargando"></app-reload>
+          <button id="btn" _ngcontent-kvq-c6="" class="btn btn-outline-info" style="margin-bottom: 10px;"  (click)="showModal()" type="button">Permisos <i _ngcontent-dig-c5="" class="fas fa-plus"></i></button>
+          <table  id="table"  class="table table-bordered table-striped  js-basic-example tbPermisos" style="width: 100%;">
             <thead>
                 <tr>
                     <th>N°</th>
