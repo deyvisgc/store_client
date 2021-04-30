@@ -41,9 +41,17 @@ export class SidebarComponent implements OnInit {
         // });
     }
     toggleAccordian(event, index, rep) {
-        console.log('rep', rep);
-        this.lista = this.GetreportByCategoryId(rep.id_privilegio);
-        this.allReportCategories[index].collapse = !this.allReportCategories[index].collapse;
+        this.reportByCategoryId = [];
+        this.reportByCategoryId = this.lista.filter(reportsubCategory => reportsubCategory.id_Padre === rep.id_privilegio);
+        console.log('this.reportByCategoryId', this.reportByCategoryId);
+        if (this.allReportCategories[index].collapse) {
+            this.allReportCategories[index].collapse = false;
+        } else {
+            this.allReportCategories.forEach((element, index1) => {
+                this.allReportCategories[index1].collapse = false;
+            });
+            this.allReportCategories[index].collapse = true;
+        }
     }
     getPrivilegesByRol() {
         const idRol = localStorage.getItem('idRol');
@@ -52,10 +60,11 @@ export class SidebarComponent implements OnInit {
         const arra = [];
         this.privilege.getPrivilegesByRol(params).then( res => {
             const rpta = sendRespuesta(res);
-            rpta.data.privilegiosGrupo.data.forEach(element => {
+            rpta.data.privilegiosGrupo.data.forEach((element, index) => {
+                rpta.data.privilegiosGrupo.data[index].collapse = false;
                 this.allReportCategories = rpta.data.subPrivilegios.forEach(f => {
                     if (element.id_privilegio === f.id_Padre) {
-                        arra.push(element);
+                       arra.push(element);
                     }
                 });
             });

@@ -16,12 +16,13 @@
                     </div>
                 </li>
                 <li *ngFor="let rep of allReportCategories;let i = index;" >
-                    <a href="#" onClick="return false;" (click)="toggleAccordian($event, i, rep)">
+                    <a href="#" onClick="return false;" class="accordion" (click)="toggleAccordian($event, i, rep)">
                         <i class="{{rep.pri_icon}}"></i>
                         <span>{{rep.pri_nombre}}</span>
                     </a>
-                    <ul [ngStyle]="{'display':rep.collapse ? 'block' : 'none' }" *ngFor="let subrep of lista"  style="display:block;" id="submenu" style="padding-left:7px;" hide="!rep.isActive">
-                        <li routerLinkActive="active" class="wrapper">
+                    <ul [ngStyle]="{'display':rep.collapse ? 'block' : 'none' }" *ngFor="let subrep of reportByCategoryId"  
+                    style="display:block;" id="submenu" style="padding-left:7px;" hide="!rep.isActive">
+                        <li *ngIf="subrep.id_Padre === rep.id_privilegio" routerLinkActive="active" class="wrapper">
                             <a routerLink="{{subrep.pri_acces}}">
                                 <span>{{subrep.sub_pri_nombre}}</span>
                             </a>
