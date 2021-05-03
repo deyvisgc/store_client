@@ -15,34 +15,19 @@
                         <div class="profile-usertitle-job "> {{rolName}} </div>
                     </div>
                 </li>
-                <li *ngFor="let rep of allReportCategories;let i = index;" >
-                    <a href="#" onClick="return false;" class="menu-toggle" [ngClass]="{'toggled': rep.collapse, 'toggle': !rep.collapse}" (click)="toggleAccordian($event, i, rep)">
+                <li *ngFor="let rep of grupo;let i = index;" >
+                    <a href="#" onClick="return false;" class="menu-toggle" [ngClass]="{'toggled': rep.collapse, 'toggle': !rep.collapse}" (click)="toggleAccordian(i, rep)">
                         <i class="{{rep.pri_icon}}"></i> 
                         <span>{{rep.pri_nombre}}</span>
                     </a>
-                    <ul [ngStyle]="{'display':rep.collapse ? 'block' : 'none' }" *ngFor="let subrep of reportByCategoryId"  
-                    style="display:block;" id="submenu" style="padding-left:7px;" hide="!rep.isActive">
-                        <li *ngIf="subrep.id_Padre === rep.id_privilegio" routerLinkActive="active" class="wrapper">
-                            <a routerLink="{{subrep.pri_acces}}">
-                                <span>{{subrep.sub_pri_nombre}}</span>
+                    <ul [ngStyle]="{'display':rep.collapse ? 'block' : 'none' }" *ngFor="let p of privilegio">
+                        <li *ngIf="p.id_Padre === rep.id_privilegio" routerLinkActive="active">
+                            <a routerLink="{{p.pri_acces}}">
+                                <span>{{p.sub_pri_nombre}}</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <!-- <li routerLinkActive="active">
-                    <a href="#" onClick="return false;" class="menu-toggle">
-                        <i class="fab fa-pagelines"></i>
-                        <span>Widgets</span>
-                    </a>
-                    <ul class="ml-menu">
-                        <li routerLinkActive="active">
-                            <a routerLink="widget/chart-widget">Chart Widget</a>
-                        </li>
-                        <li routerLinkActive="active">
-                            <a routerLink="widget/data-widget">Data Widget</a>
-                        </li>
-                    </ul>
-                </li> -->
             </ul>
         </div>
         <!-- #Menu -->

@@ -6,8 +6,9 @@ import {EnviromentService} from '../../enviroment.service';
   providedIn: 'root'
 })
 export class PeopleService {
-  head = new HttpHeaders();
-  private headers = this.head.append('Content-Type', 'application/json');
+  httpHeaders = new HttpHeaders()
+  .append('Content-Type', 'application/json')
+  .append('Authorization',  'Bearer' + ' ' + localStorage.getItem('token'));
 
   constructor(
       private client: HttpClient,
@@ -17,29 +18,25 @@ export class PeopleService {
   getPeopleInfo() {
     return this.client.get(
         this.url.urlAddress + 'Person',
-        {headers: this.headers},
+        {headers: this.httpHeaders},
     );
   }
 
   getPersonById(idPerson: number) {
     return this.client.get(
         this.url.urlAddress + 'Person/' + idPerson,
-        {headers: this.headers},
+        {headers: this.httpHeaders},
     );
   }
 
   updatePerson(person) {
-    return this.client.put(
-        this.url.urlAddress + 'Person',
-        {person},
-        {headers: this.headers}
-    );
+    return this.client.put(this.url.urlAddress + 'Person', {person}, {headers: this.httpHeaders}).toPromise();
   }
 
   disabledPerson(idPerson: number) {
     return this.client.delete(
         this.url.urlAddress + 'Person/' + idPerson,
-        {headers: this.headers}
+        {headers: this.httpHeaders}
     );
   }
 
@@ -47,7 +44,7 @@ export class PeopleService {
     return this.client.post(
         this.url.urlAddress + 'PersonUser',
         {idPerson},
-        {headers: this.headers}
+        {headers: this.httpHeaders}
     );
   }
 
@@ -55,7 +52,7 @@ export class PeopleService {
     return this.client.post(
       this.url.urlAddress + 'Person',
         {person},
-        {headers: this.headers},
+        {headers: this.httpHeaders},
     );
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-reloadform',
@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReloadformComponent implements OnInit {
   btnisLoading = false;
+  @Input() statusReload: boolean;
   constructor() { }
-
+  statusReaload: boolean;
   ngOnInit() {
+    alert(this.statusReload);
   }
 
   showReload() {

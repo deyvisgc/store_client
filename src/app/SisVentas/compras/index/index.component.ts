@@ -295,7 +295,7 @@ export class IndexComponent implements OnInit {
         vm.datatable(lista);
         vm.calculos(lista[0]['total']);
       });
-  }
+    }
   }
   delete(item) {
     const vm = this;

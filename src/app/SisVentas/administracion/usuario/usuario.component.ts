@@ -6,7 +6,7 @@ import {RolService} from '../../service/Administracion/rol/rol.service';
 import {PeopleService} from '../../service/Administracion/people/people.service';
 import {UserService} from '../../service/Administracion/user/user.service';
 import swal from 'sweetalert2';
-
+declare const sendRespuesta: any;
 declare const $: any;
 
 @Component({
@@ -102,7 +102,7 @@ export class UsuarioComponent implements OnInit {
             return this.toast.error('El tipo de documento no coincide con el numero de documento. ' +
                 'Verifique la cantidad de dígitos. DNI = 8, RUC = 11', 'NUMERO DOC INVALIDO');
         }
-        this.creating = false;
+        // this.creating = false;
         this.userService.registerPeople(this.createUserForm.value).subscribe(
             resp => {
                 if (resp['original']['code'] === 200 && resp['original']['status']  === true) {
@@ -123,14 +123,10 @@ export class UsuarioComponent implements OnInit {
     }
 
     getRol() {
-        this.rolService.getRol().then(
-            (resp: any = []) => {
-                this.rols = resp.filter(rol => rol.rol_status === 'ACTIVE');
-            },
-            error => {
-                return this.toast.error('No se pudo obtener los roles del servidor', 'ERROR OBTENIENDO ROLES');
-            }
-        );
+        this.rolService.getRol().then(res => {
+            const rpta = sendRespuesta(res);
+            this.rols = rpta.data.filter(rol => rol.rol_status === 'active');
+        });
     }
 
     getPeopleInfo() {
@@ -175,47 +171,47 @@ export class UsuarioComponent implements OnInit {
         );
     }
 
-    updatePersonById() {
-        const selectTypeDocument = document.getElementById('etypeDocument')['value'];
+    // updatePersonById() {
+    //     const selectTypeDocument = document.getElementById('etypeDocument')['value'];
 
-        this.editPersonForm.controls.typeDocument.setValue(selectTypeDocument);
-        this.editPersonForm.controls.typePerson.setValue('USUARIO');
+    //     this.editPersonForm.controls.typeDocument.setValue(selectTypeDocument);
+    //     this.editPersonForm.controls.typePerson.setValue('USUARIO');
 
-        const idPersona = this.editPersonForm.get('idPersona').value;
-        const name = this.editPersonForm.get('name').value;
-        const lastName = this.editPersonForm.get('lastName').value;
-        const phone = this.editPersonForm.get('phone').value;
-        const docNumber = this.editPersonForm.get('docNumber').value;
-        const address = this.editPersonForm.get('address').value;
+    //     const idPersona = this.editPersonForm.get('idPersona').value;
+    //     const name = this.editPersonForm.get('name').value;
+    //     const lastName = this.editPersonForm.get('lastName').value;
+    //     const phone = this.editPersonForm.get('phone').value;
+    //     const docNumber = this.editPersonForm.get('docNumber').value;
+    //     const address = this.editPersonForm.get('address').value;
 
-        if (idPersona === '' || name === '' || lastName === '' || phone === '' || docNumber === '' || address === '' ||
-            selectTypeDocument === '') {
-            return this.toast.error('Complete todos los campos del formulario', 'CAMPOS INCOMPLETOS');
-        }
-        const checkNumberDoc: boolean = this.validateNumberDoc(selectTypeDocument, docNumber);
+    //     if (idPersona === '' || name === '' || lastName === '' || phone === '' || docNumber === '' || address === '' ||
+    //         selectTypeDocument === '') {
+    //         return this.toast.error('Complete todos los campos del formulario', 'CAMPOS INCOMPLETOS');
+    //     }
+    //     const checkNumberDoc: boolean = this.validateNumberDoc(selectTypeDocument, docNumber);
 
-        if (checkNumberDoc === false) {
-            return this.toast.error('El tipo de documento no coincide con el numero de documento. ' +
-                'Verifique la cantidad de dígitos. DNI = 8, RUC = 11', 'NUMERO DOC INVALIDO');
-        }
-        this.editing = false;
-        this.peopleService.updatePerson(this.editPersonForm.value).subscribe(
-            resp => {
-                if (resp['original']['code'] === 200 && resp['original']['status']  === true) {
-                    this.toast.success('Se ACTUALIZARON correctamente los datos', 'DATOS ACTUALIZADOS');
-                    this.getRol();
-                    $('#editPerson').modal('hide');
-                    this.editing = true;
-                } else {
-                    this.editing = true;
-                    return this.toast.error('No se enviaron los datos al servidor, intentelo nuevamente', 'ERROR EDITANDO ROL');
-                }
-            },
-            error => {
-                return this.toast.error('No se pudo contactar con el servidor. Intentelo mas tarde', 'ERROR SERVIDOR');
-            }
-        );
-    }
+    //     if (checkNumberDoc === false) {
+    //         return this.toast.error('El tipo de documento no coincide con el numero de documento. ' +
+    //             'Verifique la cantidad de dígitos. DNI = 8, RUC = 11', 'NUMERO DOC INVALIDO');
+    //     }
+    //     this.editing = false;
+    //     this.peopleService.updatePerson(this.editPersonForm.value).subscribe(
+    //         resp => {
+    //             if (resp['original']['code'] === 200 && resp['original']['status']  === true) {
+    //                 this.toast.success('Se ACTUALIZARON correctamente los datos', 'DATOS ACTUALIZADOS');
+    //                 this.getRol();
+    //                 $('#editPerson').modal('hide');
+    //                 this.editing = true;
+    //             } else {
+    //                 this.editing = true;
+    //                 return this.toast.error('No se enviaron los datos al servidor, intentelo nuevamente', 'ERROR EDITANDO ROL');
+    //             }
+    //         },
+    //         error => {
+    //             return this.toast.error('No se pudo contactar con el servidor. Intentelo mas tarde', 'ERROR SERVIDOR');
+    //         }
+    //     );
+    // }
 
     deletePersonUser(person: any) {
         const contextUser = this;
@@ -291,32 +287,32 @@ export class UsuarioComponent implements OnInit {
         );
     }
 
-    getUserById(data) {
-        this.userService.getUserInfo(data.id_persona).subscribe(
-            resp => {
-                if (resp['original']['status'] == true || resp['original']['code'] == 200) {
-                    this.editUserForm.controls.idUser.setValue(resp['original']['user']['id_user']);
-                    this.editUserForm.controls.idRol.setValue(resp['original']['user']['id_rol']);
-                    this.editUserForm.controls.nameUser.setValue(resp['original']['user']['us_name']);
-                    this.editUserForm.controls.statusUser.setValue(resp['original']['user']['us_status']);
-                    $('#idRolUser').val(resp['original']['user']['id_rol']).trigger('change');
-                    $('#statusUser').val(resp['original']['user']['us_status']).trigger('change');
+    // getUserById(data) {
+    //     this.userService.getUserInfo(data.id_persona).subscribe(
+    //         resp => {
+    //             if (resp['original']['status'] == true || resp['original']['code'] == 200) {
+    //                 this.editUserForm.controls.idUser.setValue(resp['original']['user']['id_user']);
+    //                 this.editUserForm.controls.idRol.setValue(resp['original']['user']['id_rol']);
+    //                 this.editUserForm.controls.nameUser.setValue(resp['original']['user']['us_name']);
+    //                 this.editUserForm.controls.statusUser.setValue(resp['original']['user']['us_status']);
+    //                 $('#idRolUser').val(resp['original']['user']['id_rol']).trigger('change');
+    //                 $('#statusUser').val(resp['original']['user']['us_status']).trigger('change');
 
-                    $('#editUserModal').modal({
-                        keyboard: false,
-                        backdrop: 'static',
-                        show: true
-                    });
-                } else {
-                    return this.toast.warning('Esta persona no tiene un usuario creado', 'PERSONA SIN USUARIO');
-                }
+    //                 $('#editUserModal').modal({
+    //                     keyboard: false,
+    //                     backdrop: 'static',
+    //                     show: true
+    //                 });
+    //             } else {
+    //                 return this.toast.warning('Esta persona no tiene un usuario creado', 'PERSONA SIN USUARIO');
+    //             }
 
-            },
-            error => {
-                return this.toast.error('No se pudo obtener los datos desde el servidor', 'DATOS NO ENCONTRADOS');
-            }
-        );
-    }
+    //         },
+    //         error => {
+    //             return this.toast.error('No se pudo obtener los datos desde el servidor', 'DATOS NO ENCONTRADOS');
+    //         }
+    //     );
+    // }
 
     updateUser() {
         this.editingUser = false;
@@ -424,7 +420,7 @@ export class UsuarioComponent implements OnInit {
                     vem.changeStatusPersonUser(data);
                 });
                 $('.editUser', row).bind('click', () => {
-                    vem.getUserById(data);
+                    // vem.getUserById(data);
                 });
                 return row;
             },

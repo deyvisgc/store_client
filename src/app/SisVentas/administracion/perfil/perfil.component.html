@@ -1,0 +1,331 @@
+<section class="content">
+  <div class="container-fluid">
+      <!-- <div class="block-header">
+          <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <ul class="breadcrumb breadcrumb-style ">
+                      <li class="breadcrumb-item">
+                          <h4 class="page-title">Profile</h4>
+                      </li>
+                      <li class="breadcrumb-item bcrumb-1">
+                          <a routerLink="/dashboard/main">
+                              <i class="fas fa-home"></i> Home</a>
+                      </li>
+                      <li class="breadcrumb-item bcrumb-2">
+                          <a href="#" onClick="return false;">Extra</a>
+                      </li>
+                      <li class="breadcrumb-item active">Profile</li>
+                  </ul>
+              </div>
+          </div>
+      </div> -->
+      <!-- Your content goes here  -->
+      <div class="row clearfix">
+          <div class="col-lg-4 col-md-12">
+              <div class="card">
+                  <div class="m-b-20">
+                      <div class="contact-grid">
+                          <div class="profile-header bg-dark">
+                              <div class="user-name">{{person.name}} {{person.lastName}}</div>
+                              <div class="name-center">{{rolName}}</div>
+                          </div>
+                          <img src="assets/images/user/usrbig3.jpg" class="user-img" alt="">
+                          <p>
+                              {{person.address}},
+                              <br />Peru
+                          </p>
+                          <div>
+                              <span class="phone">
+                                  <i class="material-icons">phone</i>{{person.phone}}</span>
+                          </div>
+                          <div class="row">
+                              <div class="col-4">
+                                  <h5 id="h5">DNI</h5>
+                                  <small>{{person.docNumber}}</small>
+                              </div>
+                              <div class="col-4">
+                                  <h5 id="h5">ALIAS</h5>
+                                  <small>{{person.alias}}</small>
+                              </div>
+                              <div class="col-4">
+                                  <h5 id="h5">N° Use</h5>
+                                  <small>{{idUsuario}}</small>
+                              </div>
+                          </div>
+                          <br>
+                          <button style="width: 200px;" class="btn btn-outline-success btn-lg btn-block waves-effect"  (click)="showUpdateDatosPersonales()">ACTUALIZAR</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-8 col-md-12">
+              <div class="card">
+                <div _ngcontent-sge-c18="" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <button _ngcontent-sge-c18="" class="btn bg-green btn-lg btn-block waves-effect credenciales" type="button">CREDENCIALES</button>
+              </div> 
+              </div>
+               <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card project_widget">
+                        <div class="body">
+                            <div class="row">
+                                <div class="col-md-5 col-6 b-r">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                          <label>Usuario</label>
+                                          <input type="text" readonly="disabled" [(ngModel)]="credenciales.usuario">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-6 b-r">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                          <label>Password</label>
+                                          <input type="password" id="password" class="form-control" readonly="disabled" [(ngModel)]="credenciales.Password">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-6 b-r">
+                                  <button title="ver Contraseña" _ngcontent-hsv-c6="" class="btn bg-teal btn-circle waves-effect waves-circle waves-float" type="button">
+                                       <span  (click)="ShowPassword($event)">
+                                        <i style="cursor: pointer;" *ngIf="!ShowPasswordIcon" _ngcontent-gnu-c5="" class="fas fa-eye"></i>
+                                        <i style="cursor: pointer;" *ngIf="ShowPasswordIcon" _ngcontent-gnu-c5="" class="fas fa-eye-slash"></i>
+                                        </span>
+                                    </button>
+                              </div>
+                                <div class="col-md-6 col-6 b-r">
+                                  <button style="width: 290px;" class="btn btn-outline-info btn-lg btn-block waves-effect" (click)="showUpdateUsers()">ACTUALIZAR USUARIO</button>
+                                </div>
+                                <div class="col-md-6 col-6 b-r">
+                                  <button style="width: 290px;" class="btn btn-outline-success btn-lg btn-block waves-effect" (click)="showUpdatePassword()">ACTUALIZAR CONTRASEÑA</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               </div>
+               <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card project_widget">
+                        <div class="body">
+                            <span style="font-size: 15px; font-weight: 900; margin-left: 30%;">Recuperar Contraseñas</span><br><br>
+                            <div class="row">
+                                <div class="col-md-5 col-6 b-r">
+                                    <div class="ng-autocomplete">
+                                        <ng-autocomplete
+                                          [data]="countries"
+                                          [searchKeyword]="keyword"
+                                          placeholder="Enter the Country Name"
+                                          (selected)='selectEvent($event)'
+                                          (inputChanged)='onChangeSearch($event)'
+                                          (inputFocused)='onFocused($event)'
+                                          historyIdentifier="countries"
+                                          [itemTemplate]="itemTemplate"
+                                          [notFoundTemplate]="notFoundTemplate">
+                                        </ng-autocomplete>
+                                      
+                                        <ng-template #itemTemplate let-item>
+                                          <a [innerHTML]="item.name"></a>
+                                        </ng-template>
+                                      
+                                        <ng-template #notFoundTemplate let-notFound>
+                                          <div [innerHTML]="notFound"></div>
+                                        </ng-template>
+                                      </div>
+                                    <!-- <div class="input-group">
+                                        <div class="left-inner-addon input-container">
+                                            <i _ngcontent-ehl-c7="" style="margin-left: 5px;" class="fas fa-search"></i>
+                                            <input type="text" style="width: 90% !important;" (keyup)="buscarUsuario($event)" placeholder="BUSCAR POR USUARIO" class="form-control">
+                                          </div>
+                                    </div> -->
+                                </div>
+                                <div class="col-md-5 col-6 b-r">
+                                    <div class="input-group">
+                                        <div class="right-inner-addon input-container">
+                                            <i _ngcontent-ehl-c7="" class="fas fa-key"></i>
+                                              <input type="text" style="width: 90%;" id="password" placeholder="NUEVA CONTRASEÑA"  class="form-control" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-6 b-r">
+                                  <button title="ver Contraseña" _ngcontent-hsv-c6="" class="btn bg-teal waves-effect" type="button">
+                                    <i _ngcontent-ehl-c7="" class="fas fa-save"></i>
+                                    </button>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               </div>
+          </div>   
+      </div>
+  </div>
+</section>
+<div class="modal fade" id="modalContraseña"  tabindex="-1"  aria-labelledby="modalGrupoAndPrivlegio" aria-hidden="true">
+    <div class="modal-dialog"  role="document">
+        <div class="modal-content" style="border-radius: 10px">
+            <div class="modal-header">
+                <span class="modal-title" style="font-weight: 100;font-family: unset;" [ngStyle]="{'margin-left': Password === 1 ? '150px' : '150px'}">{{title}}</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row clearfix">
+                      <div class="card">
+                        <div class="body" *ngIf="Password === 1">
+                            <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>Actual</label>
+                                        <input type="text" id="actual" [(ngModel)]="updatePassword.passwordActual"  style="margin-left: 10px;" class="form-control" placeholder="">
+                                        <div _ngcontent-skw-c7="" *ngIf="errorActual" class="badge col-red">{{errorActual}}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>Nueva</label>
+                                        <input type="text" id="nueva" [(ngModel)]="updatePassword.passwordNueva"  style="margin-left: 10px;" class="form-control" placeholder="">
+                                        <div _ngcontent-skw-c7="" *ngIf="errorNueva" class="badge col-red">{{errorNueva}}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>Vuelve a escribir la contraseña nueva</label>
+                                        <input type="text" id="repet" [(ngModel)]="updatePassword.passwordRepet"  style="margin-left: 50px;" class="form-control" placeholder="">
+                                        <div _ngcontent-skw-c7="" *ngIf="errorRepet" class="badge col-red">{{errorRepet}}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <button _ngcontent-yvb-c7="" class="btn btn-outline-warning btn-lg btn-block waves-effect"  data-dismiss="modal" type="button">Cancelar</button>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <button  _ngcontent-yvb-c7=""  class="btn btn-outline-info btn-lg btn-block waves-effect" (click)="Actualizar()" type="button">
+                                    <span *ngIf="!isLoading">Actualizar</span>
+                                    <div *ngIf="isLoading" _ngcontent-yja-c6="" class="preloader pl-size-xs">
+                                        <div _ngcontent-yja-c6="" class="spinner-layer pl-red-grey">
+                                          <div _ngcontent-yja-c6="" class="circle-clipper left">
+                                            <div _ngcontent-yja-c6="" class="circle"></div>
+                                            </div>
+                                          <div _ngcontent-yja-c6="" class="circle-clipper right">
+                                            <div _ngcontent-yja-c6="" class="circle"></div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </button>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="body" *ngIf="Password === 2">
+                            <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>Usuario</label>
+                                        <input type="text" id="usuario" [(ngModel)]="credenciales.usuario"  style="margin-left: 10px;" class="form-control" placeholder="">
+                                        <div _ngcontent-skw-c7="" style="margin-left: 60px !important;" *ngIf="errorUers" class="badge col-red">{{errorUers}}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <button _ngcontent-yvb-c7="" class="btn btn-outline-warning btn-lg btn-block waves-effect"  data-dismiss="modal" type="button">Cancelar</button>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <button  _ngcontent-yvb-c7=""  class="btn btn-outline-info btn-lg btn-block waves-effect" (click)="ActualizarUsuario()" type="button">
+                                    <span *ngIf="!isLoading">Actualizar</span>
+                                    <div *ngIf="isLoading" _ngcontent-yja-c6="" class="preloader pl-size-xs">
+                                        <div _ngcontent-yja-c6="" class="spinner-layer pl-red-grey">
+                                          <div _ngcontent-yja-c6="" class="circle-clipper left">
+                                            <div _ngcontent-yja-c6="" class="circle"></div>
+                                            </div>
+                                          <div _ngcontent-yja-c6="" class="circle-clipper right">
+                                            <div _ngcontent-yja-c6="" class="circle"></div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </button>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="body" *ngIf="Password === 3">
+                            <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>Nombre</label>
+                                        <input type="text" id="nombre" [(ngModel)]="person.name"  style="margin-left: 18px;" class="form-control" placeholder="">
+                                        <div _ngcontent-skw-c7="" *ngIf="errors.errorNombre" class="badge col-red badge-person">{{errors.errorNombre}}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>Apellidos</label>
+                                        <input type="text" id="apellidos" [(ngModel)]="person.lastName"  style="margin-left: 10px;" class="form-control" placeholder="">
+                                        <div _ngcontent-skw-c7="" *ngIf="errors.errorApellidos" class="badge col-red badge-person">{{errors.errorApellidos}}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>Dni</label>
+                                        <input type="text" min="0" step="1" oninput="validity.valid || (value=this.value.slice(0,-1));" maxlength="8" id="dni" [(ngModel)]="person.docNumber"  style="margin-left: 50px;" class="form-control" placeholder="">
+                                        <div _ngcontent-skw-c7="" *ngIf="errors.errorDni" class="badge col-red badge-person">{{errors.errorDni}}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>Telefono</label>
+                                        <input type="text" min="0" step="1" oninput="validity.valid || (value=this.value.slice(0,-1));" maxlength="9" id="telefono" [(ngModel)]="person.phone"  style="margin-left: 15px;" class="form-control" placeholder="">
+                                        <div _ngcontent-skw-c7="" *ngIf="errors.errorTelefono" class="badge col-red badge-person">{{errors.errorTelefono}}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 0px !important;">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>Direccion</label>
+                                        <input type="text" id="direccion" [(ngModel)]="person.address"  style="margin-left: 10px;" class="form-control" placeholder="">
+                                        <div _ngcontent-skw-c7="" *ngIf="errors.errorDireccion" class="badge col-red badge-person">{{errors.errorDireccion}}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <button _ngcontent-yvb-c7="" class="btn btn-outline-warning btn-lg btn-block waves-effect"  data-dismiss="modal" type="button">Cancelar</button>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <button  _ngcontent-yvb-c7=""  class="btn btn-outline-info btn-lg btn-block waves-effect" (click)="ActualizarPersona()" type="button">
+                                    <span *ngIf="!isLoading">Actualizar</span>
+                                    <div *ngIf="isLoading" _ngcontent-yja-c6="" class="preloader pl-size-xs">
+                                        <div _ngcontent-yja-c6="" class="spinner-layer pl-red-grey">
+                                          <div _ngcontent-yja-c6="" class="circle-clipper left">
+                                            <div _ngcontent-yja-c6="" class="circle"></div>
+                                            </div>
+                                          <div _ngcontent-yja-c6="" class="circle-clipper right">
+                                            <div _ngcontent-yja-c6="" class="circle"></div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </button>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+  </div>
+  </div>
+  

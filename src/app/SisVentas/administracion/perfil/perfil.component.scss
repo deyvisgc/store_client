@@ -1,0 +1,95 @@
+
+.credenciales {
+  margin-inline-start: auto;
+  margin-top: 5px;
+}
+.btn:not(.btn-link):not(.btn-circle) span {
+  top: 0px !important;
+}
+#h5 {
+  font-size: 14px !important;
+}
+input[type="text"], input[type="password"], input[type="number"]{
+  height: 1.5rem !important;
+  box-sizing: border-box;
+  display: 0px !important;
+  width: 70%;
+  border-width: 0.5px;
+  border-radius: 5px ;
+  border-style: solid;
+  padding: 16px;
+  outline: 0;
+  font-family: inherit;
+  background: #fff;
+  border-color: #48c78e;
+  color: #555;
+  margin-left: 10px;
+}
+.badge {
+  padding: 5px 8px;
+  margin-top: 5px !important;
+  line-height: 12px;
+  border: 1px solid;
+  font-weight: 400;
+  font-size: 13px;
+  margin-left: 50px !important;
+}
+.badge-person {
+  margin-left: 18% !important;
+}
+.left-inner-addon input {
+  padding-left: 35px !important; 
+}
+.left-inner-addon i {
+  position: absolute;
+  padding: 12px 12px;
+  pointer-events: none;
+}
+
+
+.right-inner-addon {
+  position: relative;
+}
+.right-inner-addon i {
+  position: absolute;
+  right: 0px;
+  padding: 12px 12px;
+  margin-right: 13px;
+  cursor: pointer;
+}
+
+.left-and-right-inner-addon {
+  position: relative;
+}
+.left-and-right-inner-addon input {
+  padding-right: 35px !important;
+  padding-left: 35px !important;
+}
+.left-and-right-inner-addon i.left {
+  position: absolute;
+  padding: 12px 12px;
+  pointer-events: none;
+}
+.left-and-right-inner-addon i.right {
+  position: absolute;
+  right: 0px;
+  padding: 12px 12px;
+  pointer-events: none;
+}
+
+
+.right-inner-addon-b {
+  position: relative;
+}
+.right-inner-addon-b input {
+  padding-right: 35px !important;
+}
+.right-inner-addon-b i {
+  position: absolute;
+  right: 0px;
+  padding: 9px 12px;
+  pointer-events: none;
+}
+.ng-autocomplete {
+  width: 230px;
+}

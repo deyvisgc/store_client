@@ -5,6 +5,7 @@ import {RolComponent} from './rol/rol.component';
 import {UsuarioComponent} from './usuario/usuario.component';
 import {ProveedorComponent} from './proveedor/proveedor.component';
 import { PermisosComponent } from './permisos/permisos.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'Proveedores',
     component: ProveedorComponent
+  },
+  {
+    path: 'Perfil',
+    component: PerfilComponent
   }
 ];
 

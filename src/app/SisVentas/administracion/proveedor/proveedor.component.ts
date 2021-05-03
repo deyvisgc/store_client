@@ -81,46 +81,46 @@ export class ProveedorComponent implements OnInit {
     });
   }
 
-  updateSupplier() {
-    const typeDocument = document.getElementById('etypeDocument')['value'];
-    const idPersona = this.supplierForm.get('idPersona').value;
-    const name = this.supplierForm.get('name').value;
-    const lastName = this.supplierForm.get('lastName').value;
-    const address = this.supplierForm.get('address').value;
-    const phone = this.supplierForm.get('phone').value;
-    const docNumber = this.supplierForm.get('docNumber').value;
-    const validation = new Validation();
-    const checkNumberDoc = validation.validateNumberDoc(typeDocument, docNumber);
+  // updateSupplier() {
+  //   const typeDocument = document.getElementById('etypeDocument')['value'];
+  //   const idPersona = this.supplierForm.get('idPersona').value;
+  //   const name = this.supplierForm.get('name').value;
+  //   const lastName = this.supplierForm.get('lastName').value;
+  //   const address = this.supplierForm.get('address').value;
+  //   const phone = this.supplierForm.get('phone').value;
+  //   const docNumber = this.supplierForm.get('docNumber').value;
+  //   const validation = new Validation();
+  //   const checkNumberDoc = validation.validateNumberDoc(typeDocument, docNumber);
 
-    if (idPersona === '' || name === '' || lastName === '' || phone === '' || docNumber === '' || address === '') {
-      return this.toast.error('Complete todos los campos del formulario', 'CAMPOS INCOMPLETOS');
-    }
+  //   if (idPersona === '' || name === '' || lastName === '' || phone === '' || docNumber === '' || address === '') {
+  //     return this.toast.error('Complete todos los campos del formulario', 'CAMPOS INCOMPLETOS');
+  //   }
 
-    if (checkNumberDoc === false) {
-      return this.toast.error('El tipo de documento no coincide con el numero de documento. ' +
-          'Verifique la cantidad de dígitos. DNI = 8, RUC = 11', 'NUMERO DOC INVALIDO');
-    }
+  //   if (checkNumberDoc === false) {
+  //     return this.toast.error('El tipo de documento no coincide con el numero de documento. ' +
+  //         'Verifique la cantidad de dígitos. DNI = 8, RUC = 11', 'NUMERO DOC INVALIDO');
+  //   }
 
-    this.editing = false;
+  //   this.editing = false;
 
-    this.peopleService.updatePerson(this.supplierForm.value).subscribe(
-        person => {
-          if (person['original']['code'] === 200 && person['original']['status']  === true) {
-            this.toast.success('Se ACTUALIZARON correctamente los datos', 'DATOS ACTUALIZADOS');
-            this.getSuppliers();
-            this.clearForm();
-            $('#editSupplier').modal('hide');
-            this.editing = true;
-          } else {
-            this.editing = true;
-            return this.toast.error('No se enviaron los datos al servidor, intentelo mas tarde', 'ERROR EDITANDO');
-          }
-        },
-        error => {
-          return this.toast.error('No se enviaron los datos al servidor. Intentelo nuevamente mas tarde', 'ERROR EDITANDO');
-        }
-    );
-  }
+  //   this.peopleService.updatePerson(this.supplierForm.value).subscribe(
+  //       person => {
+  //         if (person['original']['code'] === 200 && person['original']['status']  === true) {
+  //           this.toast.success('Se ACTUALIZARON correctamente los datos', 'DATOS ACTUALIZADOS');
+  //           this.getSuppliers();
+  //           this.clearForm();
+  //           $('#editSupplier').modal('hide');
+  //           this.editing = true;
+  //         } else {
+  //           this.editing = true;
+  //           return this.toast.error('No se enviaron los datos al servidor, intentelo mas tarde', 'ERROR EDITANDO');
+  //         }
+  //       },
+  //       error => {
+  //         return this.toast.error('No se enviaron los datos al servidor. Intentelo nuevamente mas tarde', 'ERROR EDITANDO');
+  //       }
+  //   );
+  // }
 
   createSupplier() {
     const typeDocument = document.getElementById('typeDocument')['value'];
