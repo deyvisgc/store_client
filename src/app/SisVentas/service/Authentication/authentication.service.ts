@@ -10,10 +10,9 @@ import { Subject } from 'rxjs';
 export class AuthenticationService {
   private sidebar = new Subject<[]>();
   sidebarObs$ = this.sidebar.asObservable();
-  head = new HttpHeaders();
-  header = this.head.append(
-    'Content-Type', 'application/json',
-  );
+  httpHeaders = new HttpHeaders()
+  .append('Content-Type', 'application/json')
+  .append('Authorization',  'Bearer' + ' ' + localStorage.getItem('token'));
 
   constructor(
       private httpClient: HttpClient,
@@ -49,21 +48,12 @@ export class AuthenticationService {
     return decrypted.toString(CryptoJS.enc.Utf8);
   }
   public loginUser(userName, password) {
-    return this.httpClient.post(this.url.urlAddress + 'LoginUser', {userName, password}, {headers: this.header}).toPromise();
+    return this.httpClient.post(this.url.urlAddress + 'LoginUser', {userName, password}, {headers: this.httpHeaders}).toPromise();
   }
   Logout() {
-    // tslint:disable-next-line:variable-name
-    const api_token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const idUsuario = localStorage.getItem('idUsuario');
-    return this.httpClient.post(this.url.urlAddress + 'LogoutUser', { api_token, idUsuario }).toPromise();
-  }
-  headersfuncion() {
-    const headerxauth = {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-        .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('token'))
-    };
-    return headerxauth;
+    return this.httpClient.post(this.url.urlAddress + 'LogoutUser', {idUsuario, token}, {headers: this.httpHeaders}).toPromise();
   }
   isLoggedInUser(): boolean {
     const authToken = localStorage.getItem('token');

@@ -14,13 +14,13 @@ import { ClaseComponent } from './clase/clase.component';
 import { FieldErrorDisplayComponentComponent } from './messageerror/field-error-display-component/field-error-display-component.component';
 import { LoteComponent } from './lote/lote.component';
 import { UnidadmedidaComponent } from './unidadmedida/unidadmedida.component';
-import { ReloadComponent } from './reload/reload.component';
 import { SearchComponent } from '../componenteshijos/search/search.component';
 import { FormproductoComponent } from '../componenteshijos/formproducto/formproducto.component';
+import { SharedModule } from '../shared-modulos/shared/shared.module';
 
 @NgModule({
   declarations: [ProductoComponent, ClaseComponent, FieldErrorDisplayComponentComponent, LoteComponent,
-                 UnidadmedidaComponent, ReloadComponent, SearchComponent, FormproductoComponent
+                 UnidadmedidaComponent, SearchComponent, FormproductoComponent
                 ],
   exports: [FieldErrorDisplayComponentComponent],
   imports: [
@@ -33,7 +33,8 @@ import { FormproductoComponent } from '../componenteshijos/formproducto/formprod
     CKEditorModule,
     CustomFormsModule,
     NgxPrintModule,
-    NgxIziToastModule
+    NgxIziToastModule,
+    SharedModule
   ]
 })
 export class AlmacenModule { }

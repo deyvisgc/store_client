@@ -3,7 +3,6 @@ import { UserService } from '../../service/Administracion/user/user.service';
 import { AuthenticationService } from '../../service/Authentication/authentication.service';
 declare const sendRespuesta: any;
 import iziToast from 'izitoast';
-import { ReloadformComponent } from '../../reload/reloadform/reloadform.component';
 import { PeopleService } from '../../service/Administracion/people/people.service';
 declare const $: any;
 @Component({
@@ -13,7 +12,6 @@ declare const $: any;
 })
 export class PerfilComponent implements OnInit {
   constructor(private userSer: UserService, private authser: AuthenticationService, private perSer: PeopleService) { }
-  @ViewChild('isloadingRecuperarPassowrd', {static: true}) isloadingRecuperarPassowrd;
   SecretRol = 'K56QSxGeKImwBRmiY';
   keyword = 'us_usuario';
   users = [];
@@ -390,7 +388,6 @@ export class PerfilComponent implements OnInit {
     const vm = this;
     const status = vm.validarRecuperarPassword();
     if (status) {
-      // vm.isloadingRecuperarPassowrd.showReload();
       vm.btnisLoading = true;
       vm.userSer.RecuperarPassword(vm.recuperarPassword).then( res => {
         const rpta = sendRespuesta(res);
@@ -412,7 +409,6 @@ export class PerfilComponent implements OnInit {
       }).catch((err) => {
         console.log('Error', err);
       }).finally(() => {
-        // vm.isloadingRecuperarPassowrd.closeReload();
         this.getPerfil();
         vm.btnisLoading = false;
       });

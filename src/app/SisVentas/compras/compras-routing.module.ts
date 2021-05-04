@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { IndexComponent } from './index/index.component';
 import { InventarioComponent } from './reportes/inventario/inventario.component';
 import { ReportesComponent } from './reportes/reportes.component';
-import { SangriaComponent } from './reportes/sangria/sangria.component';
 
 
 const routes: Routes = [
@@ -18,10 +17,6 @@ const routes: Routes = [
    {
     path: 'Reportes/Inventario',
     component : InventarioComponent
-   },
-   {
-    path: 'Reportes/Sangria',
-    component : SangriaComponent
    }
 ];
 @NgModule({

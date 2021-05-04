@@ -30,7 +30,7 @@ import { ReloadFiltrosComponent } from './reload-filtros/reload-filtros.componen
                 ],
   exports: [
     SelectproductoComponent, SearchComponent , FormproductoComponent, ProvedorselectComponent, ListCreditoComponent,
-    ListProductosMasCompradosComponent, ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent, 
+    ListProductosMasCompradosComponent, ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent,
     ComprasCreditoComponent, CargardoComponentComponent, ReloadFiltrosComponent
   ],
   imports: [

@@ -60,10 +60,21 @@ const routes: Routes = [
         loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule)
     },
     {
+        path: 'Administracion',
+        loadChildren: () => import('./SisVentas/administracion/administracion.module').then(m => m.AdministracionModule),
+        canActivate: [CheckloginGuard],
+        data: {role: ['vendedor', 'Administrador']}
+    },
+    {
         path: 'Almacen',
         loadChildren: () => import('./SisVentas/almacen/almacen.module').then(m => m.AlmacenModule),
         canActivate: [CheckloginGuard],
         data: {role: ['vendedor', 'Administrador']},
+    },
+    {
+        path: 'Caja',
+        loadChildren: () => import('./SisVentas/caja/caja.module').then(m => m.CajaModule),
+        canActivate: [CheckloginGuard]
     },
     {
         path: 'Compras',
@@ -72,13 +83,8 @@ const routes: Routes = [
         data: {role: ['vendedor', 'Administrador']}
     },
     {
-        path: 'Caja',
-        loadChildren: () => import('./SisVentas/caja/caja.module').then(m => m.CajaModule),
-        canActivate: [CheckloginGuard]
-    },
-    {
-        path: 'Administracion',
-        loadChildren: () => import('./SisVentas/administracion/administracion.module').then(m => m.AdministracionModule),
+        path: 'Sangria',
+        loadChildren: () => import('./SisVentas/sangria/sangria.module').then(m => m.SangriaModule),
         canActivate: [CheckloginGuard],
         data: {role: ['vendedor', 'Administrador']}
     },

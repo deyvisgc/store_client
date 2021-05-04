@@ -20,17 +20,14 @@ import { ComprasCreditoComponent } from '../componenteshijos/compras-credito/com
 import { CargardoComponentComponent } from '../componenteshijos/cargardo-component/cargardo-component.component';
 import { InventarioComponent } from './reportes/inventario/inventario.component';
 import { ReloadFiltrosComponent } from '../componenteshijos/reload-filtros/reload-filtros.component';
-import { SangriaComponent } from './reportes/sangria/sangria.component';
-import { IngresosComponent } from './reportes/sangria/ingresos/ingresos.component';
-import { EgresosComponent } from './reportes/sangria/egresos/egresos.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
-  declarations: [IndexComponent, SelectproductoComponent, ProvedorselectComponent, ReportesComponent, ListCreditoComponent, 
+  declarations: [IndexComponent, SelectproductoComponent, ProvedorselectComponent, ReportesComponent, ListCreditoComponent,
                  ListProductosMasCompradosComponent , ListProductosMasCompradosComponent,
                  ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent,
                  ComprasCreditoComponent, CargardoComponentComponent, InventarioComponent,
-                 ReloadFiltrosComponent, SangriaComponent, IngresosComponent, EgresosComponent
+                 ReloadFiltrosComponent
                 ],
   imports: [
     CommonModule,

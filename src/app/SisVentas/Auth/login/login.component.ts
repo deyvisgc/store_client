@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
           position: 'topRight',
           message: 'Exito al iniciar session',
         });
-        window.location.replace('#/Compras/Index');
+        window.location.replace('#/Administracion/Perfil');
         return false;
       } else {
         iziToast.error({
