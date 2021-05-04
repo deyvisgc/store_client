@@ -136,7 +136,7 @@ export class PermisosComponent implements OnInit {
       console.log(err);
     }).finally(() => {
       vm.isloading.closeReload();
-      vm.btnisLoading = true;
+      vm.btnisLoading = false;
       $('#modalPermisos').modal('hide');
       vm.getPermisos();
     });

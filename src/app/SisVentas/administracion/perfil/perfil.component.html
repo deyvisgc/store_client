@@ -104,7 +104,7 @@
                     </div>
                 </div>
                </div>
-               <div class="row clearfix">
+               <div *ngIf="credenciales.idRol == 1" class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card project_widget">
                         <div class="body">
@@ -113,44 +113,52 @@
                                 <div class="col-md-5 col-6 b-r">
                                     <div class="ng-autocomplete">
                                         <ng-autocomplete
-                                          [data]="countries"
+                                          [data]="users"
                                           [searchKeyword]="keyword"
-                                          placeholder="Enter the Country Name"
+                                          placeholder="Buscar usuarios"
                                           (selected)='selectEvent($event)'
                                           (inputChanged)='onChangeSearch($event)'
+                                          historyIdentifier="users"
                                           (inputFocused)='onFocused($event)'
-                                          historyIdentifier="countries"
                                           [itemTemplate]="itemTemplate"
+                                          id="searchusers"
                                           [notFoundTemplate]="notFoundTemplate">
                                         </ng-autocomplete>
                                       
                                         <ng-template #itemTemplate let-item>
-                                          <a [innerHTML]="item.name"></a>
+                                          <a [innerHTML]="item.us_usuario"></a>
                                         </ng-template>
                                       
                                         <ng-template #notFoundTemplate let-notFound>
                                           <div [innerHTML]="notFound"></div>
                                         </ng-template>
+                                        <div _ngcontent-skw-c7="" *ngIf="errors.errorUsers" class="badge col-red" style="margin-left: 0px !important;">{{errors.errorUsers}}</div>       
                                       </div>
-                                    <!-- <div class="input-group">
-                                        <div class="left-inner-addon input-container">
-                                            <i _ngcontent-ehl-c7="" style="margin-left: 5px;" class="fas fa-search"></i>
-                                            <input type="text" style="width: 90% !important;" (keyup)="buscarUsuario($event)" placeholder="BUSCAR POR USUARIO" class="form-control">
-                                          </div>
-                                    </div> -->
                                 </div>
                                 <div class="col-md-5 col-6 b-r">
                                     <div class="input-group">
                                         <div class="right-inner-addon input-container">
                                             <i _ngcontent-ehl-c7="" class="fas fa-key"></i>
-                                              <input type="text" style="width: 90%;" id="password" placeholder="NUEVA CONTRASEÑA"  class="form-control" >
+                                              <input type="text" style="width: 90%;" id="passwordNuevo" [(ngModel)]="recuperarPassword.nuevaPassword" placeholder="NUEVA CONTRASEÑA"  class="form-control" >
+                                              <div _ngcontent-skw-c7="" *ngIf="errors.errorPassowrdNueva" class="badge col-red" style="margin-left: 5% !important;">{{errors.errorPassowrdNueva}}</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-6 b-r">
-                                  <button title="ver Contraseña" _ngcontent-hsv-c6="" class="btn bg-teal waves-effect" type="button">
-                                    <i _ngcontent-ehl-c7="" class="fas fa-save"></i>
-                                    </button>
+                                  <button title="Recuperar Contraseña" _ngcontent-hsv-c6="" [disabled]="btnisLoading" (click)="recuperarPass()" class="btn bg-teal waves-effect" type="button">
+                                    <i _ngcontent-ehl-c7=""  *ngIf="!btnisLoading" class="fas fa-save"></i>
+                                    <div *ngIf="btnisLoading" _ngcontent-yja-c6="" class="preloader pl-size-xs">
+                                      <div _ngcontent-yja-c6="" class="spinner-layer pl-red-grey">
+                                        <div _ngcontent-yja-c6="" class="circle-clipper left">
+                                          <div _ngcontent-yja-c6="" class="circle"></div>
+                                          </div>
+                                        <div _ngcontent-yja-c6="" class="circle-clipper right">
+                                          <div _ngcontent-yja-c6="" class="circle"></div>
+                                        </div>
+                                      </div>
+                                  </div>
+                                    <!-- <app-reloadform #isloadingRecuperarPassowrd></app-reloadform> -->
+                                  </button>
                               </div>
                             </div>
                         </div>
@@ -181,7 +189,7 @@
                                     <div class="form-line">
                                         <label>Actual</label>
                                         <input type="text" id="actual" [(ngModel)]="updatePassword.passwordActual"  style="margin-left: 10px;" class="form-control" placeholder="">
-                                        <div _ngcontent-skw-c7="" *ngIf="errorActual" class="badge col-red">{{errorActual}}</div>
+                                        <div _ngcontent-skw-c7="" *ngIf="errors.errorPasswordActual" class="badge col-red">{{errors.errorPasswordActual}}</div>
                                     </div>
                                 </div>
                               </div>
@@ -190,7 +198,7 @@
                                     <div class="form-line">
                                         <label>Nueva</label>
                                         <input type="text" id="nueva" [(ngModel)]="updatePassword.passwordNueva"  style="margin-left: 10px;" class="form-control" placeholder="">
-                                        <div _ngcontent-skw-c7="" *ngIf="errorNueva" class="badge col-red">{{errorNueva}}</div>
+                                        <div _ngcontent-skw-c7="" *ngIf="errors.errorPassowordNueva" class="badge col-red">{{errors.errorPassowordNueva}}</div>
                                     </div>
                                 </div>
                               </div>
@@ -199,7 +207,7 @@
                                     <div class="form-line">
                                         <label>Vuelve a escribir la contraseña nueva</label>
                                         <input type="text" id="repet" [(ngModel)]="updatePassword.passwordRepet"  style="margin-left: 50px;" class="form-control" placeholder="">
-                                        <div _ngcontent-skw-c7="" *ngIf="errorRepet" class="badge col-red">{{errorRepet}}</div>
+                                        <div _ngcontent-skw-c7="" *ngIf="errors.errorPasswordRepet" class="badge col-red">{{errors.errorPasswordRepet}}</div>
                                     </div>
                                 </div>
                               </div>
@@ -230,7 +238,7 @@
                                     <div class="form-line">
                                         <label>Usuario</label>
                                         <input type="text" id="usuario" [(ngModel)]="credenciales.usuario"  style="margin-left: 10px;" class="form-control" placeholder="">
-                                        <div _ngcontent-skw-c7="" style="margin-left: 60px !important;" *ngIf="errorUers" class="badge col-red">{{errorUers}}</div>
+                                        <div _ngcontent-skw-c7="" style="margin-left: 60px !important;" *ngIf="errors.errorUsers" class="badge col-red">{{errors.errorUsers}}</div>
                                     </div>
                                 </div>
                               </div>

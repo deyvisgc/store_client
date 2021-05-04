@@ -13,22 +13,20 @@ declare const $: any;
 })
 export class PerfilComponent implements OnInit {
   constructor(private userSer: UserService, private authser: AuthenticationService, private perSer: PeopleService) { }
+  @ViewChild('isloadingRecuperarPassowrd', {static: true}) isloadingRecuperarPassowrd;
   SecretRol = 'K56QSxGeKImwBRmiY';
-  keyword = 'name';
-  countries = [];
+  keyword = 'us_usuario';
+  users = [];
   rolNameStorage = localStorage.getItem('rol_name');
   rolName = '';
   Password = 1;
   isLoading = false;
-  errorActual = '';
-  errorNueva = '';
-  errorRepet = '';
-  errorUers = '';
+  btnisLoading = false;
   errors = {
-    errorActual: '',
-    errorNueva: '',
-    errorRepet: '',
-    errorUers: '',
+    errorPasswordActual: '',
+    errorPassowordNueva: '',
+    errorPasswordRepet: '',
+    errorUsers: '',
     errorNombre: '',
     errorApellidos: '',
     errorDni: '',
@@ -51,6 +49,7 @@ export class PerfilComponent implements OnInit {
     usuario: '',
     Password: '',
     rol: '',
+    idRol: 0,
     idUsuario: ''
   };
   updatePassword = {
@@ -58,6 +57,10 @@ export class PerfilComponent implements OnInit {
     passwordNueva: '',
     passwordRepet: '',
     us_usuario: localStorage.getItem('usuario')
+  };
+  recuperarPassword = {
+    idUsuario: 0,
+    nuevaPassword: ''
   };
   title = '';
   idUsuario = localStorage.getItem('idUsuario');
@@ -85,6 +88,7 @@ export class PerfilComponent implements OnInit {
         vm.person.address = rpta.data[0].per_direccion;
         vm.credenciales.usuario =  rpta.data[0].us_usuario;
         vm.credenciales.rol =  vm.rolName;
+        vm.credenciales.idRol = rpta.data[0].id_rol;
         vm.credenciales.Password = rpta.data[0].us_passwor_view;
         localStorage.setItem('passwordview', rpta.data[0].us_passwor_view);
         const alias = vm.person.name.concat(' ').concat(vm.person.lastName);
@@ -153,7 +157,7 @@ export class PerfilComponent implements OnInit {
         }
         if (rpta.status === 2) {
           document.getElementById('actual').style.borderColor = 'red';
-          vm.errorActual = rpta.message;
+          vm.errors.errorPasswordActual = rpta.message;
         }
         if (rpta.status === 3) {
           iziToast.error({
@@ -173,11 +177,11 @@ export class PerfilComponent implements OnInit {
     const vm = this;
     if (!vm.credenciales.usuario) {
       document.getElementById('usuario').style.borderColor = 'red';
-      vm.errorUers = 'Usuario requerido';
+      vm.errors.errorUsers = 'Usuario requerido';
       return false;
     } else {
       document.getElementById('usuario').style.borderColor = '#48c78e';
-      vm.errorUers = '';
+      vm.errors.errorUsers = '';
     }
     vm.isLoading = true;
     vm.credenciales.idUsuario = vm.idUsuario;
@@ -185,7 +189,7 @@ export class PerfilComponent implements OnInit {
       const rpta = sendRespuesta(res);
       if (rpta.status === 1) {
         document.getElementById('usuario').style.borderColor = 'red';
-        vm.errorUers = rpta.message;
+        vm.errors.errorUsers = rpta.message;
         return false;
       }
       if (rpta.status === 2) {
@@ -247,45 +251,45 @@ export class PerfilComponent implements OnInit {
     const vm = this;
     if (!this.updatePassword.passwordActual) {
       document.getElementById('actual').style.borderColor = 'red';
-      vm.errorActual = 'Contraseña actual es requerida';
+      vm.errors.errorPasswordActual = 'Contraseña actual es requerida';
       return false;
     } else {
-      vm.errorActual = '';
+      vm.errors.errorPasswordActual = '';
       document.getElementById('actual').style.borderColor = '#48c78e';
     }
     if (!this.updatePassword.passwordNueva) {
       document.getElementById('nueva').style.borderColor = 'red';
-      vm.errorNueva = 'Contraseña Nueva es requerida';
+      vm.errors.errorPassowordNueva = 'Contraseña Nueva es requerida';
       return false;
     } else {
-      vm.errorNueva = '';
+      vm.errors.errorPassowordNueva = '';
       document.getElementById('nueva').style.borderColor = '#48c78e';
     }
     if (this.updatePassword.passwordNueva.length < 8) {
       document.getElementById('nueva').style.borderColor = 'red';
-      vm.errorNueva = 'Contraseña Nueva debe tener como minimo 9 caracteres';
+      vm.errors.errorPassowordNueva = 'Contraseña Nueva debe tener como minimo 9 caracteres';
       return false;
     } else {
-      vm.errorNueva = '';
+      vm.errors.errorPassowordNueva = '';
       document.getElementById('nueva').style.borderColor = '#48c78e';
     }
     if (!this.updatePassword.passwordRepet) {
       document.getElementById('repet').style.borderColor = 'red';
-      vm.errorRepet = 'Contraseña Repetida  es requerida';
+      vm.errors.errorPasswordRepet = 'Contraseña Repetida  es requerida';
       return false;
     } else {
-      vm.errorRepet = '';
+      vm.errors.errorPasswordRepet = '';
       document.getElementById('repet').style.borderColor = '#48c78e';
     }
     if (this.updatePassword.passwordNueva !== this.updatePassword.passwordRepet) {
       document.getElementById('nueva').style.borderColor = 'red';
       document.getElementById('repet').style.borderColor = 'red';
-      vm.errorRepet = 'La contraseña nueva y  repetida son diferentes';
-      vm.errorNueva = 'La contraseña nueva y  repetida son diferentes';
+      vm.errors.errorPasswordRepet = 'La contraseña nueva y  repetida son diferentes';
+      vm.errors.errorPassowordNueva = 'La contraseña nueva y  repetida son diferentes';
       return false;
     } else {
-      vm.errorRepet = '';
-      vm.errorNueva = '';
+      vm.errors.errorPasswordRepet = '';
+      vm.errors.errorPassowordNueva = '';
       document.getElementById('nueva').style.borderColor = '#48c78e';
       document.getElementById('repet').style.borderColor = '#48c78e';
     }
@@ -345,11 +349,11 @@ export class PerfilComponent implements OnInit {
     const vm = this;
     $('body').on('hidden.bs.modal', '.modal', () => {
       if (vm.Password === 1) {
-        vm.errorActual = '';
+        vm.errors.errorPasswordActual = '';
         document.getElementById('actual').style.borderColor = '#48c78e';
-        vm.errorNueva = '';
+        vm.errors.errorPassowordNueva = '';
         document.getElementById('nueva').style.borderColor = '#48c78e';
-        vm.errorRepet = '';
+        vm.errors.errorPasswordRepet = '';
         document.getElementById('repet').style.borderColor = '#48c78e';
         vm.updatePassword = {
           passwordActual: '',
@@ -360,15 +364,78 @@ export class PerfilComponent implements OnInit {
       }
       if (vm.Password === 2) {
         document.getElementById('usuario').style.borderColor = '#48c78e';
-        vm.errorUers = '';
+        vm.errors.errorUsers = '';
       }
     });
   }
-    selectEvent(item) {
-    // do something with selected item
+  selectEvent(item) {
+    const vm = this;
+    vm.recuperarPassword.idUsuario = item.id_user;
+    vm.errors.errorUsers = '';
+    document.getElementById('searchusers').style.borderColor = '#48c78e';
   }
-
   onChangeSearch(search: string) {
-     
+    const vm = this;
+    if (search.length >= 4) {
+      vm.userSer.searchUsuario(search).subscribe( res => {
+        const rpta = sendRespuesta(res);
+        vm.users = rpta.data;
+      });
+    }
+  }
+  onFocused(e) {
+    this.users = [];
+  }
+  recuperarPass() {
+    const vm = this;
+    const status = vm.validarRecuperarPassword();
+    if (status) {
+      // vm.isloadingRecuperarPassowrd.showReload();
+      vm.btnisLoading = true;
+      vm.userSer.RecuperarPassword(vm.recuperarPassword).then( res => {
+        const rpta = sendRespuesta(res);
+        if (rpta.status) {
+          iziToast.success({
+            title: 'OK',
+            position: 'topRight',
+            message: rpta.message,
+          });
+          vm.recuperarPassword.idUsuario = 0;
+          vm.recuperarPassword.nuevaPassword = '';
+        } else {
+          iziToast.error({
+            title: 'Error',
+            position: 'topRight',
+            message: rpta.message,
+          });
+        }
+      }).catch((err) => {
+        console.log('Error', err);
+      }).finally(() => {
+        // vm.isloadingRecuperarPassowrd.closeReload();
+        this.getPerfil();
+        vm.btnisLoading = false;
+      });
+    }
+  }
+  validarRecuperarPassword() {
+    const vm = this;
+    if (vm.recuperarPassword.idUsuario === 0) {
+      document.getElementById('searchusers').style.borderColor = 'red';
+      vm.errors.errorUsers = 'Usuario requerido';
+      return false;
+    } else {
+      vm.errors.errorUsers = '';
+      document.getElementById('searchusers').style.borderColor = '#48c78e';
+    }
+    if (!vm.recuperarPassword.nuevaPassword) {
+      document.getElementById('passwordNuevo').style.borderColor = 'red';
+      vm.errors.errorPassowordNueva = 'Nueva contraseña requerida';
+      return false;
+    } else {
+      vm.errors.errorPassowordNueva = '';
+      document.getElementById('passwordNuevo').style.borderColor = '#48c78e';
+    }
+    return true;
   }
 }

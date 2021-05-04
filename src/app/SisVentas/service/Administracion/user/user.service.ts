@@ -39,4 +39,10 @@ export class UserService {
   updateUsuario(usuario: any) {
     return this.client.put(this.url.urlAddress + 'ChangeUsuario', {usuario} , {headers: this.httpHeaders}).toPromise();
   }
+  searchUsuario(params) {
+    return this.client.post(this.url.urlAddress + 'SearchUsuario', {params}, {headers: this.httpHeaders});
+  }
+  RecuperarPassword(params) {
+    return this.client.put(this.url.urlAddress + 'RecuperarPassword', {params} , {headers: this.httpHeaders}).toPromise();
+  }
 }

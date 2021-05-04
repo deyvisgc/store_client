@@ -11,7 +11,6 @@ export class ReloadformComponent implements OnInit {
   constructor() { }
   statusReaload: boolean;
   ngOnInit() {
-    alert(this.statusReload);
   }
 
   showReload() {
