@@ -9,14 +9,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProveedorComponent } from './proveedor/proveedor.component';
 import { PermisosComponent } from './permisos/permisos.component';
 import { PerfilComponent } from './perfil/perfil.component';
-import { HighlightDirective } from '../directives/highlight.directive';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { SharedModule } from '../shared-modulos/shared/shared.module';
 
 
 @NgModule({
   declarations: [PrivilegioComponent, RolComponent, UsuarioComponent, ProveedorComponent,
-                 PermisosComponent, PerfilComponent, HighlightDirective],
+                 PermisosComponent, PerfilComponent],
     imports: [
         CommonModule,
         AdministracionRoutingModule,

@@ -11,27 +11,19 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 // tslint:disable-next-line:max-line-length
 import { FieldErrorDisplayComponentComponent } from '../almacen/messageerror/field-error-display-component/field-error-display-component.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { ListCreditoComponent } from './list-credito/list-credito.component';
-import { ListProductosMasCompradosComponent } from './list-productos-mas-comprados/list-productos-mas-comprados.component';
 import { ComprasAnuladasComponent } from './compras-anuladas/compras-anuladas.component';
 import { ComprasVigentesComponent } from './compras-vigentes/compras-vigentes.component';
 import { ComprasContadoComponent } from './compras-contado/compras-contado.component';
 import { ComprasCreditoComponent } from './compras-credito/compras-credito.component';
-import { CargardoComponentComponent } from './cargardo-component/cargardo-component.component';
-import { ReloadFiltrosComponent } from './reload-filtros/reload-filtros.component';
-
-
 @NgModule({
   declarations: [SelectproductoComponent, SelectclientesComponent, ProvedorselectComponent, SearchComponent,
-                 FormproductoComponent, FieldErrorDisplayComponentComponent, ListCreditoComponent, ListProductosMasCompradosComponent,
-                 ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent, ComprasCreditoComponent,
-                 CargardoComponentComponent,
-                 ReloadFiltrosComponent
+                 FormproductoComponent, FieldErrorDisplayComponentComponent,
+                 ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent, ComprasCreditoComponent
                 ],
   exports: [
-    SelectproductoComponent, SearchComponent , FormproductoComponent, ProvedorselectComponent, ListCreditoComponent,
-    ListProductosMasCompradosComponent, ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent,
-    ComprasCreditoComponent, CargardoComponentComponent, ReloadFiltrosComponent
+    SelectproductoComponent, SearchComponent , FormproductoComponent, ProvedorselectComponent,
+      ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent,
+      ComprasCreditoComponent
   ],
   imports: [
     BrowserModule,

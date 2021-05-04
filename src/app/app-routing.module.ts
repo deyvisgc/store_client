@@ -89,6 +89,12 @@ const routes: Routes = [
         data: {role: ['vendedor', 'Administrador']}
     },
     {
+        path: 'Reportes',
+        loadChildren: () => import('./SisVentas/reportes/reportes.module').then(m => m.ReportesModule),
+        canActivate: [CheckloginGuard],
+        data: {role: ['vendedor', 'Administrador']}
+    },
+    {
         path: '',
         redirectTo: 'auth',
         pathMatch: 'full'

@@ -16,7 +16,6 @@ import { PageLoaderComponent } from './SisVentas/layout/page-loader/page-loader.
 import { SidebarComponent } from './SisVentas/layout/sidebar/sidebar.component';
 import { RightSidebarComponent } from './SisVentas/layout/right-sidebar/right-sidebar.component';
 import { PrivilegesService } from './SisVentas/service/Privileges/privileges.service';
-import { ReloadformComponent } from './SisVentas/reload/reloadform/reloadform.component';
 @NgModule({
   declarations: [
     AppComponent,

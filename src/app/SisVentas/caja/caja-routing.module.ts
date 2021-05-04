@@ -9,11 +9,11 @@ import { HistorialcajaComponent } from './historialcaja/historialcaja.component'
 
 const routes: Routes = [
   {
-    path: 'Administrar',
+    path: 'administracion',
     component : AdministracajaComponent
   },
   {
-    path: 'Historial',
+    path: 'historial',
     component : HistorialcajaComponent
   },
   {

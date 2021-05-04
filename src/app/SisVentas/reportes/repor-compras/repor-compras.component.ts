@@ -9,12 +9,11 @@ declare const $: any;
 declare const sendRespuesta: any;
 declare const flatpickr: any;
 @Component({
-  selector: 'app-reportes',
-  templateUrl: './reportes.component.html',
-  styleUrls: ['./reportes.component.css']
+  selector: 'app-repor-compras',
+  templateUrl: './repor-compras.component.html',
+  styleUrls: ['./repor-compras.component.css']
 })
-
-export class ReportesComponent implements OnInit {
+export class ReporComprasComponent implements OnInit {
   proveedor: any = [];
   fechahoy = moment().format('YYYY-MM-DD');
   cargandoInformacion = false;

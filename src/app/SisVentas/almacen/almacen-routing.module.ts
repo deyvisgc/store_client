@@ -8,19 +8,19 @@ import { UnidadmedidaComponent } from './unidadmedida/unidadmedida.component';
 
 const routes: Routes = [
   {
-    path: 'Producto',
+    path: 'productos',
     component: ProductoComponent
   },
   {
-    path: 'Clase',
+    path: 'categoria',
     component: ClaseComponent
   },
   {
-    path: 'Lote',
+    path: 'lote',
     component: LoteComponent
   },
   {
-    path: 'Unidad/Medida',
+    path: 'unidad-medida',
     component: UnidadmedidaComponent
   }
 ];

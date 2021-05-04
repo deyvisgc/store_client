@@ -10,23 +10,23 @@ import { PerfilComponent } from './perfil/perfil.component';
 
 const routes: Routes = [
   {
-    path: 'Privilegios',
+    path: 'privilegios',
     component: PrivilegioComponent
   },
   {
-    path: 'Permisos',
+    path: 'permisos',
     component: PermisosComponent
   },
   {
-    path: 'Usuarios',
+    path: 'usuarios',
     component: UsuarioComponent
   },
   {
-    path: 'Proveedores',
+    path: 'proveedores',
     component: ProveedorComponent
   },
   {
-    path: 'Perfil',
+    path: 'perfil',
     component: PerfilComponent
   }
 ];

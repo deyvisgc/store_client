@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CargardoComponentComponent } from './cargardo-component.component';
+import { CargandoModalComponent } from './cargando-modal.component';
 
-describe('CargardoComponentComponent', () => {
-  let component: CargardoComponentComponent;
-  let fixture: ComponentFixture<CargardoComponentComponent>;
+describe('CargandoModalComponent', () => {
+  let component: CargandoModalComponent;
+  let fixture: ComponentFixture<CargandoModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CargardoComponentComponent ]
+      declarations: [ CargandoModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CargardoComponentComponent);
+    fixture = TestBed.createComponent(CargandoModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
