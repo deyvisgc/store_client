@@ -1,0 +1,13 @@
+.form-group {
+  width: 100%;
+  margin-bottom: 15px !important;
+}
+.rol {
+  margin-top: 10px;
+ }
+.btn:not(.btn-link):not(.btn-circle) span {
+  top: 0px !important;
+}
+.swal2-confirm {
+  margin-left: 10px !important;
+}

@@ -172,49 +172,49 @@ export class PerfilComponent implements OnInit {
     }
   }
   ActualizarUsuario() {
-    const vm = this;
-    if (!vm.credenciales.usuario) {
-      document.getElementById('usuario').style.borderColor = 'red';
-      vm.errors.errorUsers = 'Usuario requerido';
-      return false;
-    } else {
-      document.getElementById('usuario').style.borderColor = '#48c78e';
-      vm.errors.errorUsers = '';
-    }
-    vm.isLoading = true;
-    vm.credenciales.idUsuario = vm.idUsuario;
-    vm.userSer.updateUsuario(vm.credenciales).then( res => {
-      const rpta = sendRespuesta(res);
-      if (rpta.status === 1) {
-        document.getElementById('usuario').style.borderColor = 'red';
-        vm.errors.errorUsers = rpta.message;
-        return false;
-      }
-      if (rpta.status === 2) {
-        iziToast.success({
-          title: 'OK',
-          position: 'topRight',
-          message: rpta.message,
-        });
-        $('#modalContraseña').modal('hide');
-        this.getPerfil();
-        return true;
-      }
-      if (rpta.status === 3) {
-        iziToast.error({
-          title: 'Error',
-          position: 'topRight',
-          message: rpta.message,
-        });
-        $('#modalContraseña').modal('hide');
-        this.getPerfil();
-        return true;
-      }
-    }).catch((err) => {
-      console.log('Error', err);
-    }).finally(() => {
-      vm.isLoading = false;
-    });
+    // const vm = this;
+    // if (!vm.credenciales.usuario) {
+    //   document.getElementById('usuario').style.borderColor = 'red';
+    //   vm.errors.errorUsers = 'Usuario requerido';
+    //   return false;
+    // } else {
+    //   document.getElementById('usuario').style.borderColor = '#48c78e';
+    //   vm.errors.errorUsers = '';
+    // }
+    // vm.isLoading = true;
+    // vm.credenciales.idUsuario = vm.idUsuario;
+    // vm.userSer.updateUsuario(vm.credenciales).then( res => {
+    //   const rpta = sendRespuesta(res);
+    //   if (rpta.status === 1) {
+    //     document.getElementById('usuario').style.borderColor = 'red';
+    //     vm.errors.errorUsers = rpta.message;
+    //     return false;
+    //   }
+    //   if (rpta.status === 2) {
+    //     iziToast.success({
+    //       title: 'OK',
+    //       position: 'topRight',
+    //       message: rpta.message,
+    //     });
+    //     $('#modalContraseña').modal('hide');
+    //     this.getPerfil();
+    //     return true;
+    //   }
+    //   if (rpta.status === 3) {
+    //     iziToast.error({
+    //       title: 'Error',
+    //       position: 'topRight',
+    //       message: rpta.message,
+    //     });
+    //     $('#modalContraseña').modal('hide');
+    //     this.getPerfil();
+    //     return true;
+    //   }
+    // }).catch((err) => {
+    //   console.log('Error', err);
+    // }).finally(() => {
+    //   vm.isLoading = false;
+    // });
   }
   ActualizarPersona() {
     const vm = this;

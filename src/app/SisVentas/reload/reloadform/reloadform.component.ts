@@ -7,8 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ReloadformComponent implements OnInit {
 
-  btnisLoading = false;
-  @Input() statusReload: boolean;
+  @Input() btnisLoading: boolean;
   constructor() { }
   statusReaload: boolean;
   ngOnInit() {

@@ -26,28 +26,9 @@
                         <h2>
                             <strong>Administrar Proveedores</strong>
                         </h2>
-                        <ul class="header-dropdown m-r--5">
-                            <li class="dropdown">
-                                <a href="#" onClick="return false;" class="dropdown-toggle" data-toggle="dropdown"
-                                   role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="#" onClick="return false;"></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" onClick="return false;"></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" onClick="return false;"></a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
                     </div>
                     <div class="body">
-                        <button class="btn btn-success waves-effect" data-toggle="modal" data-target="#createSupplier" type="button">
+                        <button class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalPerson" type="button">
                             <i class="material-icons">person_add</i>
                             <span>Registrar Proveedor</span>
                         </button>
@@ -69,39 +50,31 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
                                 <br><br>
+                                <app-reload style="margin: 150px;" *ngIf="isloadinglista" [isloading]="isloadinglista"  message="Cargando"></app-reload>
                                 <div class="table-responsive">
-                                    <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbSupplierEnabled" style="width: 100%;">
+                                    <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbPersonActive" style="width: 100%;">
                                         <thead>
                                         <tr>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Apellidos</th>
+                                            <th scope="col">Razon Social</th>
+                                            <th scope="col">Ruc</th>
                                             <th scope="col">Telefono</th>
-                                            <th scope="col">Numero Documento</th>
+                                            <th scope="col">Direccion</th>
                                             <th scope="col">Opciones</th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Apellidos</th>
-                                            <th scope="col">Telefono</th>
-                                            <th scope="col">Numero Documento</th>
-                                            <th scope="col">Opciones</th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
                                 <br><br>
                                 <div class="table-responsive">
-                                    <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbSupplierDisabled" style="width: 100%;">
+                                    <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbPersonDisabled" style="width: 100%;">
                                         <thead>
                                         <tr>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Apellidos</th>
+                                            <th scope="col">Razon Social</th>
+                                            <th scope="col">Ruc</th>
                                             <th scope="col">Telefono</th>
-                                            <th scope="col">Numero Documento</th>
+                                            <th scope="col">Direccion</th>
                                             <th scope="col">Opciones</th>
                                         </tr>
                                         </thead>
@@ -125,99 +98,59 @@
     </div>
 
     <!--## START MODAL EDIT SUPPLIER-->
-    <div class="modal fade" id="editSupplier" tabindex="-1" role="dialog"
-         aria-labelledby="editSupplierModal" aria-hidden="true">
+    <div class="modal fade" id="modalPerson" tabindex="-1" role="dialog" aria-labelledby="editSupplierModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content"  style="border-radius: 10px;">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editSupplierModal">Editar Datos Proveedor</h5>
+                    <h5 class="modal-title">{{title}}</h5>
                     <button type="button" class="close" data-dismiss="modal"
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form [formGroup]="supplierForm" (ngSubmit)="updateSupplier()">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <input type="hidden" formControlName="idPersona">
-                                <label for="enamePerson">Nombre</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="enamePerson" formControlName="name"  class="form-control"
-                                               placeholder="Escriba nombre del proveedor">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="elastName">Apellido</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="elastName" formControlName="lastName"  class="form-control"
-                                               placeholder="Escriba nombre del proveedor">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="edireccion">Dirección</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="edireccion" formControlName="address" class="form-control"
-                                               placeholder="Escriba la dirección">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="etelefono">Télefono/Celular</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="etelefono" formControlName="phone" maxlength="9" class="form-control"
-                                               placeholder="Escriba el número celular">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="etypeDocument">Tipo Documento</label>
-                                <div class="form-group default-select">
-                                    <select class="form-control select2" id="etypeDocument" formControlName="typeDocument" data-placeholder="Select">
-                                        <option value="DNI">DNI</option>
-                                        <option value="RUC">RUC</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="enumberDocument">Número Documento</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="enumberDocument" formControlName="docNumber"  class="form-control"
-                                               placeholder="Escriba el número de documento">
-                                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <input type="hidden">
+                            <label for="enamePerson">Razon Social *</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" id="enamePerson" [(ngModel)]="people.per_razon_social" class="form-control" placeholder="Razon social...">
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer" *ngIf="editing">
-                            <button type="submit" class="btn btn-info waves-effect">Editar</button>
-                            <button type="button" class="btn btn-danger waves-effect"
-                                    data-dismiss="modal">Cancelar</button>
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-lg-12 text-center" *ngIf="!editing">
-                            <br><br><br>
-                            <div _ngcontent-dju-c6="" class="preloader pl-gray">
-                                <div _ngcontent-dju-c6="" class="spinner-layer pl-green">
-                                    <div _ngcontent-dju-c6="" class="circle-clipper left">
-                                        <div _ngcontent-dju-c6="" class="circle">
-                                        </div>
-                                    </div>
-                                    <div _ngcontent-dju-c6="" class="circle-clipper right">
-                                        <div _ngcontent-dju-c6="" class="circle">
-                                        </div>
-                                    </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="elastName">Ruc *</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" onkeypress="return soloNumeros(event);"  maxlength="11" class="form-control" [(ngModel)]="people.numeroDocumento" placeholder="Ruc...">
                                 </div>
                             </div>
-                            <p><br></p>
-                            <p class="text-dark">Se esta editando los datos...</p>
                         </div>
-                    </form>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="elastName">Celular/Telefono *</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" onkeypress="return soloNumeros(event);"  maxlength="9" class="form-control" [(ngModel)]="people.telefono" placeholder="Telefono...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="edireccion">Dirección *</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <textarea [(ngModel)]="people.direccion" class="materialize-textarea" placeholder="Direccion......"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" >
+                        <button *ngIf="!btnAccion" type="button" class="btn btn-outline-success btn-lg btn-block waves-effect" (click)="createPerson()">
+                            <span *ngIf="!isLoading">Guardar</span>
+                            <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a Lista</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -225,7 +158,7 @@
     <!--## END MODAL EDIT SUPPLIER-->
 
     <!--## START MODAL CREATE SUPPLIER-->
-    <div class="modal fade" id="createSupplier" tabindex="-1" role="dialog"
+    <!-- <div class="modal fade" id="createSupplier" tabindex="-1" role="dialog"
          aria-labelledby="createSupplierModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -321,7 +254,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!--## END MODAL CREATE SUPPLIER-->
 
 </section>

@@ -1,0 +1,6 @@
+.btn:not(.btn-link):not(.btn-circle) span {
+  top: 0px !important;
+}
+.swal2-confirm {
+  margin-left: 10px !important;
+}

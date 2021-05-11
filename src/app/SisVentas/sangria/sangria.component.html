@@ -133,11 +133,9 @@
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active show" [ngClass]="{'active show': showTab === 1, '': showTab !== 1}" id="ingresos">
-                    <b>Historial ingresos</b>
                     <app-ingresos #ingresos (sendIngresoxid)="Editar($event)" (idSangria)="Anular($event)" ></app-ingresos>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" [ngClass]="{'active show': showTab === 2, '': showTab !== 2}" id="egresos">
-                    <b>Historial egresos</b>
                     <app-egresos #salida (sendIngresoxid)="Editar($event)" ></app-egresos>
                 </div>
             </div>

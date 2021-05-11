@@ -1,24 +1,5 @@
 <section class="content">
     <div class="container-fluid">
-        <div class="block-header">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <ul class="breadcrumb breadcrumb-style ">
-                        <li class="breadcrumb-item">
-                            <h4 class="page-title">Principal</h4>
-                        </li>
-                        <li class="breadcrumb-item bcrumb-1">
-                            <a routerLink="/dashboard/main">
-                                <i class="fas fa-home"></i> Administración</a>
-                        </li>
-                        <li class="breadcrumb-item bcrumb-2">
-                            <a href="#" onClick="return false;">Usuario</a>
-                        </li>
-                        <li class="breadcrumb-item active">Usuario</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
@@ -49,7 +30,7 @@
                     <div class="body">
                         <button class="btn btn-success waves-effect" data-toggle="modal" data-target="#createUserModal" type="button">
                             <i class="material-icons">person_add</i>
-                            <span>Registrar Usuario Empresa</span>
+                            <span>Registrar Usuario</span>
                         </button>
                         <br>
                         <!--#START# Rol list-->
@@ -75,20 +56,13 @@
                                         <tr>
                                             <th scope="col">Nombre</th>
                                             <th scope="col">Apellidos</th>
+                                            <th scope="col">Usuario</th>
+                                            <th scope="col">Rol</th>
                                             <th scope="col">Telefono</th>
                                             <th scope="col">Numero Documento</th>
                                             <th scope="col">Opciones</th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Apellidos</th>
-                                            <th scope="col">Telefono</th>
-                                            <th scope="col">Numero Documento</th>
-                                            <th scope="col">Opciones</th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -100,20 +74,13 @@
                                         <tr>
                                             <th scope="col">Nombre</th>
                                             <th scope="col">Apellidos</th>
+                                            <th scope="col">Usuario</th>
+                                            <th scope="col">Rol</th>
                                             <th scope="col">Telefono</th>
                                             <th scope="col">Numero Documento</th>
                                             <th scope="col">Opciones</th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Apellidos</th>
-                                            <th scope="col">Telefono</th>
-                                            <th scope="col">Numero Documento</th>
-                                            <th scope="col">Opciones</th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -124,304 +91,212 @@
         </div>
     </div>
 
-    <!--## START MODAL CREAR USUARIO-VENDEDOR-->
+    <!--## START MODAL CREAR -->
     <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog"
          aria-labelledby="createModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content"  style="border-radius: 10px;">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createModal">Registrar Usuario Interno</h5>
+                    <h5 class="modal-title" id="createModal">Registrar Usuario</h5>
                     <button type="button" class="close" data-dismiss="modal"
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form [formGroup]="createUserForm" (ngSubmit)="createUserPerson()">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <label for="userName">Usuario</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="userName" formControlName="nameUser"  class="form-control"
-                                               placeholder="Escriba nombre del rol">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="password">Password</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="password" id="password" formControlName="password"  class="form-control"
-                                               placeholder="Escriba nombre del rol">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12 center">
-                                <label for="idRols">Rol</label>
-                                <div class="form-group default-select">
-                                    <select class="form-control select2" id="idRols" formControlName="idRol" data-placeholder="Select">
-                                        <option *ngFor="let rol of rols" value="{{rol.id_rol}}">{{rol.rol_name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12">
-                                <h3 class="text-dark">Datos Personales</h3>
-                                <br>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="namePerson">Nombre</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="namePerson" formControlName="name"  class="form-control"
-                                               placeholder="Escriba nombre del rol">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="lastName">Apellido</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="lastName" formControlName="lastName"  class="form-control"
-                                               placeholder="Escriba nombre del rol">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="direccion">Dirección</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="direccion" formControlName="address" class="form-control"
-                                               placeholder="Escriba nombre la dirección">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="telefono">Telefono</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="telefono" formControlName="phone" maxlength="9" class="form-control"
-                                               placeholder="Escriba nombre del rol">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="typeDocument">Tipo Documento</label>
-                                <div class="form-group default-select">
-                                    <select class="form-control select2" id="typeDocument" formControlName="typeDocument" data-placeholder="Select">
-                                        <option value="DNI" >DNI</option>
-                                        <option value="RUC">RUC</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="numberDocument">Número Documento</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="numberDocument" formControlName="docNumber"  class="form-control"
-                                        placeholder="Escriba nombre del rol">
-                                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <h3 class="text-dark" style="font-size: 15px;">Credenciales</h3>
+                            <br>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="userName">Usuario</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" [(ngModel)]="create.nameUser" class="form-control" placeholder="Escriba su usuario">
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer" *ngIf="creating">
-                            <button type="submit" class="btn btn-info waves-effect">Registrar</button>
-                            <button type="button" class="btn btn-danger waves-effect"
-                                    data-dismiss="modal">Cancelar</button>
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-lg-12 text-center" *ngIf="!creating">
-                            <br><br><br>
-                            <div _ngcontent-dju-c6="" class="preloader pl-gray">
-                                <div _ngcontent-dju-c6="" class="spinner-layer pl-green">
-                                    <div _ngcontent-dju-c6="" class="circle-clipper left">
-                                        <div _ngcontent-dju-c6="" class="circle">
-                                        </div>
-                                    </div>
-                                    <div _ngcontent-dju-c6="" class="circle-clipper right">
-                                        <div _ngcontent-dju-c6="" class="circle">
-                                        </div>
-                                    </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="password">Password</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="password" [(ngModel)]="create.password" class="form-control" placeholder="Escriba su password">
                                 </div>
                             </div>
-                            <p><br></p>
-                            <p class="text-dark">Se esta registrando los datos...</p>
                         </div>
-                    </form>
+                        <div class="col-md-12 col-sm-12 center">
+                            <label for="idRols">Rol</label>
+                            <div class="form-group default-select">
+                                <select class="form-control select2" id="idRols" [(ngModel)]="create.idRol" data-placeholder="Seleccione rol">
+                                    <option *ngFor="let rol of rols" value="{{rol.id_rol}}">{{rol.rol_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <h3 class="text-dark" style="font-size: 15px;">Datos Personales</h3>
+                            <br>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="namePerson">Nombre</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" [(ngModel)]="create.name" class="form-control" placeholder="Escriba su nombre">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="lastName">Apellido</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" [(ngModel)]="create.lastName" class="form-control" placeholder="Escriba su apellido">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="direccion">Dirección</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" [(ngModel)]="create.address" class="form-control" placeholder="Escriba su dirección">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="telefono">Telefono</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text"  onkeypress="return soloNumeros(event);" [(ngModel)]="create.phone" maxlength="9" class="form-control" placeholder="Example: 928232123">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="typeDocument">Tipo Documento</label>
+                            <div class="form-group default-select">
+                                <select class="form-control" id="typeDocumentCreate" [(ngModel)]="create.typeDocument" data-placeholder="Select">
+                                    <option value="DNI" >DNI</option>
+                                    <option value="RUC">RUC</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="numberDocument">Número Documento</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" *ngIf="isTipoDoument == 'DNI'" onkeypress="return soloNumeros(event);"  maxlength="8" [(ngModel)]="create.docNumber"  class="form-control" placeholder="Escriba su numero documento">
+                                    <input type="text" *ngIf="isTipoDoument == 'RUC'"  onkeypress="return soloNumeros(event);" maxlength="11" [(ngModel)]="create.docNumber"  class="form-control" placeholder="Escriba su numero documento">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success btn-lg btn-block waves-effect" [disabled]="isbtnLoading" (click)="createUserPerson()">
+                           <span *ngIf="!isbtnLoading">Registrar</span>
+                           <app-reloadform #isloading></app-reloadform>
+                        </button>
+                       <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" [disabled]="isbtnLoading" data-dismiss="modal">Volver a Lista</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--## END MODAL CREAR USUARIO-->
-
-    <!--## START MODAL EDIT PERSON-->
-    <div class="modal fade" id="editPerson" tabindex="-1" role="dialog"
-         aria-labelledby="editpersonModal" aria-hidden="true">
+    <!--## END MODAL Actualizar-->
+     <div class="modal fade" id="ModalPersonandCredenciales" tabindex="-1" role="dialog"
+         aria-labelledby="ModalPersonandCredenciales" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editpersonModal">Editar Datos Persona</h5>
+                    <h5 class="modal-title">{{title}}</h5>
                     <button type="button" class="close" data-dismiss="modal"
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form [formGroup]="editPersonForm" (ngSubmit)="updatePersonById()">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <input type="hidden" formControlName="idPersona">
-                                <label for="enamePerson">Nombre</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="enamePerson" formControlName="name"  class="form-control"
-                                               placeholder="Escriba nombre del rol">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="elastName">Apellido</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="elastName" formControlName="lastName"  class="form-control"
-                                               placeholder="Escriba nombre del rol">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="edireccion">Dirección</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="edireccion" formControlName="address" class="form-control"
-                                               placeholder="Escriba nombre la dirección">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="etelefono">Telefono</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="etelefono" formControlName="phone" maxlength="9" class="form-control"
-                                               placeholder="Escriba nombre del rol">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="etypeDocument">Tipo Documento</label>
-                                <div class="form-group default-select">
-                                    <select class="form-control select2" id="etypeDocument" formControlName="typeDocument" data-placeholder="Select">
-                                        <option value="DNI">DNI</option>
-                                        <option value="RUC">RUC</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label for="enumberDocument">Número Documento</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="enumberDocument" formControlName="docNumber"  class="form-control"
-                                               placeholder="Escriba nombre del rol">
-                                    </div>
-                                </div>
+                <div class="modal-body" >
+                    <div class="row" id="personales">
+                    <div class="col-md-6 col-sm-6">
+                        <label for="namePerson">Nombre</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" [(ngModel)]="create.name" class="form-control" placeholder="Escriba su nombre">
                             </div>
                         </div>
-                        <div class="modal-footer" *ngIf="editing">
-                            <button type="submit" class="btn btn-info waves-effect">Editar</button>
-                            <button type="button" class="btn btn-danger waves-effect"
-                                    data-dismiss="modal">Cancelar</button>
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-lg-12 text-center" *ngIf="!editing">
-                            <br><br><br>
-                            <div _ngcontent-dju-c6="" class="preloader pl-gray">
-                                <div _ngcontent-dju-c6="" class="spinner-layer pl-green">
-                                    <div _ngcontent-dju-c6="" class="circle-clipper left">
-                                        <div _ngcontent-dju-c6="" class="circle">
-                                        </div>
-                                    </div>
-                                    <div _ngcontent-dju-c6="" class="circle-clipper right">
-                                        <div _ngcontent-dju-c6="" class="circle">
-                                        </div>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="lastName">Apellido</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" [(ngModel)]="create.lastName" class="form-control" placeholder="Escriba su apellido">
                             </div>
-                            <p><br></p>
-                            <p class="text-dark">Se esta editando los datos...</p>
                         </div>
-                    </form>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="direccion">Dirección</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" [(ngModel)]="create.address" class="form-control" placeholder="Escriba su dirección">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="telefono">Telefono</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text"  onkeypress="return soloNumeros(event);" [(ngModel)]="create.phone" maxlength="9" class="form-control" placeholder="Example: 928232123">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="typeDocumentEdit">Tipo Documento</label>
+                        <div class="form-group default-select">
+                            <select class="form-control" id="typeDocumentEdit" [(ngModel)]="create.typeDocument" data-placeholder="Select">
+                                <option value="DNI" >DNI</option>
+                                <option value="RUC">RUC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="numberDocument">Número Documento</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" *ngIf="isTipoDoument == 'DNI'" onkeypress="return soloNumeros(event);"  maxlength="8" [(ngModel)]="create.docNumber"  class="form-control" placeholder="Escriba su numero documento">
+                                <input type="text" *ngIf="isTipoDoument == 'RUC'"  onkeypress="return soloNumeros(event);" maxlength="11" [(ngModel)]="create.docNumber"  class="form-control" placeholder="Escriba su numero documento">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!--## END MODAL EDIT PERSON-->
-
-    <!--## START MODAL EDIT USER-->
-    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog"
-         aria-labelledby="editUser" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editUser">Editar Usuario Interno</h5>
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                <div class="modal-body" id="credenciales">
+                  <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <label for="namePerson">Usuario</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" [(ngModel)]="create.nameUser" class="form-control" placeholder="Escriba su nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="idRols">Rol</label>
+                        <div class="form-group default-select rol">
+                            <select class="form-control" id="rolupdate"  data-placeholder="Seleccione rol">
+                                <option *ngFor="let rol of rols" value="{{rol.id_rol}}">{{rol.rol_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnPerson" type="button" class="btn btn-outline-success btn-lg btn-block waves-effect" (click)="updatePerson()">
+                     <span *ngIf="!isbtnLoading">Actualizar</span>
+                     <app-reloadform #isloadingUpdatePerson></app-reloadform>
                     </button>
-                </div>
-                <div class="modal-body">
-                    <form [formGroup]="editUserForm" (ngSubmit)="updateUser()">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12">
-                                <label for="nameUser">Usuario</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="hidden" formControlName="idUser">
-                                        <input type="text" id="nameUser" formControlName="nameUser"  class="form-control"
-                                               placeholder="Escriba nombre del usuario">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 center">
-                                <label for="idRolUser">Rol</label>
-                                <div class="form-group default-select">
-                                    <select class="form-control select2" id="idRolUser" formControlName="idRol" data-placeholder="Select">
-                                        <option *ngFor="let rol of rols" value="{{rol.id_rol}}">{{rol.rol_name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 center">
-                                <label for="statusUser">Rol</label>
-                                <div class="form-group default-select">
-                                    <select class="form-control select2" id="statusUser" formControlName="statusUser" data-placeholder="Select">
-                                        <option value="ACTIVE">HABILITADO</option>
-                                        <option value="DISABLED">DESHABILITADO</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer" *ngIf="editingUser">
-                            <button type="submit" class="btn btn-info waves-effect">Editar</button>
-                            <button type="button" class="btn btn-danger waves-effect"
-                                    data-dismiss="modal">Cancelar</button>
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-lg-12 text-center" *ngIf="!editingUser">
-                            <br><br><br>
-                            <div _ngcontent-dju-c6="" class="preloader pl-gray">
-                                <div _ngcontent-dju-c6="" class="spinner-layer pl-green">
-                                    <div _ngcontent-dju-c6="" class="circle-clipper left">
-                                        <div _ngcontent-dju-c6="" class="circle">
-                                        </div>
-                                    </div>
-                                    <div _ngcontent-dju-c6="" class="circle-clipper right">
-                                        <div _ngcontent-dju-c6="" class="circle">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p><br></p>
-                            <p class="text-dark">Se esta editando los datos...</p>
-                        </div>
-                    </form>
+                    <button id="btnUsers" type="button" class="btn btn-outline-success btn-lg btn-block waves-effect" (click)="updateUsers()">
+                     <span *ngIf="!isbtnLoading">Actualizar</span>
+                     <app-reloadform #isloadingUpdateUsers></app-reloadform>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a Lista</button>
                 </div>
             </div>
         </div>
     </div>
-    <!--## END MODAL EDIT PERSON-->
 </section>

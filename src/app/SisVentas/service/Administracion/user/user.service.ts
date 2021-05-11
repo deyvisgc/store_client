@@ -15,29 +15,20 @@ export class UserService {
       private url: EnviromentService,
   ) { }
 
-  registerPeople(people) {
-    return this.client.post(
-        this.url.urlAddress + 'User',
-        {people},
-        {headers: this.httpHeaders},
-    );
+  registerUserAndPerson(people) {
+    return this.client.post( this.url.urlAddress + 'UserCreate', {people}, {headers: this.httpHeaders}).toPromise();
   }
-
+  getUsers() {
+    return this.client.get( this.url.urlAddress + 'User', {headers: this.httpHeaders}).toPromise();
+  }
   getUserInfo(idUsers: number) {
-    return this.client.get(this.url.urlAddress + 'UserPerson/' + idUsers, {headers: this.httpHeaders}).toPromise();
+    return this.client.get(this.url.urlAddress + 'getUserByIdPerson/' + idUsers, {headers: this.httpHeaders}).toPromise();
   }
   updateUser(user: any) {
-    return this.client.put(
-      this.url.urlAddress + 'User',
-        {user},
-        {headers: this.httpHeaders}
-    );
+    return this.client.put( this.url.urlAddress + 'ChangeUser', {user}, {headers: this.httpHeaders}).toPromise();
   }
   updatePassword(passwords: any) {
     return this.client.put(this.url.urlAddress + 'ChangePassword', {passwords} , {headers: this.httpHeaders}).toPromise();
-  }
-  updateUsuario(usuario: any) {
-    return this.client.put(this.url.urlAddress + 'ChangeUsuario', {usuario} , {headers: this.httpHeaders}).toPromise();
   }
   searchUsuario(params) {
     return this.client.post(this.url.urlAddress + 'SearchUsuario', {params}, {headers: this.httpHeaders});
@@ -45,4 +36,12 @@ export class UserService {
   RecuperarPassword(params) {
     return this.client.put(this.url.urlAddress + 'RecuperarPassword', {params} , {headers: this.httpHeaders}).toPromise();
   }
+  deleteUserandPeson(params) {
+    return this.client.post(this.url.urlAddress + 'DeleteUsersandPerson', {params}, {headers: this.httpHeaders}).toPromise();
+  }
+  changeStatusPersonUsers(params) {
+    return this.client.put( this.url.urlAddress + 'ChangeStatus', {params}, {headers: this.httpHeaders}
+    ).toPromise();
+  }
+
 }

@@ -14,46 +14,30 @@ export class PeopleService {
       private client: HttpClient,
       private url: EnviromentService
   ) { }
-
   getPeopleInfo() {
-    return this.client.get(
-        this.url.urlAddress + 'Person',
-        {headers: this.httpHeaders},
-    );
+    return this.client.get( this.url.urlAddress + 'obtener-person', {headers: this.httpHeaders}).toPromise();
   }
-
   getPersonById(idPerson: number) {
     return this.client.get(
         this.url.urlAddress + 'Person/' + idPerson,
         {headers: this.httpHeaders},
     );
   }
-
   updatePerson(person) {
     return this.client.put(this.url.urlAddress + 'Person', {person}, {headers: this.httpHeaders}).toPromise();
   }
-
   disabledPerson(idPerson: number) {
     return this.client.delete(
         this.url.urlAddress + 'Person/' + idPerson,
         {headers: this.httpHeaders}
     );
   }
-
-  changeStatusPerson(idPerson: number) {
+  createPerson(person: any) {
     return this.client.post(
-        this.url.urlAddress + 'PersonUser',
-        {idPerson},
-        {headers: this.httpHeaders}
-    );
-  }
-
-  createSupplierPerson(person: any) {
-    return this.client.post(
-      this.url.urlAddress + 'Person',
+      this.url.urlAddress + 'crear-person',
         {person},
         {headers: this.httpHeaders},
-    );
+    ).toPromise();
   }
 }
 
