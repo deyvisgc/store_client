@@ -19,18 +19,18 @@ export class PeopleService {
   }
   getPersonById(idPerson: number) {
     return this.client.get(
-        this.url.urlAddress + 'Person/' + idPerson,
+        this.url.urlAddress + 'obtener-personById/' + idPerson,
         {headers: this.httpHeaders},
-    );
+    ).toPromise();
   }
   updatePerson(person) {
-    return this.client.put(this.url.urlAddress + 'Person', {person}, {headers: this.httpHeaders}).toPromise();
+    return this.client.put(this.url.urlAddress + 'update-person', {person}, {headers: this.httpHeaders}).toPromise();
   }
-  disabledPerson(idPerson: number) {
-    return this.client.delete(
-        this.url.urlAddress + 'Person/' + idPerson,
-        {headers: this.httpHeaders}
-    );
+  changeStatusPerson(person) {
+    return this.client.put(this.url.urlAddress + 'update-status', {person}, {headers: this.httpHeaders}).toPromise();
+  }
+  deletePerson(idPerson: number) {
+    return this.client.post( this.url.urlAddress + 'delete-person', {idPerson}, {headers: this.httpHeaders}).toPromise();
   }
   createPerson(person: any) {
     return this.client.post(

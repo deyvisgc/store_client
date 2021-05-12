@@ -16,36 +16,38 @@ export class ProveedorComponent implements OnInit {
   personActive: any[] = [];
   personDisabled: any[] = [];
   people: People  = {
-    apellido: null,
-    nombre: null,
-    direccion: null,
-    numeroDocumento: null,
+    perfil: false,
+    lastName: null,
+    name: null,
+    address: null,
+    docNumber: null,
     per_razon_social: null,
-    telefono: null,
-    tipoDocumento: 'RUC',
+    phone: null,
+    typeDocument: 'RUC',
     idPerson: null,
-    typePeron: 'proveedor'
+    typePerson: 'proveedor'
   };
   isloadinglista: boolean;
   isLoading: boolean;
-  btnAccion = false;
+  btnAccion: boolean;
   constructor(private peopleService: PeopleService) {
   }
   ngOnInit() {
     this.getPerson();
     this.isLoading = false;
+    this.btnAccion = false;
+    this.closeModal();
   }
   getPerson() {
     const vm = this;
     vm.isloadinglista = true;
-    $('.tbPersonActive').hide();
-    $('.tbPersonDisabled').hide();
+    $('#tbPersonActive').hide();
+    $('#tbPersonDisabled').hide();
     vm.peopleService.getPeopleInfo().then(res => {
       const rpta = sendRespuesta(res);
       if (rpta.status) {
         vm.personActive = rpta.data.filter( per => per.per_tipo === 'proveedor' && per.per_status === 'active');
         vm.personDisabled =  rpta.data.filter( per => per.per_tipo === 'proveedor' && per.per_status === 'disabled');
-        console.log('perso', vm.personActive);
         vm.datatable('.tbPersonActive', vm.personActive);
         vm.datatable('.tbPersonDisabled', vm.personDisabled);
       }
@@ -53,67 +55,154 @@ export class ProveedorComponent implements OnInit {
       console.log('err', err);
     }).finally(() => {
       vm.isloadinglista = false;
-      $('.tbPersonActive').show();
-      $('.tbPersonDisabled').show();
+      $('#tbPersonActive').show();
+      $('#tbPersonDisabled').show();
     });
-    // this.peopleService.getPeopleInfo().subscribe(
-    //     (suppliers: any = []) => {
-    //       this.supplierActive = suppliers.filter(supplier => supplier.per_tipo === 'PROVEEDOR' && supplier.per_status === 'ACTIVE');
-    //       this.supplierDisabled = suppliers.filter(supplier => supplier.per_tipo === 'PROVEEDOR' && supplier.per_status === 'DISABLED');
-    //       this.datatable('.tbSupplierEnabled', this.supplierActive);
-    //       this.datatable('.tbSupplierDisabled', this.supplierDisabled);
-    //     },
-    //     error => {
-    //       return this.toast.error('No se pudo contactar con el servidor.' +
-    //           ' Intentelo nuevamente en 5 minutos', 'ERROR SERVIDOR');
-    //     }
-    // );
   }
-
-  getSupplierById(data: any) {
+  datatable(tabla, provee) {
+    $(tabla).DataTable({
+      // tslint:disable-next-line:object-literal-shorthand
+      data: provee,
+      columns: [
+        { data: 'per_razon_social'},
+        { data: 'per_numero_documento'},
+        { data: 'per_celular'},
+        { data: 'per_direccion'},
+        // tslint:disable-next-line:no-shadowed-variable
+        { data: (provee) => {
+          const iconreload     = '<div id="editReload" _ngcontent-yja-c6="" class="preloader pl-size-xs">' +
+                                 '<div _ngcontent-yja-c6="" style="border-color: white !important;" class="spinner-layer">' +
+                                 '<div _ngcontent-yja-c6="" class="circle-clipper left">' +
+                                 '<div _ngcontent-yja-c6="" class="circle"></div> </div>' +
+                                 '<div _ngcontent-yja-c6="" class="circle-clipper right">' +
+                                 '<div _ngcontent-yja-c6="" class="circle"></div> </div>' +
+                                 '</div></div>';
+            // tslint:disable-next-line:max-line-length
+          const btnActualizar = '<button title="EDITAR PROVEEDOR" class="btn bg-green btn-circle waves-effect waves-circle waves-float edit" type="button' +
+                                  'style="margin-left: 5px;font-size: 20px;">' +
+                                  '<i id="iconEdit" style="padding-bottom:20px" class="fas fa-pen"></i>' +
+                                  iconreload +
+                                  '</button>';
+            // tslint:disable-next-line:max-line-length
+          const btndelete     = '<button title="Eliminar" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button"' +
+                                'style="margin-left: 5px;font-size: 20px;">' +
+                                '<i class="fas fa-trash-alt"></i>' +
+                                '</button>';
+          if (provee.per_status === 'active') {
+            return (
+              btnActualizar + btndelete +
+              // tslint:disable-next-line:max-line-length
+              '<button id="btnstatusDesab" title="Desabilitar" class="btn bg-info btn-circle waves-effect waves-circle waves-float changeStatus" type="button"' +
+              'style="margin-left: 5px;font-size: 20px;">' +
+              '<i id="iconStatusDesab" class="fas fa-lock fa-fw fa-3x text-white"></i>' +
+              iconreload + '</button>'
+            );
+          } else {
+            return (
+              btnActualizar + btndelete +
+              // tslint:disable-next-line:max-line-length
+              '<button id="btnstatusHabi"  title="Habilitar" class="btn bg-green btn-circle waves-effect waves-circle waves-float changeStatus" type="button"' +
+                'style="margin-left: 5px;font-size: 20px;">' +
+                '<i id="iconStatusHabi" class="fas fa-unlock-alt text-white"></i>' +
+              iconreload + '</button>'
+            );
+          }
+        }
+        },
+      ],
+      // tslint:disable-next-line:ban-types no-shadowed-variable
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const vm = this;
+        $('.edit', row).bind('click', () => {
+          $('#editReload', row).show();
+          $('#iconEdit', row).hide();
+          vm.getPersonById(data, row);
+        });
+        $('.delete', row).bind('click', () => {
+          vm.deletePerson(data);
+        });
+        $('.changeStatus', row).bind('click', () => {
+          $('#editReload', row).show();
+          $('#iconStatusDesab', row).hide();
+          $('#iconStatusHabi', row).hide();
+          vm.changeStatusPerson(data, row);
+        });
+        return row;
+      },
+      language: {
+        decimal: '',
+        emptyTable: 'Sin datos disponibles',
+        info: 'Mostrando _START_ a _END_ de _TOTAL_ Entradas',
+        infoEmpty: 'Mostrando 0 to 0 of 0 Entradas',
+        infoFiltered: '(Filtrado de _MAX_ total entradas)',
+        infoPostFix: '',
+        thousands: ',',
+        lengthMenu: 'Mostrar _MENU_ Entradas',
+        loadingRecords: 'Cargando...',
+        processing: 'Procesando...',
+        search: 'Buscar:',
+        zeroRecords: 'Sin resultados encontrados',
+        paginate: {
+          first: 'Primero',
+          last: 'Ultimo',
+          next: 'Siguiente',
+          previous: 'Anterior'
+        }
+      },
+      order: [],
+      destroy: true
+    });
   }
-
-  // updateSupplier() {
-  //   const typeDocument = document.getElementById('etypeDocument')['value'];
-  //   const idPersona = this.supplierForm.get('idPersona').value;
-  //   const name = this.supplierForm.get('name').value;
-  //   const lastName = this.supplierForm.get('lastName').value;
-  //   const address = this.supplierForm.get('address').value;
-  //   const phone = this.supplierForm.get('phone').value;
-  //   const docNumber = this.supplierForm.get('docNumber').value;
-  //   const validation = new Validation();
-  //   const checkNumberDoc = validation.validateNumberDoc(typeDocument, docNumber);
-
-  //   if (idPersona === '' || name === '' || lastName === '' || phone === '' || docNumber === '' || address === '') {
-  //     return this.toast.error('Complete todos los campos del formulario', 'CAMPOS INCOMPLETOS');
-  //   }
-
-  //   if (checkNumberDoc === false) {
-  //     return this.toast.error('El tipo de documento no coincide con el numero de documento. ' +
-  //         'Verifique la cantidad de dígitos. DNI = 8, RUC = 11', 'NUMERO DOC INVALIDO');
-  //   }
-
-  //   this.editing = false;
-
-  //   this.peopleService.updatePerson(this.supplierForm.value).subscribe(
-  //       person => {
-  //         if (person['original']['code'] === 200 && person['original']['status']  === true) {
-  //           this.toast.success('Se ACTUALIZARON correctamente los datos', 'DATOS ACTUALIZADOS');
-  //           this.getSuppliers();
-  //           this.clearForm();
-  //           $('#editSupplier').modal('hide');
-  //           this.editing = true;
-  //         } else {
-  //           this.editing = true;
-  //           return this.toast.error('No se enviaron los datos al servidor, intentelo mas tarde', 'ERROR EDITANDO');
-  //         }
-  //       },
-  //       error => {
-  //         return this.toast.error('No se enviaron los datos al servidor. Intentelo nuevamente mas tarde', 'ERROR EDITANDO');
-  //       }
-  //   );
-  // }
-
+  getPersonById(data: any, row) {
+    const vm = this;
+    vm.peopleService.getPersonById(data.id_persona).then(res => {
+      const rpta = sendRespuesta(res);
+      if (rpta.status) {
+        vm.people.per_razon_social = rpta.data.per_razon_social;
+        vm.people.docNumber = rpta.data.per_numero_documento;
+        vm.people.phone = rpta.data.per_celular;
+        vm.people.address = rpta.data.per_direccion;
+        vm.people.idPerson = rpta.data.id_persona;
+        $('#modalPerson').modal('show');
+        vm.btnAccion = true;
+      }
+    }).catch((err) => {
+      console.log('err', err);
+    }).finally(() => {
+      $('#editReload', row).hide();
+      $('#iconEdit', row).show();
+    });
+  }
+  UpdatePerson() {
+    const vm = this;
+    const isValidate = vm.validate();
+    if (isValidate) {
+      vm.isLoading = true;
+      vm.peopleService.updatePerson(vm.people).then(res => {
+        const rpta = sendRespuesta(res);
+        if (rpta.status) {
+          iziToast.success({
+            title: 'Exito',
+            position: 'topRight',
+            message: rpta.message,
+          });
+          $('#modalPerson').modal('hide');
+          vm.clearForm();
+        } else {
+          iziToast.error({
+            title: 'Error',
+            position: 'topRight',
+            message: rpta.message,
+          });
+        }
+      }).catch((err) => {
+        console.log('error', err);
+      }).finally(() => {
+        vm.getPerson();
+        vm.isLoading = false;
+      });
+    }
+  }
   createPerson() {
     const vm = this;
     const isValidate = vm.validate();
@@ -144,112 +233,81 @@ export class ProveedorComponent implements OnInit {
       });
     }
   }
-
-  deleteSupplier(supplier: any) {
+  deletePerson(person: any) {
+    const vm = this;
+    swal.fire({
+      title: 'Eliminar',
+      text:  'Seguro de eliminar este proveedor?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#008000',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        vm.peopleService.deletePerson(person.id_persona).then(res => {
+          const rpta = sendRespuesta(res);
+          if (rpta.status) {
+            swal.fire(
+              'Eliminado!',
+              rpta.message,
+              'success'
+            );
+          } else {
+            swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: rpta.message,
+            });
+          }
+        }).catch((err) => {
+          console.log('Error', err);
+        }).finally(() => {
+          vm.getPerson();
+        });
+      } else {
+        swal.fire({
+          icon: 'error',
+          title: 'Cancelado',
+          text: 'Proveedor a salvo',
+        });
+      }
+    });
   }
-
-  changeStatusSupplier(supplier: any) {
-    // this.peopleService.changeStatusPerson(supplier.id_persona).subscribe(
-    //     suppliers => {
-    //       if (suppliers['original']['code'] === 200 && suppliers['original']['status']  === true) {
-    //         this.toast.info('PROVEEDOR habilitada, ya puede ingresar al sistema', 'PROVEEDOR HABILITADA');
-    //         this.getSuppliers();
-    //       } else {
-    //         return this.toast.error('No se pudo contactar con el servidor intentelo mas tarde', 'PROVEEDOR NO HABILITADO');
-    //       }
-    //     },
-    //     error => {
-    //       return this.toast.error('No se pudo contactar con el servidor. Intentelo nuevamente', 'ERROR SERVIDOR');
-    //     }
-    // );
+  changeStatusPerson(person: any, row) {
+    const vm = this;
+    vm.peopleService.changeStatusPerson(person).then( res => {
+      const rpta = sendRespuesta(res);
+      if (rpta.status) {
+        iziToast.success({
+          title: 'Exito',
+          position: 'topRight',
+          message: rpta.message,
+        });
+      } else {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: rpta.message,
+        });
+      }
+    }).catch((err) => {
+      console.log('error', err);
+    }).finally(() => {
+      $('#editReload', row).hide();
+      $('#iconStatusDesab', row).show();
+      $('#iconStatusHabi', row).show();
+      vm.getPerson();
+    });
   }
-
-  // UTILITIES
-
   clearForm() {
     const vm = this;
     vm.people.per_razon_social = null;
-    vm.people.numeroDocumento = null;
-    vm.people.telefono = null;
-    vm.people.direccion = null;
-  }
-  datatable(tabla, data) {
-    $(tabla).DataTable({
-      // tslint:disable-next-line:object-literal-shorthand
-      data: data,
-      columns: [
-        { data: 'per_razon_social'},
-        { data: 'per_numero_documento'},
-        { data: 'per_celular'},
-        { data: 'per_direccion'},
-        // tslint:disable-next-line:no-shadowed-variable
-        { data: (data) => {
-            if (data.per_status === 'active') {
-              return (
-                  // tslint:disable-next-line:max-line-length
-                  '<button  title="EDITAR PROVEEDOR" class="btn bg-green btn-circle  waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;">' +
-                  '<i style="padding-bottom:20px" class="fas fa-pen"></i>' +
-                  '</button>' +
-                  '<button title="DESHABILITAR" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button"' +
-                  'style="margin-left: 5px;font-size: 20px;">' +
-                  '<i class="fas fa-trash-alt"></i>' +
-                  '</button>'
-              );
-            } else {
-              return (
-                  // tslint:disable-next-line:max-line-length
-                  '<button  title="EDITAR PROVEEDOR" class="btn bg-green btn-circle waves-effect waves-circle ' +
-                  'waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;">' +
-                  '<i style="padding-bottom:20px" class="fas fa-pen"></i>' +
-                  '</button>' +
-                  '<button title="HABLITAR" class="btn bg-blue btn-circle waves-effect waves-circle waves-float ' +
-                  'changeStatus" type="button"' +
-                  'style="margin-left: 5px;font-size: 20px;">' +
-                  '<i class="fas fa-redo"></i>' +
-                  '</button>'
-              );
-            }
-          }
-        },
-      ],
-      // tslint:disable-next-line:ban-types no-shadowed-variable
-      rowCallback: (row: Node, data: any[] | Object, index: number) => {
-        const vem = this;
-
-        $('.edit', row).bind('click', () => {
-          vem.getSupplierById(data);
-        });
-        $('.delete', row).bind('click', () => {
-          vem.deleteSupplier(data);
-        });
-        $('.changeStatus', row).bind('click', () => {
-          vem.changeStatusSupplier(data);
-        });
-        return row;
-      },
-      language: {
-        decimal: '',
-        emptyTable: 'Sin datos disponibles',
-        info: 'Mostrando _START_ a _END_ de _TOTAL_ Entradas',
-        infoEmpty: 'Mostrando 0 to 0 of 0 Entradas',
-        infoFiltered: '(Filtrado de _MAX_ total entradas)',
-        infoPostFix: '',
-        thousands: ',',
-        lengthMenu: 'Mostrar _MENU_ Entradas',
-        loadingRecords: 'Cargando...',
-        processing: 'Procesando...',
-        search: 'Buscar:',
-        zeroRecords: 'Sin resultados encontrados',
-        paginate: {
-          first: 'Primero',
-          last: 'Ultimo',
-          next: 'Siguiente',
-          previous: 'Anterior'
-        }
-      },
-      order: [],
-      destroy: true
-    });
+    vm.people.docNumber = null;
+    vm.people.phone = null;
+    vm.people.address = null;
+    vm.people.idPerson = 0;
   }
   soloNumeros(event) {
     soloNumeros(event);
@@ -264,7 +322,7 @@ export class ProveedorComponent implements OnInit {
       });
       return false;
     }
-    if (vm.people.numeroDocumento === null) {
+    if (vm.people.docNumber === null) {
       iziToast.error({
         title: 'Error',
         position: 'topRight',
@@ -272,7 +330,7 @@ export class ProveedorComponent implements OnInit {
       });
       return false;
     }
-    if (vm.people.numeroDocumento.length < 11) {
+    if (vm.people.docNumber.length < 11) {
       iziToast.error({
         title: 'Error',
         position: 'topRight',
@@ -280,7 +338,7 @@ export class ProveedorComponent implements OnInit {
       });
       return false;
     }
-    if (vm.people.telefono === null) {
+    if (vm.people.phone === null) {
       iziToast.error({
         title: 'Error',
         position: 'topRight',
@@ -288,7 +346,7 @@ export class ProveedorComponent implements OnInit {
       });
       return false;
     }
-    if (vm.people.telefono.length < 9) {
+    if (vm.people.phone.length < 9) {
       iziToast.error({
         title: 'Error',
         position: 'topRight',
@@ -296,7 +354,7 @@ export class ProveedorComponent implements OnInit {
       });
       return false;
     }
-    if (vm.people.direccion === null) {
+    if (vm.people.address === null) {
       iziToast.error({
         title: 'Error',
         position: 'topRight',
@@ -305,5 +363,10 @@ export class ProveedorComponent implements OnInit {
       return false;
     }
     return true;
+  }
+  closeModal() {
+    $('body').on('hidden.bs.modal', '.modal', () => {
+      this.clearForm();
+    });
   }
 }

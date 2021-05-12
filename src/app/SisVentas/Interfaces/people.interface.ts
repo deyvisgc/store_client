@@ -1,11 +1,12 @@
 export interface People {
   idPerson?: number;
-  nombre: string;
-  apellido: string;
-  direccion: string;
-  telefono: string;
-  tipoDocumento: string;
-  numeroDocumento: string;
+  name: string;
+  lastName: string;
+  address: string;
+  phone: string;
+  typePerson: string;
+  typeDocument: string;
+  docNumber: string;
   per_razon_social: string;
-  typePeron: string;
+  perfil: boolean;
 }

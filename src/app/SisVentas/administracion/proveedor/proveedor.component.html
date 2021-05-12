@@ -51,7 +51,7 @@
                             <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
                                 <br><br>
                                 <app-reload style="margin: 150px;" *ngIf="isloadinglista" [isloading]="isloadinglista"  message="Cargando"></app-reload>
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="tbPersonActive">
                                     <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbPersonActive" style="width: 100%;">
                                         <thead>
                                         <tr>
@@ -67,7 +67,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
                                 <br><br>
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="tbPersonDisabled">
                                     <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbPersonDisabled" style="width: 100%;">
                                         <thead>
                                         <tr>
@@ -123,7 +123,7 @@
                             <label for="elastName">Ruc *</label>
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" onkeypress="return soloNumeros(event);"  maxlength="11" class="form-control" [(ngModel)]="people.numeroDocumento" placeholder="Ruc...">
+                                    <input type="text" onkeypress="return soloNumeros(event);"  maxlength="11" class="form-control" [(ngModel)]="people.docNumber" placeholder="Ruc...">
                                 </div>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
                             <label for="elastName">Celular/Telefono *</label>
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" onkeypress="return soloNumeros(event);"  maxlength="9" class="form-control" [(ngModel)]="people.telefono" placeholder="Telefono...">
+                                    <input type="text" onkeypress="return soloNumeros(event);"  maxlength="9" class="form-control" [(ngModel)]="people.phone" placeholder="Telefono...">
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                             <label for="edireccion">Dirección *</label>
                             <div class="form-group">
                                 <div class="form-line">
-                                    <textarea [(ngModel)]="people.direccion" class="materialize-textarea" placeholder="Direccion......"></textarea>
+                                    <textarea [(ngModel)]="people.address" class="materialize-textarea" placeholder="Direccion......"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -147,6 +147,10 @@
                     <div class="modal-footer" >
                         <button *ngIf="!btnAccion" type="button" class="btn btn-outline-success btn-lg btn-block waves-effect" (click)="createPerson()">
                             <span *ngIf="!isLoading">Guardar</span>
+                            <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
+                        </button>
+                        <button *ngIf="btnAccion" type="button" class="btn btn-outline-success btn-lg btn-block waves-effect" (click)="UpdatePerson()">
+                            <span *ngIf="!isLoading">Actualizar</span>
                             <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
                         </button>
                         <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a Lista</button>
