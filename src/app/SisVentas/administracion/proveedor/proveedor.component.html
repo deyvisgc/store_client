@@ -28,7 +28,7 @@
                         </h2>
                     </div>
                     <div class="body">
-                        <button class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalPerson" type="button">
+                        <button [disabled]="isloadinglista" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalPerson" type="button">
                             <i class="material-icons">person_add</i>
                             <span>Registrar Proveedor</span>
                         </button>
@@ -67,6 +67,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
                                 <br><br>
+                                <app-reload style="margin: 150px;" *ngIf="isloadinglista" [isloading]="isloadinglista"  message="Cargando"></app-reload>
                                 <div class="table-responsive" id="tbPersonDisabled">
                                     <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbPersonDisabled" style="width: 100%;">
                                         <thead>

@@ -28,6 +28,8 @@ export class PrivilegioComponent implements OnInit {
     idPadre: 0,
     idPrivilegio: 0
   };
+  isloadinglistaGrupo: boolean;
+  isloadinglistaPrivilegios: boolean;
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private servPrivilegio: PrivilegesService ) { }
 
   ngOnInit() {
@@ -71,25 +73,31 @@ export class PrivilegioComponent implements OnInit {
   }
   getGrupos() {
     const vm = this;
+    vm.isloadinglistaGrupo = true;
+    $('.tbgrupos').hide();
     vm.servPrivilegio.getGrupo().then( res => {
       const rpta = sendRespuesta(res);
       vm.listGrupos = rpta.data.filter( f => f.pri_status === 'active');
       vm.datatableGrupos('.tbgrupos', rpta.data);
     }).catch((err) => {
-      alert(err);
+      console.log('error', err);
     }).finally(() => {
-      console.log('finalll');
+      vm.isloadinglistaGrupo = false;
+      $('.tbgrupos').show();
     });
   }
   getPrivilegios() {
     const vm = this;
+    vm.isloadinglistaPrivilegios = true;
+    $('.privilegios').hide();
     vm.servPrivilegio.getPrivilegios().then( res => {
       const rpta = sendRespuesta(res);
       vm.datatablePrivilegio('.privilegios', rpta.data);
     }).catch((err) => {
-      alert(err);
+      console.log('Error', err);
     }).finally(() => {
-      console.log('finalll');
+      vm.isloadinglistaPrivilegios = false;
+      $('.privilegios').show();
     });
   }
   addIcons(icons) {

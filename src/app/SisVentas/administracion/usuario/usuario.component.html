@@ -28,7 +28,7 @@
                         </ul>
                     </div>
                     <div class="body">
-                        <button class="btn btn-success waves-effect" data-toggle="modal" data-target="#createUserModal" type="button">
+                        <button [disabled]="isloadinglista" class="btn btn-success waves-effect" data-toggle="modal" data-target="#createUserModal" type="button">
                             <i class="material-icons">person_add</i>
                             <span>Registrar Usuario</span>
                         </button>
@@ -50,7 +50,8 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
                                 <br><br>
-                                <div class="table-responsive">
+                                <app-reload style="margin: 150px;" *ngIf="isloadinglista" [isloading]="isloadinglista"  message="Cargando"></app-reload>
+                                <div class="table-responsive" id="tbUsersActive">
                                     <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbUserEnable" style="width: 100%;">
                                         <thead>
                                         <tr>
@@ -68,7 +69,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
                                 <br><br>
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="tbUsersDisabled">
                                     <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbUserDisabled" style="width: 100%;">
                                         <thead>
                                         <tr>

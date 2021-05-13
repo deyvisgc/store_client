@@ -1,9 +1,9 @@
-<button class="btn btn-success waves-effect" data-toggle="modal" data-target="#RolModal" type="button">
+<button [disabled]="isloadingLista" class="btn btn-success waves-effect" data-toggle="modal" data-target="#RolModal" type="button">
     <i class="material-icons">library_add</i>
     <span>Crear Rol</span>
 </button>
-
-<div class="table-responsive">
+<app-reload style="margin: 150px;" *ngIf="isloadingLista" [isloading]="isloadingLista"  message="Cargando"></app-reload>
+<div class="table-responsive" id="tableRol">
    <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbRol" style="width: 100%;">
      <thead>
          <tr>
@@ -12,13 +12,6 @@
             <th scope="col">Opciones</th>
          </tr>
         </thead>
-        <tfoot>
-        <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Opciones</th>
-        </tr>
-        </tfoot>
     </table>
 </div>
 <div class="modal fade" id="RolModal" tabindex="-1" role="dialog" aria-labelledby="createModal" aria-hidden="true">

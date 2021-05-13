@@ -28,7 +28,8 @@
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active show" id="tabGrupo">
-                  <button _ngcontent-kvq-c6="" class="btn btn-outline-info" style="margin-bottom: 10px;"  (click)="showGrupo()" type="button">Grupo <i _ngcontent-dig-c5="" class="fas fa-plus"></i></button>
+                  <button _ngcontent-kvq-c6="" [disabled]="isloadinglistaGrupo" class="btn btn-outline-info" style="margin-bottom: 10px;"  (click)="showGrupo()" type="button">Grupo <i _ngcontent-dig-c5="" class="fas fa-plus"></i></button>
+                  <app-reload style="margin: 150px;" *ngIf="isloadinglistaGrupo" [isloading]="isloadinglistaGrupo"  message="Cargando"></app-reload>
                     <table class="table table-bordered table-striped  js-basic-example tbgrupos" style="width: 100%;">
                       <thead>
                           <tr>
@@ -43,7 +44,8 @@
                     </table>
                 </div>
                 <div role="tabpanel" class="tab-pane fade"  id="tabPrivilegios">
-                  <button _ngcontent-kvq-c6="" class="btn btn-outline-warning" (click)="showPrivilegio()" style="margin-bottom: 10px; margin-left: 10px;"  type="button">Privilegios <i _ngcontent-dig-c5="" class="fas fa-plus"></i></button>
+                  <button _ngcontent-kvq-c6="" [disabled]="isloadinglistaPrivilegios" class="btn btn-outline-warning" (click)="showPrivilegio()" style="margin-bottom: 10px; margin-left: 10px;"  type="button">Privilegios <i _ngcontent-dig-c5="" class="fas fa-plus"></i></button>
+                  <app-reload style="margin: 150px;" *ngIf="isloadinglistaPrivilegios" [isloading]="isloadinglistaPrivilegios"  message="Cargando"></app-reload>
                   <table class="table table-bordered table-striped  js-basic-example privilegios" style="width: 100%;">
                       <thead>
                           <tr>

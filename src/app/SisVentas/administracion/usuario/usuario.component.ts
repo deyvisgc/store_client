@@ -28,6 +28,7 @@ export class UsuarioComponent implements OnInit {
     peopleActive: any[];
     peopleDisabled: any[];
     isbtnLoading = false;
+    isloadinglista: boolean;
     isBtnAccion = false;
     rols: any[];
     isTipoDoument = 'DNI';
@@ -45,6 +46,7 @@ export class UsuarioComponent implements OnInit {
       docNumber: '',
       address: '',
       idPersona: 0,
+      idUsuario: 0,
       perfil : false
     };
     constructor(
@@ -133,6 +135,9 @@ export class UsuarioComponent implements OnInit {
     }
     getUsuario() {
       const vm = this;
+      vm.isloadinglista = true;
+      $('#tbUsersActive').hide();
+      $('#tbUsersDisabled').hide();
       vm.userService.getUsers().then(res => {
         const rpta = sendRespuesta(res);
         if (rpta.status) {
@@ -144,7 +149,9 @@ export class UsuarioComponent implements OnInit {
       }).catch((err) => {
         console.log('Error', err);
       }).finally(() => {
-        console.log('Finalyy');
+        vm.isloadinglista = false;
+        $('#tbUsersActive').show();
+        $('#tbUsersDisabled').show();
       });
     }
     datatable(url, data) {
@@ -321,6 +328,7 @@ export class UsuarioComponent implements OnInit {
           if (rpta.status) {
               vm.create.nameUser = rpta.data.person.us_usuario;
               vm.create.idPersona = rpta.data.person.id_persona;
+              vm.create.idUsuario = rpta.data.person.id_user;
               $('#rolupdate').val(rpta.data.person.id_rol).trigger('change');
               vm.title = 'Actualizar Credenciales';
               $('#ModalPersonandCredenciales').modal('show');
@@ -349,6 +357,7 @@ export class UsuarioComponent implements OnInit {
              });
              $('#ModalPersonandCredenciales').modal('hide');
              vm.closeModal();
+             vm.getUsuario();
          } else {
            iziToast.error({
              title: 'Error',
@@ -359,7 +368,6 @@ export class UsuarioComponent implements OnInit {
        }).catch((err) => {
            console.log('Error', err);
        }).finally(() => {
-         vm.getUsuario();
          vm.isloadingUpdateUsers.closeReload();
          vm.isbtnLoading = false;
        });
@@ -555,7 +563,8 @@ export class UsuarioComponent implements OnInit {
           docNumber: '',
           address: '',
           idPersona: 0,
-          perfil : false
+          perfil : false,
+          idUsuario: 0
       };
       $('#typeDocumentCreate').val(null).trigger('change');
       $('#idRols').val(null).trigger('change');

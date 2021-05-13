@@ -1,25 +1,5 @@
 <section class="content">
   <div class="container-fluid">
-      <!-- <div class="block-header">
-          <div class="row">
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <ul class="breadcrumb breadcrumb-style ">
-                      <li class="breadcrumb-item">
-                          <h4 class="page-title">Profile</h4>
-                      </li>
-                      <li class="breadcrumb-item bcrumb-1">
-                          <a routerLink="/dashboard/main">
-                              <i class="fas fa-home"></i> Home</a>
-                      </li>
-                      <li class="breadcrumb-item bcrumb-2">
-                          <a href="#" onClick="return false;">Extra</a>
-                      </li>
-                      <li class="breadcrumb-item active">Profile</li>
-                  </ul>
-              </div>
-          </div>
-      </div> -->
-      <!-- Your content goes here  -->
       <div class="row clearfix">
           <div class="col-lg-4 col-md-12">
               <div class="card">
@@ -73,7 +53,7 @@
                                     <div class="input-group">
                                         <div class="form-line">
                                           <label>Usuario</label>
-                                          <input type="text" readonly="disabled" [(ngModel)]="credenciales.usuario">
+                                          <input type="text" readonly="disabled" [(ngModel)]="credenciales.nameUser">
                                         </div>
                                     </div>
                                 </div>
@@ -113,6 +93,7 @@
                                 <div class="col-md-5 col-6 b-r">
                                     <div class="ng-autocomplete">
                                         <ng-autocomplete
+                                          #auto
                                           [data]="users"
                                           [searchKeyword]="keyword"
                                           placeholder="Buscar usuarios"
@@ -214,7 +195,7 @@
                                 <button _ngcontent-yvb-c7="" class="btn btn-outline-warning btn-lg btn-block waves-effect"  data-dismiss="modal" type="button">Cancelar</button>
                               </div>
                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <button  _ngcontent-yvb-c7=""  class="btn btn-outline-info btn-lg btn-block waves-effect" (click)="Actualizar()" type="button">
+                                <button  _ngcontent-yvb-c7=""  class="btn btn-outline-info btn-lg btn-block waves-effect" (click)="ActualizarPassword()" type="button">
                                     <span *ngIf="!isLoading">Actualizar</span>
                                     <div *ngIf="isLoading" _ngcontent-yja-c6="" class="preloader pl-size-xs">
                                         <div _ngcontent-yja-c6="" class="spinner-layer pl-red-grey">
@@ -236,7 +217,7 @@
                                 <div class="input-group">
                                     <div class="form-line">
                                         <label>Usuario</label>
-                                        <input type="text" id="usuario" [(ngModel)]="credenciales.usuario"  style="margin-left: 10px;" class="form-control" placeholder="">
+                                        <input type="text" id="usuario" [(ngModel)]="credenciales.nameUser"  style="margin-left: 10px;" class="form-control" placeholder="">
                                         <div _ngcontent-skw-c7="" style="margin-left: 60px !important;" *ngIf="errors.errorUsers" class="badge col-red">{{errors.errorUsers}}</div>
                                     </div>
                                 </div>

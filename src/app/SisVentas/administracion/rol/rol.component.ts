@@ -22,7 +22,7 @@ export class RolComponent implements OnInit {
     editing = true;
     activeRol: any[] = [];
     disabledRol: any[] = [];
-
+    isloadingLista: boolean;
     constructor( private formBuilder: FormBuilder, private rolService: RolService,
                  private dynamicScriptLoader: DynamicScriptLoaderService) {
                      this.formRol = this.formBuilder.group({
@@ -79,13 +79,16 @@ export class RolComponent implements OnInit {
 
     getRol() {
       const vm = this;
+      vm.isloadingLista = true;
+      $('#tableRol').hide();
       this.rolService.getRol().then( res => {
        const rpta = sendRespuesta(res);
        vm.datatable('.tbRol', rpta.data);
       }).catch((err) => {
           console.log('Error', err);
       }).finally(() => {
-          console.log('Final');
+        vm.isloadingLista = false;
+        $('#tableRol').show();
       });
     }
     datatable(table, rol) {

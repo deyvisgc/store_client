@@ -12,6 +12,7 @@ declare const $: any;
 })
 export class PerfilComponent implements OnInit {
   constructor(private userSer: UserService, private authser: AuthenticationService, private perSer: PeopleService) { }
+  @ViewChild('auto', {static: true}) auto;
   SecretRol = 'K56QSxGeKImwBRmiY';
   keyword = 'us_usuario';
   users = [];
@@ -32,7 +33,7 @@ export class PerfilComponent implements OnInit {
     errorDireccion: ''
   };
   person = {
-    idPersona: 0,
+    idPerson: 0,
     name: '',
     lastName: '',
     address: '',
@@ -44,11 +45,12 @@ export class PerfilComponent implements OnInit {
     typeDocument : 'null'
   };
   credenciales = {
-    usuario: '',
+    nameUser: '',
     Password: '',
     rol: '',
     idRol: 0,
-    idUsuario: ''
+    idUsuario: '',
+    perfil: true
   };
   updatePassword = {
     passwordActual: '',
@@ -78,17 +80,17 @@ export class PerfilComponent implements OnInit {
           position: 'topRight',
           message: rpta.message,
         });
-        vm.person.idPersona = rpta.data[0].id_persona;
-        vm.person.name = rpta.data[0].per_nombre;
-        vm.person.lastName = rpta.data[0].per_apellido;
-        vm.person.phone = rpta.data[0].per_celular;
-        vm.person.docNumber = rpta.data[0].per_numero_documento;
-        vm.person.address = rpta.data[0].per_direccion;
-        vm.credenciales.usuario =  rpta.data[0].us_usuario;
+        vm.person.idPerson = rpta.data.person.id_persona;
+        vm.person.name = rpta.data.person.per_nombre;
+        vm.person.lastName = rpta.data.person.per_apellido;
+        vm.person.phone = rpta.data.person.per_celular;
+        vm.person.docNumber = rpta.data.person.per_numero_documento;
+        vm.person.address = rpta.data.person.per_direccion;
+        vm.credenciales.nameUser =  rpta.data.person.us_usuario;
         vm.credenciales.rol =  vm.rolName;
-        vm.credenciales.idRol = rpta.data[0].id_rol;
-        vm.credenciales.Password = rpta.data[0].us_passwor_view;
-        localStorage.setItem('passwordview', rpta.data[0].us_passwor_view);
+        vm.credenciales.idRol = rpta.data.person.id_rol;
+        vm.credenciales.Password = rpta.data.person.us_passwor_view;
+        localStorage.setItem('passwordview', rpta.data.person.us_passwor_view);
         const alias = vm.person.name.concat(' ').concat(vm.person.lastName);
         const aliasSplit = alias.split(' ');
         vm.person.alias = (aliasSplit[0].substring(0 , 1).concat(aliasSplit[1].substring(0 , 1))).toUpperCase() ;
@@ -137,7 +139,7 @@ export class PerfilComponent implements OnInit {
     vm.title = 'Actualizar Datos Personales';
     $('#modalContraseña').modal('show');
   }
-  Actualizar() {
+  ActualizarPassword() {
     const vm = this;
     const isValidate = vm.validarPassword();
     if (isValidate) {
@@ -172,49 +174,41 @@ export class PerfilComponent implements OnInit {
     }
   }
   ActualizarUsuario() {
-    // const vm = this;
-    // if (!vm.credenciales.usuario) {
-    //   document.getElementById('usuario').style.borderColor = 'red';
-    //   vm.errors.errorUsers = 'Usuario requerido';
-    //   return false;
-    // } else {
-    //   document.getElementById('usuario').style.borderColor = '#48c78e';
-    //   vm.errors.errorUsers = '';
-    // }
-    // vm.isLoading = true;
-    // vm.credenciales.idUsuario = vm.idUsuario;
-    // vm.userSer.updateUsuario(vm.credenciales).then( res => {
-    //   const rpta = sendRespuesta(res);
-    //   if (rpta.status === 1) {
-    //     document.getElementById('usuario').style.borderColor = 'red';
-    //     vm.errors.errorUsers = rpta.message;
-    //     return false;
-    //   }
-    //   if (rpta.status === 2) {
-    //     iziToast.success({
-    //       title: 'OK',
-    //       position: 'topRight',
-    //       message: rpta.message,
-    //     });
-    //     $('#modalContraseña').modal('hide');
-    //     this.getPerfil();
-    //     return true;
-    //   }
-    //   if (rpta.status === 3) {
-    //     iziToast.error({
-    //       title: 'Error',
-    //       position: 'topRight',
-    //       message: rpta.message,
-    //     });
-    //     $('#modalContraseña').modal('hide');
-    //     this.getPerfil();
-    //     return true;
-    //   }
-    // }).catch((err) => {
-    //   console.log('Error', err);
-    // }).finally(() => {
-    //   vm.isLoading = false;
-    // });
+    const vm = this;
+    if (!vm.credenciales.nameUser) {
+      document.getElementById('usuario').style.borderColor = 'red';
+      vm.errors.errorUsers = 'Usuario requerido';
+      return false;
+    } else {
+      document.getElementById('usuario').style.borderColor = '#48c78e';
+      vm.errors.errorUsers = '';
+    }
+    vm.isLoading = true;
+    vm.credenciales.idUsuario = vm.idUsuario;
+    vm.userSer.updateUser(vm.credenciales).then( res => {
+      const rpta = sendRespuesta(res);
+      if (rpta.status) {
+        iziToast.success({
+          title: 'OK',
+          position: 'topRight',
+          message: rpta.message,
+        });
+        $('#modalContraseña').modal('hide');
+        this.getPerfil();
+        return true;
+      } else {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: rpta.message,
+        });
+        return true;
+      }
+    }).catch((err) => {
+      console.log('Error', err);
+    }).finally(() => {
+      vm.isLoading = false;
+    });
   }
   ActualizarPersona() {
     const vm = this;
@@ -399,6 +393,8 @@ export class PerfilComponent implements OnInit {
           });
           vm.recuperarPassword.idUsuario = 0;
           vm.recuperarPassword.nuevaPassword = '';
+          vm.clear();
+          this.getPerfil();
         } else {
           iziToast.error({
             title: 'Error',
@@ -409,7 +405,6 @@ export class PerfilComponent implements OnInit {
       }).catch((err) => {
         console.log('Error', err);
       }).finally(() => {
-        this.getPerfil();
         vm.btnisLoading = false;
       });
     }
@@ -433,5 +428,9 @@ export class PerfilComponent implements OnInit {
       document.getElementById('passwordNuevo').style.borderColor = '#48c78e';
     }
     return true;
+  }
+  clear() {
+    this.users = [];
+    this.auto.close();
   }
 }
