@@ -1,0 +1,19 @@
+.btn:not(.btn-link):not(.btn-circle) span {
+  top: 0px !important;
+}
+input[type="text"], input[type="password"], input[type="number"]{
+  height: 1.5rem !important;
+  box-sizing: border-box;
+  display: 0px !important;
+  width: 90%;
+  border-width: 0.5px;
+  /* border-radius: 5px ; */
+  border-style: solid;
+  padding: 14px;
+  outline: 0;
+  font-family: inherit;
+  background: #fff;
+  border-color: #48c78e;
+  color: #555;
+  margin-left: 10px;
+}

@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { NgxPaginationModule } from 'ngx-pagination';
 // tslint:disable-next-line:max-line-length
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedModule } from '../shared-modulos/shared/shared.module';
 
 @NgModule({
@@ -19,7 +18,6 @@ import { SharedModule } from '../shared-modulos/shared/shared.module';
     AutocompleteLibModule,
     ComprasRoutingModule,
     NgxPaginationModule,
-    InfiniteScrollModule,
     SharedModule,
     FormsModule
   ]

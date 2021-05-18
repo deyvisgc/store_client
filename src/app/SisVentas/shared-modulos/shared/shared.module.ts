@@ -6,14 +6,26 @@ import { ReloadComponent } from '../../reload/reload/reload.component';
 import { ReloadformComponent } from '../../reload/reloadform/reloadform.component';
 import { ReloadFiltrosComponent } from '../../reload/reload-filtros/reload-filtros.component';
 import { CargandoModalComponent } from '../../reload/cargando-modal/cargando-modal.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { FormsModule } from '@angular/forms';
+import { CSeleccionarCategoriaComponent } from '../../componenteshijos/c-seleccionar-categoria/c-seleccionar-categoria.component';
+import { CSeleccionarLoteComponent } from '../../componenteshijos/c-seleccionar-lote/c-seleccionar-lote.component';
+// tslint:disable-next-line:max-line-length
+import { CSeleccionarUnidadMedidaComponent } from '../../componenteshijos/c-seleccionar-unidad-medida/c-seleccionar-unidad-medida.component';
+
 
 
 @NgModule({
-  declarations: [CargandoModalComponent, ReloadFiltrosComponent, ReloadComponent, ReloadformComponent],
-  exports: [ReloadComponent, ReloadformComponent, ReloadFiltrosComponent, CargandoModalComponent],
+  declarations: [CargandoModalComponent, ReloadFiltrosComponent, ReloadComponent, ReloadformComponent,
+                 CSeleccionarCategoriaComponent, CSeleccionarLoteComponent,
+                 CSeleccionarUnidadMedidaComponent],
+  exports: [ReloadComponent, ReloadformComponent, ReloadFiltrosComponent, CargandoModalComponent, InfiniteScrollModule,
+            CSeleccionarCategoriaComponent, CSeleccionarLoteComponent, CSeleccionarUnidadMedidaComponent],
   imports: [
     CommonModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    InfiniteScrollModule,
+    FormsModule
   ]
 })
 export class SharedModule { }

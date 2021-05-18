@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br><br>
-               <app-search (searchtselect)="showDataSearch($event)"></app-search>
+               <app-filtros (filtro)="fetch($event)"></app-filtros>
                 <div class="card">
                     <div class="body">
                       <div class="row clearfix">
@@ -10,25 +10,33 @@
                             <div class="card">
                                 <div class="body">
                                     <!-- Nav tabs -->
-                                    <ul class="nav nav-tabs" role="tablist">
+                                    <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" style="background-color: #48c774 !important;" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i> Crear Producto</button>
+                                    <br>
+                                    <ul class="nav nav-tabs pull-right" role="tablist">
                                         <li role="presentation">
                                             <a href="#home_with_icon_title" data-toggle="tab" class="active show">
-                                               ACTIVOS
+                                               PRODUCTOS ACTIVOS
                                             </a>
                                         </li>
                                         <li role="presentation">
                                             <a href="#profile_with_icon_title" data-toggle="tab">
-                                                DESACTIVOS
+                                               PRODUCTOS DESACTIVOS
                                             </a>
                                         </li>
                                     </ul>
                                     <!-- Tab panes -->
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
-                                          <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
-                                          <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
-                                          <div class="table-responsive" id="tableactive">
-                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproducto" style="width: 100%;" >
+                                          <div class="table-responsive">
+                                            <div class="search-results" 
+                                            infinite-scroll 
+                                            [infiniteScrollDistance]="1" 
+                                            [infiniteScrollThrottle]="2" 
+                                            [infiniteScrollThrottle]="300"
+                                            [infiniteScrollDisabled]="infiniteScrollStatus" 
+                                            (scrolled)="onScrollDown()"
+                                            >
+                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbProductoActive" style="width: 100%;" >
                                                 <thead>
                                                     <tr>
                                                       <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
@@ -37,52 +45,50 @@
                                                       <th scope="col">P.Conpra</th>
                                                       <th scope="col">P.Venta</th>
                                                       <th scope="col">Cantidad</th>
-                                                      <th scope="col">Estado</th>
+                                                      <!-- <th scope="col">Estado</th> -->
                                                       <th scope="col">Opciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tfoot>
-                                                  <tr>
-                                                  <th scope="col">Producto</th>
-                                                  <th scope="col">Co.Barra</th>
-                                                  <th scope="col">P.Conpra</th>
-                                                  <th scope="col">P.Venta</th>
-                                                  <th scope="col">Cantidad</th>
-                                                  <th scope="col">Estado</th>
-                                                  <th scope="col">Opciones</th>
-                                                </tr>
-                                                </tfoot>
+                                                <!-- <tbody>
+                                                  <tr *ngFor="let i of dataactiva">
+                                                    <td>{{i.pro_name}}</td>
+                                                    <td>{{i.pro_name}}</td>
+                                                    <td>{{i.pro_name}}</td>
+                                                    <td>{{i.pro_name}}</td>
+                                                    <td>{{i.pro_name}}</td>
+                                                    <td>{{i.pro_name}}</td>
+                                                    <td>{{i.pro_name}}</td>
+                                                  </tr>
+                                                </tbody> -->
                                             </table>
+                                            <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
+                                            </div>
                                         </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
-                                          <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i></button>
-                                          <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
-                                          <div class="table-responsive" id="tabledesactivi">
-                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbproductodesac" style="width: 100%;">
-                                                <thead>
-                                                    <tr>
-                                                      <th scope="col">Producto</th>
-                                                      <th scope="col">Co.Barra</th>
-                                                      <th scope="col">P.Conpra</th>
-                                                      <th scope="col">P.Venta</th>
-                                                      <th scope="col">Cantidad</th>
-                                                      <th scope="col">Estado</th>
-                                                      <th scope="col">Opciones</th>
-                                                    </tr>
-                                                </thead>
-                                                <tfoot>
+                                          <div class="table-responsive">
+                                            <div class="search-results" 
+                                              infinite-scroll 
+                                              [infiniteScrollDistance]="1" 
+                                              [infiniteScrollThrottle]="2" 
+                                              [infiniteScrollThrottle]="300"
+                                              [infiniteScrollDisabled]="infiniteScrollStatus" 
+                                              (scrolled)="onScrollDown()"
+                                            >
+                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbProductoEnabled" style="width: 100%;">
+                                              <thead>
                                                   <tr>
-                                                  <th scope="col">Producto</th>
-                                                  <th scope="col">Co.Barra</th>
-                                                  <th scope="col">P.Conpra</th>
-                                                  <th scope="col">P.Venta</th>
-                                                  <th scope="col">Cantidad</th>
-                                                  <th scope="col">Estado</th>
-                                                  <th scope="col">Opciones</th>
-                                                </tr>
-                                                </tfoot>
-                                            </table>
+                                                    <th scope="col">Producto</th>
+                                                    <th scope="col">Co.Barra</th>
+                                                    <th scope="col">P.Conpra</th>
+                                                    <th scope="col">P.Venta</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col">Opciones</th>
+                                                  </tr>
+                                              </thead>
+                                          </table>
+                                          <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
+                                          </div>
                                         </div>
                                         </div>
                                     </div>
@@ -98,191 +104,191 @@
     </div>
 </section>
 <div class="modal fade" id="modalRegistrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">REGISTRAR PRODUCTO</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-           <app-formproducto (productlist)="productlist($event)"></app-formproducto>
-        </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">REGISTRAR PRODUCTO</span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <app-formproducto (productlist)="productlist($event)"></app-formproducto>
       </div>
     </div>
   </div>
-  <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Actualizar PRODUCTO</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form [formGroup]="form" (ngSubmit)="Actualizar()">
-                <div class="row">
-                  <div class="col-md-12 col-lg-12 col-sm-12">
-                    <label for="pro_nombre">Producto</label>
-                    <div class="form-group">
-                      <div class="form-line">
-                        <input type="text" onkeyup="this.value = this.value.toUpperCase();"
-                               name="pro_nombre" formControlName="pro_nombre" required class="form-control"
-                               placeholder="Escriba el nombre del producto">
-                      </div>
+</div>
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Actualizar PRODUCTO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="form" (ngSubmit)="Actualizar()">
+              <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                  <label for="pro_nombre">Producto</label>
+                  <div class="form-group">
+                    <div class="form-line">
+                      <input type="text" onkeyup="this.value = this.value.toUpperCase();"
+                             name="pro_nombre" formControlName="pro_nombre" required class="form-control"
+                             placeholder="Escriba el nombre del producto">
                     </div>
                   </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="pro_precio">Precio Compra</label>
-                    <div class="form-group">
-                      <div class="form-line">
-                        <input type="number" name="pro_precio_compra" required formControlName="pro_precio_compra" class="form-control"
-                               placeholder="0.00">
-                      </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-6">
+                  <label for="pro_precio">Precio Compra</label>
+                  <div class="form-group">
+                    <div class="form-line">
+                      <input type="number" name="pro_precio_compra" required formControlName="pro_precio_compra" class="form-control"
+                             placeholder="0.00">
                     </div>
                   </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="pro_nombre">Precio Venta</label>
-                    <div class="form-group">
-                      <div class="form-line">
-                        <input type="text" onkeyup="this.value = this.value.toUpperCase();"
-                               name="pro_precio_venta" formControlName="pro_precio_venta" required class="form-control"
-                               placeholder="0.00">
-                      </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-6">
+                  <label for="pro_nombre">Precio Venta</label>
+                  <div class="form-group">
+                    <div class="form-line">
+                      <input type="text" onkeyup="this.value = this.value.toUpperCase();"
+                             name="pro_precio_venta" formControlName="pro_precio_venta" required class="form-control"
+                             placeholder="0.00">
                     </div>
                   </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="pro_precio">Cantidad</label>
-                    <div class="form-group">
-                      <div class="form-line">
-                        <input type="number" value="{{cantidad}}" name="cantidad" required formControlName="cantidad" class="form-control" >
-                      </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-6">
+                  <label for="pro_precio">Cantidad</label>
+                  <div class="form-group">
+                    <div class="form-line">
+                      <input type="number" value="{{cantidad}}" name="cantidad" required formControlName="cantidad" class="form-control" >
                     </div>
                   </div>
-                  <input type="hidden"  name="idproducto" required formControlName="idproducto"  class="form-control" >
+                </div>
+                <input type="hidden"  name="idproducto" required formControlName="idproducto"  class="form-control" >
 
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="pro_cantidad">Cantidad Minima</label>
-                    <div class="form-group">
-                      <div class="form-line">
-                        <input type="number" name="cantidad_minima" formControlName="cantidad_minima" required class="form-control"
-                        value="{{cantidad}}">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="pro_cantidad_minima">Codigo</label>
-                    <div class="form-group">
-                      <div class="form-line">
-                        <input type="text"  value="{{Codigo}}" id="codigo"  name="codigo" formControlName="codigo" class="form-control" placeholder="">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                    <label for="pro_cantidad_minima">Codigo Barra</label>
-                    <div class="form-group">
-                      <div class="form-line">
-                        <input type="text" value="{{CodigoBarra}}" id="codigo_barra" name="codigo_barra" formControlName="codigo_barra"
-                               class="form-control" >
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-6 col-sm-6">
-                    <label for="pro_cantidad_minima">Categoria</label>
-                    <div class="form-group default-select">
-                        <select class="form-control clase" id="clase_update" name="clase" formControlName="clase" data-placeholder="Select">
-                        </select>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-6 col-sm-6">
-                    <label for="pro_cantidad_minima">Subcategoria</label>
-                    <div class="form-group default-select">
-                        <select class="form-control subclase" id="subcategoria_update" name="subclase" formControlName="subclase" data-placeholder="Select">
-                        </select>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-6 col-sm-6">
-                    <label for="pro_cantidad_minima">Lote</label>
-                    <div class="form-group default-select">
-                        <select class="form-control lote" id="lote_update" name="lote_update" formControlName="lote" data-placeholder="Select">
-                        </select>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-6 col-sm-6">
-                    <label for="pro_cantidad_minima">Unidad Medida</label>
-                    <div class="form-group default-select">
-                        <select class="form-control unidad" id="unidad_update" name="unidad" formControlName="unidad"  data-placeholder="Select">
-                        </select>
-                    </div>
-                  </div>
-                  <!--DESCRIPCION DEL PRODUCTO-->
-                  <div class="col-md-6 col-sm-6 col-lg-12">
-                    <label for="pro_descripcion">Descripción</label>
-                    <div class="form-group">
-                      <div class="form-line">
-                        <textarea name="textarea" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
-                      </div>
+                <div class="col-md-4 col-lg-4 col-sm-6">
+                  <label for="pro_cantidad">Cantidad Minima</label>
+                  <div class="form-group">
+                    <div class="form-line">
+                      <input type="number" name="cantidad_minima" formControlName="cantidad_minima" required class="form-control"
+                      value="{{cantidad}}">
                     </div>
                   </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
-                  <button type="submit"  class="btn btn-outline-success btn-border-radius">Guardar</button>
-                </div>
-              </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="gcodebarra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">IMPRIMIR CODIGO BARRA</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-              <div class="col-md- 6 col-lg-6 col-sm-6">
-                <label for="pro_nombre">CODE BARRA</label>
-                <div class="form-group">
-                  <div class="form-line">
-                    <input type="text" name="codebarra" value="{{gncodebarra}}"  required class="form-control" readonly>
+                <div class="col-md-4 col-lg-4 col-sm-6">
+                  <label for="pro_cantidad_minima">Codigo</label>
+                  <div class="form-group">
+                    <div class="form-line">
+                      <input type="text"  value="{{Codigo}}" id="codigo"  name="codigo" formControlName="codigo" class="form-control" placeholder="">
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md- 6 col-lg-6 col-sm-6">
-                <label for="pro_nombre">Cantidad a generar</label><p></p>
-                <div class="form-group">
-                  <div class="form-line">
-                    <select class="form-control cantida_generate"  id="cantida_generate" name="cantida_generate"  data-placeholder="Select">
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                      <option value="30">30</option>
-                      <option value="40">40</option>
-                      <option value="50">50</option>
-                      <option value="60">60</option>
-                      <option value="70">70</option>
-                      <option value="80">80</option>
-                      <option value="90">90</option>
-                      <option value="100">100</option>
-                  </select>
+                <div class="col-md-4 col-lg-4 col-sm-6">
+                  <label for="pro_cantidad_minima">Codigo Barra</label>
+                  <div class="form-group">
+                    <div class="form-line">
+                      <input type="text" value="{{CodigoBarra}}" id="codigo_barra" name="codigo_barra" formControlName="codigo_barra"
+                             class="form-control" >
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div id="divbarcodeprint" class="col-md-6 col-sm-6 col-lg-12">
-                <svg style="width:10; height: 10; display:none" id="barcodeprint"></svg>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="pro_cantidad_minima">Categoria</label>
+                  <div class="form-group default-select">
+                      <select class="form-control clase" id="clase_update" name="clase" formControlName="clase" data-placeholder="Select">
+                      </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="pro_cantidad_minima">Subcategoria</label>
+                  <div class="form-group default-select">
+                      <select class="form-control subclase" id="subcategoria_update" name="subclase" formControlName="subclase" data-placeholder="Select">
+                      </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="pro_cantidad_minima">Lote</label>
+                  <div class="form-group default-select">
+                      <select class="form-control lote" id="lote_update" name="lote_update" formControlName="lote" data-placeholder="Select">
+                      </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                  <label for="pro_cantidad_minima">Unidad Medida</label>
+                  <div class="form-group default-select">
+                      <select class="form-control unidad" id="unidad_update" name="unidad" formControlName="unidad"  data-placeholder="Select">
+                      </select>
+                  </div>
+                </div>
+                <!--DESCRIPCION DEL PRODUCTO-->
+                <div class="col-md-6 col-sm-6 col-lg-12">
+                  <label for="pro_descripcion">Descripción</label>
+                  <div class="form-group">
+                    <div class="form-line">
+                      <textarea name="textarea" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
-              <button type="submit" (click)='ImprimirCode()'  class="btn btn-outline-success btn-border-radius">IMPRIMIR</button>
-            </div>
-            </div>
-        </div>
+                  <button type="button" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
+                <button type="submit"  class="btn btn-outline-success btn-border-radius">Guardar</button>
+              </div>
+            </form>
       </div>
     </div>
   </div>
+</div>
+<div class="modal fade" id="gcodebarra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">IMPRIMIR CODIGO BARRA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-md- 6 col-lg-6 col-sm-6">
+              <label for="pro_nombre">CODE BARRA</label>
+              <div class="form-group">
+                <div class="form-line">
+                  <input type="text" name="codebarra" value="{{gncodebarra}}"  required class="form-control" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md- 6 col-lg-6 col-sm-6">
+              <label for="pro_nombre">Cantidad a generar</label><p></p>
+              <div class="form-group">
+                <div class="form-line">
+                  <select class="form-control cantida_generate"  id="cantida_generate" name="cantida_generate"  data-placeholder="Select">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+                    <option value="80">80</option>
+                    <option value="90">90</option>
+                    <option value="100">100</option>
+                </select>
+                </div>
+              </div>
+            </div>
+            <div id="divbarcodeprint" class="col-md-6 col-sm-6 col-lg-12">
+              <svg style="width:10; height: 10; display:none" id="barcodeprint"></svg>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
+            <button type="submit" (click)='ImprimirCode()'  class="btn btn-outline-success btn-border-radius">IMPRIMIR</button>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
