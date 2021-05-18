@@ -14,22 +14,22 @@ export class ProductoService {
   public Read(params) {
     return this.httpClient.get(this.url.urlAddress + 'obtener-producto', {params, headers: this.httpHeaders}).toPromise();
   }
-  public Readxid(id) {
-    return this.httpClient.get(this.url.urlAddress + 'Almacen/Producto/' + id, {headers: this.httpHeaders});
+  public edit(params) {
+    return this.httpClient.get(this.url.urlAddress + 'edit-producto', {params, headers: this.httpHeaders}).toPromise();
   }
   public Registrar(data) {
     return this.httpClient.post(this.url.urlAddress + 'Almacen/Producto', {data}, {headers: this.httpHeaders});
   }
   public Delete(id) {
-    return this.httpClient.delete(this.url.urlAddress + 'Almacen/Producto/' + id);
+    return this.httpClient.delete(this.url.urlAddress + 'delete-producto/' + id, {headers: this.httpHeaders}).toPromise();
   }
-  public Upddate(data) {
-    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Producto', {data}, {headers: this.httpHeaders});
+  public Actualizar(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'update-producto', {data}, {headers: this.httpHeaders}).toPromise();
   }
   public SearchxType(data) {
     return this.httpClient.post(this.url.urlAddress + 'Almacen/Producto/SearchxType', {data}, {headers: this.httpHeaders});
   }
-  public changestatus(data) {
-    return this.httpClient.patch(this.url.urlAddress + 'Almacen/Producto/changestatus', {data}, {headers: this.httpHeaders});
+  public ChangeStatus(data) {
+    return this.httpClient.patch(this.url.urlAddress + 'ChangeStatus-proudcto', {data}, {headers: this.httpHeaders}).toPromise();
   }
 }

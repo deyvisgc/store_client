@@ -30,10 +30,10 @@
                                           <div class="table-responsive">
                                             <div class="search-results" 
                                             infinite-scroll 
-                                            [infiniteScrollDistance]="1" 
-                                            [infiniteScrollThrottle]="2" 
-                                            [infiniteScrollThrottle]="300"
-                                            [infiniteScrollDisabled]="infiniteScrollStatus" 
+                                            [infiniteScrollDistance]="2" 
+                                            [infiniteScrollThrottle]="50" 
+                                            [infiniteScrollDisabled]="infiniteScrollStatus"
+                                            [scrollWindow]="false"
                                             (scrolled)="onScrollDown()"
                                             >
                                             <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbProductoActive" style="width: 100%;" >
@@ -49,17 +49,6 @@
                                                       <th scope="col">Opciones</th>
                                                     </tr>
                                                 </thead>
-                                                <!-- <tbody>
-                                                  <tr *ngFor="let i of dataactiva">
-                                                    <td>{{i.pro_name}}</td>
-                                                    <td>{{i.pro_name}}</td>
-                                                    <td>{{i.pro_name}}</td>
-                                                    <td>{{i.pro_name}}</td>
-                                                    <td>{{i.pro_name}}</td>
-                                                    <td>{{i.pro_name}}</td>
-                                                    <td>{{i.pro_name}}</td>
-                                                  </tr>
-                                                </tbody> -->
                                             </table>
                                             <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
                                             </div>
@@ -68,12 +57,12 @@
                                         <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
                                           <div class="table-responsive">
                                             <div class="search-results" 
-                                              infinite-scroll 
-                                              [infiniteScrollDistance]="1" 
-                                              [infiniteScrollThrottle]="2" 
-                                              [infiniteScrollThrottle]="300"
-                                              [infiniteScrollDisabled]="infiniteScrollStatus" 
-                                              (scrolled)="onScrollDown()"
+                                            infinite-scroll 
+                                            [infiniteScrollDistance]="2" 
+                                            [infiniteScrollThrottle]="50" 
+                                            [infiniteScrollDisabled]="infiniteScrollStatus"
+                                            [scrollWindow]="false"
+                                            (scrolled)="onScrollDown()"
                                             >
                                             <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbProductoEnabled" style="width: 100%;">
                                               <thead>
@@ -86,10 +75,11 @@
                                                     <th scope="col">Opciones</th>
                                                   </tr>
                                               </thead>
+                                             
                                           </table>
                                           <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
                                           </div>
-                                        </div>
+                                         </div>
                                         </div>
                                     </div>
                                 </div>
@@ -234,8 +224,11 @@
                 </div>
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
-                <button type="submit"  class="btn btn-outline-success btn-border-radius">Guardar</button>
+                <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a lista</button>
+                <button type="submit"  class="btn btn-outline-success btn-lg btn-block waves-effect">
+                <span *ngIf="!isLoading">Guardar</span>
+                <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
+                </button>
               </div>
             </form>
       </div>
@@ -284,8 +277,8 @@
               <svg style="width:10; height: 10; display:none" id="barcodeprint"></svg>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
-            <button type="submit" (click)='ImprimirCode()'  class="btn btn-outline-success btn-border-radius">IMPRIMIR</button>
+              <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a lista</button>
+              <button type="submit"  class="btn btn-outline-success btn-lg btn-block waves-effect"  (click)='ImprimirCode()'>IMPRIMIR</button>
           </div>
           </div>
       </div>

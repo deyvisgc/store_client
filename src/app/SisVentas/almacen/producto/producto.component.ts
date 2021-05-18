@@ -21,12 +21,13 @@ export class ProductoComponent implements OnInit {
   isScroll: boolean;
   infiniteScrollStatus: boolean;
   isloadinglista: boolean;
+  isLoading: boolean;
   params = {
     numeroRecnum: 0,
-    numeroCantidad: 10,
+    numeroCantidad: 5,
     noMore: false
   };
-  constructor(private produService: ProductoService, private fb: FormBuilder) {
+  constructor(private produService: ProductoService, private fb: FormBuilder, private dynamicScriptLoader: DynamicScriptLoaderService) {
     this.form = this.fb.group({
       pro_nombre: [null, Validators.required],
       pro_precio_compra: [null, Validators.required],
@@ -43,18 +44,23 @@ export class ProductoComponent implements OnInit {
       codigo     : [null]
     });
   }
-  ngOnInit(): void {
-    this.Listar();
+  ngOnInit() {
+    this.fetch();
+    this.startScript();
   }
-  onScrollDown(ev) {
-    console.log('scrolled down!!', ev);
+  async startScript() {
+    await this.dynamicScriptLoader.load('form.min').then(data => {
+      $('.cantida_generate').select2({ width: '100%' });
+    }).catch(error => console.log(error));
+   }
+  onScrollDown() {
     this.isScroll = true;
-    this.Listar();
+    this.fetch();
   }
-  Listar() {
+  fetch() {
     const vm = this;
+    vm.isloadinglista = true;
     vm.infiniteScrollStatus = true;
-    this.isloadinglista = true;
     if (!vm.isScroll) {
       vm.productActive = [];
       vm.params.numeroRecnum = 0;
@@ -62,15 +68,17 @@ export class ProductoComponent implements OnInit {
     vm.produService.Read(vm.params).then(res => {
       const rpta = sendRespuesta(res);
       const active = rpta.data.lista.filter( f => f.pro_status === 'active');
-      const disabled = rpta.data.lista.filter( f => f.pro_status === 'disabled');
+      const disabled = rpta.data.lista.filter( f => f.pro_status === 'disable');
+      console.log('disabled', disabled);
       // tslint:disable-next-line:prefer-for-of
-      for (let index = 0; index < active.length; index++) {
-        vm.productActive.push(active[index]);
+      for (let i = 0; i < active.length; i++) {
+        vm.productActive.push(active[i]);
       }
       // tslint:disable-next-line:prefer-for-of
-      for (let index = 0; index < disabled.length; index++) {
-        vm.productDisable.push(disabled[index]);
+      for (let j = 0; j < disabled.length; j++) {
+        vm.productDisable.push(disabled[j]);
       }
+      console.log('vm.productDisable', vm.productDisable);
       vm.datatable('.tbProductoActive', vm.productActive);
       vm.datatable('.tbProductoEnabled', vm.productDisable);
       if (!rpta.data.noMore) {
@@ -79,15 +87,13 @@ export class ProductoComponent implements OnInit {
       } else {
         vm.infiniteScrollStatus = true;
       }
-    }).catch((err) => {
+    }).catch(() => {
       vm.isScroll = false;
-      console.log('Error', err);
     }).finally(() => {
-      this.isloadinglista = false;
+      vm.isloadinglista = false;
     });
   }
   datatable(url, data) {
-    console.log('data', data);
     $(url).DataTable({
        // tslint:disable-next-line:object-literal-shorthand
        data: data,
@@ -98,32 +104,57 @@ export class ProductoComponent implements OnInit {
         { data: 'pro_precio_venta'},
         { data: 'pro_cantidad' },
       { data: (data1) => {
-        if (data1.pro_status === '1') {
-          return (
-            // tslint:disable-next-line:max-line-length
-            '<button _ngcontent-xkn-c6=""  title="ACTUALIZAR" class="btn bg-green btn-circle  waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;"><i style="padding-bottom:20px" class="fas fa-pen"></i></button>' + '<button _ngcontent-xkn-c6=""  title="ELIMINAR" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fas fa-trash-alt"></i></button>' + '<button _ngcontent-xkn-c6="" title="DESACTIVAR" class="btn btn-info btn-circle waves-effect waves-circle waves-float status" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fas fa-frown"></i></button>' + '<button _ngcontent-xkn-c6="" class="btn bg-deep-purple btn-circle waves-effect waves-circle waves-float printcodebarra"  title="IMPRIMIR CODIGO BARRA" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fa fa-barcode" aria-hidden="true"></i></button>');
+        const iconreload     = '<div id="reload" _ngcontent-yja-c6="" class="preloader pl-size-xs">' +
+                                 '<div _ngcontent-yja-c6="" style="border-color: white !important;" class="spinner-layer">' +
+                                 '<div _ngcontent-yja-c6="" class="circle-clipper left">' +
+                                 '<div _ngcontent-yja-c6="" class="circle"></div> </div>' +
+                                 '<div _ngcontent-yja-c6="" class="circle-clipper right">' +
+                                 '<div _ngcontent-yja-c6="" class="circle"></div> </div>' +
+                                 '</div></div>';
+        // tslint:disable-next-line:max-line-length
+        const btnActualizar = '<button _ngcontent-xkn-c6=""  title="ACTUALIZAR" class="btn bg-green btn-circle  waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;">' +  
+                              '<i style="padding-bottom:20px" id="iconEdit" class="fas fa-pen"></i>' + iconreload + '</button>';
+        // tslint:disable-next-line:max-line-length
+        const btnDelete = '<button _ngcontent-xkn-c6=""  title="ELIMINAR" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button" style="margin-left: 5px;font-size: 20px;">' +
+                           '<i class="fas fa-trash-alt"></i></button>';
+        // tslint:disable-next-line:max-line-length
+        const btnCodeBarra = '<button _ngcontent-xkn-c6="" class="btn bg-deep-purple btn-circle waves-effect waves-circle waves-float printcodebarra"  title="IMPRIMIR CODIGO BARRA" type="button" style="margin-left: 5px;font-size: 20px;">' +
+                             '<i class="fa fa-barcode" aria-hidden="true"></i></button>';
+        if (data1.pro_status === 'active') {
+          // tslint:disable-next-line:max-line-length
+          return (btnActualizar + btnDelete + btnCodeBarra + '<button _ngcontent-xkn-c6="" title="DESABILITAR" class="btn bg-info btn-circle waves-effect waves-circle waves-float changeStatus" type="button" style="margin-left: 5px;font-size: 20px;">' +
+                  '<i id="iconStatus" class="fas fa-lock fa-fw fa-3x text-white"></i>' + iconreload +
+                  '</button>'
+                 );
         } else {
-          return (
-            // tslint:disable-next-line:max-line-length
-            '<button _ngcontent-xkn-c6=""  title="ACTUALIZAR" class="btn bg-green btn-circle waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;"><i style="padding-bottom:20px" class="fas fa-pen"></i></button>' + '<button _ngcontent-xkn-c6="" title="ELIMINAR" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fas fa-trash-alt"></i></button>' + '<button _ngcontent-xkn-c6="" title="ACTIVAR" class="btn bg-deep-orange btn-circle waves-effect waves-circle waves-float status" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fas fa-grin-beam"></i></button>' + '<button _ngcontent-xkn-c6="" class="btn bg-deep-purple btn-circle waves-effect waves-circle waves-float printcodebarra"  title="IMPRIMIR CODIGO BARRA" type="button" style="margin-left: 5px;font-size: 20px;"><i class="fa fa-barcode" aria-hidden="true"></i></button>');
+          return (btnActualizar + btnDelete + btnCodeBarra +
+                  // tslint:disable-next-line:max-line-length
+                  '<button _ngcontent-xkn-c6="" title="HABILITAR" class="btn bg-green btn-circle waves-effect waves-circle waves-float changeStatus" type="button" style="margin-left: 5px;font-size: 20px;">' +
+                  '<i id="iconStatus" class="fas fa-unlock-alt text-white"></i>' + iconreload +
+                  '</button>'
+                 );
         }
       }
       },
       ],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
-        const vem = this;
+        const vm = this;
         $('.edit', row).bind('click', () => {
-          // vem.editar(data);
+           vm.isLoading = false;
+           $('#iconEdit', row).hide();
+           $('#reload', row).show();
+           vm.Editar(data, row);
          });
         $('.delete', row).bind('click', () => {
-
-          // vem.delete(data);
+          vm.Delete(data);
          });
-        $('.status', row).bind('click', () => {
-          //  vem.changestatus(data);
+        $('.changeStatus', row).bind('click', () => {
+          $('#iconStatus', row).hide();
+          $('#reload', row).show();
+          vm.ChangeStatus(data, row);
          });
         $('.printcodebarra', row).bind('click', () => {
-          // vem.printcodebarra(data);
+          vm.PrintCodeBarra(data);
         });
         return row;
       },
@@ -151,5 +182,187 @@ export class ProductoComponent implements OnInit {
       destroy: true
     });
   }
-
+  Editar(produ, row) {
+    const vm = this;
+    const obj = {
+      idClase: produ.id_clase_producto,
+      idProduct: produ.id_product
+    };
+    vm.produService.edit(obj).then(res => {
+      const rpta = sendRespuesta(res);
+      $('#modalUpdate').modal('show');
+      vm.form.controls.idproducto.setValue(rpta.data.product.id_product);
+      vm.form.controls.pro_nombre.setValue(rpta.data.product.pro_name);
+      vm.form.controls.pro_precio_compra.setValue(rpta.data.product.pro_precio_compra);
+      vm.form.controls.pro_precio_venta.setValue(rpta.data.product.pro_precio_compra);
+      vm.form.controls.cantidad.setValue(rpta.data.product.pro_cantidad);
+      vm.form.controls.cantidad_minima.setValue(rpta.data.product.pro_cantidad_min);
+      vm.form.controls.codigo.setValue(rpta.data.product.pro_code);
+      vm.form.controls.descripcion.setValue(rpta.data.product.pro_description);
+      vm.form.controls.codigo_barra.setValue(rpta.data.product.pro_cod_barra);
+      const data = [rpta.data.product];
+      data.forEach(prod => {
+        rpta.data.clapadre.forEach(clapadre => {
+          if (prod.id_clase_producto === clapadre.id_clase_producto) {
+             this.form.controls.clase.setValue(clapadre.id_clase_producto);
+            $('#clase_update').append('<option value=' + clapadre.id_clase_producto + '  selected >' + clapadre.clasepadre + '</option>');
+          } else {
+            $('#clase_update').append('<option value=' + clapadre.id_clase_producto + '  >' + clapadre.clasepadre + '</option>');
+          }
+        });
+        rpta.data.clahijo.forEach(clahijo => {
+          if (prod.id_subclase === clahijo.id_clase_producto) {
+            this.form.controls.subclase.setValue(clahijo.id_clase_producto);
+            $('#subcategoria_update').append('<option value=' + clahijo.id_clase_producto + '  selected >' + clahijo.clasehijo + '</option>');
+          } else {
+           $('#subcategoria_update').append('<option value=' + clahijo.id_clase_producto + '  >' + clahijo.clasehijo + '</option>');
+          }
+        });
+        rpta.data.lote.forEach(lote => {
+          if (prod.id_lote === lote.id_lote) {
+            this.form.controls.lote.setValue(lote.id_lote);
+            $('#lote_update').append('<option value=' + lote.id_lote + '  selected >' + lote.lot_name + '</option>');
+          } else {
+            $('#lote_update').append('<option value=' + lote.id_lote + '  >' + lote.lot_name + '</option>');
+          }
+        });
+        rpta.data.unidad.forEach(uni => {
+          if (prod.id_unidad_medida === uni.id_unidad_medida) {
+            this.form.controls.unidad.setValue(uni.id_unidad_medida);
+            $('#unidad_update').append('<option value=' + uni.id_unidad_medida + ' selected >' + uni.um_name + '</option>');
+          } else {
+            $('#unidad_update').append('<option value=' + uni.id_unidad_medida + '  >' + uni.um_name + '</option>');
+          }
+        });
+      });
+    }).catch((err) => {
+      console.log('Error', err);
+    }).finally(() => {
+      $('#editReload', row).hide();
+      $('#iconEdit', row).show();
+    });
+  }
+  Actualizar() {
+    const vm = this;
+    vm.isLoading = true;
+    vm.produService.Actualizar(vm.form.value).then( res => {
+      const rpta = sendRespuesta(res);
+      if ( rpta.status) {
+        $('#modalUpdate').modal('hide');
+        iziToast.success({
+          title: 'OK',
+          position: 'topRight',
+          message: rpta.message
+        });
+        vm.fetch();
+        vm.form.reset();
+      } else {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: rpta.message
+        });
+      }
+    }).catch((err) => {
+      console.log('Error', err);
+    }).finally(() => {
+      vm.isLoading = false;
+    });
+  }
+  Delete(producto: any) {
+    const vm = this;
+    swal.fire({
+      title: 'Eliminar',
+      text:  'Seguro de eliminar este producto?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#008000',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        vm.produService.Delete(producto.id_product).then(res => {
+          const rpta = sendRespuesta(res);
+          if (rpta.status) {
+            swal.fire(
+              'Eliminado!',
+              rpta.message,
+              'success'
+            );
+          } else {
+            swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: rpta.message,
+            });
+          }
+        }).catch((err) => {
+          console.log('Error', err);
+        }).finally(() => {
+          vm.fetch();
+        });
+      } else {
+        swal.fire({
+          icon: 'error',
+          title: 'Cancelado',
+          text: 'Producto a salvo',
+        });
+      }
+    });
+  }
+  PrintCodeBarra(code: any) {
+    this.gncodebarra = code.pro_cod_barra;
+    $('#gcodebarra').modal('show');
+  }
+  ImprimirCode() {
+    const vm = this;
+    const cantidaGenerate = document.getElementById('cantida_generate')['value'];
+    for (let i = 0; i < cantidaGenerate; i++) {
+      $('#divbarcodeprint').append('<svg style="width:10; height: 10; display:none" id="barcodeprint"></svg>');
+      JsBarcode('#barcodeprint', vm.gncodebarra, {
+        format: 'CODE128',
+        width: 2,
+        height: 50,
+        marginLeft: 85
+      });
+     }
+    vm.imprimir();
+    $('#divbarcodeprint').empty();
+  }
+  imprimir() {
+    const ficha = document.getElementById('divbarcodeprint');
+    const ventimp = window.open(' ', 'popimpr');
+    ventimp.document.write( ficha.innerHTML );
+    ventimp.document.close();
+    ventimp.print( );
+    ventimp.close();
+  }
+  ChangeStatus(info: any, row) {
+    const vm = this;
+    const data = [{id: info.id_product, status: info.pro_status}];
+    vm.productDisable = [];
+    vm.produService.ChangeStatus(data).then (res => {
+      const rpta = sendRespuesta(res);
+      if (rpta.status) {
+        iziToast.success({
+          title: 'Succes',
+          position: 'topRight',
+          message: rpta.message,
+        });
+        this.fetch();
+      } else {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: rpta.message,
+        });
+      }
+    }).catch((err) => {
+      console.log('Error', err);
+    }).finally(() => {
+      $('#iconStatus', row).hide();
+      $('#reload', row).show();
+    });
+  }
 }
