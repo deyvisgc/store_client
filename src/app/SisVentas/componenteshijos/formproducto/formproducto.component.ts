@@ -5,11 +5,13 @@ import iziToast from 'izitoast';
 import * as JsBarcode from 'jsbarcode';
 import swal from 'sweetalert2';
 import { DynamicScriptLoaderService } from 'src/app/services/dynamic-script-loader.service';
+import { ProductoService } from '../../service/Almacen/producto/producto.service';
 declare const $: any;
+declare const sendRespuesta: any;
 @Component({
   selector: 'app-formproducto',
   templateUrl: './formproducto.component.html',
-  styleUrls: ['./formproducto.component.sass']
+  styleUrls: ['./formproducto.component.css']
 })
 export class FormproductoComponent implements OnInit {
   @Output() public productlist = new EventEmitter <any>();
@@ -17,6 +19,7 @@ export class FormproductoComponent implements OnInit {
   loading: boolean;
   btnform: boolean;
   btndisables: boolean;
+  isLoading: boolean;
   CodigoBarra;
   selectedItem;
   subclase: any = [];
@@ -24,7 +27,8 @@ export class FormproductoComponent implements OnInit {
   lote: any = [];
   clase: any = [];
   unidad: any = [];
-  constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private fb: FormBuilder, private almacenServ: AlmacenService) {
+  constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private fb: FormBuilder, private almacenServ: AlmacenService,
+              private productServ: ProductoService) {
     this.form = this.fb.group({
       pro_nombre: [null, Validators.required],
       pro_precio_compra: [null, Validators.required],
@@ -54,34 +58,39 @@ export class FormproductoComponent implements OnInit {
     }).catch(error => console.log(error));
    }
   public Registrar() {
-    if (this.form.valid) {
-      this.desactiviarOrDesactivar(2);
-      this.almacenServ.Registrar(this.form.value).subscribe( res => {
-      // tslint:disable-next-line:no-string-literal
-      if ( res['status'] === true) {
-        this.reset();
-        $('#modalRegistrar').modal('hide');
-        this.desactiviarOrDesactivar(1);
-        iziToast.success({
-         title: 'OK',
-         position: 'topRight',
-         message: res['message'],
-        });
-        this.productlist.emit(true);
-       } else {
-         this.loading = false;
-         iziToast.error({
-          title: 'Error',
-          position: 'topRight',
-          // tslint:disable-next-line:no-string-literal
-          message: res['message'],
-         });
-         this.productlist.emit(false);
-       }
-       });
+    const vm = this;
+    if (vm.form.valid) {
+      vm.desactiviarOrDesactivar(2);
+      vm.isLoading = true;
+      vm.productServ.Registrar(vm.form.value).then( res => {
+        const rpta = sendRespuesta(res);
+        if ( rpta.status) {
+          vm.reset();
+          $('#modalRegistrar').modal('hide');
+          vm.desactiviarOrDesactivar(1);
+          iziToast.success({
+           title: 'OK',
+           position: 'topRight',
+           message: rpta.message,
+          });
+          vm.productlist.emit(true);
+         } else {
+           vm.loading = false;
+           iziToast.error({
+            title: 'Error',
+            position: 'topRight',
+            message: rpta.message,
+           });
+           vm.productlist.emit(false);
+         }
+      }).catch((err) => {
+        console.log('Error', err);
+      }).finally(() => {
+        vm.isLoading = false;
+      });
      } else {
-       Object.keys(this.form.controls).forEach(field => { // {1}
-         const control = this.form.get(field);            // {2}
+       Object.keys(vm.form.controls).forEach(field => { // {1}
+         const control = vm.form.get(field);            // {2}
          control.markAsTouched({ onlySelf: true });       // {3}
        });
      }

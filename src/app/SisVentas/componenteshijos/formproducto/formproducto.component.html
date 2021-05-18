@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="Registrar()">
   <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12">
-       <label for="pro_nombre" class="control-label required">Producto1</label>
+       <label for="pro_nombre" class="control-label required">Producto</label>
       <div class="form-group" [ngClass]="displayFieldCss('pro_nombre')">
         <div class="form-line">
           <input type="text" onkeyup="this.value = this.value.toUpperCase();"
@@ -124,8 +124,11 @@
   </div>
   <div class="loader" *ngIf="loading" ></div>
   <div class="modal-footer">
-      <button type="button" *ngIf="btnform" (click)='reset()' class="btn btn-border-radius btn-outline-danger" data-dismiss="modal">Cerrar</button>
-    <button type="submit" *ngIf="btnform" [disabled]="btndisables"  class="btn btn-outline-success btn-border-radius" >Registrar</button>
-    <button  type="button" *ngIf="btnform" (click)='GenerarCode()' class="btn btn-outline-warning btn-border-radius">Codigo Barra</button>
+    <button type="button" *ngIf="btnform"  class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal" (click)='reset()'>Regresar</button>
+    <button type="submit" *ngIf="btnform" [disabled]="btndisables"  class="btn btn-outline-success btn-lg btn-block waves-effect"> 
+      <span *ngIf="!isLoading">Guardar</span>
+      <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
+    </button>
+    <button  type="button" *ngIf="btnform" (click)='GenerarCode()' class="btn btn-outline-warning btn-lg btn-block waves-effect">Cod. Barra</button>
   </div>
 </form>

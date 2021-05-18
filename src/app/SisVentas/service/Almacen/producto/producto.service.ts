@@ -18,7 +18,7 @@ export class ProductoService {
     return this.httpClient.get(this.url.urlAddress + 'edit-producto', {params, headers: this.httpHeaders}).toPromise();
   }
   public Registrar(data) {
-    return this.httpClient.post(this.url.urlAddress + 'Almacen/Producto', {data}, {headers: this.httpHeaders});
+    return this.httpClient.post(this.url.urlAddress + 'create-product', {data}, {headers: this.httpHeaders}).toPromise();
   }
   public Delete(id) {
     return this.httpClient.delete(this.url.urlAddress + 'delete-producto/' + id, {headers: this.httpHeaders}).toPromise();
