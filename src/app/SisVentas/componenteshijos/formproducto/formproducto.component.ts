@@ -27,6 +27,9 @@ export class FormproductoComponent implements OnInit {
   lote: any = [];
   clase: any = [];
   unidad: any = [];
+  isloadingCategoria: boolean;
+  isloadingLote: boolean;
+  isloadingUnidadMedida: boolean;
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private fb: FormBuilder, private almacenServ: AlmacenService,
               private productServ: ProductoService) {
     this.form = this.fb.group({
@@ -45,6 +48,15 @@ export class FormproductoComponent implements OnInit {
   }
   ngOnInit() {
     this.startScript();
+    window.addEventListener('keyup', e => {
+      const vm = this;
+      if (e.keyCode === 27) {
+        vm.isloadingCategoria = false;
+        vm.isloadingLote = false;
+        vm.isloadingUnidadMedida = false;
+      }
+    });
+
   }
   private loadData() {
     this.select();
@@ -193,5 +205,36 @@ export class FormproductoComponent implements OnInit {
   this.almacenServ.getClaseSupe().subscribe(respcla => {
     this.clase = respcla;
   });
+ }
+ Adjuntar(event) {
+   const vm = this;
+   // Creamos el objeto de la clase FileReader
+   const reader = new FileReader();
+
+    // Leemos el archivo subido y se lo pasamos a nuestro fileReader
+   reader.readAsDataURL(event.target.files[0]);
+    // Le decimos que cuando este listo ejecute el código interno
+   // tslint:disable-next-line:only-arrow-functions
+   reader.onload = function() {
+      const preview = document.getElementById('preview');
+      const image = document.createElement('img');
+      image.src = reader.result as string;
+      image.style.width = '200px';
+      image.style.height = '90px';
+      preview.innerHTML = '';
+      preview.append(image);
+   };
+ }
+ showSelectCategoria() {
+  const vm = this;
+  vm.isloadingCategoria = true;
+ }
+ showSelectLote() {
+  const vm = this;
+  vm.isloadingLote = true;
+ }
+ showSelectUnidaMedida() {
+  const vm = this;
+  vm.isloadingUnidadMedida = true;
  }
 }
