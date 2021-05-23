@@ -23,22 +23,22 @@
           </app-field-error-display>      
         </div>
       </div>
-      <div class="form-group" [ngClass]="displayFieldCss('cantidad')">
+      <!-- <div class="form-group" [ngClass]="displayFieldCss('cantidad')">
         <label for="Cantidad" class="control-label required">Cantidad</label>
         <div class="form-line">
           <input type="number" value="{{cantidad}}" name="cantidad" required formControlName="cantidad" class="form-control" >
           <app-field-error-display [displayError]="isFieldValid('cantidad')" errorMsg="Cantidad Requerida">
           </app-field-error-display> 
         </div>
-      </div>
-      <div class="form-group" [ngClass]="displayFieldCss('cantidad_minima')">
+      </div> -->
+      <!-- <div class="form-group" [ngClass]="displayFieldCss('cantidad_minima')">
         <label for="cantidad_minima" class="control-label required">Cantidad Minima</label>
         <div class="form-line" >
           <input type="number" name="cantidad_minima"  formControlName="cantidad_minima" required class="form-control" value="{{cantidad}}">
           <app-field-error-display [displayError]="isFieldValid('cantidad_minima')" errorMsg="Cantidad Minima Requerida">
           </app-field-error-display>    
         </div>
-      </div>
+      </div> -->
       <div class="form-group" [ngClass]="displayFieldCss('codigo_barra')">
         <label for="Codigo Barra" class="control-label required">Codigo Barra</label>
         <div class="form-line">
@@ -52,8 +52,8 @@
         <label for="Categoria" class="control-label required">Categoria</label>
         <div class="form-line">
           <input class="text-uppercase" id="filtro" formControlName="clase"/>
-          <app-c-seleccionar-categoria *ngIf="isloadingCategoria" [isActiveCategoria]="isloadingCategoria" (cate)="selectCategoria($event)"></app-c-seleccionar-categoria>
-          <button type="button" class="btn btn-success" style="height: 30px; background-color: #48c774 !important;"  (click)="showSelectCategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
+          <app-c-seleccionar-categoria *ngIf="isloadingCategoria" (cate)="selectCate($event)" [isActiveCategoria]="isloadingCategoria"></app-c-seleccionar-categoria>
+          <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;"  (click)="showSelectCategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
           </button>
           <app-field-error-display [displayError]="isFieldValid('clase')" errorMsg="Categoria Requerido">
           </app-field-error-display>
@@ -63,12 +63,12 @@
         <label for="Subcategoria" class="control-label required">Sub Categoria</label>
         <div class="form-line">
           <input class="text-uppercase" id="filtro" formControlName="subclase"/>
-          <!-- <app-c-seleccionar-categoria *ngIf="isloadingSubCategoria" [isActiveCategoria]="isloadingSubCategoria" (cate)="selectCategoria($event)"></app-c-seleccionar-categoria> -->
-          <button type="button" class="btn btn-success" style="height: 30px; background-color: #48c774 !important;"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
+          <app-c-seleccionar-sub-categoria *ngIf="isActiveSubCategoria" [idCate]="idClaseProducto"  [isActiveSubCategoria]="isActiveSubCategoria" (subCate)="selectSubCate($event)"></app-c-seleccionar-sub-categoria>
+          <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;" (click)="showSubcategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
           </button>
         </div>
       </div>
-      <div class="form-group" [ngClass]="displayFieldCss('lote')">
+      <!-- <div class="form-group" [ngClass]="displayFieldCss('lote')">
         <label for="Categoria" class="control-label required">Lote</label>
         <div class="form-line">
           <input class="text-uppercase" id="filtro" formControlName="lote"/>
@@ -78,22 +78,22 @@
           <app-field-error-display [displayError]="isFieldValid('lote')" errorMsg="Lote Requerido">
           </app-field-error-display>
         </div>
-      </div>
-      <div class="form-group" [ngClass]="displayFieldCss('unidad')">
+      </div> -->
+      <!-- <div class="form-group" [ngClass]="displayFieldCss('unidad')">
         <label for="Categoria" class="control-label required">Unidad de Medida</label>
         <div class="form-line">
           <input class="text-uppercase" id="filtro" formControlName="unidad"/>
-          <app-c-seleccionar-unidad-medida *ngIf="isloadingUnidadMedida" [isActiveUnidadMedida]="isloadingUnidadMedida" (lote)="selectLote($event)"></app-c-seleccionar-unidad-medida>
+          <app-c-seleccionar-unidad-medida *ngIf="isloadingUnidadMedida" [isActiveUnidadMedida]="isloadingUnidadMedida" (unidadMedida)="selectUnidadMedida($event)"></app-c-seleccionar-unidad-medida>
           <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;" (click)="showSelectUnidaMedida()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
           </button>
           <app-field-error-display [displayError]="isFieldValid('unidad')" errorMsg="Unidad de Medida Requerido">
           </app-field-error-display>
         </div>
-      </div>
+      </div> -->
       <div class="form-group" [ngClass]="displayFieldCss('descripcion')">
         <label for="Descripción" class="control-label required">Descripción</label>
         <div class="form-line">
-          <textarea name="textarea" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
+          <textarea name="textarea" class="descripcion" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
           <app-field-error-display [displayError]="isFieldValid('descripcion')" errorMsg="Descripcion requerido">
           </app-field-error-display>
         </div>
@@ -101,7 +101,7 @@
   </div>
   <div class="card">
     <div class="card-body file" style="height: 100px;">
-      <i class="fas fa-cloud-upload-alt fa-3x">
+      <i class="fas fa-cloud-upload-alt fa-3x archivos">
         <h5 class="block">Subir archivos</h5>
         <input class="upload-box" id="upload" (change)="Adjuntar($event)" type="file" name="upload"  accept="image/*"/>
       </i>
@@ -113,6 +113,6 @@
     <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a lista</button>
     <button type="submit"  class="btn btn-outline-success btn-lg btn-block waves-effect">
     <span>Guardar</span></button>
-    <button  type="button" (click)='GenerarCode()' class="btn btn-outline-warning btn-lg btn-block waves-effect">Generar codigo Barra</button>
+    <button  type="button" (click)='GenerarCode()' class="btn btn-outline-warning btn-lg btn-block waves-effect"><span class="generar">Generar codigo Barra</span></button>
   </div>
 </form>

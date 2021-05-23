@@ -14,7 +14,8 @@ export class CSeleccionarUnidadMedidaComponent implements OnInit {
   listUnidadMedida = [];
   params = {
     numeroRecnum: 0,
-    noMore: false
+    noMore: false,
+    cantidadRegistros: 10
   };
   isScroll: boolean;
   isloadinglista: boolean;

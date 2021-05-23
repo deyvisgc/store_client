@@ -3,14 +3,14 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
-.search-results::-webkit-scrollbar {
+::-webkit-scrollbar {
   -webkit-appearance: none;
 }
 
-.search-results::-webkit-scrollbar:vertical {
+::-webkit-scrollbar:vertical {
   width:10px;
 }
-.search-results::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: #48c78e;
   border-radius: 20px;
   border: 2px solid #f1f2f3;
@@ -20,8 +20,20 @@
 }
 .modal-content {
   height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .modal-title {
   margin-left: 300px !important;
   font-weight: 400 !important;
 }
+@media (max-width: 800px) {
+  .modal-title {
+    margin-left: 100px !important;
+    font-weight: 400 !important;
+  }
+  .modal-content {
+    width: 400px;
+  }
+}
+

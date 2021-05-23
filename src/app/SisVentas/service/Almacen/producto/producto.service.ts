@@ -9,7 +9,7 @@ export class ProductoService {
 
   constructor(private httpClient: HttpClient, private url: EnviromentService) { }
   httpHeaders = new HttpHeaders()
-  .append('Content-Type', 'application/json')
+  // .append('Content-Type', 'application/json')
   .append('Authorization',  'Bearer' + ' ' + localStorage.getItem('token'));
   public Read(params) {
     return this.httpClient.get(this.url.urlAddress + 'obtener-producto', {params, headers: this.httpHeaders}).toPromise();
@@ -17,8 +17,8 @@ export class ProductoService {
   public edit(params) {
     return this.httpClient.get(this.url.urlAddress + 'edit-producto', {params, headers: this.httpHeaders}).toPromise();
   }
-  public Registrar(data) {
-    return this.httpClient.post(this.url.urlAddress + 'create-product', {data}, {headers: this.httpHeaders}).toPromise();
+  public Registrar(form) {
+    return this.httpClient.post(this.url.urlAddress + 'create-product', form, {headers: this.httpHeaders}).toPromise();
   }
   public Delete(id) {
     return this.httpClient.delete(this.url.urlAddress + 'delete-producto/' + id, {headers: this.httpHeaders}).toPromise();

@@ -14,7 +14,7 @@ input[type="text"], input[type="password"], input[type="number"]{
   color: #555;
   margin-left: 10px;
 }
-.search-subcategoria {
+.search-results {
   height: 15rem;
   overflow-y: auto;
 }

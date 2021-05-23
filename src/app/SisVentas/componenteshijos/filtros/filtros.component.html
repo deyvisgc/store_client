@@ -1,17 +1,17 @@
-<div class="card">
+<div class="card container">
   <div class="header">
     <h6> <strong>Buscar Por: </strong> </h6>  
   </div>
   <div class="card-body" style="display: flex;">
-    <input class="text-uppercase" style="width: 15%;" [(ngModel)]="categoria" type="text" placeholder="Buscar Categoria"/>
+    <input class="text-uppercase"  [(ngModel)]="categoria" type="text" placeholder="Categoria"/>
     <app-c-seleccionar-categoria *ngIf="isloadingCategoria" [isActiveCategoria]="isloadingCategoria" (cate)="selectCategoria($event)"></app-c-seleccionar-categoria>
     <button class="btn btn-success" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectCategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
     
-    <input class="text-uppercase" style="width: 15%;" type="text" [(ngModel)]="lote" placeholder="Buscar Lotes" />
+    <input class="text-uppercase"  type="text" [(ngModel)]="lote" placeholder="Lotes" />
     <app-c-seleccionar-lote *ngIf="isloadingLote" [isActiveLote]="isloadingLote" (lote)="selectLote($event)"></app-c-seleccionar-lote>
     <button class="btn btn-success" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectLote()"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
     
-    <input class="text-uppercase" style="width: 15%;" [(ngModel)]="unidadMedida" type="text" placeholder="Buscar Unidad Medida" />
+    <input class="text-uppercase" [(ngModel)]="unidadMedida" type="text" placeholder="Unidad Medida" />
     <app-c-seleccionar-unidad-medida *ngIf="isloadingUnidadMedida" [isActiveUnidadMedida]="isloadingUnidadMedida" (unidadMedida)="selectUnidad($event)"></app-c-seleccionar-unidad-medida>
     <button class="btn btn-success" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectUnidaMedida()"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
     <!-- <input class="text-uppercase" style="width: 30%;" type="text" placeholder="Buscar Categoria" />

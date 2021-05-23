@@ -6,6 +6,8 @@ import * as JsBarcode from 'jsbarcode';
 import swal from 'sweetalert2';
 import { DynamicScriptLoaderService } from 'src/app/services/dynamic-script-loader.service';
 import { ProductoService } from '../../service/Almacen/producto/producto.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EnviromentService } from '../../service/enviroment.service';
 declare const $: any;
 declare const sendRespuesta: any;
 @Component({
@@ -14,6 +16,8 @@ declare const sendRespuesta: any;
   styleUrls: ['./formproducto.component.css']
 })
 export class FormproductoComponent implements OnInit {
+  httpHeaders = new HttpHeaders()
+  .append('Authorization',  'Bearer' + ' ' + localStorage.getItem('token'));
   @Output() public productlist = new EventEmitter <any>();
   form: FormGroup;
   loading: boolean;
@@ -22,16 +26,14 @@ export class FormproductoComponent implements OnInit {
   isLoading: boolean;
   CodigoBarra;
   selectedItem;
-  subclase: any = [];
+  idClaseProducto: number;
   cantidad = 1;
-  lote: any = [];
-  clase: any = [];
-  unidad: any = [];
   isloadingCategoria: boolean;
   isloadingLote: boolean;
   isloadingUnidadMedida: boolean;
-  constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private fb: FormBuilder, private almacenServ: AlmacenService,
-              private productServ: ProductoService) {
+  isActiveSubCategoria: boolean;
+  file = '';
+  constructor(private fb: FormBuilder, private productServ: ProductoService, private http: HttpClient, private url: EnviromentService) {
     this.form = this.fb.group({
       pro_nombre: [null, Validators.required],
       pro_precio_compra: [null, Validators.required],
@@ -39,178 +41,113 @@ export class FormproductoComponent implements OnInit {
       cantidad: [null, Validators.required],
       cantidad_minima: [null, Validators.required],
       codigo_barra: [null, Validators.required],
+      descripcion: [null, Validators.required],
       lote:  [null, Validators.required],
+      id_lote: [null],
       clase: [null, Validators.required],
+      id_clase: [null],
       subclase: [null,  Validators.required],
+      id_sub_clase: [null],
       unidad: [null, Validators.required],
-      descripcion: [null, Validators.required]
+      id_unidad: [null],
+      id_producto: 0
     });
   }
   ngOnInit() {
-    this.startScript();
     window.addEventListener('keyup', e => {
       const vm = this;
       if (e.keyCode === 27) {
         vm.isloadingCategoria = false;
         vm.isloadingLote = false;
         vm.isloadingUnidadMedida = false;
+        vm.isActiveSubCategoria = false;
       }
     });
 
   }
-  private loadData() {
-    this.select();
-    this.desactiviarOrDesactivar(1);
-    this.changeselect('.clase', '.subclase', '.lote', '.unidad');
-    this.select2();
-   }
-   async startScript() {
-    await this.dynamicScriptLoader.load('form.min').then(data => {
-      this.loadData();
-    }).catch(error => console.log(error));
-   }
-  public Registrar() {
+  Registrar() {
     const vm = this;
-    if (vm.form.valid) {
-      vm.desactiviarOrDesactivar(2);
-      vm.isLoading = true;
-      vm.productServ.Registrar(vm.form.value).then( res => {
-        const rpta = sendRespuesta(res);
-        if ( rpta.status) {
-          vm.reset();
-          $('#modalRegistrar').modal('hide');
-          vm.desactiviarOrDesactivar(1);
-          iziToast.success({
-           title: 'OK',
-           position: 'topRight',
-           message: rpta.message,
-          });
-          vm.productlist.emit(true);
-         } else {
-           vm.loading = false;
-           iziToast.error({
-            title: 'Error',
-            position: 'topRight',
-            message: rpta.message,
-           });
-           vm.productlist.emit(false);
-         }
-      }).catch((err) => {
-        console.log('Error', err);
-      }).finally(() => {
-        vm.isLoading = false;
-      });
-     } else {
-       Object.keys(vm.form.controls).forEach(field => { // {1}
-         const control = vm.form.get(field);            // {2}
-         control.markAsTouched({ onlySelf: true });       // {3}
-       });
-     }
+    vm.isLoading = true;
+    // vm.http.post(vm.url.urlAddress + 'create-product', {form}, {headers: this.httpHeaders}).subscribe((res) => {
+    //   console.log('res');
+    // })
+    const formData = new FormData();
+    formData.append('file', vm.file);
+    formData.append('pro_nombre', vm.form.value.pro_nombre);
+    formData.append('pro_precio_compra', vm.form.value.pro_precio_compra);
+    formData.append('pro_precio_venta', vm.form.value.pro_precio_venta);
+    formData.append('cantidad', vm.form.value.cantidad);
+    formData.append('cantidad_minima', vm.form.value.cantidad_minima);
+    formData.append('codigo_barra', vm.form.value.codigo_barra);
+    formData.append('descripcion', vm.form.value.descripcion);
+    formData.append('clase', vm.form.value.id_clase);
+    formData.append('sub_clase', vm.form.value.id_sub_clase);
+    formData.append('lote', vm.form.value.id_lote);
+    formData.append('unidad', vm.form.value.id_unidad);
+    vm.productServ.Registrar(formData).then( res => {
+      const rpta = sendRespuesta(res);
+    });
+    // formData.append('form', );
+    // vm.http.post(vm.url.urlAddress + 'create-product', formData, {headers: this.httpHeaders})  //{headers: this.httpHeaders})
+    //   .subscribe(res => {
+    //     console.log(res);
+    //     alert('SUCCESS !!');
+    // });
+    // if (vm.form.valid) {
+    //   // vm.desactiviarOrDesactivar(2);
+    //  } else {
+    //    Object.keys(vm.form.controls).forEach(field => { // {1}
+    //      const control = vm.form.get(field);            // {2}
+    //      control.markAsTouched({ onlySelf: true });       // {3}
+    //    });
+    //  }
   }
   isFieldValid(field: string) {
-    return !this.form.get(field).valid && this.form.get(field).touched;
+    const vm = this;
+    return !vm.form.get(field).valid && vm.form.get(field).touched;
   }
   displayFieldCss(field: string) {
+    const vm = this;
     return {
-   'has-error': this.isFieldValid(field),
-   'has-feedback': this.isFieldValid(field)
- };
- }
- desactiviarOrDesactivar(valor) {
-  switch (valor) {
-    case 1:
-      this.loading = false;
-      this.btnform = true;
-      this.btndisables = false;
-      break;
-    case 2:
-      this.loading = true;
-      this.btnform = false;
-      this.btndisables = true;
-      break;
+      'has-error': vm.isFieldValid(field),
+      'has-feedback': vm.isFieldValid(field)
+    };
   }
- }
- public GenerarCode() {
-  this.CodigoBarra = '775820300317';
-  const lastidproducto = localStorage.getItem('lasidproducto');
-  this.CodigoBarra = this.CodigoBarra.concat(lastidproducto);
-  this.form.controls.codigo_barra.setValue(this.CodigoBarra);
-  JsBarcode('#barcode', this.CodigoBarra, {
-    format: 'CODE128',
-    width: 2,
-    height: 50,
-    marginLeft: 85
-  });
- }
- public changeclasehija(event) {
-  this.form.controls.clase.setValue(event);
-  this.almacenServ.filtrarxclasepadre(event).subscribe((res: any = []) => {
-    if (res.length > 0) {
-      this.selectedItem = res[0]['idhijo'];
-      this.form.controls.subclase.setValue(this.selectedItem);
-      this.subclase = res;
-      $('#subcategoria_update').empty();
-      res.forEach(element => {
-        $('#subcategoria_update').append('<option value=' + element.idhijo + '  >' + element.clasehijo + '</option>');
-      });
-      iziToast.success({
-      title: 'Succes',
-      position: 'topRight',
-      message: 'Subcategorias Encontradas',
-     });
-    } else {
-      iziToast.error({
-      title: 'Error',
-      position: 'topRight',
-      message: 'Esta categoria no tiene subclases',
-     });
+  desactiviarOrDesactivar(valor) {
+    switch (valor) {
+      case 1:
+        this.loading = false;
+        this.btnform = true;
+        this.btndisables = false;
+        break;
+      case 2:
+        this.loading = true;
+        this.btnform = false;
+        this.btndisables = true;
+        break;
     }
-  });
- }
- select2() {
-  $('.lote').select2({ width: '100%' });
-  $('.clase').select2({ width: '100%' });
-  $('.unidad').select2({ width: '100%' });
-  $('.subclase').select2({ width: '100%' });
- }
- reset() {
-  this.form.reset();
-  $('#clase').val(null).trigger('change');
-  $('#subclase').val(null).trigger('change');
-  $('#lote').val(null).trigger('change');
-  $('#unidad').val(null).trigger('change');
-  $('#barcode').html('');
- }
- changeselect(clase , subclase, lote , unidad) {
-  $(clase).select2().on('change', (event) => {
-  this.changeclasehija(event.target.value);
-  });
-  $(subclase).select2().on('change', (event) => {
-  this.form.controls.subclase.setValue(event.target.value);
-  });
-  $(lote).select2().on('change', (event) => {
-  this.form.controls.lote.setValue(event.target.value);
-  });
-  $(unidad).select2().on('change', (event) => {
-  this.form.controls.unidad.setValue(event.target.value);
-  });
- }
- public  select() {
-  this.almacenServ.Lote().subscribe(res => {
-    this.lote = res;
-  });
-  this.almacenServ.UnidadMedida().subscribe(resp => {
-    this.unidad = resp;
-  });
-  this.almacenServ.getClaseSupe().subscribe(respcla => {
-    this.clase = respcla;
-  });
- }
- Adjuntar(event) {
+  }
+  GenerarCode() {
+    const vm = this;
+    vm.CodigoBarra = '775820300317';
+    const lastidproducto = localStorage.getItem('lasidproducto');
+    vm.CodigoBarra = vm.CodigoBarra.concat(lastidproducto);
+    vm.form.controls.codigo_barra.setValue(vm.CodigoBarra);
+    JsBarcode('#barcode', vm.CodigoBarra, {
+      format: 'CODE128',
+      width: 2,
+      height: 50,
+      marginLeft: 85
+    });
+  }
+  reset() {
+    const vm = this;
+    vm.form.reset();
+  }
+  Adjuntar(event) {
    const vm = this;
    // Creamos el objeto de la clase FileReader
    const reader = new FileReader();
-
     // Leemos el archivo subido y se lo pasamos a nuestro fileReader
    reader.readAsDataURL(event.target.files[0]);
     // Le decimos que cuando este listo ejecute el código interno
@@ -224,17 +161,79 @@ export class FormproductoComponent implements OnInit {
       preview.innerHTML = '';
       preview.append(image);
    };
- }
- showSelectCategoria() {
-  const vm = this;
-  vm.isloadingCategoria = true;
- }
- showSelectLote() {
-  const vm = this;
-  vm.isloadingLote = true;
- }
- showSelectUnidaMedida() {
-  const vm = this;
-  vm.isloadingUnidadMedida = true;
- }
+   vm.file = event.target.files[0];
+  }
+  showSelectCategoria() {
+    const vm = this;
+    vm.ShowPopap(true, false, false, false);
+  }
+  showSelectLote() {
+    const vm = this;
+    vm.ShowPopap(false, false, true, false);
+  }
+  showSelectUnidaMedida() {
+    const vm = this;
+    vm.ShowPopap(false, false, false, true);
+  }
+  showSubcategoria() {
+    const vm = this;
+    if (vm.form.value.id_clase > 0) {
+    vm.idClaseProducto = vm.form.value.id_clase;
+    vm.ShowPopap(false, true, false, false);
+    } else {
+    iziToast.error({
+      title: 'Error',
+      position: 'topRight',
+      message: 'Seleccione una categoria',
+    });
+    }
+  }
+  selectCate(event) {
+    const vm = this;
+    vm.form.controls.clase.setValue(event.clas_name);
+    vm.form.controls.id_clase.setValue(event.id_clase_producto);
+    vm.isloadingCategoria = false;
+  }
+  selectSubCate(event) {
+    const vm = this;
+    vm.form.controls.subclase.setValue(event.clasehijo);
+    vm.form.controls.id_sub_clase.setValue(event.idhijo);
+    vm.isActiveSubCategoria = false;
+  }
+  selectLote(event) {
+    const vm = this;
+    vm.form.controls.lote.setValue(event.lot_name);
+    vm.form.controls.id_lote.setValue(event.id_lote);
+    vm.isloadingLote = false;
+  }
+  selectUnidadMedida(event) {
+    const vm = this;
+    vm.form.controls.unidad.setValue(event.um_name);
+    vm.form.controls.id_unidad.setValue(event.id_unidad_medida);
+    vm.isloadingUnidadMedida = false;
+  }
+  edit(producto) {
+    const vm = this;
+    vm.form.controls.id_producto.setValue(producto.data.product.id_product);
+    vm.form.controls.pro_nombre.setValue(producto.data.product.pro_name);
+    vm.form.controls.pro_precio_compra.setValue(producto.data.product.pro_precio_compra);
+    vm.form.controls.pro_precio_venta.setValue(producto.data.product.pro_precio_compra);
+    vm.form.controls.cantidad.setValue(producto.data.product.pro_cantidad);
+    vm.form.controls.cantidad_minima.setValue(producto.data.product.pro_cantidad_min);
+    vm.form.controls.descripcion.setValue(producto.data.product.pro_description);
+    vm.form.controls.codigo_barra.setValue(producto.data.product.pro_cod_barra);
+    vm.form.controls.clase.setValue(producto.data.product.clasPadre);
+    vm.form.controls.subclase.setValue(producto.data.product.classHijo);
+    vm.form.controls.lote.setValue(producto.data.product.lot_name);
+    vm.form.controls.unidad.setValue(producto.data.product.um_name);
+    vm.form.controls.id_clase.setValue(producto.data.product.id_clase_producto);
+    console.log('Producto', producto);
+  }
+  ShowPopap(clase, subclase, lote, unidad) {
+    const vm = this;
+    vm.isloadingCategoria = clase;
+    vm.isActiveSubCategoria = subclase;
+    vm.isloadingLote = lote;
+    vm.isloadingUnidadMedida = unidad;
+  }
 }

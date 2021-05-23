@@ -32,7 +32,7 @@ export class CategoriaService {
   public ChangestatusCateRecursiva(data) {
     return this.httpClient.patch(this.url.urlAddress + 'Almacen/Clase/ChangestatusCateRecursiva', {data}, {headers: this.httpHeaders});
   }
-  public filtrarxclasepadre(id) {
-    return this.httpClient.get(this.url.urlAddress + 'Almacen/Clase/filtrarxclasepadre/' + id , {headers: this.httpHeaders});
+  public filtrarxclasepadre(params) {
+    return this.httpClient.get(this.url.urlAddress + 'obtener-sub-categorias' , {params, headers: this.httpHeaders}).toPromise();
   }
 }

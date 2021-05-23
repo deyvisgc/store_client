@@ -10,7 +10,7 @@
                             <div class="card">
                                 <div class="body">
                                     <!-- Nav tabs -->
-                                    <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" style="background-color: #48c774 !important;" data-toggle="modal" data-target="#modalRegistrar" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i> Crear Producto</button>
+                                    <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" style="background-color: #48c774 !important;" data-toggle="modal" data-target="#modalProductos" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i> Crear Producto</button>
                                     <br>
                                     <ul class="nav nav-tabs pull-right" role="tablist">
                                         <li role="presentation">
@@ -28,10 +28,11 @@
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
                                           <div class="table-responsive">
-                                            <div class="search-results" 
-                                            infinite-scroll 
-                                            [infiniteScrollDistance]="2" 
-                                            [infiniteScrollThrottle]="50" 
+                                            <div  class="search-results"
+                                            infiniteScroll
+                                            [infiniteScrollDistance]="2"
+                                            [infiniteScrollUpDistance]="1.5"
+                                            [infiniteScrollThrottle]="200"
                                             [infiniteScrollDisabled]="infiniteScrollStatus"
                                             [scrollWindow]="false"
                                             (scrolled)="onScrollDown()"
@@ -39,7 +40,9 @@
                                             <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbProductoActive" style="width: 100%;" >
                                                 <thead>
                                                     <tr>
+                                                      
                                                       <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
+                                                      <th  scope="col">imagen</th>
                                                       <th scope="col">Producto</th>
                                                       <th scope="col">Co.Barra</th>
                                                       <th scope="col">P.Conpra</th>
@@ -93,148 +96,22 @@
         <!-- #END# Exportable Table -->
     </div>
 </section>
-<div class="modal fade" id="modalRegistrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="modalProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <span class="modal-title">Formulario de Productos</span>
+        <span class="modal-title">{{title}}</span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-         <app-formproducto (productlist)="productlist($event)"></app-formproducto>
+         <app-formproducto #formProducto (productlist)="productlist($event)" ></app-formproducto>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Actualizar PRODUCTO</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <form [formGroup]="form" (ngSubmit)="Actualizar()">
-              <div class="row">
-                <div class="col-md-12 col-lg-12 col-sm-12">
-                  <label for="pro_nombre">Producto</label>
-                  <div class="form-group">
-                    <div class="form-line">
-                      <input type="text" onkeyup="this.value = this.value.toUpperCase();"
-                             name="pro_nombre" formControlName="pro_nombre" required class="form-control"
-                             placeholder="Escriba el nombre del producto">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 col-lg-4 col-sm-6">
-                  <label for="pro_precio">Precio Compra</label>
-                  <div class="form-group">
-                    <div class="form-line">
-                      <input type="number" name="pro_precio_compra" required formControlName="pro_precio_compra" class="form-control"
-                             placeholder="0.00">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 col-lg-4 col-sm-6">
-                  <label for="pro_nombre">Precio Venta</label>
-                  <div class="form-group">
-                    <div class="form-line">
-                      <input type="text" onkeyup="this.value = this.value.toUpperCase();"
-                             name="pro_precio_venta" formControlName="pro_precio_venta" required class="form-control"
-                             placeholder="0.00">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 col-lg-4 col-sm-6">
-                  <label for="pro_precio">Cantidad</label>
-                  <div class="form-group">
-                    <div class="form-line">
-                      <input type="number" value="{{cantidad}}" name="cantidad" required formControlName="cantidad" class="form-control" >
-                    </div>
-                  </div>
-                </div>
-                <input type="hidden"  name="idproducto" required formControlName="idproducto"  class="form-control" >
 
-                <div class="col-md-4 col-lg-4 col-sm-6">
-                  <label for="pro_cantidad">Cantidad Minima</label>
-                  <div class="form-group">
-                    <div class="form-line">
-                      <input type="number" name="cantidad_minima" formControlName="cantidad_minima" required class="form-control"
-                      value="{{cantidad}}">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 col-lg-4 col-sm-6">
-                  <label for="pro_cantidad_minima">Codigo</label>
-                  <div class="form-group">
-                    <div class="form-line">
-                      <input type="text"  value="{{Codigo}}" id="codigo"  name="codigo" formControlName="codigo" class="form-control" placeholder="">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 col-lg-4 col-sm-6">
-                  <label for="pro_cantidad_minima">Codigo Barra</label>
-                  <div class="form-group">
-                    <div class="form-line">
-                      <input type="text" value="{{CodigoBarra}}" id="codigo_barra" name="codigo_barra" formControlName="codigo_barra"
-                             class="form-control" >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
-                  <label for="pro_cantidad_minima">Categoria</label>
-                  <div class="form-group default-select">
-                      <select class="form-control clase" id="clase_update" name="clase" formControlName="clase" data-placeholder="Select">
-                      </select>
-                  </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
-                  <label for="pro_cantidad_minima">Subcategoria</label>
-                  <div class="form-group default-select">
-                      <select class="form-control subclase" id="subcategoria_update" name="subclase" formControlName="subclase" data-placeholder="Select">
-                      </select>
-                  </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
-                  <label for="pro_cantidad_minima">Lote</label>
-                  <div class="form-group default-select">
-                      <select class="form-control lote" id="lote_update" name="lote_update" formControlName="lote" data-placeholder="Select">
-                      </select>
-                  </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
-                  <label for="pro_cantidad_minima">Unidad Medida</label>
-                  <div class="form-group default-select">
-                      <select class="form-control unidad" id="unidad_update" name="unidad" formControlName="unidad"  data-placeholder="Select">
-                      </select>
-                  </div>
-                </div>
-                <!--DESCRIPCION DEL PRODUCTO-->
-                <div class="col-md-6 col-sm-6 col-lg-12">
-                  <label for="pro_descripcion">Descripción</label>
-                  <div class="form-group">
-                    <div class="form-line">
-                      <textarea name="textarea" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a lista</button>
-                <button type="submit"  class="btn btn-outline-success btn-lg btn-block waves-effect">
-                <span *ngIf="!isLoading">Guardar</span>
-                <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
-                </button>
-              </div>
-            </form>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="modal fade" id="gcodebarra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

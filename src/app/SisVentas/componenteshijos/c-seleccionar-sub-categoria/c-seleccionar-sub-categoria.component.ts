@@ -2,25 +2,26 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CategoriaService } from '../../service/Almacen/categoria/categoria.service';
 declare const sendRespuesta: any;
 @Component({
-  selector: 'app-c-seleccionar-categoria',
-  templateUrl: './c-seleccionar-categoria.component.html',
-  styleUrls: ['./c-seleccionar-categoria.component.css']
+  selector: 'app-c-seleccionar-sub-categoria',
+  templateUrl: './c-seleccionar-sub-categoria.component.html',
+  styleUrls: ['./c-seleccionar-sub-categoria.component.css']
 })
-export class CSeleccionarCategoriaComponent implements OnInit {
-  @Output() cate = new EventEmitter<any>();
-  @Input() isActiveCategoria: boolean;
-  listCategoria = [];
+export class CSeleccionarSubCategoriaComponent implements OnInit {
+  @Output() subCate = new EventEmitter<any>();
+  @Input() isActiveSubCategoria: boolean;
+  @Input() idCate: number;
+  list = [];
   params = {
     numeroRecnum: 0,
     noMore: false,
-    cantidadRegistros: 10
+    cantidadRegistros: 5,
+    idClase: 0
   };
   isScroll: boolean;
   isloadinglista: boolean;
   modalScrollDistance = 2;
   modalScrollThrottle = 50;
   infiniteScrollStatus: boolean;
-  categoria = '';
   constructor(private cateServ: CategoriaService) {
   }
   ngOnInit() {
@@ -35,17 +36,18 @@ export class CSeleccionarCategoriaComponent implements OnInit {
     vm.isloadinglista = true;
     vm.infiniteScrollStatus = true;
     if (!vm.isScroll) {
-      vm.listCategoria = [];
+      vm.list = [];
       vm.params.numeroRecnum = 0;
     }
-    vm.cateServ.getCategoria(vm.params).then(res => {
+    vm.params.idClase = vm.idCate;
+    vm.cateServ.filtrarxclasepadre(vm.params).then(res => {
       const rpta = sendRespuesta(res);
       // tslint:disable-next-line:prefer-for-of
-      for (let index = 0; index < rpta.lista.length; index++) {
-        vm.listCategoria.push(rpta.lista[index]);
+      for (let index = 0; index < rpta.data[0].length; index++) {
+        vm.list.push(rpta.data[0][index]);
       }
-      if (!rpta.noMore) {
-        vm.params.numeroRecnum  = rpta.numeroRecnum;
+      if (!rpta.data.noMore) {
+        vm.params.numeroRecnum  = rpta.data.numeroRecnum;
         vm.infiniteScrollStatus = false;
       } else {
         vm.infiniteScrollStatus = true;
@@ -58,7 +60,7 @@ export class CSeleccionarCategoriaComponent implements OnInit {
   }
   seleccionarClick(e) {
     const vm = this;
-    vm.cate.emit(e);
+    vm.subCate.emit(e);
   }
   searchCategoria(search) {
     const vm = this;
@@ -68,9 +70,9 @@ export class CSeleccionarCategoriaComponent implements OnInit {
         const rpta = sendRespuesta(res);
         const cantidad =  rpta.data.length;
         if (rpta.status && cantidad > 0) {
-          vm.listCategoria = rpta.data;
+          vm.list = rpta.data;
         } else {
-          vm.listCategoria = [];
+          vm.list = [];
           vm.isloadinglista = false;
         }
       }).catch((err) => {
@@ -81,7 +83,7 @@ export class CSeleccionarCategoriaComponent implements OnInit {
     }
     if (params === 0) {
       this.fetch();
-      vm.listCategoria = [];
+      vm.list = [];
   }
   }
 }

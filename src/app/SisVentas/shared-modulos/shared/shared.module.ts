@@ -12,15 +12,18 @@ import { CSeleccionarCategoriaComponent } from '../../componenteshijos/c-selecci
 import { CSeleccionarLoteComponent } from '../../componenteshijos/c-seleccionar-lote/c-seleccionar-lote.component';
 // tslint:disable-next-line:max-line-length
 import { CSeleccionarUnidadMedidaComponent } from '../../componenteshijos/c-seleccionar-unidad-medida/c-seleccionar-unidad-medida.component';
+// tslint:disable-next-line:max-line-length
+import { CSeleccionarSubCategoriaComponent } from '../../componenteshijos/c-seleccionar-sub-categoria/c-seleccionar-sub-categoria.component';
 
 
 
 @NgModule({
   declarations: [CargandoModalComponent, ReloadFiltrosComponent, ReloadComponent, ReloadformComponent,
                  CSeleccionarCategoriaComponent, CSeleccionarLoteComponent,
-                 CSeleccionarUnidadMedidaComponent],
+                 CSeleccionarUnidadMedidaComponent, CSeleccionarSubCategoriaComponent],
   exports: [ReloadComponent, ReloadformComponent, ReloadFiltrosComponent, CargandoModalComponent, InfiniteScrollModule,
-            CSeleccionarCategoriaComponent, CSeleccionarLoteComponent, CSeleccionarUnidadMedidaComponent],
+            CSeleccionarCategoriaComponent, CSeleccionarLoteComponent, CSeleccionarUnidadMedidaComponent,
+            CSeleccionarSubCategoriaComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,

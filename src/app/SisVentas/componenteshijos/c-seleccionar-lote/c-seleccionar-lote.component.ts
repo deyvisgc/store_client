@@ -13,7 +13,8 @@ export class CSeleccionarLoteComponent implements OnInit {
   listLotes = [];
   params = {
     numeroRecnum: 0,
-    noMore: false
+    noMore: false,
+    cantidadRegistros: 10
   };
   isScroll: boolean;
   isloadinglista: boolean;

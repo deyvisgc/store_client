@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import iziToast from 'izitoast';
 import { AlmacenService } from '../../service/Almacen/almacen.service';
@@ -14,11 +14,12 @@ declare const sendRespuesta: any;
   styleUrls: ['./producto.component.scss']
 })
 export class ProductoComponent implements OnInit {
+  @ViewChild('formProducto', {static: true}) formProductoUpdate;
   form: FormGroup;
   gncodebarra = '';
   productActive = [];
   productDisable = [];
-  isScroll: boolean;
+  isScroll = false;
   infiniteScrollStatus: boolean;
   isloadinglista: boolean;
   isLoading: boolean;
@@ -27,6 +28,7 @@ export class ProductoComponent implements OnInit {
     numeroCantidad: 5,
     noMore: false
   };
+  title = '';
   constructor(private produService: ProductoService, private fb: FormBuilder, private dynamicScriptLoader: DynamicScriptLoaderService) {
     this.form = this.fb.group({
       pro_nombre: [null, Validators.required],
@@ -54,6 +56,7 @@ export class ProductoComponent implements OnInit {
     }).catch(error => console.log(error));
    }
   onScrollDown() {
+    console.log('deyvis');
     this.isScroll = true;
     this.fetch();
   }
@@ -69,7 +72,6 @@ export class ProductoComponent implements OnInit {
       const rpta = sendRespuesta(res);
       const active = rpta.data.lista.filter( f => f.pro_status === 'active');
       const disabled = rpta.data.lista.filter( f => f.pro_status === 'disable');
-      console.log('disabled', disabled);
       // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < active.length; i++) {
         vm.productActive.push(active[i]);
@@ -78,15 +80,15 @@ export class ProductoComponent implements OnInit {
       for (let j = 0; j < disabled.length; j++) {
         vm.productDisable.push(disabled[j]);
       }
-      console.log('vm.productDisable', vm.productDisable);
-      vm.datatable('.tbProductoActive', vm.productActive);
-      vm.datatable('.tbProductoEnabled', vm.productDisable);
+      console.log('disabled', vm.productDisable);
       if (!rpta.data.noMore) {
         vm.params.numeroRecnum  = rpta.data.numeroRecnum;
         vm.infiniteScrollStatus = false;
       } else {
         vm.infiniteScrollStatus = true;
       }
+      vm.datatable('.tbProductoActive', vm.productActive);
+      vm.datatable('.tbProductoEnabled', vm.productDisable);
     }).catch(() => {
       vm.isScroll = false;
     }).finally(() => {
@@ -98,12 +100,16 @@ export class ProductoComponent implements OnInit {
        // tslint:disable-next-line:object-literal-shorthand
        data: data,
         columns: [
+        { data: (data1) => {
+          return '<img src = "' + data1.pro_file + '" >';
+        }
+        },
         { data: 'pro_name'},
         { data: 'pro_cod_barra'},
         { data: 'pro_precio_compra'},
         { data: 'pro_precio_venta'},
         { data: 'pro_cantidad' },
-      { data: (data1) => {
+        { data: (data1) => {
         const iconreload     = '<div id="reload" _ngcontent-yja-c6="" class="preloader pl-size-xs">' +
                                  '<div _ngcontent-yja-c6="" style="border-color: white !important;" class="spinner-layer">' +
                                  '<div _ngcontent-yja-c6="" class="circle-clipper left">' +
@@ -135,7 +141,7 @@ export class ProductoComponent implements OnInit {
                  );
         }
       }
-      },
+        },
       ],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const vm = this;
@@ -184,57 +190,15 @@ export class ProductoComponent implements OnInit {
   }
   Editar(produ, row) {
     const vm = this;
+    vm.title = 'Actualizar Producto';
     const obj = {
       idClase: produ.id_clase_producto,
       idProduct: produ.id_product
     };
     vm.produService.edit(obj).then(res => {
       const rpta = sendRespuesta(res);
-      $('#modalUpdate').modal('show');
-      vm.form.controls.idproducto.setValue(rpta.data.product.id_product);
-      vm.form.controls.pro_nombre.setValue(rpta.data.product.pro_name);
-      vm.form.controls.pro_precio_compra.setValue(rpta.data.product.pro_precio_compra);
-      vm.form.controls.pro_precio_venta.setValue(rpta.data.product.pro_precio_compra);
-      vm.form.controls.cantidad.setValue(rpta.data.product.pro_cantidad);
-      vm.form.controls.cantidad_minima.setValue(rpta.data.product.pro_cantidad_min);
-      vm.form.controls.codigo.setValue(rpta.data.product.pro_code);
-      vm.form.controls.descripcion.setValue(rpta.data.product.pro_description);
-      vm.form.controls.codigo_barra.setValue(rpta.data.product.pro_cod_barra);
-      const data = [rpta.data.product];
-      data.forEach(prod => {
-        rpta.data.clapadre.forEach(clapadre => {
-          if (prod.id_clase_producto === clapadre.id_clase_producto) {
-             this.form.controls.clase.setValue(clapadre.id_clase_producto);
-            $('#clase_update').append('<option value=' + clapadre.id_clase_producto + '  selected >' + clapadre.clasepadre + '</option>');
-          } else {
-            $('#clase_update').append('<option value=' + clapadre.id_clase_producto + '  >' + clapadre.clasepadre + '</option>');
-          }
-        });
-        rpta.data.clahijo.forEach(clahijo => {
-          if (prod.id_subclase === clahijo.id_clase_producto) {
-            this.form.controls.subclase.setValue(clahijo.id_clase_producto);
-            $('#subcategoria_update').append('<option value=' + clahijo.id_clase_producto + '  selected >' + clahijo.clasehijo + '</option>');
-          } else {
-           $('#subcategoria_update').append('<option value=' + clahijo.id_clase_producto + '  >' + clahijo.clasehijo + '</option>');
-          }
-        });
-        rpta.data.lote.forEach(lote => {
-          if (prod.id_lote === lote.id_lote) {
-            this.form.controls.lote.setValue(lote.id_lote);
-            $('#lote_update').append('<option value=' + lote.id_lote + '  selected >' + lote.lot_name + '</option>');
-          } else {
-            $('#lote_update').append('<option value=' + lote.id_lote + '  >' + lote.lot_name + '</option>');
-          }
-        });
-        rpta.data.unidad.forEach(uni => {
-          if (prod.id_unidad_medida === uni.id_unidad_medida) {
-            this.form.controls.unidad.setValue(uni.id_unidad_medida);
-            $('#unidad_update').append('<option value=' + uni.id_unidad_medida + ' selected >' + uni.um_name + '</option>');
-          } else {
-            $('#unidad_update').append('<option value=' + uni.id_unidad_medida + '  >' + uni.um_name + '</option>');
-          }
-        });
-      });
+      $('#modalProductos').modal('show');
+      vm.formProductoUpdate.edit(rpta);
     }).catch((err) => {
       console.log('Error', err);
     }).finally(() => {
@@ -364,5 +328,8 @@ export class ProductoComponent implements OnInit {
       $('#iconStatus', row).hide();
       $('#reload', row).show();
     });
+  }
+  productlist(event) {
+    console.log('deyvis');
   }
 }

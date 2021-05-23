@@ -8,6 +8,7 @@
   flex-direction: row;
   padding: 2px;
 }
+/* Responsive layout - makes a one column-layout instead of two-column layout */
 .container div {
   width: 185px;
 }
@@ -27,7 +28,7 @@ input[type="text"], input[type="password"], input[type="number"] {
   color: #555;
 }
 textarea {
-  height: 60px !important;
+  height: 40px !important;
   box-sizing: border-box;
   display: 0px !important;
   width: 350px;
@@ -75,4 +76,25 @@ textarea {
   left: 0;
   opacity: 0;
   cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .container {
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+  }
+  .close {
+    font-size: 10px;
+  }
+  .generar {
+    font-size: 10px;
+  }
+  .container div {
+    width: 350px;
+  }
+  input[type="text"], input[type="password"], input[type="number"], textarea {
+    width: 300px;
+  }
+  
 }
