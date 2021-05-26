@@ -11,22 +11,25 @@ export class LoteService {
   httpHeaders = new HttpHeaders()
   .append('Content-Type', 'application/json')
   .append('Authorization',  'Bearer' + ' ' + localStorage.getItem('token'));
-  public getLote(params) {
+   getLote(params) {
     return this.httpClient.get(this.url.urlAddress + 'obtener-lotes', {params, headers: this.httpHeaders}).toPromise();
   }
-  public SearchLote(params) {
+   SearchLote(params) {
     return this.httpClient.post(this.url.urlAddress + 'search-lotes', {params}, {headers: this.httpHeaders}).toPromise();
   }
-  public RegistrarLote(data) {
+   RegistrarLote(data) {
     return this.httpClient.post(this.url.urlAddress + 'Almacen/Lote', {data}, {headers: this.httpHeaders});
   }
-  public ActualizarLote(data) {
+   ActualizarLote(data) {
     return this.httpClient.patch(this.url.urlAddress + 'Almacen/Lote', {data}, {headers: this.httpHeaders});
   }
-  public DeleteLote(id) {
+   DeleteLote(id) {
     return this.httpClient.delete(this.url.urlAddress + 'Almacen/Lote/' + id);
   }
-  public ChangeStatusLote(data) {
+   ChangeStatusLote(data) {
     return this.httpClient.patch(this.url.urlAddress + 'Almacen/Lote/ChangestatusLote', {data}, {headers: this.httpHeaders});
+  }
+  ObtenerCodeLote(params) {
+    return this.httpClient.get(this.url.urlAddress + 'obtener-codigo-lote/', {params, headers: this.httpHeaders}).toPromise();
   }
 }

@@ -10,7 +10,7 @@
                             <div class="card">
                                 <div class="body">
                                     <!-- Nav tabs -->
-                                    <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" style="background-color: #48c774 !important;" data-toggle="modal" data-target="#modalProductos" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i> Crear Producto</button>
+                                    <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" style="background-color: #48c774 !important;" (click)="showModalProduct()" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i> Crear Producto</button>
                                     <br>
                                     <ul class="nav nav-tabs pull-right" role="tablist">
                                         <li role="presentation">
@@ -37,17 +37,20 @@
                                             [scrollWindow]="false"
                                             (scrolled)="onScrollDown()"
                                             >
-                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbProductoActive" style="width: 100%;" >
+                                            <table class="display table table-hover tbProductoActive" style="width: 100%;" >
                                                 <thead>
                                                     <tr>
                                                       
                                                       <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
-                                                      <th  scope="col">imagen</th>
                                                       <th scope="col">Producto</th>
                                                       <th scope="col">Co.Barra</th>
                                                       <th scope="col">P.Conpra</th>
                                                       <th scope="col">P.Venta</th>
                                                       <th scope="col">Cantidad</th>
+                                                      <th scope="col">F.Creacion</th>
+                                                      <th scope="col">Clase</th>
+                                                      <th scope="col">SubClase</th>
+                                                      <th scope="col">U.Medida</th>
                                                       <!-- <th scope="col">Estado</th> -->
                                                       <th scope="col">Opciones</th>
                                                     </tr>
@@ -71,11 +74,16 @@
                                               <thead>
                                                   <tr>
                                                     <th scope="col">Producto</th>
-                                                    <th scope="col">Co.Barra</th>
-                                                    <th scope="col">P.Conpra</th>
-                                                    <th scope="col">P.Venta</th>
-                                                    <th scope="col">Cantidad</th>
-                                                    <th scope="col">Opciones</th>
+                                                      <th scope="col">Co.Barra</th>
+                                                      <th scope="col">P.Conpra</th>
+                                                      <th scope="col">P.Venta</th>
+                                                      <th scope="col">Cantidad</th>
+                                                      <th scope="col">F.Creacion</th>
+                                                      <th scope="col">Clase</th>
+                                                      <th scope="col">SubClase</th>
+                                                      <th scope="col">U.Medida</th>
+                                                      <!-- <th scope="col">Estado</th> -->
+                                                      <th scope="col">Opciones</th>
                                                   </tr>
                                               </thead>
                                              
@@ -97,8 +105,8 @@
     </div>
 </section>
 <div class="modal fade" id="modalProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
+  <div class="modal-dialog modal-lg"  role="document">
+    <div class="modal-content" style="border-radius: 10px;">
       <div class="modal-header">
         <span class="modal-title">{{title}}</span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

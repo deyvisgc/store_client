@@ -7,8 +7,6 @@ import { SelectclientesComponent } from './selectclientes/selectclientes.compone
 import { ProvedorselectComponent } from './provedorselect/provedorselect.component';
 import { FormproductoComponent } from './formproducto/formproducto.component';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
-// tslint:disable-next-line:max-line-length
-import { FieldErrorDisplayComponentComponent } from '../almacen/messageerror/field-error-display-component/field-error-display-component.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ComprasAnuladasComponent } from './compras-anuladas/compras-anuladas.component';
 import { ComprasVigentesComponent } from './compras-vigentes/compras-vigentes.component';
@@ -22,9 +20,9 @@ import { SharedModule } from '../shared-modulos/shared/shared.module';
 import { CSeleccionarSubCategoriaComponent } from './c-seleccionar-sub-categoria/c-seleccionar-sub-categoria.component';
 @NgModule({
   declarations: [SelectproductoComponent, SelectclientesComponent, ProvedorselectComponent, FiltrosComponent,
-                 FormproductoComponent, FieldErrorDisplayComponentComponent,
-                 ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent,
-                  ComprasCreditoComponent, CSeleccionarCategoriaComponent, CSeleccionarLoteComponent, CSeleccionarUnidadMedidaComponent, CSeleccionarSubCategoriaComponent
+                 FormproductoComponent, ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent,
+                  ComprasCreditoComponent, CSeleccionarCategoriaComponent, CSeleccionarLoteComponent, CSeleccionarUnidadMedidaComponent, 
+                  CSeleccionarSubCategoriaComponent
                 ],
   exports: [
     SelectproductoComponent, FiltrosComponent , FormproductoComponent, ProvedorselectComponent,

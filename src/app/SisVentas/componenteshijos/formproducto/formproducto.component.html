@@ -1,118 +1,172 @@
-<form [formGroup]="form" (ngSubmit)="Registrar()">
-  <div class="container">
-      <div class="form-group" [ngClass]="displayFieldCss('pro_nombre')">
-        <label for="pro_nombre" class="control-label required">Producto</label>
-        <div class="form-line">
-          <input type="text" onkeyup="this.value = this.value.toUpperCase();" name="pro_nombre" formControlName="pro_nombre" required class="form-control" placeholder="Nombre producto">
-          <app-field-error-display [displayError]="isFieldValid('pro_nombre')" errorMsg="Nombre requerido"> </app-field-error-display>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group">
+          <label for="pro_nombre" class="control-label required">Producto</label>
+          <div class="form-line">
+            <input type="text" onkeyup="this.value = this.value.toUpperCase()" name="pro_nombre" [(ngModel)]="product.pro_nombre" class="form-control" placeholder="Nombre producto">
+            <!-- <app-field-error-display [displayError]="isError" errorMsg="Nombre Producto requerido">
+            </app-field-error-display> -->
+          </div>
         </div>
       </div>
-      <div class="form-group" [ngClass]="displayFieldCss('pro_precio_compra')">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">  
+      <div class="form-group">
         <label for="Precio Compra" class="control-label required">Precio Compra</label>
         <div class="form-line">
-          <input type="number" name="pro_precio_compra" required formControlName="pro_precio_compra" class="form-control" placeholder="0.00">
-          <app-field-error-display [displayError]="isFieldValid('pro_precio_compra')" errorMsg="Precio Compra Requerido">
-          </app-field-error-display>
+          <input type="number"  [(ngModel)]="product.pro_precio_compra" class="form-control" placeholder="0.00">
+          <!-- <app-field-error-display [displayError]="isError" errorMsg="Precio compra requerido">
+          </app-field-error-display> -->
         </div>
       </div>
-      <div class="form-group" [ngClass]="displayFieldCss('pro_precio_venta')">
-        <label for="Precio Venta" class="control-label required">Precio Venta</label>
-        <div class="form-line">
-          <input type="text" onkeyup="this.value = this.value.toUpperCase();" name="pro_precio_venta" formControlName="pro_precio_venta" required class="form-control" placeholder="0.00">
-          <app-field-error-display [displayError]="isFieldValid('pro_precio_venta')" errorMsg="Precio Venta Requerido">
-          </app-field-error-display>      
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group">
+          <label for="Precio Venta" class="control-label required">Precio Venta</label>
+          <div class="form-line">
+            <input type="number" [(ngModel)]="product.pro_precio_venta" required class="form-control" placeholder="0.00">
+            <!-- <app-field-error-display [displayError]="isError" errorMsg="Precio Venta requerido">
+            </app-field-error-display> -->
+          </div>
         </div>
       </div>
-      <!-- <div class="form-group" [ngClass]="displayFieldCss('cantidad')">
-        <label for="Cantidad" class="control-label required">Cantidad</label>
-        <div class="form-line">
-          <input type="number" value="{{cantidad}}" name="cantidad" required formControlName="cantidad" class="form-control" >
-          <app-field-error-display [displayError]="isFieldValid('cantidad')" errorMsg="Cantidad Requerida">
-          </app-field-error-display> 
-        </div>
-      </div> -->
-      <!-- <div class="form-group" [ngClass]="displayFieldCss('cantidad_minima')">
-        <label for="cantidad_minima" class="control-label required">Cantidad Minima</label>
-        <div class="form-line" >
-          <input type="number" name="cantidad_minima"  formControlName="cantidad_minima" required class="form-control" value="{{cantidad}}">
-          <app-field-error-display [displayError]="isFieldValid('cantidad_minima')" errorMsg="Cantidad Minima Requerida">
-          </app-field-error-display>    
-        </div>
-      </div> -->
-      <div class="form-group" [ngClass]="displayFieldCss('codigo_barra')">
-        <label for="Codigo Barra" class="control-label required">Codigo Barra</label>
-        <div class="form-line">
-          <input type="text" value="{{CodigoBarra}}" id="codigo_barra" name="codigo_barra" formControlName="codigo_barra"
-                 class="form-control" placeholder="0000">
-          <app-field-error-display [displayError]="isFieldValid('codigo_barra')" errorMsg="Codigo Barra Requerido">
-          </app-field-error-display>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group" >
+          <label for="Codigo Barra" class="control-label required">Codigo Barra</label>
+          <div class="form-line">
+            <input type="text"  id="codigo_barra" [(ngModel)]="product.codigo_barra" class="form-control" placeholder="0000">
+          </div>
         </div>
       </div>
-      <div class="form-group" [ngClass]="displayFieldCss('clase')">
-        <label for="Categoria" class="control-label required">Categoria</label>
-        <div class="form-line">
-          <input class="text-uppercase" id="filtro" formControlName="clase"/>
-          <app-c-seleccionar-categoria *ngIf="isloadingCategoria" (cate)="selectCate($event)" [isActiveCategoria]="isloadingCategoria"></app-c-seleccionar-categoria>
-          <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;"  (click)="showSelectCategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
-          </button>
-          <app-field-error-display [displayError]="isFieldValid('clase')" errorMsg="Categoria Requerido">
-          </app-field-error-display>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group">
+          <label for="Fecha Creacion" class="control-label required">Fecha Creacion</label>
+          <div class="form-line">
+            <input type="text" style="color: #555;" id="fecha_creacion" [(ngModel)]="product.fecha_creacion" class="form-control" >
+            <!-- <app-field-error-display [displayError]="isError" errorMsg="Fecha Creacion requerida">
+            </app-field-error-display> -->
+          </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="Subcategoria" class="control-label required">Sub Categoria</label>
-        <div class="form-line">
-          <input class="text-uppercase" id="filtro" formControlName="subclase"/>
-          <app-c-seleccionar-sub-categoria *ngIf="isActiveSubCategoria" [idCate]="idClaseProducto"  [isActiveSubCategoria]="isActiveSubCategoria" (subCate)="selectSubCate($event)"></app-c-seleccionar-sub-categoria>
-          <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;" (click)="showSubcategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
-          </button>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group">
+          <label for="Descripción" class="control-label required">Descripción</label>
+          <div class="form-line">
+            <textarea name="textarea" class="descripcion" name="descripcion" [(ngModel)]="product.descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Escribir aqui......"></textarea>
+          </div>
         </div>
       </div>
-      <!-- <div class="form-group" [ngClass]="displayFieldCss('lote')">
-        <label for="Categoria" class="control-label required">Lote</label>
-        <div class="form-line">
-          <input class="text-uppercase" id="filtro" formControlName="lote"/>
-          <app-c-seleccionar-lote *ngIf="isloadingLote" [isActiveLote]="isloadingLote" (lote)="selectLote($event)"></app-c-seleccionar-lote>
-          <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;" (click)="showSelectLote()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
-          </button>
-          <app-field-error-display [displayError]="isFieldValid('lote')" errorMsg="Lote Requerido">
-          </app-field-error-display>
-        </div>
-      </div> -->
-      <!-- <div class="form-group" [ngClass]="displayFieldCss('unidad')">
-        <label for="Categoria" class="control-label required">Unidad de Medida</label>
-        <div class="form-line">
-          <input class="text-uppercase" id="filtro" formControlName="unidad"/>
-          <app-c-seleccionar-unidad-medida *ngIf="isloadingUnidadMedida" [isActiveUnidadMedida]="isloadingUnidadMedida" (unidadMedida)="selectUnidadMedida($event)"></app-c-seleccionar-unidad-medida>
-          <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;" (click)="showSelectUnidaMedida()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
-          </button>
-          <app-field-error-display [displayError]="isFieldValid('unidad')" errorMsg="Unidad de Medida Requerido">
-          </app-field-error-display>
-        </div>
-      </div> -->
-      <div class="form-group" [ngClass]="displayFieldCss('descripcion')">
-        <label for="Descripción" class="control-label required">Descripción</label>
-        <div class="form-line">
-          <textarea name="textarea" class="descripcion" name="descripcion" formControlName="descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Este producto es......"></textarea>
-          <app-field-error-display [displayError]="isFieldValid('descripcion')" errorMsg="Descripcion requerido">
-          </app-field-error-display>
+      <div class="col-xs-12 col-sm-12 col-md col-lg" [ngClass]="{'-3': !isUnidad, '-6': isUnidad}">
+        <div class="form-group">
+          <label for="Categoria"  class="control-label required">Categoria</label>
+          <div class="form-line">
+            <input class="text-uppercase" id="filtro" [(ngModel)]="product.clase"/>
+            <app-c-seleccionar-categoria *ngIf="isloadingCategoria" (cate)="selectCate($event)" [isActiveCategoria]="isloadingCategoria"></app-c-seleccionar-categoria>
+            <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;"  (click)="showSelectCategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
+            </button>
+            <!-- <app-field-error-display [displayError]="isError" errorMsg="Categoria requerida">
+            </app-field-error-display> -->
+          </div>
         </div>
       </div>
-  </div>
-  <div class="card">
-    <div class="card-body file" style="height: 100px;">
-      <i class="fas fa-cloud-upload-alt fa-3x archivos">
-        <h5 class="block">Subir archivos</h5>
-        <input class="upload-box" id="upload" (change)="Adjuntar($event)" type="file" name="upload"  accept="image/*"/>
-      </i>
-      <div id="preview">
+      <div class="col-xs-12 col-sm-12 col-md col-lg" [ngClass]="{'-3': !isUnidad, '-6': isUnidad}">
+        <div class="form-group">
+          <label for="Subcategoria" class="control-label required">Sub Categoria</label>
+          <div class="form-line">
+            <input class="text-uppercase" id="filtro" [(ngModel)]="product.subclase"/>
+            <app-c-seleccionar-sub-categoria *ngIf="isActiveSubCategoria" [idCate]="idClaseProducto"  [isActiveSubCategoria]="isActiveSubCategoria" (subCate)="selectSubCate($event)"></app-c-seleccionar-sub-categoria>
+            <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;" (click)="showSubcategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngIf="!isUnidad">
+        <div class="form-group" >
+          <label for="Categoria" class="control-label required">Unidad de Medida</label>
+          <div class="form-line">
+            <input class="text-uppercase" id="filtro" [(ngModel)]="product.unidad"/>
+            <app-c-seleccionar-unidad-medida *ngIf="isloadingUnidadMedida" [isActiveUnidadMedida]="isloadingUnidadMedida" (unidadMedida)="selectUnidadMedida($event)"></app-c-seleccionar-unidad-medida>
+            <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;" (click)="showSelectUnidaMedida()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
+            </button>
+            <!-- <app-field-error-display [displayError]="isError" errorMsg="Unidad de Medida requerida">
+            </app-field-error-display> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngIf="!isUnidad">
+        <div class="form-group">
+          <label for="Precio Venta" class="control-label required">Cantidad</label>
+          <div class="form-line">
+            <input type="number"  [(ngModel)]="product.cantidad" required class="form-control">  
+            <!-- <app-field-error-display [displayError]="isError" errorMsg="Cantidad requerida">
+            </app-field-error-display> -->
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a lista</button>
-    <button type="submit"  class="btn btn-outline-success btn-lg btn-block waves-effect">
-    <span>Guardar</span></button>
-    <button  type="button" (click)='GenerarCode()' class="btn btn-outline-warning btn-lg btn-block waves-effect"><span class="generar">Generar codigo Barra</span></button>
+</div>
+<div class="switch-container">
+  <div _ngcontent-ots-c7="" class="switch">
+    <label _ngcontent-ots-c7="">
+      LOTES <input _ngcontent-ots-c7="" (change)="validate($event)" id="checkbox" checked="" type="checkbox"> 
+      <span _ngcontent-ots-c7="" class="lever"></span>UNIDADES</label>
+    </div>
+</div>
+<!-- <div class="card">
+  <div class="card-body file" style="height: 100px;">
+    <i class="fas fa-cloud-upload-alt fa-3x archivos">
+      <h5 class="block">Subir archivos</h5>
+      <input class="upload-box" id="upload" (change)="Adjuntar($event)" type="file" name="upload"  accept="image/*"/>
+    </i>
+    <div id="preview">
+    </div>
   </div>
-</form>
+</div> -->
+<div class="card" *ngIf="isUnidad">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="display table table-hover table-striped" style="width: 100%;" >
+        <thead>
+              <tr>
+                <th scope="col">Descripcion</th>
+                <th scope="col">CodigoLote</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Fecha Vencimiento</th>
+                <th scope="col">
+                  <button type="button" (click)="AgregarLotes()" style="height: 35px; background-color:#48c78e !important;" class="btn bg-deep-orange btn-circle waves-effect waves-circle waves-float">
+                  <span><i class="fas fa-plus"></i></span>
+                </button>
+              </th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of product.lote; let i=index">
+              <td>
+                <input type="text"   [(ngModel)]="item.lot_name" class="form-control" placeholder="descripcion">
+              </td>
+              <td>
+                <input type="text"  [(ngModel)]="item.lot_code" class="form-control" placeholder="codigo">
+              </td>
+              <td>
+                <input type="number" [(ngModel)]="item.cantidad" class="form-control" placeholder="cantidad">
+              </td>
+              <td>
+                <input type="date" [(ngModel)]="item.lot_expiration_date" id="fecha_vencimiento" class="form-control" placeholder="fecha">
+              </td>
+              <td><button type="button" (click)="eliminar(i)" style="height: 35px;" class="btn bg-danger btn-circle waves-effect waves-circle waves-float">
+                <span><i class="fas fa-trash-alt" style="color: white;"></i></span>
+              </button></td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a lista</button>
+  <button type="button" (click)="GenerarProducto()"  class="btn btn-outline-success btn-lg btn-block waves-effect">
+  <span>Guardar</span></button>
+  <button  type="button" (click)='GenerarCode()' class="btn btn-outline-warning btn-lg btn-block waves-effect"><span class="generar">Generar codigo Barra</span></button>
+</div>

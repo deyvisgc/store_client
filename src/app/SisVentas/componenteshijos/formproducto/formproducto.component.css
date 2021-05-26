@@ -1,6 +1,15 @@
 .btn:not(.btn-link):not(.btn-circle) span {
   top: 0px !important;
 }
+::-webkit-scrollbar-thumb {
+  background-color: #48c78e;
+  border-radius: 20px;
+  border: 2px solid #f1f2f3;
+}
+::-webkit-scrollbar:horizontal {
+  height:10px;
+  width: 2px;
+}
 .container {
   display: flex;
   width: 800px;
@@ -8,11 +17,16 @@
   flex-direction: row;
   padding: 2px;
 }
+.switch-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* Responsive layout - makes a one column-layout instead of two-column layout */
 .container div {
   width: 185px;
 }
-input[type="text"], input[type="password"], input[type="number"] {
+input[type="text"], input[type="password"], input[type="number"], input[type="date"],textarea {
   height: 1.5rem !important;
   box-sizing: border-box;
   display: 0px !important;
@@ -28,19 +42,7 @@ input[type="text"], input[type="password"], input[type="number"] {
   color: #555;
 }
 textarea {
-  height: 40px !important;
-  box-sizing: border-box;
-  display: 0px !important;
-  width: 350px;
-  border-width: 0.5px;
-  border-radius: 5px ;
-  border-style: solid;
-  padding: 14px;
-  outline: 0;
-  font-family: inherit;
-  background: #fff;
-  border-color: #48c78e;
-  color: #555;
+  height: 50px !important;
 }
 #filtro {
   height: 1.5rem !important;
@@ -78,7 +80,7 @@ textarea {
   cursor: pointer;
 }
 
-@media (max-width: 800px) {
+/* @media (max-width: 800px) {
   .container {
     display: flex;
     flex-direction: row;
@@ -97,4 +99,4 @@ textarea {
     width: 300px;
   }
   
-}
+} */

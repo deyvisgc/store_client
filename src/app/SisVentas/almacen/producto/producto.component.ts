@@ -56,7 +56,6 @@ export class ProductoComponent implements OnInit {
     }).catch(error => console.log(error));
    }
   onScrollDown() {
-    console.log('deyvis');
     this.isScroll = true;
     this.fetch();
   }
@@ -76,6 +75,7 @@ export class ProductoComponent implements OnInit {
       for (let i = 0; i < active.length; i++) {
         vm.productActive.push(active[i]);
       }
+      console.log('active', vm.productActive);
       // tslint:disable-next-line:prefer-for-of
       for (let j = 0; j < disabled.length; j++) {
         vm.productDisable.push(disabled[j]);
@@ -100,46 +100,36 @@ export class ProductoComponent implements OnInit {
        // tslint:disable-next-line:object-literal-shorthand
        data: data,
         columns: [
-        { data: (data1) => {
-          return '<img src = "' + data1.pro_file + '" >';
-        }
-        },
         { data: 'pro_name'},
         { data: 'pro_cod_barra'},
         { data: 'pro_precio_compra'},
         { data: 'pro_precio_venta'},
         { data: 'pro_cantidad' },
-        { data: (data1) => {
-        const iconreload     = '<div id="reload" _ngcontent-yja-c6="" class="preloader pl-size-xs">' +
-                                 '<div _ngcontent-yja-c6="" style="border-color: white !important;" class="spinner-layer">' +
-                                 '<div _ngcontent-yja-c6="" class="circle-clipper left">' +
-                                 '<div _ngcontent-yja-c6="" class="circle"></div> </div>' +
-                                 '<div _ngcontent-yja-c6="" class="circle-clipper right">' +
-                                 '<div _ngcontent-yja-c6="" class="circle"></div> </div>' +
-                                 '</div></div>';
-        // tslint:disable-next-line:max-line-length
-        const btnActualizar = '<button _ngcontent-xkn-c6=""  title="ACTUALIZAR" class="btn bg-green btn-circle  waves-effect waves-circle waves-float edit" type="button" style="margin-left: 5px;font-size: 20px;">' +  
-                              '<i style="padding-bottom:20px" id="iconEdit" class="fas fa-pen"></i>' + iconreload + '</button>';
-        // tslint:disable-next-line:max-line-length
-        const btnDelete = '<button _ngcontent-xkn-c6=""  title="ELIMINAR" class="btn bg-red btn-circle waves-effect waves-circle waves-float delete" type="button" style="margin-left: 5px;font-size: 20px;">' +
-                           '<i class="fas fa-trash-alt"></i></button>';
-        // tslint:disable-next-line:max-line-length
-        const btnCodeBarra = '<button _ngcontent-xkn-c6="" class="btn bg-deep-purple btn-circle waves-effect waves-circle waves-float printcodebarra"  title="IMPRIMIR CODIGO BARRA" type="button" style="margin-left: 5px;font-size: 20px;">' +
-                             '<i class="fa fa-barcode" aria-hidden="true"></i></button>';
-        if (data1.pro_status === 'active') {
-          // tslint:disable-next-line:max-line-length
-          return (btnActualizar + btnDelete + btnCodeBarra + '<button _ngcontent-xkn-c6="" title="DESABILITAR" class="btn bg-info btn-circle waves-effect waves-circle waves-float changeStatus" type="button" style="margin-left: 5px;font-size: 20px;">' +
-                  '<i id="iconStatus" class="fas fa-lock fa-fw fa-3x text-white"></i>' + iconreload +
-                  '</button>'
-                 );
-        } else {
-          return (btnActualizar + btnDelete + btnCodeBarra +
-                  // tslint:disable-next-line:max-line-length
-                  '<button _ngcontent-xkn-c6="" title="HABILITAR" class="btn bg-green btn-circle waves-effect waves-circle waves-float changeStatus" type="button" style="margin-left: 5px;font-size: 20px;">' +
-                  '<i id="iconStatus" class="fas fa-unlock-alt text-white"></i>' + iconreload +
-                  '</button>'
-                 );
-        }
+        { data: 'pro_fecha_creacion'},
+        { data: 'clasePadre' },
+        { data: 'classHijo' },
+        { data: 'unidad' },
+        { data: (product) => {
+          let btn = '';
+          if (product.pro_status === 'active') {
+            btn = '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="anular">' +
+                  '<i _ngcontent-ccs-c5="" class="fas fa-times-circle" style="font-size: 12px"></i> Desactivar</a></li>';
+          } else {
+            btn = '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="anular">' +
+            '<i _ngcontent-ccs-c5="" class="fas fa-times-circle" style="font-size: 12px"></i> Activar</a></li>';
+          }
+          return (
+             // tslint:disable-next-line:max-line-length
+             '<div class="btn-group"><button style="background-color: #48c78e !important" type="button" class="btn btn-danger">' +
+             '<i _ngcontent-eev-c7="" class="fas fa-align-justify"></i></button>' +
+             '<button type="button" style="background-color: #48c78e !important"class="btn dropdown-toggle" data-toggle="dropdown">' +
+             '<span class="caret" style="color: white !important"></span>' +
+             '<ul class="dropdown-menu" role="menu"><li>' +
+             '<a class="edit"><i style="font-size: 12px" class="fas fa-pen" ></i> Actualizar</a></li>' +
+             '<li><a class="delete"><i style="font-size: 12px" class="fas fa-trash-alt"></i> Eliminar</a>' +
+             '</li><li><a class="printcodebarra"><i style="font-size: 12px" class="fas fa-print"></i> Imprimir Codigo Barra</a></li>' +
+              btn + '<li class="divider"></li><li><a><i style="font-size: 12px" class="fas fa-eye"></i> Lotes</a></li></ul>'
+          );
       }
         },
       ],
@@ -330,6 +320,14 @@ export class ProductoComponent implements OnInit {
     });
   }
   productlist(event) {
-    console.log('deyvis');
+    if (event) {
+      $('#modalProductos').modal('hide');
+      this.fetch();
+    }
+  }
+  showModalProduct() {
+    const vm = this;
+    vm.title = 'Registrar Producto';
+    $('#modalProductos').modal('show');
   }
 }

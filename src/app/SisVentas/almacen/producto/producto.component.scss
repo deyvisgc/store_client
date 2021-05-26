@@ -1,7 +1,7 @@
 .search-results {
   height: 350px;
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 ::-webkit-scrollbar {
   -webkit-appearance: none;
@@ -9,6 +9,10 @@
 
 ::-webkit-scrollbar:vertical {
   width:10px;
+}
+::-webkit-scrollbar:horizontal {
+  height:10px;
+  width: 2px;
 }
 ::-webkit-scrollbar-thumb {
   background-color: #48c78e;
@@ -26,6 +30,9 @@
 .modal-title {
   margin-left: 300px !important;
   font-weight: 400 !important;
+}
+.dropdown-menu > li {
+  cursor: pointer !important;
 }
 @media (max-width: 800px) {
   .modal-title {
