@@ -14,6 +14,9 @@ export class LoteService {
    getLote(params) {
     return this.httpClient.get(this.url.urlAddress + 'obtener-lotes', {params, headers: this.httpHeaders}).toPromise();
   }
+  getLoteXid(id) {
+    return this.httpClient.get(this.url.urlAddress + 'obtener-lotes-id/' + id, {headers: this.httpHeaders}).toPromise();
+  }
    SearchLote(params) {
     return this.httpClient.post(this.url.urlAddress + 'search-lotes', {params}, {headers: this.httpHeaders}).toPromise();
   }

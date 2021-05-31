@@ -23,9 +23,6 @@ export class ProductoService {
    Delete(id) {
     return this.httpClient.delete(this.url.urlAddress + 'delete-producto/' + id, {headers: this.httpHeaders}).toPromise();
   }
-   Actualizar(data) {
-    return this.httpClient.patch(this.url.urlAddress + 'update-producto', {data}, {headers: this.httpHeaders}).toPromise();
-  }
    SearchxType(data) {
     return this.httpClient.post(this.url.urlAddress + 'Almacen/Producto/SearchxType', {data}, {headers: this.httpHeaders});
   }
@@ -34,5 +31,8 @@ export class ProductoService {
   }
   LastIdProducto() {
     return this.httpClient.get(this.url.urlAddress + 'obtener-last-idProducto', {headers: this.httpHeaders}).toPromise();
+  }
+  Exportar(params) {
+    return this.httpClient.get(this.url.urlAddress + 'productos-exportar', {params , responseType: 'blob'}).toPromise();
   }
 }

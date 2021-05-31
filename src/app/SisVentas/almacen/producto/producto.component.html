@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br><br>
-               <app-filtros (filtro)="fetch($event)"></app-filtros>
+               <app-filtros #filtros (filtroCategoria)="filtroCategoria($event)" (filtroUnidadMedida)="filtroUnidadMedida($event)" (filtroRangoFecha)="filtroRangoFecha($event)" (Reload)="Actualizar($event)" (Limpiar)="Limpiar($event)" (isExport)="Exportar($event)"></app-filtros>
                 <div class="card">
                     <div class="body">
                       <div class="row clearfix">
@@ -49,7 +49,6 @@
                                                       <th scope="col">Cantidad</th>
                                                       <th scope="col">F.Creacion</th>
                                                       <th scope="col">Clase</th>
-                                                      <th scope="col">SubClase</th>
                                                       <th scope="col">U.Medida</th>
                                                       <!-- <th scope="col">Estado</th> -->
                                                       <th scope="col">Opciones</th>
@@ -106,9 +105,9 @@
 </section>
 <div class="modal fade" id="modalProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg"  role="document">
-    <div class="modal-content" style="border-radius: 10px;">
+    <div class="modal-content" id="modal-product">
       <div class="modal-header">
-        <span class="modal-title">{{title}}</span>
+        <span class="modal-title" id="title-modal-product">{{title}}</span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -122,9 +121,9 @@
 
 <div class="modal fade" id="gcodebarra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" style="border-radius: 10px;">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">IMPRIMIR CODIGO BARRA</h5>
+        <h5 class="modal-title" id="modal-title-imprimir">IMPRIMIR CODIGO BARRA</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -166,6 +165,55 @@
               <button type="submit"  class="btn btn-outline-success btn-lg btn-block waves-effect"  (click)='ImprimirCode()'>IMPRIMIR</button>
           </div>
           </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="moda-lotes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" id="modal-content-lote">
+      <div class="modal-header">
+        <h5 class="modal-title"><span style="font-weight: 580;">Historial de Lotes del Producto: </span> <strong>{{nameProduct}}</strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="display table table-hover table-striped" style="width: 100%;" >
+                <thead>
+                      <tr>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">CodigoLote</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Fecha Vencimiento</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of lote">
+                      <td>
+                        <input type="text"  readonly value="{{item.lot_name}}" class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" readonly value="{{item.lot_code}}" class="form-control">
+                      </td>
+                      <td>
+                        <input type="number" readonly value="{{item.cantidad}}"  class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" readonly value="{{item.lot_expiration_date}}"  class="form-control">
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a lista</button>
+      </div>
       </div>
     </div>
   </div>

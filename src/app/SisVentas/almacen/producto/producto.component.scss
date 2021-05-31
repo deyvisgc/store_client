@@ -3,6 +3,21 @@
   overflow-y: scroll;
   overflow-x: auto;
 }
+input[type="text"], input[type="password"], input[type="number"], input[type="date"],textarea {
+  height: 1.5rem !important;
+  box-sizing: border-box;
+  display: 0px !important;
+  width: 90%;
+  border-width: 0.5px;
+  border-radius: 5px ;
+  border-style: solid;
+  padding: 14px;
+  outline: 0;
+  font-family: inherit;
+  background: #fff;
+  border-color: #48c78e;
+  color: #555;
+}
 ::-webkit-scrollbar {
   -webkit-appearance: none;
 }
@@ -22,24 +37,33 @@
 .btn:not(.btn-link):not(.btn-circle) span {
   top: 0px !important;
 }
-.modal-content {
+#modal-product {
   height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
+  border-radius: 10px;
 }
-.modal-title {
+#title-modal-product {
   margin-left: 300px !important;
   font-weight: 400 !important;
 }
 .dropdown-menu > li {
   cursor: pointer !important;
 }
+#modal-title-imprimir {
+  margin-left: 130px !important;
+  font-weight: 400 !important;
+}
+#modal-content-lote {
+  width: 700px;
+  border-radius: 10px;
+}
 @media (max-width: 800px) {
-  .modal-title {
+  #title-modal-product {
     margin-left: 100px !important;
     font-weight: 400 !important;
   }
-  .modal-content {
+  #modal-product {
     width: 400px;
   }
 }

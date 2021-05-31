@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import iziToast from 'izitoast';
 import { AlmacenService } from '../../service/Almacen/almacen.service';
@@ -7,6 +7,7 @@ import { DynamicScriptLoaderService } from 'src/app/services/dynamic-script-load
 declare const $: any;
 import * as JsBarcode from 'jsbarcode';
 import { ProductoService } from '../../service/Almacen/producto/producto.service';
+import { LoteService } from '../../service/Almacen/lote/lote.service';
 declare const sendRespuesta: any;
 @Component({
   selector: 'app-producto',
@@ -15,36 +16,30 @@ declare const sendRespuesta: any;
 })
 export class ProductoComponent implements OnInit {
   @ViewChild('formProducto', {static: true}) formProductoUpdate;
+  @ViewChild('filtros', {static: true}) filtros;
   form: FormGroup;
   gncodebarra = '';
   productActive = [];
   productDisable = [];
+  lote = [];
   isScroll = false;
   infiniteScrollStatus: boolean;
   isloadinglista: boolean;
   isLoading: boolean;
   params = {
     numeroRecnum: 0,
-    numeroCantidad: 5,
-    noMore: false
+    numeroCantidad: 20,
+    noMore: false,
+    idClase: 0,
+    idUnidad: 0,
+    desde: '',
+    hasta: '',
+    isExport: ''
   };
   title = '';
-  constructor(private produService: ProductoService, private fb: FormBuilder, private dynamicScriptLoader: DynamicScriptLoaderService) {
-    this.form = this.fb.group({
-      pro_nombre: [null, Validators.required],
-      pro_precio_compra: [null, Validators.required],
-      pro_precio_venta: [null, Validators.required],
-      cantidad: [null, Validators.required],
-      cantidad_minima: [null, Validators.required],
-      codigo_barra: [null, Validators.required],
-      lote:  [null, Validators.required],
-      clase: [null, Validators.required],
-      subclase: [null,  Validators.required],
-      unidad: [null, Validators.required],
-      descripcion: [null, Validators.required],
-      idproducto : [null],
-      codigo     : [null]
-    });
+  nameProduct = '';
+  constructor(private produService: ProductoService, private loteService: LoteService,
+              private dynamicScriptLoader: DynamicScriptLoaderService) {
   }
   ngOnInit() {
     this.fetch();
@@ -69,6 +64,7 @@ export class ProductoComponent implements OnInit {
     }
     vm.produService.Read(vm.params).then(res => {
       const rpta = sendRespuesta(res);
+      console.log('rpta', rpta);
       const active = rpta.data.lista.filter( f => f.pro_status === 'active');
       const disabled = rpta.data.lista.filter( f => f.pro_status === 'disable');
       // tslint:disable-next-line:prefer-for-of
@@ -93,6 +89,7 @@ export class ProductoComponent implements OnInit {
       vm.isScroll = false;
     }).finally(() => {
       vm.isloadinglista = false;
+      vm.filtros.isLoadingTrue();
     });
   }
   datatable(url, data) {
@@ -107,15 +104,14 @@ export class ProductoComponent implements OnInit {
         { data: 'pro_cantidad' },
         { data: 'pro_fecha_creacion'},
         { data: 'clasePadre' },
-        { data: 'classHijo' },
         { data: 'unidad' },
         { data: (product) => {
           let btn = '';
           if (product.pro_status === 'active') {
-            btn = '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="anular">' +
+            btn = '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="changeStatus">' +
                   '<i _ngcontent-ccs-c5="" class="fas fa-times-circle" style="font-size: 12px"></i> Desactivar</a></li>';
           } else {
-            btn = '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="anular">' +
+            btn = '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="changeStatus">' +
             '<i _ngcontent-ccs-c5="" class="fas fa-times-circle" style="font-size: 12px"></i> Activar</a></li>';
           }
           return (
@@ -128,29 +124,28 @@ export class ProductoComponent implements OnInit {
              '<a class="edit"><i style="font-size: 12px" class="fas fa-pen" ></i> Actualizar</a></li>' +
              '<li><a class="delete"><i style="font-size: 12px" class="fas fa-trash-alt"></i> Eliminar</a>' +
              '</li><li><a class="printcodebarra"><i style="font-size: 12px" class="fas fa-print"></i> Imprimir Codigo Barra</a></li>' +
-              btn + '<li class="divider"></li><li><a><i style="font-size: 12px" class="fas fa-eye"></i> Lotes</a></li></ul>'
+              btn + '<li class="divider"></li><li><a class="verlote"><i style="font-size: 12px" class="fas fa-eye"></i> Lotes</a></li></ul>'
           );
       }
         },
       ],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const vm = this;
-        $('.edit', row).bind('click', () => {
+        $('.edit').bind('click', () => {
            vm.isLoading = false;
-           $('#iconEdit', row).hide();
-           $('#reload', row).show();
-           vm.Editar(data, row);
+           vm.Editar(data);
          });
         $('.delete', row).bind('click', () => {
           vm.Delete(data);
          });
         $('.changeStatus', row).bind('click', () => {
-          $('#iconStatus', row).hide();
-          $('#reload', row).show();
-          vm.ChangeStatus(data, row);
+          vm.ChangeStatus(data);
          });
         $('.printcodebarra', row).bind('click', () => {
           vm.PrintCodeBarra(data);
+        });
+        $('.verlote', row).bind('click', () => {
+          vm.Lotes(data);
         });
         return row;
       },
@@ -178,7 +173,7 @@ export class ProductoComponent implements OnInit {
       destroy: true
     });
   }
-  Editar(produ, row) {
+  Editar(produ) {
     const vm = this;
     vm.title = 'Actualizar Producto';
     const obj = {
@@ -192,35 +187,6 @@ export class ProductoComponent implements OnInit {
     }).catch((err) => {
       console.log('Error', err);
     }).finally(() => {
-      $('#editReload', row).hide();
-      $('#iconEdit', row).show();
-    });
-  }
-  Actualizar() {
-    const vm = this;
-    vm.isLoading = true;
-    vm.produService.Actualizar(vm.form.value).then( res => {
-      const rpta = sendRespuesta(res);
-      if ( rpta.status) {
-        $('#modalUpdate').modal('hide');
-        iziToast.success({
-          title: 'OK',
-          position: 'topRight',
-          message: rpta.message
-        });
-        vm.fetch();
-        vm.form.reset();
-      } else {
-        iziToast.error({
-          title: 'Error',
-          position: 'topRight',
-          message: rpta.message
-        });
-      }
-    }).catch((err) => {
-      console.log('Error', err);
-    }).finally(() => {
-      vm.isLoading = false;
     });
   }
   Delete(producto: any) {
@@ -292,7 +258,7 @@ export class ProductoComponent implements OnInit {
     ventimp.print( );
     ventimp.close();
   }
-  ChangeStatus(info: any, row) {
+  ChangeStatus(info: any) {
     const vm = this;
     const data = [{id: info.id_product, status: info.pro_status}];
     vm.productDisable = [];
@@ -315,8 +281,6 @@ export class ProductoComponent implements OnInit {
     }).catch((err) => {
       console.log('Error', err);
     }).finally(() => {
-      $('#iconStatus', row).hide();
-      $('#reload', row).show();
     });
   }
   productlist(event) {
@@ -329,5 +293,78 @@ export class ProductoComponent implements OnInit {
     const vm = this;
     vm.title = 'Registrar Producto';
     $('#modalProductos').modal('show');
+  }
+  Lotes(info: any) {
+    const vm = this;
+    vm.lote = [];
+    vm.loteService.getLoteXid(info.id_product).then(res => {
+      const rpta = sendRespuesta(res);
+      if (rpta.status) {
+        vm.lote = rpta.data.lotes;
+        vm.nameProduct = info.pro_name;
+        $('#moda-lotes').modal('show');
+      } else {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: rpta.message,
+        });
+      }
+    }).catch((err) => {
+      console.log('Error', err);
+    }).finally(() => {
+    });
+  }
+  filtroCategoria(event) {
+    const vm = this;
+    vm.params.idClase = event.id_clase_producto || 0;
+    vm.fetch();
+  }
+  filtroUnidadMedida(event) {
+    const vm = this;
+    vm.params.idUnidad = event.id_unidad_medida || 0;
+    vm.fetch();
+  }
+  filtroRangoFecha(event) {
+    const vm = this;
+    vm.params.desde = event.desde;
+    vm.params.hasta = event.hasta;
+    vm.fetch();
+  }
+  Actualizar(event) {
+    const vm = this;
+    vm.fetch();
+  }
+  Limpiar(event) {
+    const vm = this;
+    vm.params = {
+      numeroRecnum: 0,
+      numeroCantidad: 20,
+      noMore: false,
+      idClase: 0,
+      idUnidad: 0,
+      desde: '',
+      hasta: '',
+      isExport: ''
+    };
+    vm.fetch();
+  }
+  Exportar(opcion) {
+    const vm = this;
+    vm.params.isExport = opcion;
+    vm.produService.Exportar(vm.params).then( data => {
+      const a          = document.createElement('a');
+      document.body.appendChild(a);
+      const blob       = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'});
+      const url        = window.URL.createObjectURL(blob);
+      a.href         = url;
+      a.download     = `Excel${((new Date()).getTime())}.xlsx`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }).catch((err) => {
+      console.log('Error', err);
+    }).finally(() => {
+      vm.filtros.isLoadingTrue();
+    });
   }
 }

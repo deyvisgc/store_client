@@ -1,3 +1,7 @@
 .spinner-layer {
   border-color: white !important;
 }
+.preloader.pl-size-xs {
+  width: 20px !important;
+  height: 20px !important;
+}

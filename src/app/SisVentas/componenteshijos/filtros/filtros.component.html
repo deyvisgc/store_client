@@ -2,22 +2,89 @@
   <div class="header">
     <h6> <strong>Buscar Por: </strong> </h6>  
   </div>
-  <div class="card-body" style="display: flex;">
-    <input class="text-uppercase"  [(ngModel)]="categoria" type="text" placeholder="Categoria"/>
-    <app-c-seleccionar-categoria *ngIf="isloadingCategoria" [isActiveCategoria]="isloadingCategoria" (cate)="selectCategoria($event)"></app-c-seleccionar-categoria>
-    <button class="btn btn-success" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectCategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
-    
-    <input class="text-uppercase"  type="text" [(ngModel)]="lote" placeholder="Lotes" />
-    <app-c-seleccionar-lote *ngIf="isloadingLote" [isActiveLote]="isloadingLote" (lote)="selectLote($event)"></app-c-seleccionar-lote>
-    <button class="btn btn-success" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectLote()"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
-    
-    <input class="text-uppercase" [(ngModel)]="unidadMedida" type="text" placeholder="Unidad Medida" />
-    <app-c-seleccionar-unidad-medida *ngIf="isloadingUnidadMedida" [isActiveUnidadMedida]="isloadingUnidadMedida" (unidadMedida)="selectUnidad($event)"></app-c-seleccionar-unidad-medida>
-    <button class="btn btn-success" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectUnidaMedida()"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
-    <!-- <input class="text-uppercase" style="width: 30%;" type="text" placeholder="Buscar Categoria" />
-    <input class="text-uppercase" style="width: 30%;" type="text" placeholder="Buscar Unidad Medida" /> -->
-    <button style="margin-left: 10px; background-color: #48c774 !important; height: 15%;" _ngcontent-xhm-c6="" class="btn bg-light-green waves-effect"  (click)='Listar()' title="refrest" type="button"><i class="fas fa-eraser" style="font-size: 12px;"></i><span >Limpiar Filtros</span></button>
-    <button style="margin-left: 10px; background-color: #48c774 !important; height: 15%;" _ngcontent-xhm-c6="" class="btn bg-light-green waves-effect" (click)='Listar()' title="refrest" type="button"><i _ngcontent-dhs-c6="" style="font-size: 15px;" class="fas fa-undo-alt"></i> <span style="font-size: 12px;">Actualizar</span></button>
-    <button style="margin-left: 10px; background-color: #48c774 !important; height: 15%;" _ngcontent-xhm-c6="" class="btn bg-light-green waves-effect" (click)='Listar()' title="refrest" type="button"><i _ngcontent-dhs-c6="" style="font-size: 15px;" class="fas fa-file-alt"></i> <span style="font-size: 12px;">Exportar</span></button>
+  <div class="card-body" style="padding: 0px !important;">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <div class="form-group">
+              <label for="pro_nombre" class="control-label required">Desde</label>
+              <div class="form-line">
+                <input id="fechaDesde" [disabled]="isLoading" [(ngModel)]="desde" type="date" />
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <div class="form-group">
+              <label for="pro_nombre" class="control-label required">Hasta</label>
+              <div class="form-line">
+                <input  (change)="Search()" [disabled]="isLoading" id="fechaHasta" [(ngModel)]="hasta" type="date"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <div class="form-group">
+              <label for="pro_nombre" class="control-label required">Categorias</label>
+              <div class="form-line" style="display: flex;">
+                <input class="text-uppercase" (blur)="fetch()" [disabled]="isLoading"  [(ngModel)]="categoria" type="text" placeholder="Categoria"/>
+                <app-c-seleccionar-categoria *ngIf="isloadingCategoria" [isActiveCategoria]="isloadingCategoria" (cate)="selectCategoria($event)"></app-c-seleccionar-categoria>
+                <button class="btn btn-success" [disabled]="isLoading" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectCategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <div class="form-group">
+              <label for="pro_nombre" class="control-label required">Unidad de Medida</label>
+              <div class="form-line" style="display: flex;">
+                <input class="text-uppercase" [disabled]="isLoading"  (blur)="fetch()" [(ngModel)]="unidadMedida" type="text" placeholder="Unidad Medida" />
+                <app-c-seleccionar-unidad-medida *ngIf="isloadingUnidadMedida" [isActiveUnidadMedida]="isloadingUnidadMedida" (unidadMedida)="selectUnidad($event)"></app-c-seleccionar-unidad-medida>
+                <button class="btn btn-success" [disabled]="isLoading" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectUnidaMedida()"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="display: flex; margin-top: 26px;">
+            <button [disabled]="isLoading" style="margin-left: 2px; height: 28px; width: 100px; background-color: #48c774 !important;" class="btn bg-light-green" (click)='Actualizar()' title="Actualizar" type="button">
+              <i _ngcontent-dhs-c6="" *ngIf="!isLoading"  style="font-size: 10px;" class="fas fa-sync-alt">
+                <span>Actualizar</span>
+              </i>
+              <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
+            </button>
+            <button [disabled]="isLoading" style="margin-left: 2px; height: 28px; width: 100px; background-color: #48c774 !important;" class="btn bg-light-green waves-effect"  (click)='LimpiarFiltros()' title="Limpiar Filtros" type="button">
+              <i *ngIf="!isLoading" class="fas fa-eraser" style="font-size: 10px;">
+                <span >Limpiar</span>
+            </i>
+            <app-reloadform  [btnisLoading]="isLoading"></app-reloadform>
+          </button>
+            <button data-toggle="modal" data-target="#modalExportar" [disabled]="isLoading" style="margin-left: 2px; height: 28px; width: 100px; background-color: #48c774 !important;" class="btn bg-light-green waves-effect" title="Exportar" type="button">
+              <i *ngIf="!isLoading" _ngcontent-dhs-c6="" style="font-size: 10px;" class="fas fa-file-alt">
+                <span>Exportar</span>
+              </i>
+              <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
+            </button> 
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
- </div> 
+ </div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalExportar">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span style="font-weight: 580;">EXPORTACION DE PRODUCTOS</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 style="font-weight: 550 !important;font-family: sans-serif !important;">En que formato desea exporatar sus productos ? </h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success" id="btnExport" (click)="Exportar('excel')"><i style="font-size: 15px;" class="far fa-file-excel"><span> Excel</span></i></button>
+        <button type="button" class="btn btn-outline-danger" id="btnExport" (click)="Exportar('pdf')"> <i style="font-size: 15px;" class="fas fa-file-pdf"><span> PDF</span></i></button>
+      </div>
+    </div>
+  </div>
+</div>

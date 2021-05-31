@@ -29,6 +29,7 @@ export class FormproductoComponent implements OnInit {
   fechahoy = moment().format('DD-MM-YYYY');
   fechaexpiracion = moment().add(1, 'months').format('YYYY-MM-DD');
   status = false;
+  isloadinglista: boolean;
   product = {
     pro_nombre: '',
     pro_precio_compra: 0,
@@ -46,6 +47,7 @@ export class FormproductoComponent implements OnInit {
     fecha_creacion: this.fechahoy,
     lote: []
   };
+  rptatotal = 0;
   constructor(private fb: FormBuilder, private productServ: ProductoService,
               private dynamicScriptLoader: DynamicScriptLoaderService,
               private lotServ: LoteService) {
@@ -76,12 +78,12 @@ export class FormproductoComponent implements OnInit {
   }
   GenerarProducto() {
     const vm = this;
-    vm.isLoading = true;
     const isValiate = vm.validarProducto();
     if (isValiate) {
       if (!vm.isUnidad) {
         vm.product.lote = [];
       }
+      vm.isLoading = true;
       vm.productServ.generarProducto(vm.product).then( res => {
         const rpta = sendRespuesta(res);
         if (rpta.status) {
@@ -102,12 +104,13 @@ export class FormproductoComponent implements OnInit {
       }).catch((err) => {
         console.log('Error', err);
       }).finally(() => {
-        console.log('finall');
+        vm.isLoading = false;
       });
     }
   }
   GenerarCode() {
     const vm = this;
+    vm.isLoading = true;
     vm.productServ.LastIdProducto().then(res => {
       const rpta = sendRespuesta(res);
       if (rpta.status) {
@@ -119,12 +122,11 @@ export class FormproductoComponent implements OnInit {
         //   marginLeft: 85
         // });
       } else {
-
       }
     }).catch((err) => {
       console.log('Error', err);
     }).finally(() => {
-      console.log('Final');
+      vm.isLoading = false;
     });
   }
   // Adjuntar(event) {
@@ -187,6 +189,7 @@ export class FormproductoComponent implements OnInit {
   }
   edit(info) {
     const vm = this;
+    vm.isloadinglista = true;
     vm.product.id_producto = info.data.product.id_product;
     vm.product.pro_nombre = info.data.product.pro_name;
     vm.product.pro_precio_compra = info.data.product.pro_precio_compra;
@@ -201,9 +204,12 @@ export class FormproductoComponent implements OnInit {
     vm.product.unidad = info.data.product.um_name;
     vm.product.id_unidad = info.data.product.id_unidad_medida || 0;
     if (info.data.lote.length > 0) {
+      vm.isloadinglista = false;
       vm.product.lote = info.data.lote;
       $('#checkbox').attr('checked' , false);
       vm.isUnidad = true;
+    } else {
+      vm.isloadinglista = false;
     }
   }
   ShowPopap(clase, subclase, lote, unidad) {
@@ -231,7 +237,8 @@ export class FormproductoComponent implements OnInit {
       return false;
     }
     const obj = {
-      pro_nombre: vm.product.pro_nombre
+      pro_nombre: vm.product.pro_nombre,
+      typoRegistro: 'RegisProducto'
     };
     if (vm.product.lote.length === 0) {
       vm.lotServ.ObtenerCodeLote(obj).then( res => {
@@ -239,11 +246,17 @@ export class FormproductoComponent implements OnInit {
         if (rpta.status) {
           const objLote = {
             lot_name: 'Lote' + rpta.data.lot_name,
-            lot_code: rpta.data[0].codigo,
+            lot_code: rpta.data.codigo,
             cantidad: 1,
             lot_expiration_date: vm.fechaexpiracion,
           };
           vm.product.lote.push(objLote);
+        } else {
+          iziToast.error({
+            title: 'Error',
+            position: 'topRight',
+            message: rpta.message,
+          });
         }
       }).catch((err) => {
         console.log('Error', err);
@@ -252,58 +265,27 @@ export class FormproductoComponent implements OnInit {
       });
     } else {
       let rpta = 0;
-      // tslint:disable-next-line:no-unused-expression
-      const lotCode = vm.product.lote[vm.product.lote.length - 1].lot_code;
-      const lot = lotCode.substring(4, 9);
-      console.log('lot', lot);
-      const siglas = lotCode.substring(0, 4);
-      const hola1 = '14215';
+      const Code = vm.product.lote[vm.product.lote.length - 1].lot_code;
+      const lot = Code.substring(4, 100); // obtengo el numero que llega despues de las siglas
+      const siglas = Code.substring(0, 4);  // obtengo las siglas
       let nameLote = '';
       let lotCod = '';
-      if (+lot.substring(0, 1) > 0) {
-        rpta = +lot.substring(0, 5);
-        const rptatotal = rpta + 1;
-        console.log('rptatotal1', rptatotal);
-        // lotCod = siglas + rptatotal;
-      } else if (+lot.substring(1, 2) > 0) {
-          rpta = Number(hola1.substring(1, 5));
-          const rptatotal = rpta + 1;
-          console.log('rptatotal2', rptatotal);
-          // lotCod = siglas + '0' + rptatotal;
-      } else if (+lot.substring(2, 3) > 0) {
-          rpta = +hola1.substring(2, 5);
-          const rptatotal = rpta + 1;
-          console.log('rptatotal3', rptatotal);
-          // const rptatotal = rpta + 1;
-          // lotCod = siglas + '00' + rptatotal;
-      } else if (+lot.substring(3, 4) > 0) {
-          rpta = +lot.substring(3, 5);
-          const rptatotal = rpta + 1;
-          lotCod = siglas + '000' + rptatotal;
-          console.log('rptatotal4', lotCod);
-          // console.log('rpta11111', rptatotal);
-          // lotCod = siglas + '000' + rptatotal;
+      rpta = +lot.substring(0, 100); // obtengo del numero su numero mayor;
+      vm.rptatotal = rpta + 1;
+      if (vm.rptatotal > 0 && vm.rptatotal < 10) {
+        nameLote =  '0' + vm.rptatotal;
+        lotCod = siglas + '0' + vm.rptatotal;
       } else {
-          rpta = +lot.substring(4, 5);
-          const rptatotal = rpta + 1;
-          console.log('rptatotal5', rptatotal);
-          // lotCod = siglas + '0000' + rptatotal;
+        lotCod = siglas + vm.rptatotal;
+        nameLote = vm.rptatotal.toString();
       }
-      // if (rpta > 0 && rpta < 9) {
-      //   hola = rpta + 1;
-      //   nameLote =  '0' + hola;
-      // } else {
-      //   const rptatotal = rpta + 1;
-      //   nameLote = rptatotal.toString();
-      // }
-      // const objLote = {
-      //   lot_name: 'Lote' + nameLote,
-      //   lot_code: lotCod,
-      //   cantidad: 1,
-      //   lot_expiration_date: vm.fechaexpiracion,
-      // };
-      // vm.product.lote.push(objLote);
-      // console.log('rpta', hola);
+      const objLote = {
+        lot_name: 'Lote' + nameLote,
+        lot_code: lotCod,
+        cantidad: 1,
+        lot_expiration_date: vm.fechaexpiracion,
+      };
+      vm.product.lote.push(objLote);
     }
   }
   eliminar(index) {
@@ -390,8 +372,6 @@ export class FormproductoComponent implements OnInit {
       vm.product.id_producto = 0;
       vm.product.fecha_creacion = vm.fechahoy;
       vm.product.lote = [];
-      $('#checkbox').attr('checked' , true);
-      vm.isUnidad = false;
     });
   }
 }

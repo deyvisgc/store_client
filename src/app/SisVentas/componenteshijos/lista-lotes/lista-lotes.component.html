@@ -1,0 +1,40 @@
+<div class="card" *ngIf="isUnidad">
+  <div class="card-body">
+    <div class="table-responsive" *ngIf="!isloadinglista">
+      <table class="display table table-hover table-striped" style="width: 100%;" >
+        <thead>
+              <tr>
+                <th scope="col">Descripcion</th>
+                <th scope="col">CodigoLote</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Fecha Vencimiento</th>
+                <th scope="col">
+                  <button type="button" (click)="AgregarLotes()" style="height: 35px; background-color:#48c78e !important;" class="btn bg-deep-orange btn-circle waves-effect waves-circle waves-float">
+                  <span><i class="fas fa-plus"></i></span>
+                </button>
+              </th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of product.lote; let i=index">
+              <td>
+                <input type="text" class="form-control" placeholder="descripcion">
+              </td>
+              <td>
+                <input type="text" class="form-control" placeholder="codigo">
+              </td>
+              <td>
+                <input type="number" class="form-control" placeholder="cantidad">
+              </td>
+              <td>
+                <input type="date" id="fecha_vencimiento" class="form-control" placeholder="fecha">
+              </td>
+              <td><button type="button" (click)="eliminar(i)" style="height: 35px;" class="btn bg-danger btn-circle waves-effect waves-circle waves-float">
+                <span><i class="fas fa-trash-alt" style="color: white;"></i></span>
+              </button></td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -16,6 +16,7 @@ import { CSeleccionarUnidadMedidaComponent } from '../../componenteshijos/c-sele
 import { CSeleccionarSubCategoriaComponent } from '../../componenteshijos/c-seleccionar-sub-categoria/c-seleccionar-sub-categoria.component';
 // tslint:disable-next-line:max-line-length
 import { FieldErrorDisplayComponentComponent } from '../../componenteshijos/field-error-display-component/field-error-display-component.component';
+import { ListaLotesComponent } from '../../componenteshijos/lista-lotes/lista-lotes.component';
 
 
 
@@ -23,10 +24,10 @@ import { FieldErrorDisplayComponentComponent } from '../../componenteshijos/fiel
   declarations: [CargandoModalComponent, ReloadFiltrosComponent, ReloadComponent, ReloadformComponent,
                  CSeleccionarCategoriaComponent, CSeleccionarLoteComponent,
                  CSeleccionarUnidadMedidaComponent, CSeleccionarSubCategoriaComponent,
-                 FieldErrorDisplayComponentComponent],
+                 FieldErrorDisplayComponentComponent, ListaLotesComponent],
   exports: [ReloadComponent, ReloadformComponent, ReloadFiltrosComponent, CargandoModalComponent, InfiniteScrollModule,
             CSeleccionarCategoriaComponent, CSeleccionarLoteComponent, CSeleccionarUnidadMedidaComponent,
-            CSeleccionarSubCategoriaComponent, FieldErrorDisplayComponentComponent],
+            CSeleccionarSubCategoriaComponent, FieldErrorDisplayComponentComponent, ListaLotesComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,

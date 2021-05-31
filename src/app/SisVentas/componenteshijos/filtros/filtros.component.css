@@ -1,11 +1,13 @@
 .btn:not(.btn-link):not(.btn-circle) span {
   top: 0px !important;
 }
-input[type="text"], input[type="password"], input[type="number"]{
+label {
+  margin-left: 10px;
+}
+input[type="text"], input[type="password"], input[type="number"], input[type="date"]{
   height: 1.5rem !important;
   box-sizing: border-box;
   display: 0px !important;
-  width: 15%;
   border-width: 0.5px;
   /* border-radius: 5px ; */
   border-style: solid;
@@ -17,6 +19,21 @@ input[type="text"], input[type="password"], input[type="number"]{
   color: #555;
   margin-left: 10px;
 }
+.modal-content {
+  border-radius: 10px;
+  width: 460px;
+}
+#btnExport {
+  width: 100px !important;
+  height: 32px !important;
+}
+
+/* #fechaDesde {
+  width: 13%;
+}
+#fechaHasta {
+  width: 13%;
+} */
 @media (max-width: 800px) {
   .container {
     /* display: flex;
