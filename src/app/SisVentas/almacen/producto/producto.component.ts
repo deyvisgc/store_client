@@ -38,6 +38,7 @@ export class ProductoComponent implements OnInit {
   };
   title = '';
   nameProduct = '';
+  listError = [];
   constructor(private produService: ProductoService, private loteService: LoteService,
               private dynamicScriptLoader: DynamicScriptLoaderService) {
   }
@@ -99,9 +100,6 @@ export class ProductoComponent implements OnInit {
         columns: [
         { data: 'pro_name'},
         { data: 'pro_cod_barra'},
-        { data: 'pro_precio_compra'},
-        { data: 'pro_precio_venta'},
-        { data: 'pro_cantidad' },
         { data: 'pro_fecha_creacion'},
         { data: 'clasePadre' },
         { data: 'unidad' },
@@ -121,7 +119,7 @@ export class ProductoComponent implements OnInit {
              '<button type="button" style="background-color: #48c78e !important"class="btn dropdown-toggle" data-toggle="dropdown">' +
              '<span class="caret" style="color: white !important"></span>' +
              '<ul class="dropdown-menu" role="menu"><li>' +
-             '<a class="edit"><i style="font-size: 12px" class="fas fa-pen" ></i> Actualizar</a></li>' +
+             '<a class="editar"><i style="font-size: 12px" class="fas fa-pen" ></i> Actualizar</a></li>' +
              '<li><a class="delete"><i style="font-size: 12px" class="fas fa-trash-alt"></i> Eliminar</a>' +
              '</li><li><a class="printcodebarra"><i style="font-size: 12px" class="fas fa-print"></i> Imprimir Codigo Barra</a></li>' +
               btn + '<li class="divider"></li><li><a class="verlote"><i style="font-size: 12px" class="fas fa-eye"></i> Lotes</a></li></ul>'
@@ -131,8 +129,7 @@ export class ProductoComponent implements OnInit {
       ],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const vm = this;
-        $('.edit').bind('click', () => {
-           vm.isLoading = false;
+        $('.editar', row).bind('click', () => {
            vm.Editar(data);
          });
         $('.delete', row).bind('click', () => {
@@ -180,6 +177,7 @@ export class ProductoComponent implements OnInit {
       idClase: produ.id_clase_producto,
       idProduct: produ.id_product
     };
+    console.log('actualizar', obj);
     vm.produService.edit(obj).then(res => {
       const rpta = sendRespuesta(res);
       $('#modalProductos').modal('show');
@@ -358,7 +356,11 @@ export class ProductoComponent implements OnInit {
       const blob       = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'});
       const url        = window.URL.createObjectURL(blob);
       a.href         = url;
-      a.download     = `Excel${((new Date()).getTime())}.xlsx`;
+      if (opcion === 'excel') {
+        a.download     = `ReporteProductos${((new Date()).getTime())}.xlsx`;
+      } else {
+        a.download     = `ReporteProductos${((new Date()).getTime())}.pdf`;
+      }
       a.click();
       window.URL.revokeObjectURL(url);
     }).catch((err) => {
@@ -366,5 +368,15 @@ export class ProductoComponent implements OnInit {
     }).finally(() => {
       vm.filtros.isLoadingTrue();
     });
+  }
+  error(error) {
+    const vm = this;
+    $('#modal-errores').modal('show');
+    vm.listError = error;
+  }
+  close() {
+    const vm = this;
+    vm.listError = vm.listError;
+    $('#modal-errores').modal('hide');
   }
 }

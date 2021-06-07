@@ -58,7 +58,7 @@ textarea {
   border-color: #48c78e;
   color: #555;
 }
-.file {
+/* .file {
   border: 1px dashed;
   border-radius: 5px;
   height: 130px;
@@ -78,6 +78,11 @@ textarea {
   left: 0;
   opacity: 0;
   cursor: pointer;
+} */
+.cardtable {
+  max-height: 100px;
+  min-height: 265px;
+  overflow-y: scroll;
 }
 
 /* @media (max-width: 800px) {

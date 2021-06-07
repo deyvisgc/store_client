@@ -1,0 +1,23 @@
+input[type="text"], input[type="password"], input[type="number"], input[type="date"],textarea {
+  height: 1.5rem !important;
+  box-sizing: border-box;
+  display: 0px !important;
+  width: 90%;
+  border-width: 0.5px;
+  border-style: solid;
+  padding: 14px;
+  outline: 0;
+  font-family: inherit;
+  background: #fff;
+  border-color: #48c78e;
+  color: #555;
+}
+input[type="date"] {
+  border-radius: 5px;
+}
+.btn:not(.btn-link):not(.btn-circle) span {
+  top: 0px !important;
+}
+.col-md-3 {
+  max-width: 22% !important;
+}

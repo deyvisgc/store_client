@@ -11,26 +11,6 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">  
-      <div class="form-group">
-        <label for="Precio Compra" class="control-label required">Precio Compra</label>
-        <div class="form-line">
-          <input type="number"  [(ngModel)]="product.pro_precio_compra" class="form-control" placeholder="0.00">
-          <!-- <app-field-error-display [displayError]="isError" errorMsg="Precio compra requerido">
-          </app-field-error-display> -->
-        </div>
-      </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-        <div class="form-group">
-          <label for="Precio Venta" class="control-label required">Precio Venta</label>
-          <div class="form-line">
-            <input type="number" [(ngModel)]="product.pro_precio_venta" required class="form-control" placeholder="0.00">
-            <!-- <app-field-error-display [displayError]="isError" errorMsg="Precio Venta requerido">
-            </app-field-error-display> -->
-          </div>
-        </div>
-      </div>
       <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
         <div class="form-group" >
           <label for="Codigo Barra" class="control-label required">Codigo Barra</label>
@@ -49,15 +29,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-        <div class="form-group">
-          <label for="Descripción" class="control-label required">Descripción</label>
-          <div class="form-line">
-            <textarea name="textarea" class="descripcion" name="descripcion" [(ngModel)]="product.descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Escribir aqui......"></textarea>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md col-lg" [ngClass]="{'-3': !isUnidad, '-6': isUnidad}">
+      <div class="col-xs-12 col-sm-12 col-md col-lg-3" >
         <div class="form-group">
           <label for="Categoria"  class="control-label required">Categoria</label>
           <div class="form-line">
@@ -70,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md col-lg" [ngClass]="{'-3': !isUnidad, '-6': isUnidad}">
+      <div class="col-xs-12 col-sm-12 col-md col-lg-3">
         <div class="form-group">
           <label for="Subcategoria" class="control-label required">Sub Categoria</label>
           <div class="form-line">
@@ -81,7 +53,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngIf="!isUnidad">
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
         <div class="form-group" >
           <label for="Categoria" class="control-label required">Unidad de Medida</label>
           <div class="form-line">
@@ -94,26 +66,24 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngIf="!isUnidad">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
         <div class="form-group">
-          <label for="Precio Venta" class="control-label required">Cantidad</label>
+          <label for="Descripción" class="control-label required">Descripción</label>
           <div class="form-line">
-            <input type="number"  [(ngModel)]="product.cantidad" required class="form-control">  
-            <!-- <app-field-error-display [displayError]="isError" errorMsg="Cantidad requerida">
-            </app-field-error-display> -->
+            <textarea name="textarea" class="descripcion" name="descripcion" [(ngModel)]="product.descripcion" onkeyup="this.value = this.value.toUpperCase();" rows="5" cols="10" placeholder="Escribir aqui......"></textarea>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="switch-container">
+<!-- <div class="switch-container">
   <div _ngcontent-ots-c7="" class="switch">
     <label _ngcontent-ots-c7="">
       LOTES <input _ngcontent-ots-c7="" (change)="validate($event)" id="checkbox" checked="" type="checkbox"> 
       <span _ngcontent-ots-c7="" class="lever"></span>UNIDADES</label>
     </div>
-</div>
+</div> -->
 <!-- <div class="card">
   <div class="card-body file" style="height: 100px;">
     <i class="fas fa-cloud-upload-alt fa-3x archivos">
@@ -124,17 +94,18 @@
     </div>
   </div>
 </div> -->
-<app-reload style="margin: 150px; " *ngIf="isUnidad" [isloading]="isloadinglista"  message="Cargando"></app-reload>
-<div class="card" *ngIf="isUnidad">
-  <div class="card-body">
-    <div class="table-responsive" *ngIf="!isloadinglista">
+<div class="card" >
+  <div class="card-body cardtable">
+    <div class="table-responsive">
       <table class="display table table-hover table-striped" style="width: 100%;" >
         <thead>
               <tr>
                 <th scope="col">Descripcion</th>
-                <th scope="col">CodigoLote</th>
+                <th scope="col">C.Lote</th>
+                <th scope="col">P.Compra</th>
+                <th scope="col">P.Venta</th>
                 <th scope="col">Cantidad</th>
-                <th scope="col">Fecha Vencimiento</th>
+                <th scope="col">F.Vencimiento</th>
                 <th scope="col">
                   <button type="button" (click)="AgregarLotes()" style="height: 35px; background-color:#48c78e !important;" class="btn bg-deep-orange btn-circle waves-effect waves-circle waves-float">
                   <span><i class="fas fa-plus"></i></span>
@@ -142,19 +113,25 @@
               </th>
               </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="loteisFound">
             <tr *ngFor="let item of product.lote; let i=index">
               <td>
-                <input type="text"   [(ngModel)]="item.lot_name" class="form-control" placeholder="descripcion">
+                <input type="text"   [(ngModel)]="item.lot_name" class="form-control">
               </td>
               <td>
-                <input type="text"  [(ngModel)]="item.lot_code" class="form-control" placeholder="codigo">
+                <input type="text"  [(ngModel)]="item.lot_code" class="form-control">
               </td>
               <td>
-                <input type="number" [(ngModel)]="item.cantidad" class="form-control" placeholder="cantidad">
+                <input type="number" min="0" step="0.01" oninput="validity.valid||(value='');"  [(ngModel)]="item.lot_precio_compra" class="form-control">
               </td>
               <td>
-                <input type="date" [(ngModel)]="item.lot_expiration_date" id="fecha_vencimiento" class="form-control" placeholder="fecha">
+                <input type="number" min="0" step="0.01" oninput="validity.valid||(value='');"  [(ngModel)]="item.lot_precio_venta" class="form-control">
+              </td>
+              <td>
+                <input type="number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" [(ngModel)]="item.lot_cantidad" class="form-control">
+              </td>
+              <td>
+                <input type="date" [(ngModel)]="item.lot_expiration_date" id="fecha_vencimiento" class="form-control">
               </td>
               <td><button type="button" (click)="eliminar(i)" style="height: 35px;" class="btn bg-danger btn-circle waves-effect waves-circle waves-float">
                 <span><i class="fas fa-trash-alt" style="color: white;"></i></span>
@@ -165,13 +142,12 @@
     </div>
   </div>
 </div>
-<div class="modal-footer" *ngIf="!isloadinglista">
+<div class="modal-footer">
   <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a lista</button>
   <button type="button" (click)="GenerarProducto()"  class="btn btn-outline-success btn-lg btn-block waves-effect">
   <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
   <span *ngIf="!isLoading">Guardar</span>
 </button>
-<app-reloadform [btnisLoading]="isLoading"></app-reloadform>
   <button  type="button" (click)='GenerarCode()' class="btn btn-outline-warning btn-lg btn-block waves-effect">
     <span class="generar" *ngIf="!isLoading">Generar codigo Barra</span>
     <app-reloadform [btnisLoading]="isLoading"></app-reloadform>

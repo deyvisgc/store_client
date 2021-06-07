@@ -82,7 +82,10 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-success" id="btnExport" (click)="Exportar('excel')"><i style="font-size: 15px;" class="far fa-file-excel"><span> Excel</span></i></button>
+        <button type="button" [disabled]="isLoading" class="btn btn-outline-success" id="btnExport" (click)="Exportar('excel')">
+          <i *ngIf="!isLoading" style="font-size: 15px;" class="far fa-file-excel"><span> Excel</span></i>
+          <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
+        </button>
         <button type="button" class="btn btn-outline-danger" id="btnExport" (click)="Exportar('pdf')"> <i style="font-size: 15px;" class="fas fa-file-pdf"><span> PDF</span></i></button>
       </div>
     </div>

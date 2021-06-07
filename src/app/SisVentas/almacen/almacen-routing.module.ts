@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ActualizarStockComponent } from './actualizar-stock/actualizar-stock.component';
 import { ClaseComponent } from './clase/clase.component';
 import { LoteComponent } from './lote/lote.component';
 import { ProductoComponent } from './producto/producto.component';
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'unidad-medida',
     component: UnidadmedidaComponent
+  },
+  {
+    path: 'aumentar-stock',
+    component: ActualizarStockComponent
   }
 ];
 

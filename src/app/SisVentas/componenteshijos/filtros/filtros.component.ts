@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import * as moment from 'moment';
 import iziToast from 'izitoast';
+declare const $: any;
 import { ProductoService } from '../../service/Almacen/producto/producto.service';
 @Component({
   selector: 'app-filtros',
@@ -89,6 +90,7 @@ export class FiltrosComponent implements OnInit {
   isLoadingTrue() {
     const vm = this;
     vm.isLoading = false;
+    $('#modalExportar').modal('hide');
   }
   Exportar(opcion) {
     const vm = this;

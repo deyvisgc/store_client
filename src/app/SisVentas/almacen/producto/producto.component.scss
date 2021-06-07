@@ -1,7 +1,8 @@
 .search-results {
-  height: 350px;
-  overflow-y: scroll;
-  overflow-x: auto;
+  max-height: calc(100vh - 215px);
+  min-height: calc(100vh - 215px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 input[type="text"], input[type="password"], input[type="number"], input[type="date"],textarea {
   height: 1.5rem !important;
@@ -38,9 +39,8 @@ input[type="text"], input[type="password"], input[type="number"], input[type="da
   top: 0px !important;
 }
 #modal-product {
-  height: 600px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: 608px;
+  width: 900px;
   border-radius: 10px;
 }
 #title-modal-product {
@@ -58,6 +58,23 @@ input[type="text"], input[type="password"], input[type="number"], input[type="da
   width: 700px;
   border-radius: 10px;
 }
+table thead th {
+  padding: 3px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 25vw;
+  background: white;
+}
+u {
+  text-decoration: none;
+  list-style: none;
+  text-align: center;
+}
+li {
+  color: black;
+  font-size: inherit;
+}
 @media (max-width: 800px) {
   #title-modal-product {
     margin-left: 100px !important;
@@ -65,6 +82,12 @@ input[type="text"], input[type="password"], input[type="number"], input[type="da
   }
   #modal-product {
     width: 400px;
+  }
+  .search-results {
+    max-height: calc(100vh - 215px);
+    min-height: calc(100vh - 215px);
+    overflow-y: auto;
+    overflow-x: scroll;
   }
 }
 

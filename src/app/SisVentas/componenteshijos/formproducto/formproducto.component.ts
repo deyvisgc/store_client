@@ -19,6 +19,7 @@ import { LoteService } from '../../service/Almacen/lote/lote.service';
 })
 export class FormproductoComponent implements OnInit {
   @Output() public productlist = new EventEmitter <any>();
+  @Output() public error = new EventEmitter <[]> ();
   isLoading: boolean;
   idClaseProducto: number;
   isloadingCategoria: boolean;
@@ -29,12 +30,10 @@ export class FormproductoComponent implements OnInit {
   fechahoy = moment().format('DD-MM-YYYY');
   fechaexpiracion = moment().add(1, 'months').format('YYYY-MM-DD');
   status = false;
-  isloadinglista: boolean;
+  btn: boolean;
+  loteisFound: boolean;
   product = {
     pro_nombre: '',
-    pro_precio_compra: 0,
-    pro_precio_venta: 0,
-    cantidad: 1,
     codigo_barra: '',
     descripcion: '',
     clase: '',
@@ -80,9 +79,6 @@ export class FormproductoComponent implements OnInit {
     const vm = this;
     const isValiate = vm.validarProducto();
     if (isValiate) {
-      if (!vm.isUnidad) {
-        vm.product.lote = [];
-      }
       vm.isLoading = true;
       vm.productServ.generarProducto(vm.product).then( res => {
         const rpta = sendRespuesta(res);
@@ -95,11 +91,15 @@ export class FormproductoComponent implements OnInit {
           vm.productlist.emit(true);
           vm.reset();
         } else {
-          iziToast.error({
-            title: 'Error',
-            position: 'topRight',
-            message: rpta.message,
-          });
+          if (rpta.data.length > 0) {
+            vm.error.emit(rpta.data);
+          } else {
+            iziToast.error({
+              title: 'Error',
+              position: 'topRight',
+              message: rpta.message,
+            });
+          }
         }
       }).catch((err) => {
         console.log('Error', err);
@@ -189,12 +189,8 @@ export class FormproductoComponent implements OnInit {
   }
   edit(info) {
     const vm = this;
-    vm.isloadinglista = true;
     vm.product.id_producto = info.data.product.id_product;
     vm.product.pro_nombre = info.data.product.pro_name;
-    vm.product.pro_precio_compra = info.data.product.pro_precio_compra;
-    vm.product.pro_precio_venta = info.data.product.pro_precio_compra;
-    vm.product.cantidad = info.data.product.pro_cantidad;
     vm.product.descripcion = info.data.product.pro_description;
     vm.product.codigo_barra = info.data.product.pro_cod_barra;
     vm.product.clase = info.data.product.clasPadre;
@@ -203,13 +199,12 @@ export class FormproductoComponent implements OnInit {
     vm.product.id_sub_clase = info.data.product.id_subclase || 0;
     vm.product.unidad = info.data.product.um_name;
     vm.product.id_unidad = info.data.product.id_unidad_medida || 0;
-    if (info.data.lote.length > 0) {
-      vm.isloadinglista = false;
-      vm.product.lote = info.data.lote;
-      $('#checkbox').attr('checked' , false);
-      vm.isUnidad = true;
+    vm.product.lote = info.data.lote;
+    vm.btn = false;
+    if (vm.product.lote.length > 0) {
+      vm.loteisFound = true;
     } else {
-      vm.isloadinglista = false;
+      vm.loteisFound = false;
     }
   }
   ShowPopap(clase, subclase, lote, unidad) {
@@ -247,10 +242,13 @@ export class FormproductoComponent implements OnInit {
           const objLote = {
             lot_name: 'Lote' + rpta.data.lot_name,
             lot_code: rpta.data.codigo,
+            precio_compra: 0,
+            precio_venta: 0,
             cantidad: 1,
             lot_expiration_date: vm.fechaexpiracion,
           };
           vm.product.lote.push(objLote);
+          vm.loteisFound = true;
         } else {
           iziToast.error({
             title: 'Error',
@@ -284,6 +282,8 @@ export class FormproductoComponent implements OnInit {
         lot_code: lotCod,
         cantidad: 1,
         lot_expiration_date: vm.fechaexpiracion,
+        precio_compra: 0,
+        precio_venta: 0
       };
       vm.product.lote.push(objLote);
     }
@@ -294,27 +294,12 @@ export class FormproductoComponent implements OnInit {
   }
   validarProducto() {
     const vm = this;
+    return true;
     if (!vm.product.pro_nombre) {
       iziToast.error({
         title: 'Error',
         position: 'topRight',
         message: 'Nombre Producto requerido',
-      });
-      return false;
-    }
-    if (vm.product.pro_precio_compra === 0  ||  !vm.product.pro_precio_compra) {
-      iziToast.error({
-        title: 'Error',
-        position: 'topRight',
-        message: 'Precio compra debe ser mayor a 0',
-      });
-      return false;
-    }
-    if (vm.product.pro_precio_venta === 0  ||  !vm.product.pro_precio_venta) {
-      iziToast.error({
-        title: 'Error',
-        position: 'topRight',
-        message: 'Precio venta debe ser mayor a 0',
       });
       return false;
     }
@@ -334,44 +319,29 @@ export class FormproductoComponent implements OnInit {
       });
       return false;
     }
-    if (!this.isUnidad) {
-      if (!vm.product.id_unidad) {
-        iziToast.error({
-          title: 'Error',
-          position: 'topRight',
-          message: 'Unidad de medida requerido',
-        });
-        return false;
-      }
-      if (vm.product.cantidad === 0 ||  !vm.product.cantidad) {
-        iziToast.error({
-          title: 'Error',
-          position: 'topRight',
-          message: 'Cantidad debe ser mayor a 0',
-        });
-        return false;
-      }
+    if (!vm.product.id_unidad) {
+      iziToast.error({
+        title: 'Error',
+        position: 'topRight',
+        message: 'Unidad de medida requerido',
+      });
+      return false;
     }
     return true;
   }
   reset() {
     const vm = this;
-    $('body').on('hidden.bs.modal', '.modal', () => {
-      vm.product.pro_nombre =  '';
-      vm.product.pro_precio_compra = 0;
-      vm.product.pro_precio_venta = 0;
-      vm.product.cantidad = 1;
-      vm.product.codigo_barra = '';
-      vm.product.descripcion = '';
-      vm.product.clase = '';
-      vm.product.id_clase = 0;
-      vm.product.subclase = '';
-      vm.product.id_sub_clase = 0;
-      vm.product.unidad = '';
-      vm.product.id_unidad = 0;
-      vm.product.id_producto = 0;
-      vm.product.fecha_creacion = vm.fechahoy;
-      vm.product.lote = [];
-    });
+    vm.product.pro_nombre =  '';
+    vm.product.codigo_barra = '';
+    vm.product.descripcion = '';
+    vm.product.clase = '';
+    vm.product.id_clase = 0;
+    vm.product.subclase = '';
+    vm.product.id_sub_clase = 0;
+    vm.product.unidad = '';
+    vm.product.id_unidad = 0;
+    vm.product.id_producto = 0;
+    vm.product.fecha_creacion = vm.fechahoy;
+    vm.product.lote = [];
   }
 }
