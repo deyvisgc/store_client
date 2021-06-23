@@ -18,11 +18,12 @@ import { CSeleccionarLoteComponent } from './c-seleccionar-lote/c-seleccionar-lo
 import { CSeleccionarUnidadMedidaComponent } from './c-seleccionar-unidad-medida/c-seleccionar-unidad-medida.component';
 import { SharedModule } from '../shared-modulos/shared/shared.module';
 import { CSeleccionarSubCategoriaComponent } from './c-seleccionar-sub-categoria/c-seleccionar-sub-categoria.component';
+import { CSeleccionarProductosComponent } from './c-seleccionar-productos/c-seleccionar-productos.component';
 @NgModule({
   declarations: [SelectproductoComponent, SelectclientesComponent, ProvedorselectComponent, FiltrosComponent,
                  FormproductoComponent, ComprasAnuladasComponent, ComprasVigentesComponent, ComprasContadoComponent,
                   ComprasCreditoComponent, CSeleccionarCategoriaComponent, CSeleccionarLoteComponent, CSeleccionarUnidadMedidaComponent, 
-                  CSeleccionarSubCategoriaComponent
+                  CSeleccionarSubCategoriaComponent, CSeleccionarProductosComponent
                 ],
   exports: [
     SelectproductoComponent, FiltrosComponent , FormproductoComponent, ProvedorselectComponent,

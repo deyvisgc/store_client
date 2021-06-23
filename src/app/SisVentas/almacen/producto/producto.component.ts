@@ -19,15 +19,17 @@ export class ProductoComponent implements OnInit {
   @ViewChild('filtros', {static: true}) filtros;
   form: FormGroup;
   gncodebarra = '';
-  productActive = [];
-  productDisable = [];
+  productXlote = [];
+  productXunidad = [];
   lote = [];
+  column = [];
   isScroll = false;
   infiniteScrollStatus: boolean;
   isloadinglista: boolean;
   isLoading: boolean;
   params = {
     numeroRecnum: 0,
+    numeroRecnumXUnidad : 0,
     numeroCantidad: 20,
     noMore: false,
     idClase: 0,
@@ -44,13 +46,7 @@ export class ProductoComponent implements OnInit {
   }
   ngOnInit() {
     this.fetch();
-    this.startScript();
   }
-  async startScript() {
-    await this.dynamicScriptLoader.load('form.min').then(data => {
-      $('.cantida_generate').select2({ width: '100%' });
-    }).catch(error => console.log(error));
-   }
   onScrollDown() {
     this.isScroll = true;
     this.fetch();
@@ -60,32 +56,87 @@ export class ProductoComponent implements OnInit {
     vm.isloadinglista = true;
     vm.infiniteScrollStatus = true;
     if (!vm.isScroll) {
-      vm.productActive = [];
+      vm.productXlote = [];
+      vm.productXunidad = [];
       vm.params.numeroRecnum = 0;
     }
     vm.produService.Read(vm.params).then(res => {
       const rpta = sendRespuesta(res);
-      console.log('rpta', rpta);
-      const active = rpta.data.lista.filter( f => f.pro_status === 'active');
-      const disabled = rpta.data.lista.filter( f => f.pro_status === 'disable');
       // tslint:disable-next-line:prefer-for-of
-      for (let i = 0; i < active.length; i++) {
-        vm.productActive.push(active[i]);
+      for (let i = 0; i < rpta.data.productxlote.length; i++) {
+        vm.productXlote.push(rpta.data.productxlote[i]);
       }
-      console.log('active', vm.productActive);
       // tslint:disable-next-line:prefer-for-of
-      for (let j = 0; j < disabled.length; j++) {
-        vm.productDisable.push(disabled[j]);
+      for (let j = 0; j < rpta.data.productxUnidad.length; j++) {
+        vm.productXunidad.push(rpta.data.productxUnidad[j]);
       }
-      console.log('disabled', vm.productDisable);
-      if (!rpta.data.noMore) {
+      if (!rpta.data.noMore ||  !rpta.data.noMoreXUnidad) {
         vm.params.numeroRecnum  = rpta.data.numeroRecnum;
+        vm.params.numeroRecnumXUnidad = rpta.data.numeroRecnumXunidad;
         vm.infiniteScrollStatus = false;
       } else {
         vm.infiniteScrollStatus = true;
       }
-      vm.datatable('.tbProductoActive', vm.productActive);
-      vm.datatable('.tbProductoEnabled', vm.productDisable);
+      if (vm.productXunidad.length > 0) {
+        const column = [
+          { data: 'pro_name'},
+          { data: 'precio_compra'},
+          { data: 'precio_venta'},
+          { data: 'cantidad'},
+          { data: 'pro_cod_barra'},
+          { data: 'pro_fecha_creacion'},
+          { data: 'clasePadre' },
+          { data: 'pro_status' },
+          { data: (product) => {
+            let btn = '';
+            if (product.pro_status === 'active') {
+              // tslint:disable-next-line:max-line-length
+              btn = '<button _ngcontent-baq-c8="" title="Desactivar" style="margin-left: 5px" class="btn btn-danger btn-circle waves-effect waves-circle waves-float changeStatus" type="button"><i _ngcontent-ccs-c5="" class="fas fa-times-circle" style="font-size: 20px"></i></button>';
+            } else {
+              // tslint:disable-next-line:max-line-length
+              btn = '<button _ngcontent-baq-c8="" title="Activar" style="margin-left: 5px" class="btn btn-success btn-circle waves-effect waves-circle waves-float changeStatus" type="button"><i class="fas fa-check-circle" style="font-size: 20px"></i></button>';
+            }
+            return (
+              // tslint:disable-next-line:max-line-length
+              '<button _ngcontent-baq-c8="" title="Actualizar" style="margin-left: 5px" class="btn btn-success btn-circle waves-effect waves-circle waves-float editar" type="button"><i style="font-size: 20px" class="fas fa-pen btnedit" ></i> <i class="fas fa-spinner fa-spin reload"></i></button>' +
+              // tslint:disable-next-line:max-line-length
+              '<button _ngcontent-baq-c8="" title="Imprimir codigo de barra" style="margin-left: 5px" class="btn btn-info btn-circle waves-effect waves-circle waves-float printcodebarra" type="button"><i style="font-size: 20px" class="fas fa-print"></i></button>' +
+              btn
+            );
+           }
+          },
+        ];
+        vm.datatable('.tbProductoxUnidad', column, vm.productXunidad, 'unidad');
+      }
+      if (vm.productXlote.length > 0) {
+        const column = [
+          { data: 'pro_name'},
+          { data: 'pro_cod_barra'},
+          { data: 'pro_fecha_creacion'},
+          { data: 'clasePadre' },
+          { data: 'unidad' },
+          { data: 'pro_status' },
+          { data: (product) => {
+            let btn = '';
+            if (product.pro_status === 'active') {
+              // tslint:disable-next-line:max-line-length
+              btn = '<button _ngcontent-baq-c8="" title="Desactivar" style="margin-left: 5px" class="btn btn-danger btn-circle waves-effect waves-circle waves-float changeStatus" type="button"><i _ngcontent-ccs-c5="" class="fas fa-times-circle" style="font-size: 20px"></i></button>';
+            } else {
+              // tslint:disable-next-line:max-line-length
+              btn = '<button _ngcontent-baq-c8="" title="Activar" style="margin-left: 5px" class="btn btn-success btn-circle waves-effect waves-circle waves-float changeStatus" type="button"><i class="fas fa-check-circle" style="font-size: 20px"></i></button>';
+            }
+            return (
+              // tslint:disable-next-line:max-line-length
+              '<button _ngcontent-baq-c8="" title="Actualizar" style="margin-left: 5px" class="btn btn-success btn-circle waves-effect waves-circle waves-float editar" type="button"><i style="font-size: 20px" class="fas fa-pen btnedit" ></i> <i class="fas fa-spinner fa-spin reload"></i></button>' +
+              // tslint:disable-next-line:max-line-length
+              '<button _ngcontent-baq-c8="" title="Imprimir codigo de barra" style="margin-left: 5px" class="btn btn-info btn-circle waves-effect waves-circle waves-float printcodebarra" type="button"><i style="font-size: 20px" class="fas fa-print"></i></button>' +
+              btn
+            );
+           }
+          },
+        ];
+        vm.datatable('.tbProductoLote', column, vm.productXlote, 'lote');
+      }
     }).catch(() => {
       vm.isScroll = false;
     }).finally(() => {
@@ -93,60 +144,27 @@ export class ProductoComponent implements OnInit {
       vm.filtros.isLoadingTrue();
     });
   }
-  datatable(url, data) {
+  datatable(url, column, data, typeProducto) {
     $(url).DataTable({
        // tslint:disable-next-line:object-literal-shorthand
        data: data,
-        columns: [
-        { data: 'pro_name'},
-        { data: 'pro_cod_barra'},
-        { data: 'pro_fecha_creacion'},
-        { data: 'clasePadre' },
-        { data: 'unidad' },
-        { data: (product) => {
-          let btn = '';
-          if (product.pro_status === 'active') {
-            btn = '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="changeStatus">' +
-                  '<i _ngcontent-ccs-c5="" class="fas fa-times-circle" style="font-size: 12px"></i> Desactivar</a></li>';
-          } else {
-            btn = '<li _ngcontent-aai-c5=""><a _ngcontent-aai-c5="" class="changeStatus">' +
-            '<i _ngcontent-ccs-c5="" class="fas fa-times-circle" style="font-size: 12px"></i> Activar</a></li>';
-          }
-          return (
-             // tslint:disable-next-line:max-line-length
-             '<div class="btn-group"><button style="background-color: #48c78e !important" type="button" class="btn btn-danger">' +
-             '<i _ngcontent-eev-c7="" class="fas fa-align-justify"></i></button>' +
-             '<button type="button" style="background-color: #48c78e !important"class="btn dropdown-toggle" data-toggle="dropdown">' +
-             '<span class="caret" style="color: white !important"></span>' +
-             '<ul class="dropdown-menu" role="menu"><li>' +
-             '<a class="editar"><i style="font-size: 12px" class="fas fa-pen" ></i> Actualizar</a></li>' +
-             '<li><a class="delete"><i style="font-size: 12px" class="fas fa-trash-alt"></i> Eliminar</a>' +
-             '</li><li><a class="printcodebarra"><i style="font-size: 12px" class="fas fa-print"></i> Imprimir Codigo Barra</a></li>' +
-              btn + '<li class="divider"></li><li><a class="verlote"><i style="font-size: 12px" class="fas fa-eye"></i> Lotes</a></li></ul>'
-          );
-      }
-        },
-      ],
-      rowCallback: (row: Node, data: any[] | Object, index: number) => {
-        const vm = this;
-        $('.editar', row).bind('click', () => {
-           vm.Editar(data);
-         });
-        $('.delete', row).bind('click', () => {
-          vm.Delete(data);
-         });
-        $('.changeStatus', row).bind('click', () => {
-          vm.ChangeStatus(data);
-         });
-        $('.printcodebarra', row).bind('click', () => {
-          vm.PrintCodeBarra(data);
-        });
-        $('.verlote', row).bind('click', () => {
-          vm.Lotes(data);
-        });
-        return row;
-      },
-      language: {
+       columns: column,
+       rowCallback: (row: Node, data: any[] | Object, index: number) => {
+          const vm = this;
+          $('.editar', row).bind('click', () => {
+            $('.btnedit', row).hide();
+            $('.reload', row).show();
+            vm.Editar(data, typeProducto, row);
+          });
+          $('.changeStatus', row).bind('click', () => {
+            vm.ChangeStatus(data);
+          });
+          $('.printcodebarra', row).bind('click', () => {
+            vm.PrintCodeBarra(data);
+          });
+          return row;
+       },
+       language: {
         decimal: '',
         emptyTable: 'No exsiten Productos',
         info: 'Mostrando _START_ a _END_ de _TOTAL_ Entradas',
@@ -165,17 +183,18 @@ export class ProductoComponent implements OnInit {
           next: 'Siguiente',
           previous: 'Anterior'
         }
-      },
-      order: [],
-      destroy: true
+       },
+       order: [],
+       destroy: true
     });
   }
-  Editar(produ) {
+  Editar(produ, typeProducto, row) {
     const vm = this;
     vm.title = 'Actualizar Producto';
     const obj = {
       idClase: produ.id_clase_producto,
-      idProduct: produ.id_product
+      idProduct: produ.id_product,
+      typeProducto
     };
     console.log('actualizar', obj);
     vm.produService.edit(obj).then(res => {
@@ -185,6 +204,8 @@ export class ProductoComponent implements OnInit {
     }).catch((err) => {
       console.log('Error', err);
     }).finally(() => {
+      $('.btnedit', row).show();
+      $('.reload', row).hide();
     });
   }
   Delete(producto: any) {
@@ -256,29 +277,56 @@ export class ProductoComponent implements OnInit {
     ventimp.print( );
     ventimp.close();
   }
-  ChangeStatus(info: any) {
+  ChangeStatus(producto: any) {
     const vm = this;
-    const data = [{id: info.id_product, status: info.pro_status}];
-    vm.productDisable = [];
-    vm.produService.ChangeStatus(data).then (res => {
-      const rpta = sendRespuesta(res);
-      if (rpta.status) {
-        iziToast.success({
-          title: 'Succes',
-          position: 'topRight',
-          message: rpta.message,
+    let titulo = '';
+    let texto = '';
+    if (producto.pro_status === 'active') {
+      titulo = 'Desactivar';
+      texto = 'Seguro de Desabilitar este producto ?';
+    } else {
+      titulo = 'Habilitar';
+      texto = 'Seguro de Habilitar este producto ?';
+    }
+    swal.fire({
+      title: titulo,
+      text:  texto,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#008000',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Cambiar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const data = [{id: producto.id_product, status: producto.pro_status}];
+        vm.produService.ChangeStatus(data).then (res => {
+          const rpta = sendRespuesta(res);
+          if (rpta.status) {
+            swal.fire(
+              'Actualizado!',
+              rpta.message,
+              'success'
+            );
+          } else {
+            swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: rpta.message,
+            });
+          }
+        }).catch((err) => {
+          console.log('Error', err);
+        }).finally(() => {
+          vm.fetch();
         });
-        this.fetch();
       } else {
-        iziToast.error({
-          title: 'Error',
-          position: 'topRight',
-          message: rpta.message,
+        swal.fire({
+          icon: 'error',
+          title: 'Cancelado',
+          text: 'Producto a salvo',
         });
       }
-    }).catch((err) => {
-      console.log('Error', err);
-    }).finally(() => {
     });
   }
   productlist(event) {
@@ -289,29 +337,18 @@ export class ProductoComponent implements OnInit {
   }
   showModalProduct() {
     const vm = this;
-    vm.title = 'Registrar Producto';
-    $('#modalProductos').modal('show');
+    $('#seleccionarTipoProducto').modal('show');
   }
-  Lotes(info: any) {
+  seleccionar(opcion) {
     const vm = this;
-    vm.lote = [];
-    vm.loteService.getLoteXid(info.id_product).then(res => {
-      const rpta = sendRespuesta(res);
-      if (rpta.status) {
-        vm.lote = rpta.data.lotes;
-        vm.nameProduct = info.pro_name;
-        $('#moda-lotes').modal('show');
-      } else {
-        iziToast.error({
-          title: 'Error',
-          position: 'topRight',
-          message: rpta.message,
-        });
-      }
-    }).catch((err) => {
-      console.log('Error', err);
-    }).finally(() => {
-    });
+    if (opcion === 1) {
+      vm.formProductoUpdate.validateRegisto('lotes');
+    } else {
+      vm.formProductoUpdate.validateRegisto('unidad');
+    }
+    vm.title = 'Registrar Producto';
+    $('#seleccionarTipoProducto').modal('hide');
+    $('#modalProductos').modal('show');
   }
   filtroCategoria(event) {
     const vm = this;
@@ -337,6 +374,7 @@ export class ProductoComponent implements OnInit {
     const vm = this;
     vm.params = {
       numeroRecnum: 0,
+      numeroRecnumXUnidad : 0,
       numeroCantidad: 20,
       noMore: false,
       idClase: 0,
@@ -378,5 +416,6 @@ export class ProductoComponent implements OnInit {
     const vm = this;
     vm.listError = vm.listError;
     $('#modal-errores').modal('hide');
+    $('#modalProductos').modal('hide');
   }
 }

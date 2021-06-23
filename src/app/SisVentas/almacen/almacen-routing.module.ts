@@ -25,7 +25,7 @@ const routes: Routes = [
     component: UnidadmedidaComponent
   },
   {
-    path: 'aumentar-stock',
+    path: 'ajustar-stock',
     component: ActualizarStockComponent
   }
 ];

@@ -6,8 +6,6 @@
           <label for="pro_nombre" class="control-label required">Producto</label>
           <div class="form-line">
             <input type="text" onkeyup="this.value = this.value.toUpperCase()" name="pro_nombre" [(ngModel)]="product.pro_nombre" class="form-control" placeholder="Nombre producto">
-            <!-- <app-field-error-display [displayError]="isError" errorMsg="Nombre Producto requerido">
-            </app-field-error-display> -->
           </div>
         </div>
       </div>
@@ -24,8 +22,30 @@
           <label for="Fecha Creacion" class="control-label required">Fecha Creacion</label>
           <div class="form-line">
             <input type="text" style="color: #555;" id="fecha_creacion" [(ngModel)]="product.fecha_creacion" class="form-control" >
-            <!-- <app-field-error-display [displayError]="isError" errorMsg="Fecha Creacion requerida">
-            </app-field-error-display> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngIf="opcion === 'unidad'">
+        <div class="form-group">
+          <label for="precio_compra" class="control-label required">Precio Compra</label>
+          <div class="form-line">
+            <input type="number" onkeyup="this.value = this.value.toUpperCase()" [(ngModel)]="product.precio_compra" class="form-control" placeholder="0.00">
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngIf="opcion === 'unidad'">
+        <div class="form-group" >
+          <label for="precio_venta" class="control-label required">Precio Venta</label>
+          <div class="form-line">
+            <input type="number" [(ngModel)]="product.precio_venta" class="form-control" placeholder="0000">
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngIf="opcion === 'unidad'">
+        <div class="form-group">
+          <label for="Fecha Creacion" class="control-label required">Cantidad</label>
+          <div class="form-line">
+            <input type="number" style="color: #555;" [(ngModel)]="product.cantidad" class="form-control">
           </div>
         </div>
       </div>
@@ -37,8 +57,6 @@
             <app-c-seleccionar-categoria *ngIf="isloadingCategoria" (cate)="selectCate($event)" [isActiveCategoria]="isloadingCategoria"></app-c-seleccionar-categoria>
             <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;"  (click)="showSelectCategoria()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
             </button>
-            <!-- <app-field-error-display [displayError]="isError" errorMsg="Categoria requerida">
-            </app-field-error-display> -->
           </div>
         </div>
       </div>
@@ -61,8 +79,6 @@
             <app-c-seleccionar-unidad-medida *ngIf="isloadingUnidadMedida" [isActiveUnidadMedida]="isloadingUnidadMedida" (unidadMedida)="selectUnidadMedida($event)"></app-c-seleccionar-unidad-medida>
             <button type="button" class="btn btn-success" style="height: 32px; background-color: #48c774 !important;" (click)="showSelectUnidaMedida()"><i class="fas fa-search-plus" style="font-size: 15px;"></i>
             </button>
-            <!-- <app-field-error-display [displayError]="isError" errorMsg="Unidad de Medida requerida">
-            </app-field-error-display> -->
           </div>
         </div>
       </div>
@@ -94,7 +110,7 @@
     </div>
   </div>
 </div> -->
-<div class="card" >
+<div class="card" *ngIf="opcion === 'lotes'" >
   <div class="card-body cardtable">
     <div class="table-responsive">
       <table class="display table table-hover table-striped" style="width: 100%;" >
@@ -143,7 +159,7 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" data-dismiss="modal">Volver a lista</button>
+  <button type="button" class="btn btn-outline-danger btn-lg btn-block waves-effect" (click)="reset()">Volver a lista</button>
   <button type="button" (click)="GenerarProducto()"  class="btn btn-outline-success btn-lg btn-block waves-effect">
   <app-reloadform [btnisLoading]="isLoading"></app-reloadform>
   <span *ngIf="!isLoading">Guardar</span>

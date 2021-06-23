@@ -17,8 +17,10 @@ import { FormproductoComponent } from '../componenteshijos/formproducto/formprod
 import { SharedModule } from '../shared-modulos/shared/shared.module';
 import { FiltrosComponent } from '../componenteshijos/filtros/filtros.component';
 import { ActualizarStockComponent } from './actualizar-stock/actualizar-stock.component';
+import { ListLoteComponent } from './list-lote/list-lote.component';
 @NgModule({
-  declarations: [ProductoComponent, ClaseComponent, LoteComponent,UnidadmedidaComponent, FiltrosComponent, FormproductoComponent, ActualizarStockComponent
+  declarations: [ProductoComponent, ClaseComponent, LoteComponent, UnidadmedidaComponent, FiltrosComponent, 
+                 FormproductoComponent, ActualizarStockComponent, ListLoteComponent
                 ],
   imports: [
     CommonModule,

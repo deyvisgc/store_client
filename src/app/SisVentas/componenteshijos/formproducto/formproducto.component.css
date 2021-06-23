@@ -81,8 +81,8 @@ textarea {
 } */
 .cardtable {
   max-height: 100px;
-  min-height: 265px;
-  overflow-y: scroll;
+  min-height: 180px;
+  overflow-y: auto;
 }
 
 /* @media (max-width: 800px) {

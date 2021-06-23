@@ -4,6 +4,7 @@ input[type="text"], input[type="password"], input[type="number"], input[type="da
   display: 0px !important;
   width: 90%;
   border-width: 0.5px;
+  border-radius: 5px ;
   border-style: solid;
   padding: 14px;
   outline: 0;
@@ -12,20 +13,9 @@ input[type="text"], input[type="password"], input[type="number"], input[type="da
   border-color: #48c78e;
   color: #555;
 }
-input[type="date"] {
-  border-radius: 5px;
+.codigoArticulo {
+  border-radius: 0px !important ;
 }
-.btn:not(.btn-link):not(.btn-circle) span {
-  top: 0px !important;
-}
-.col-md-3 {
-  max-width: 22% !important;
-}
-.modal-content {
-  width: 1000px;
-  right: 150px;
-}
-.modal-body {
-  height: 400px;
-  overflow-y: auto;
+#producto {
+  position: fixed;
 }

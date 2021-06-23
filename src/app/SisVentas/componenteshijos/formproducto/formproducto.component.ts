@@ -20,8 +20,10 @@ import { LoteService } from '../../service/Almacen/lote/lote.service';
 export class FormproductoComponent implements OnInit {
   @Output() public productlist = new EventEmitter <any>();
   @Output() public error = new EventEmitter <[]> ();
+  @Output() public close = new EventEmitter <string> ();
   isLoading: boolean;
   idClaseProducto: number;
+  opcion = '';
   isloadingCategoria: boolean;
   isloadingUnidadMedida: boolean;
   isActiveSubCategoria: boolean;
@@ -33,9 +35,13 @@ export class FormproductoComponent implements OnInit {
   btn: boolean;
   loteisFound: boolean;
   product = {
+    type_registro: this.opcion,
     pro_nombre: '',
     codigo_barra: '',
     descripcion: '',
+    cantidad: 1,
+    precio_compra: 0,
+    precio_venta: 0,
     clase: '',
     id_clase: 0,
     subclase: '',
@@ -44,7 +50,7 @@ export class FormproductoComponent implements OnInit {
     id_unidad: 0,
     id_producto: 0,
     fecha_creacion: this.fechahoy,
-    lote: []
+    lote: [],
   };
   rptatotal = 0;
   constructor(private fb: FormBuilder, private productServ: ProductoService,
@@ -88,8 +94,8 @@ export class FormproductoComponent implements OnInit {
             position: 'topRight',
             message: rpta.message,
           });
-          vm.productlist.emit(true);
           vm.reset();
+          vm.productlist.emit(true);
         } else {
           if (rpta.data.length > 0) {
             vm.error.emit(rpta.data);
@@ -191,6 +197,9 @@ export class FormproductoComponent implements OnInit {
     const vm = this;
     vm.product.id_producto = info.data.product.id_product;
     vm.product.pro_nombre = info.data.product.pro_name;
+    vm.product.precio_compra = info.data.product.precio_compra;
+    vm.product.precio_venta = info.data.product.precio_venta;
+    vm.product.cantidad = info.data.product.cantidad;
     vm.product.descripcion = info.data.product.pro_description;
     vm.product.codigo_barra = info.data.product.pro_cod_barra;
     vm.product.clase = info.data.product.clasPadre;
@@ -203,7 +212,9 @@ export class FormproductoComponent implements OnInit {
     vm.btn = false;
     if (vm.product.lote.length > 0) {
       vm.loteisFound = true;
+      vm.opcion = 'lotes';
     } else {
+      vm.opcion = 'unidad';
       vm.loteisFound = false;
     }
   }
@@ -242,8 +253,8 @@ export class FormproductoComponent implements OnInit {
           const objLote = {
             lot_name: 'Lote' + rpta.data.lot_name,
             lot_code: rpta.data.codigo,
-            precio_compra: 0,
-            precio_venta: 0,
+            lot_precio_compra: 0,
+            lot_precio_venta: 0,
             cantidad: 1,
             lot_expiration_date: vm.fechaexpiracion,
           };
@@ -262,30 +273,38 @@ export class FormproductoComponent implements OnInit {
         console.log('Finaly');
       });
     } else {
-      let rpta = 0;
-      const Code = vm.product.lote[vm.product.lote.length - 1].lot_code;
-      const lot = Code.substring(4, 100); // obtengo el numero que llega despues de las siglas
-      const siglas = Code.substring(0, 4);  // obtengo las siglas
-      let nameLote = '';
-      let lotCod = '';
-      rpta = +lot.substring(0, 100); // obtengo del numero su numero mayor;
-      vm.rptatotal = rpta + 1;
-      if (vm.rptatotal > 0 && vm.rptatotal < 10) {
-        nameLote =  '0' + vm.rptatotal;
-        lotCod = siglas + '0' + vm.rptatotal;
+      if (vm.product.lote.length > 0) {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: 'Al registrar un producto por primera vez solo puede tener un lote',
+        });
       } else {
-        lotCod = siglas + vm.rptatotal;
-        nameLote = vm.rptatotal.toString();
+        let rpta = 0;
+        const Code = vm.product.lote[vm.product.lote.length - 1].lot_code;
+        const lot = Code.substring(4, 100); // obtengo el numero que llega despues de las siglas
+        const siglas = Code.substring(0, 4);  // obtengo las siglas
+        let nameLote = '';
+        let lotCod = '';
+        rpta = +lot.substring(0, 100); // obtengo del numero su numero mayor;
+        vm.rptatotal = rpta + 1;
+        if (vm.rptatotal > 0 && vm.rptatotal < 10) {
+          nameLote =  '0' + vm.rptatotal;
+          lotCod = siglas + '0' + vm.rptatotal;
+        } else {
+          lotCod = siglas + vm.rptatotal;
+          nameLote = vm.rptatotal.toString();
+        }
+        const objLote = {
+          lot_name: 'Lote' + nameLote,
+          lot_code: lotCod,
+          cantidad: 1,
+          lot_expiration_date: vm.fechaexpiracion,
+          lot_precio_compra: 0,
+          lot_precio_venta: 0
+        };
+        vm.product.lote.push(objLote);
       }
-      const objLote = {
-        lot_name: 'Lote' + nameLote,
-        lot_code: lotCod,
-        cantidad: 1,
-        lot_expiration_date: vm.fechaexpiracion,
-        precio_compra: 0,
-        precio_venta: 0
-      };
-      vm.product.lote.push(objLote);
     }
   }
   eliminar(index) {
@@ -294,7 +313,6 @@ export class FormproductoComponent implements OnInit {
   }
   validarProducto() {
     const vm = this;
-    return true;
     if (!vm.product.pro_nombre) {
       iziToast.error({
         title: 'Error',
@@ -327,6 +345,16 @@ export class FormproductoComponent implements OnInit {
       });
       return false;
     }
+    if (vm.product.type_registro === 'lote') {
+      if (vm.product.lote.length === 0) {
+        iziToast.error({
+          title: 'Error',
+          position: 'topRight',
+          message: 'Lote es requerido para registrar este producto',
+        });
+        return false;
+      }
+    }
     return true;
   }
   reset() {
@@ -343,5 +371,12 @@ export class FormproductoComponent implements OnInit {
     vm.product.id_producto = 0;
     vm.product.fecha_creacion = vm.fechahoy;
     vm.product.lote = [];
+    vm.product.precio_compra = 0;
+    vm.product.precio_venta = 0;
+    vm.close.emit('close');
+  }
+  validateRegisto(opcion: string) {
+    const vm = this;
+    vm.opcion = opcion;
   }
 }

@@ -1,0 +1,48 @@
+<div class="card" >
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="display table table-hover table-striped" style="width: 100%;" >
+        <thead>
+              <tr>
+                <th scope="col" style="width: 400px;">Producto</th>
+                <th scope="col">Lote</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">F.Vencimiento</th>
+                <th scope="col">
+                  <button type="button" (click)="AgregarLotes()" style="height: 35px; background-color:#48c78e !important;" class="btn bg-deep-orange btn-circle waves-effect waves-circle waves-float">
+                  <span><i class="fas fa-plus"></i></span>
+                </button>
+              </th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of product.lote; let i=index">
+              <td>
+                <div class="form-line" style="display: flex;">
+                  <input class="text-uppercase codigoArticulo" (blur)="fetch()" [disabled]="isLoading"  [(ngModel)]="item.pro_nombre" type="text" placeholder="Producto"/>
+                  <app-c-seleccionar-productos  *ngIf="isloadingProducto && indexSeleccionado === i" [isActiveProducto]="isloadingProducto" (producto)="selectProducto($event)"  ></app-c-seleccionar-productos>
+                  <button class="btn btn-success" [disabled]="isLoading" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectProducto(i)"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
+                </div>
+              </td>
+              <td>
+                <div class="form-line" style="display: flex;">
+                  <input class="text-uppercase codigoArticulo" (blur)="fetch()" [disabled]="isLoading"  [(ngModel)]="item.codigo_lote" type="text" placeholder="Producto"/>
+                  <app-c-seleccionar-lote  *ngIf="isActiveLote && indexSeleccionado === i" [isActiveLote]="isActiveLote" [idProducto]="item.id_producto" (producto)="selectLote($event)"></app-c-seleccionar-lote>
+                  <button class="btn btn-success" [disabled]="isLoading" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectLote(i)"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
+                </div>
+              </td>
+              <td>
+                <input type="number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" [(ngModel)]="item.cantidad" class="form-control">
+              </td>
+              <td>
+                <input type="date" [(ngModel)]="item.lot_expiration_date" id="fecha_vencimiento" class="form-control">
+              </td>
+              <td><button type="button" (click)="eliminar(i)" style="height: 35px;" class="btn bg-danger btn-circle waves-effect waves-circle waves-float">
+                <span><i class="fas fa-trash-alt" style="color: white;"></i></span>
+              </button></td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>

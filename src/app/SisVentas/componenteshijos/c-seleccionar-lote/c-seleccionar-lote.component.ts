@@ -10,11 +10,13 @@ export class CSeleccionarLoteComponent implements OnInit {
   constructor(private loteSer: LoteService) { }
   @Output() lote = new EventEmitter<any>();
   @Input() isActiveLote: boolean;
+  @Input() idProducto: number;
   listLotes = [];
   params = {
     numeroRecnum: 0,
     noMore: false,
-    cantidadRegistros: 10
+    cantidadRegistros: 10,
+    idProduct: 0
   };
   isScroll: boolean;
   isloadinglista: boolean;
@@ -37,6 +39,7 @@ export class CSeleccionarLoteComponent implements OnInit {
       vm.listLotes = [];
       vm.params.numeroRecnum = 0;
     }
+    vm.params.idProduct = this.idProducto;
     vm.loteSer.getLote(vm.params).then(res => {
       const rpta = sendRespuesta(res);
       // tslint:disable-next-line:prefer-for-of

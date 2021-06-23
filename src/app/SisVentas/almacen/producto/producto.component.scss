@@ -2,8 +2,8 @@
   max-height: calc(100vh - 215px);
   min-height: calc(100vh - 215px);
   overflow-y: auto;
-  overflow-x: hidden;
 }
+
 input[type="text"], input[type="password"], input[type="number"], input[type="date"],textarea {
   height: 1.5rem !important;
   box-sizing: border-box;
@@ -39,7 +39,7 @@ input[type="text"], input[type="password"], input[type="number"], input[type="da
   top: 0px !important;
 }
 #modal-product {
-  height: 608px;
+  height: 530px;
   width: 900px;
   border-radius: 10px;
 }
@@ -74,6 +74,13 @@ u {
 li {
   color: black;
   font-size: inherit;
+}
+.cantida_generate {
+  width: 80%;
+  display: inline;
+  border-radius: 5px;
+  margin-left: 18px;
+  border-color:  #48c78e;
 }
 @media (max-width: 800px) {
   #title-modal-product {

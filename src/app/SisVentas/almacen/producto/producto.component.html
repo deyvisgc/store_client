@@ -5,96 +5,92 @@
                <app-filtros #filtros (filtroCategoria)="filtroCategoria($event)" (filtroUnidadMedida)="filtroUnidadMedida($event)" (filtroRangoFecha)="filtroRangoFecha($event)" (Reload)="Actualizar($event)" (Limpiar)="Limpiar($event)" (isExport)="Exportar($event)"></app-filtros>
                 <div class="card">
                     <div class="body">
-                      <div class="row clearfix">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="card">
-                                <div class="body">
-                                    <!-- Nav tabs -->
-                                    <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" style="background-color: #48c774 !important;" (click)="showModalProduct()" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i> Crear Producto</button>
-                                    <br>
-                                    <ul class="nav nav-tabs pull-right" role="tablist">
-                                        <li role="presentation">
-                                            <a href="#home_with_icon_title" data-toggle="tab" class="active show">
-                                               PRODUCTOS ACTIVOS
-                                            </a>
-                                        </li>
-                                        <li role="presentation">
-                                            <a href="#profile_with_icon_title" data-toggle="tab">
-                                               PRODUCTOS DESACTIVOS
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <!-- Tab panes -->
-                                    <div class="tab-content">
-                                        <div role="tabpanel" class="tab-pane fade in active show" id="home_with_icon_title">
-                                          <div class="table-responsive">
-                                            <div  class="search-results"
-                                            infiniteScroll
-                                            [infiniteScrollDistance]="2"
-                                            [infiniteScrollUpDistance]="1.5"
-                                            [infiniteScrollThrottle]="200"
-                                            [infiniteScrollDisabled]="infiniteScrollStatus"
-                                            [scrollWindow]="false"
-                                            (scrolled)="onScrollDown()"
-                                            >
-                                            <table class="display table table-hover tbProductoActive" style="width: 100%;" >
-                                                <thead>
-                                                    <tr>
-                                                      
-                                                      <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
-                                                      <th scope="col">Producto</th>
-                                                      <th scope="col">Co.Barra</th>
-                                                      <th scope="col">F.Creacion</th>
-                                                      <th scope="col">Clase</th>
-                                                      <th scope="col">U.Medida</th>
-                                                      <!-- <th scope="col">Estado</th> -->
-                                                      <th scope="col"></th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                            <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
-                                            </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="body">
+                                <!-- Nav tabs -->
+                                <button _ngcontent-xhm-c6="" class="btn btn-success waves-effect" style="background-color: #48c774 !important;" (click)="showModalProduct()" type="button"><i _ngcontent-dhs-c6="" class="fas fa-plus-square"></i> Crear Producto</button>
+                                <br>
+                                <ul class="nav nav-tabs pull-right" role="tablist">
+                                    <li role="presentation">
+                                        <a href="#productoUnidad" data-toggle="tab" class="active show">
+                                           PRODUCTOS POR UNIDAD
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#productoLote" data-toggle="tab">
+                                           PRODUCTOS POR LOTES
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade in active show" id="productoUnidad">
+                                      <div class="table-responsive">
+                                        <div  class="search-results"
+                                          infiniteScroll
+                                          [infiniteScrollDistance]="2"
+                                          [infiniteScrollUpDistance]="1.5"
+                                          [infiniteScrollThrottle]="200"
+                                          [infiniteScrollDisabled]="infiniteScrollStatus"
+                                          [scrollWindow]="false"
+                                          (scrolled)="onScrollDown()"
+                                        >
+                                        <table class="display table table-hover tbProductoxUnidad" style="width: 100%;">
+                                          <thead>
+                                              <tr>
+                                                <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
+                                                <th style="width: 200px;" scope="col">Producto</th>
+                                                <th style="width: 100px;" scope="col">P.Compra</th>
+                                                <th style="width: 100px;" scope="col">P.Venta</th>
+                                                <th style="width: 100px;" scope="col">Cantidad</th>
+                                                <th style="width: 150px;" scope="col">C.Barra</th>
+                                                <th style="width: 120;" scope="col">F.Creacion</th>
+                                                <th style="width: 100px;" scope="col">Categorias</th>
+                                                <th style="width: 100px;"  scope="col">Estado</th>
+                                                <th style="width: 360px;"  scope="col"></th>
+                                              </tr>
+                                          </thead>
+                                        </table>
+                                        <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
                                         </div>
-                                        </div>
-                                        <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
-                                          <div class="table-responsive">
-                                            <div class="search-results" 
-                                            infinite-scroll 
-                                            [infiniteScrollDistance]="2" 
-                                            [infiniteScrollThrottle]="50" 
-                                            [infiniteScrollDisabled]="infiniteScrollStatus"
-                                            [scrollWindow]="false"
-                                            (scrolled)="onScrollDown()"
-                                            >
-                                            <table class="display table table-hover table-checkable order-column m-t-20 width-per-100 tbProductoEnabled" style="width: 100%;">
-                                              <thead>
-                                                  <tr>
-                                                    <th scope="col">Producto</th>
-                                                      <th scope="col">Co.Barra</th>
-                                                      <th scope="col">F.Creacion</th>
-                                                      <th scope="col">Clase</th>
-                                                      <th scope="col">SubClase</th>
-                                                      <th scope="col">U.Medida</th>
-                                                      <!-- <th scope="col">Estado</th> -->
-                                                      <th scope="col"></th>
-                                                  </tr>
-                                              </thead>
-                                             
-                                          </table>
-                                          <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
-                                          </div>
-                                         </div>
-                                        </div>
+                                      </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="productoLote">
+                                      <div class="table-responsive">
+                                        <div class="search-results" 
+                                        infinite-scroll 
+                                        [infiniteScrollDistance]="2" 
+                                        [infiniteScrollThrottle]="50" 
+                                        [infiniteScrollDisabled]="infiniteScrollStatus"
+                                        [scrollWindow]="false"
+                                        (scrolled)="onScrollDown()"
+                                        >
+                                        <table class="display table table-hover tbProductoLote" style="width: 100%;">
+                                          <thead>
+                                            <tr>
+                                              <!--<th scope="col"><div _ngcontent-kfl-c6="" class="form-check m-l-10"><label _ngcontent-kfl-c6="" class="form-check-label"><input _ngcontent-kfl-c6=""   id="enviar" class="form-check-input" type="checkbox" value=""><span _ngcontent-kfl-c6="" class="form-check-sign"><span _ngcontent-kfl-c6="" class="check"></span></span></label></div></th>-->
+                                              <th style="width: 200px;" scope="col">Producto</th>
+                                              <th style="width: 150px;" scope="col">C.Barra</th>
+                                              <th style="width: 150;"   scope="col">F.Creacion</th>
+                                              <th style="width: 100px;" scope="col">Categorias</th>
+                                              <th style="width: 100px;" scope="col">U.Medida</th>
+                                              <th style="width: 50px;"  scope="col">Estado</th>
+                                              <th style="width: 360px;"  scope="col"></th>
+                                            </tr>
+                                          </thead>
+                                        </table>
+                                        <app-reload style="margin: 150px;" [isloading]="isloadinglista"  message="Cargando"></app-reload>
+                                      </div>
+                                     </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
+                  </div>
                 </div>
             </div>
         </div>
-        <!-- #END# Exportable Table -->
     </div>
 </section>
 <div class="modal fade" id="modalProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -107,7 +103,30 @@
         </button>
       </div>
       <div class="modal-body">
-         <app-formproducto #formProducto (productlist)="productlist($event)" (error)="error($event)" ></app-formproducto>
+         <app-formproducto #formProducto (productlist)="productlist($event)" (error)="error($event)" (close)="close($event)" ></app-formproducto>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="seleccionarTipoProducto">
+  <div class="modal-dialog">
+    <div class="modal-content"  style="border-radius: 10px;" >
+      <div class="modal-header">
+        <h5 class="modal-title"><span style="font-family: sans-serif !important;">Tipo registro de productos</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 style="font-weight: 580 !important;">Seleccione el tipo de registro de sus productos? </h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  class="btn bg-green waves-effect" (click)="seleccionar(1)">
+         Registro por Lotes
+        </button>
+        <button type="button" class="btn bg-teal waves-effect" (click)="seleccionar(2)">Registro por Unidad</button>
       </div>
     </div>
   </div>
@@ -133,10 +152,10 @@
               </div>
             </div>
             <div class="col-md- 6 col-lg-6 col-sm-6">
-              <label for="pro_nombre">Cantidad a generar</label><p></p>
+              <label for="pro_nombre">Cantidad a generar</label>
               <div class="form-group">
                 <div class="form-line">
-                  <select class="form-control cantida_generate"  id="cantida_generate" name="cantida_generate"  data-placeholder="Select">
+                  <select id="grupos" class="form-control cantida_generate" id="cantida_generate" data-placeholder="Seleccione">
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
@@ -147,7 +166,7 @@
                     <option value="80">80</option>
                     <option value="90">90</option>
                     <option value="100">100</option>
-                </select>
+                  </select>
                 </div>
               </div>
             </div>

@@ -43,7 +43,7 @@ import { PrivilegesService } from './SisVentas/service/Privileges/privileges.ser
       progressAnimation: 'increasing',
       extendedTimeOut: 7000
     }),
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [
       AuthenticationService,

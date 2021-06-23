@@ -14,6 +14,9 @@ export class ProductoService {
    Read(params) {
     return this.httpClient.get(this.url.urlAddress + 'obtener-producto', {params, headers: this.httpHeaders}).toPromise();
   }
+  selectProducto(params) {
+    return this.httpClient.get(this.url.urlAddress + 'obtener-select-producto', {params, headers: this.httpHeaders}).toPromise();
+  }
    edit(params) {
     return this.httpClient.get(this.url.urlAddress + 'edit-producto', {params, headers: this.httpHeaders}).toPromise();
   }
@@ -34,5 +37,8 @@ export class ProductoService {
   }
   Exportar(params) {
     return this.httpClient.get(this.url.urlAddress + 'productos-exportar', {params , responseType: 'blob'}).toPromise();
+  }
+  public search(params) {
+    return this.httpClient.post(this.url.urlAddress + 'search-producto', {params}, {headers: this.httpHeaders}).toPromise();
   }
 }
