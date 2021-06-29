@@ -38,7 +38,7 @@ export class ListLoteComponent implements OnInit {
       cantidad: 1,
       lot_expiration_date: vm.fechaexpiracion,
       id_lote: 0,
-      codigo_lote: 0
+      codigo_lote: ''
     };
     vm.product.lote.push(objLote);
   }
@@ -46,11 +46,13 @@ export class ListLoteComponent implements OnInit {
     const vm = this;
     vm.indexSeleccionado = i;
     vm.isloadingProducto = true;
+    vm.isActiveLote = false;
   }
   showSelectLote(i) {
     const vm = this;
     vm.indexSeleccionado = i;
     vm.isActiveLote = true;
+    vm.isloadingProducto = false;
   }
   eliminar(index) {
     const vm = this;
@@ -60,9 +62,15 @@ export class ListLoteComponent implements OnInit {
     const vm = this;
     vm.product.lote[vm.indexSeleccionado].pro_nombre = producto.pro_name;
     vm.product.lote[vm.indexSeleccionado].id_producto = producto.id_product;
+    vm.showSelectLote(vm.indexSeleccionado);
     vm.isloadingProducto = false;
   }
-  onClickedOutside(e: Event) {
-    alert('dd');
+  selectLote(lote) {
+    const vm = this;
+    vm.product.lote[vm.indexSeleccionado].codigo_lote = lote.lot_code;
+    vm.product.lote[vm.indexSeleccionado].cantidad = lote.lot_cantidad;
+    vm.product.lote[vm.indexSeleccionado].lot_expiration_date = lote.lot_expiration_date;
+    vm.product.lote[vm.indexSeleccionado].id_lote = lote.id_lote;
+    vm.isActiveLote = false;
   }
 }

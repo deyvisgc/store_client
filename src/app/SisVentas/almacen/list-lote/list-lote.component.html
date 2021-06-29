@@ -26,8 +26,8 @@
               </td>
               <td>
                 <div class="form-line" style="display: flex;">
-                  <input class="text-uppercase codigoArticulo" (blur)="fetch()" [disabled]="isLoading"  [(ngModel)]="item.codigo_lote" type="text" placeholder="Producto"/>
-                  <app-c-seleccionar-lote  *ngIf="isActiveLote && indexSeleccionado === i" [isActiveLote]="isActiveLote" [idProducto]="item.id_producto" (producto)="selectLote($event)"></app-c-seleccionar-lote>
+                  <input class="text-uppercase codigoArticulo" (blur)="fetch()" [disabled]="isLoading"  [(ngModel)]="item.codigo_lote" type="text" placeholder="Lote"/>
+                  <app-c-seleccionar-lote  *ngIf="isActiveLote && indexSeleccionado === i" [isActiveLote]="isActiveLote" [idProducto]="item.id_producto" (lote)="selectLote($event)"></app-c-seleccionar-lote>
                   <button class="btn btn-success" [disabled]="isLoading" style="height: 30px; background-color: #48c774 !important;" (click)="showSelectLote(i)"><i class="fas fa-search-plus" style="font-size: 15px;"></i></button>
                 </div>
               </td>

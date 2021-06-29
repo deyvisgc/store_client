@@ -9,12 +9,14 @@ declare const sendRespuesta: any;
 export class CSeleccionarProductosComponent implements OnInit {
   @Output() producto = new EventEmitter<any>();
   @Input() isActiveProducto: boolean;
+  @Input() typeProducto: string;
   list = [];
   params = {
     numeroRecnum: 0,
     noMore: false,
     cantidadRegistros: 5,
     idClase: 0,
+    typeProducto: ''
   };
   isScroll: boolean;
   isloadinglista: boolean;
@@ -38,6 +40,7 @@ export class CSeleccionarProductosComponent implements OnInit {
       vm.list = [];
       vm.params.numeroRecnum = 0;
     }
+    vm.params.typeProducto = vm.typeProducto;
     vm.servProduc.selectProducto(vm.params).then(res => {
       const rpta = sendRespuesta(res);
       // tslint:disable-next-line:prefer-for-of

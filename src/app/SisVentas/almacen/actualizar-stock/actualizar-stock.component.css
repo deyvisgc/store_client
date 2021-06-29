@@ -18,14 +18,30 @@ input[type="date"] {
 .btn:not(.btn-link):not(.btn-circle) span {
   top: 0px !important;
 }
-.col-md-3 {
-  max-width: 22% !important;
+.tabxlote {
+  min-height: 100px;
+  max-height: 400px;
+  overflow-x: auto;
+  margin-bottom: 10px;
 }
-.modal-content {
-  width: 1000px;
-  right: 150px;
+th {
+  padding: 5px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height:25px;
+  background: white;
 }
-.modal-body {
-  height: 400px;
-  overflow-y: auto;
+u {
+  text-decoration: none;
+  list-style: none;
+  text-align: center;
+}
+li {
+  color: black;
+  font-size: inherit;
+}
+#modal-content-lote {
+  width: 700px;
+  border-radius: 10px;
 }

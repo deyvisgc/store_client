@@ -38,7 +38,10 @@ export class ProductoService {
   Exportar(params) {
     return this.httpClient.get(this.url.urlAddress + 'productos-exportar', {params , responseType: 'blob'}).toPromise();
   }
-  public search(params) {
+  search(params) {
     return this.httpClient.post(this.url.urlAddress + 'search-producto', {params}, {headers: this.httpHeaders}).toPromise();
+  }
+  AjustarStock(params) {
+    return this.httpClient.post(this.url.urlAddress + 'ajustar-stock', {params}, {headers: this.httpHeaders}).toPromise();
   }
 }
